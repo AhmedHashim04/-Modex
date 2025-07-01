@@ -1,36 +1,39 @@
+import hashlib
+from decimal import Decimal
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.paginator import Paginator
-from django.db.models import Count, Q
+from django.db import IntegrityError, transaction
+from django.db.models import Count, Max, Min, Q
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.http import urlencode
 from django.views.generic import DetailView, ListView, TemplateView
-from .forms import ReviewForm
-from .models import Product, Review, Category #, Tag
+from django_ratelimit.decorators import ratelimit
+
 from account.models import Profile
-from features.models import Collection#, Brand
-from django.db import models
-from decimal import Decimal
-from django.urls import reverse_lazy
-from features.models import Tag
-from django.utils.decorators import method_decorator
-from django.db.models.signals import post_save
-from django.dispatch import receiver
-from ratelimit.decorators import ratelimit
-from django_filters.views import FilterView
-from .filters import ProductFilter
+from features.models import Collection, Tag
+from .forms import ReviewForm
+from .models import Category, Collection, Product, Review
+
+# Constants for cache management
+CACHE_TIMEOUT_PRODUCTS = 60 * 60 * 4  # 4 minutes
+CACHE_TIMEOUT_PRICE_RANGE = 60 * 60 * 24  # 24 hours
 
 @method_decorator(ratelimit(key='ip', rate='30/m', block=True), name='dispatch')
-class ProductListView(FilterView):
+class ProductListView(ListView):
     model = Product
+    context_object_name = 'products'
     template_name = 'product/products.html'
     paginate_by = 12
-    filterset_class = ProductFilter
-    strict = False  # ما تظهرش error لو في فلتر غلط
     sort_options = {
         'default': '-created_at',
         'price_asc': 'price',
@@ -41,95 +44,104 @@ class ProductListView(FilterView):
         'popularity': '-review_count',
     }
     items_per_page_options = [12, 24, 48]
-    
-    @property
+
+    @cached_property
     def applied_filters(self):
         """Extract and sanitize filter parameters"""
         params = self.request.GET.copy()
-        cache_key = f"filters_{urlencode(self.request.GET)}"
-
-        if hasattr(self, '_applied_filters'):
-            return self._applied_filters
-        
-        filters = {
+        return {
             'search': params.get('search', '').strip(),
-            'min_price': params.get('min_price', ''),
-            'max_price': params.get('max_price', ''),
-
             'tag': params.get('tag', '').strip(),
             'category': params.get('category', '').strip(),
             # 'brand': params.get('brand', '').strip(),
             'sort_by': params.get('sort_by', 'default'),
+            'min_price': params.get('min_price', ''),
+            'max_price': params.get('max_price', ''),
             'view_mode': params.get('view_mode', 'grid'),
             'items_per_page': params.get('items_per_page', str(self.paginate_by)),
-}
-        self._applied_filters = cache.get_or_set(cache_key, filters, 60 * 5)
-
-        return self._applied_filters
+        }
 
     def get_queryset(self):
-        """Get optimized queryset with filtering and annotations"""
-        if hasattr(self, '_queryset'):
-            return self._queryset
-    
-        cache_key = f"products_{urlencode(self.request.GET)}"
+        """Dynamically construct queryset based on applied filters"""
 
-        def get_query():
-            # Start with optimized base queryset
-            queryset = Product.objects.select_related(
-                'category'#, 'brand'
-            ).prefetch_related(
-                'tags'
-            ).filter(
-                is_available=True
-            ).annotate(
-                review_count=Count('reviews')
+        # 1. Avoid caching for highly dynamic filters like min/max/search
+        filters = self.applied_filters
+        if filters.get('search') or filters.get('min_price') or filters.get('max_price'):
+            return self.build_queryset()
+        
+        # hash the query string to be lightweight in Redis cache
+        # Short and fixed-length hash : 12ab34cd56ef7890abc123456789def0
+        query_str = urlencode(self.request.GET)
+        cache_key = f"products_{hashlib.md5(query_str.encode()).hexdigest()}"
+        queryset = cache.get(cache_key)
+
+        if queryset is None:
+            queryset = self.build_queryset()
+            cache.set(cache_key, queryset, CACHE_TIMEOUT_PRODUCTS)
+
+        return queryset
+
+    def build_queryset(self):
+        """Construct the filtered and annotated queryset"""
+        queryset = Product.objects.select_related(
+            'category'#, 'brand'
+        ).prefetch_related(
+            'tags'
+        ).filter(
+            is_available=True
+        ).annotate(
+            review_count=Count('reviews')
+        ).distinct()
+
+        filters = self.applied_filters
+
+        # Apply search filter
+        if search_term := filters['search']:
+            queryset = queryset.filter(
+                Q(name__icontains=search_term) |
+                Q(description__icontains=search_term) |
+                Q(category__name__icontains=search_term) |
+                # Q(brand__name__icontains=search_term) |
+                Q(tags__name__icontains=search_term)
             )
-            filters = self.applied_filters
-            # Apply search filter
-            if filters['search']:
-                queryset = queryset.filter(
-                    Q(name__icontains=filters['search']) |
-                    Q(description__icontains=filters['search']) |
-                    # Q(brand__name__icontains=filters['search'])|
-                    Q(category__name__icontains=filters['search']) 
-                )
-            # Apply category filter
-            if filters['category']:
-                queryset = queryset.filter(
-                    Q(category__slug=filters['category']) |
-                    Q(category__parent__slug=filters['category'])
-                )
 
-            # Apply tag filter  
-            if filters['tag']:
-                queryset = queryset.filter(tags__name__iexact=filters['tag']).distinct()
+        # Apply category filter
+        if category_slug := filters['category']:
+            queryset = queryset.filter(
+                Q(category__slug=category_slug) |
+                Q(category__parent__slug=category_slug)
+            )
 
-            # Apply brand filter
-            # if filters['brand']:
-            #     queryset = queryset.filter(brand__slug=filters['brand'])
+        # Apply tag filter
+        if tag_name := filters['tag']:
+            queryset = queryset.filter(tags__name__iexact=tag_name)
 
-            # Apply price range filter
+        # # Apply brand filter
+        # if brand_slug := filters['brand']:
+        #     queryset = queryset.filter(brand__slug=brand_slug)
+
+        # Apply price range filter
+        if min_price := filters['min_price']:
             try:
-                min_price = float(filters['min_price']) if filters['min_price'] else 0
-                queryset = queryset.filter(price__gte=min_price)
+                min_val = Decimal(min_price)
+                queryset = queryset.filter(price__gte=min_val)
             except (ValueError, TypeError):
                 pass
+
+        if max_price := filters['max_price']:
             try:
-                max_price = Decimal(filters['max_price']) if filters['max_price'] else Decimal('Infinity')
-                queryset = queryset.filter(price__lte=max_price)
+                max_val = Decimal(max_price)
+                queryset = queryset.filter(price__lte=max_val)
             except (ValueError, TypeError):
                 pass
 
-            # Apply sorting
-            sort_field = self.sort_options.get(
-                filters['sort_by'], 
-                self.sort_options['default']
-            )
-            return queryset.order_by(sort_field)
+        # Apply sorting
+        sort_field = self.sort_options.get(
+            filters['sort_by'], 
+            self.sort_options['default']
+        )
 
-        _queryset = cache.get_or_set(cache_key,get_query,60*60*24)  # Cache for 1 day
-        return _queryset
+        return queryset.order_by(sort_field)
 
     def get_paginate_by(self):
         """Get validated items per page setting"""
@@ -139,54 +151,70 @@ class ProductListView(FilterView):
         except (ValueError, TypeError):
             return self.paginate_by
 
+    def get_global_price_range(self):
+        """Get cached global price range"""
+        return cache.get_or_set(
+            'global_price_range',
+            lambda: Product.objects.aggregate(
+                min_price=Min('price'),
+                max_price=Max('price')
+            ),
+            CACHE_TIMEOUT_PRICE_RANGE
+        )
+
     def get_context_data(self, **kwargs):
         """Add filtering context and aggregations"""
         context = super().get_context_data(**kwargs)
         filters = self.applied_filters
-        price_range = cache.get_or_set('global_price_range', lambda:Product.objects.aggregate(
-            min_price=models.Min('price'),max_price=models.Max('price')) or 0 ,60*60*24
-            )
-
-        queryset = self.get_queryset()
-
+        price_range = self.get_global_price_range()
+        
+        # Handle empty price range
+        min_price_val = price_range['min_price'] or Decimal('0')
+        max_price_val = price_range['max_price'] or Decimal('0')
+        
+        # Get validated pagination values
         paginate_by = self.get_paginate_by()
-        paginator = Paginator(queryset, paginate_by)
-        page_number = self.request.GET.get("page")
-        products = paginator.get_page(page_number)
-
-        context['featured_collections'] = Collection.objects.all()
-
+        page_obj = context['page_obj']
+        
         context.update({
-            'categories': Category.objects.prefetch_related('children').all(),
-            # 'brands': Brand.objects.all(),
-            'tags': Tag.objects.all(),
-            'search_query': filters['search'],
+            'categories': cache.get_or_set('all_categories', lambda: Category.objects.prefetch_related('products').all(), CACHE_TIMEOUT_PRODUCTS),
+            'featured_collections': cache.get_or_set('collections', lambda: Collection.objects.all(), CACHE_TIMEOUT_PRODUCTS),
+            'tags': cache.get_or_set('all_tags', lambda: Tag.objects.all(), CACHE_TIMEOUT_PRODUCTS),
+    # These are the filter and sort values currently applied by the user,
+    # used by the frontend to display the selected filters and sorting options
+    # after a search or filter/sort action, ensuring the UI reflects the user's choices.
+
+            'selected_filter': filters['search'],
             'selected_category': filters['category'],
-            'selected_brand': filters['brand'],
+            # 'selected_brand': filters['brand'],
             'selected_tag': filters['tag'],
             'sort_by': filters['sort_by'],
-            'min_price_filter': filters['min_price'] or price_range['min_price'],
-            'max_price_filter': filters['max_price'] or price_range['max_price'],
-            'items_per_page': self.get_paginate_by(None),
+            'min_price_filter': filters['min_price'] or min_price_val,
+            'max_price_filter': filters['max_price'] or max_price_val,
             'view_mode': filters['view_mode'],
+
             'sort_options': self.sort_options,
+            'global_min_price': min_price_val,
+            'global_max_price': max_price_val,
+
+            'items_per_page': paginate_by,
             'items_per_page_options': self.items_per_page_options,
-            'global_min_price': price_range['min_price'],
-            'global_max_price': price_range['max_price'],
-            'products': products,
-            'is_paginated': products.has_other_pages(),
+            'is_paginated': page_obj.has_other_pages(),
         })
         return context
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'product/product_detail.html'
     context_object_name = 'product'
     slug_field = "slug"
     slug_url_kwarg = "slug"
     form_class = ReviewForm
+    paginate_reviews_by = 5
+    max_related_products = 4
+    max_recently_viewed = 6
 
-    def get_object(self,):
+    def get_object(self):
         """Optimize product retrieval with related data"""
         return get_object_or_404(
             # Product.objects.select_related('category', 'brand')
@@ -195,63 +223,93 @@ class ProductDetailView(DetailView):
             slug=self.kwargs['slug']
         )
 
-    def dispatch(self, request, *args, **kwargs):
-        if request.method == 'POST' and not request.user.is_authenticated:
-            login_url = reverse_lazy('account:login')
-            return HttpResponseRedirect(f'{login_url}?next={request.path}')
-        return super().dispatch(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product = self.object
-        recently_viewed = self.update_recently_viewed(product)
+        context['recently_viewed'] = self.get_recently_viewed_products(product)
+        context.update(self.get_reviews_context(product))
+        context.update(self.get_related_products_context(product))
+        context['review_form'] = ReviewForm()
+        return context
+
+    def get_reviews_context(self, product):
+        """Handle review filtering and pagination"""
+        reviews = Review.objects.filter(product=product).select_related('user')
         
-        # Get filtered reviews
-        reviews = product.reviews.all()
-        rating_filter = self.request.GET.get('rating')
-        if rating_filter and rating_filter.isdigit() and 1 <= int(rating_filter) <= 5:
-            reviews = reviews.filter(rating=int(rating_filter))
+        # Apply rating filter
+        if rating_filter := self.request.GET.get('rating'):
+            if rating_filter.isdigit() and 1 <= (rating := int(rating_filter)) <= 5:
+                reviews = reviews.filter(rating=rating)
         
         # Paginate reviews
-        paginator = Paginator(reviews, 5)
+        paginator = Paginator(reviews, self.paginate_reviews_by)
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         
-        # Get related products (same category)
-        related_products = Product.objects.filter(
-            category=product.category
-        ).exclude(id=product.id).order_by('?')[:4]
-        
-        product_reviews = Review.objects.filter(product=self.object)
-        context.update({
-            'review_form': ReviewForm(),
+        return {
             'reviews': page_obj.object_list,
             'page_obj': page_obj,
-            'related_products': related_products,
-            'recently_viewed': recently_viewed,
-            'rating_filter': rating_filter,
-            'product_reviews': product_reviews
-        })
-        return context
+            'rating_filter': rating_filter
+        }
+
+    def get_related_products_context(self, product):
+        """Get context for related products"""
+        max_related = self.max_related_products
+        excluded_ids = {product.id}
+        
+        related_products = list(
+            Product.objects.filter(category=product.category)
+            .exclude(id=product.id)
+            .select_related('category')[:max_related]
+        )
+        excluded_ids.update(p.id for p in related_products)
+
+        if len(related_products) < max_related:
+            parent_category = product.category.parent
+            if parent_category:
+                additional_products = Product.objects.filter(
+                    category=parent_category
+                ).exclude(id__in=excluded_ids).select_related('category')[
+                    :max_related - len(related_products)
+                ]
+                related_products += list(additional_products)
+
+        related_products = related_products[:max_related]
+
+        return {'related_products': related_products}
+
+
+    def get_recently_viewed_products(self, product):
+        """Retrieve recently viewed products from session"""
+        session_key = 'recently_viewed'
+        viewed_ids = self.request.session.get(session_key, [])
+        
+        # Remove current product and limit
+        if product.id in viewed_ids:
+            viewed_ids.remove(product.id)
+        viewed_ids = viewed_ids[:self.max_recently_viewed]
+        
+        return Product.objects.filter(
+            id__in=viewed_ids
+        ).select_related('category').exclude(id=product.id)
 
     def update_recently_viewed(self, product):
         """Update session with recently viewed products"""
         session_key = 'recently_viewed'
-        viewed = self.request.session.get(session_key, [])
+        viewed_ids = self.request.session.get(session_key, [])
         
-        # Remove if exists and add to beginning
-        if product.id in viewed:
-            viewed.remove(product.id)
-        viewed.insert(0, product.id)
+        # Remove duplicates and add to beginning
+        if product.id in viewed_ids:
+            viewed_ids.remove(product.id)
+        viewed_ids.insert(0, product.id)
         
-        # Limit to 6 items
-        viewed = viewed[:6]
-        self.request.session[session_key] = viewed
-        
-        # Return products excluding current one
-        return Product.objects.filter(id__in=viewed).exclude(id=product.id)
+        # Apply limit
+        viewed_ids = viewed_ids[:self.max_recently_viewed]
+        self.request.session[session_key] = viewed_ids
+        self.request.session.modified = True
 
     def post(self, request, *args, **kwargs):
+        """Handle review submission"""
         self.object = self.get_object()
         form = self.form_class(request.POST)
         
@@ -260,87 +318,105 @@ class ProductDetailView(DetailView):
         return self.form_invalid(form)
 
     def form_valid(self, form):
-        # Create review without saving yet
-        review = form.save(commit=False)
-        review.user = self.request.user
-        review.product = self.object
-        
-        # Check for existing review
-        if Review.objects.filter(user=self.request.user, product=self.object).exists():
+        """Process valid review form"""
+        try:
+            with transaction.atomic():
+                review, created = Review.objects.get_or_create(
+                    user=self.request.user,
+                    product=self.object,
+                    defaults=form.cleaned_data
+                )
+                
+                if not created:
+                    # Update existing review
+                    for field, value in form.cleaned_data.items():
+                        setattr(review, field, value)
+                    review.save()
+                    message = "Your review has been updated!"
+                else:
+                    message = "Thank you for your review!"
+                
+                # Update product rating
+                self.object.update_rating()
+                messages.success(self.request, message)
+                
+        except IntegrityError:
             messages.warning(self.request, "You've already reviewed this product!")
-            return self.render_to_response(self.get_context_data(form=form))
         
-        review.save()
-        self.object.update_rating()
-        messages.success(self.request, "Thank you for your review!")
-        return super().get(self.request)
+        # Update recently viewed
+        self.update_recently_viewed(self.object)
+        
+        # Redirect to prevent duplicate submissions
+        return HttpResponseRedirect(self.object.get_absolute_url())
 
     def form_invalid(self, form):
+        """Handle invalid form submission"""
         messages.error(self.request, "Please correct the errors below.")
-        return self.render_to_response(self.get_context_data(form=form))
+        context = self.get_context_data(form=form)
+        return self.render_to_response(context)
 
-class CompareProductsView(TemplateView):
-    template_name = 'product/compare_products.html'
-    max_products = 4
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        slugs = self.request.GET.getlist('product_slug')[:self.max_products]
+# class CompareProductsView(TemplateView):
+#     template_name = 'product/compare_products.html'
+#     max_products = 4
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         slugs = self.request.GET.getlist('product_slug')[:self.max_products]
         
-        if len(slugs) < 2:
-            raise Http404("Select at least 2 products to compare")
+#         if len(slugs) < 2:
+#             raise Http404("Select at least 2 products to compare")
         
-        products = Product.objects.filter(slug__in=slugs)
-        # Field comparison configuration
-        comparable_fields = {
-            'name': 'Name',
-            'price': 'Price',
-            'price_after_discount': 'Discounted Price',
-            'overall_rating': 'Rating',
-            'review_count': 'Reviews',
-            'stock': 'Stock',
-            'is_available': 'Availability',
-            'category': 'Category',
-            'brand': 'Brand',
-        }
+#         products = Product.objects.filter(slug__in=slugs)
+#         # Field comparison configuration
+#         comparable_fields = {
+#             'name': 'Name',
+#             'price': 'Price',
+#             'price_after_discount': 'Discounted Price',
+#             'overall_rating': 'Rating',
+#             'review_count': 'Reviews',
+#             'stock': 'Stock',
+#             'is_available': 'Availability',
+#             'category': 'Category',
+#             'brand': 'Brand',
+#         }
         
-        # Build comparison data
-        specifications = []
-        for field, label in comparable_fields.items():
-            values = []
-            for product in products:
-                # Handle special fields
-                if field == 'price_after_discount':
-                    value = getattr(product, 'price_after_discount', None)
-                    if value is not None:
-                        value = f"{float(value):.2f}"
-                elif field == 'price':
-                    value = getattr(product, 'price', None)
-                    if value is not None:
-                        value = f"{float(value):.2f}"
-                elif field == 'category':
-                    value = product.category.name if product.category else ''
-                elif field == 'brand':
-                    value = product.brand.name if product.brand else ''
-                else:
-                    value = getattr(product, field, None)
+#         # Build comparison data
+#         specifications = []
+#         for field, label in comparable_fields.items():
+#             values = []
+#             for product in products:
+#                 # Handle special fields
+#                 if field == 'price_after_discount':
+#                     value = getattr(product, 'price_after_discount', None)
+#                     if value is not None:
+#                         value = f"{float(value):.2f}"
+#                 elif field == 'price':
+#                     value = getattr(product, 'price', None)
+#                     if value is not None:
+#                         value = f"{float(value):.2f}"
+#                 elif field == 'category':
+#                     value = product.category.name if product.category else ''
+#                 elif field == 'brand':
+#                     value = product.brand.name if product.brand else ''
+#                 else:
+#                     value = getattr(product, field, None)
                 
-                # Format boolean values
-                if isinstance(value, bool):
-                    value = "Yes" if value else "No"
+#                 # Format boolean values
+#                 if isinstance(value, bool):
+#                     value = "Yes" if value else "No"
                 
-                values.append(value)
+#                 values.append(value)
             
-            specifications.append({
-                'name': label,
-                'values': values
-            })
+#             specifications.append({
+#                 'name': label,
+#                 'values': values
+#             })
         
-        context.update({
-            'products': products,
-            'specifications': specifications,
-        })
-        return context
+#         context.update({
+#             'products': products,
+#             'specifications': specifications,
+#         })
+#         return context
 
 class WishlistViewDetail(LoginRequiredMixin, TemplateView):
     template_name = 'product/wishlist.html'
@@ -377,14 +453,15 @@ def clear_wishlist(request):
     messages.success(request, 'Wishlist cleared successfully!')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
 
-def user_see_product(request,slug):
-    product = Product.objects.get(slug=slug)
-    user = get_object_or_404(Profile, user=request.user)
-    if user not in product.viewed_by.all() :
-        product.viewed_by.add(user)
+# def user_see_product(request,slug):
+#     product = Product.objects.get(slug=slug)
+#     user = get_object_or_404(Profile, user=request.user)
+#     if user not in product.viewed_by.all() :
+#         product.viewed_by.add(user)
 
-    return redirect(product.get_absolute_url())  
+#     return redirect(product.get_absolute_url())  
 
+# Clear cache when a product is add or updated
 @receiver(post_save, sender=Product)
 def clear_product_cache(sender, **kwargs):
     cache.delete_pattern("products_*")

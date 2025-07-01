@@ -1,9 +1,12 @@
-from django.core.management.base import BaseCommand
-from product.models import Product, Review, Tag, Category
-from features.models import Brand, ProductImage, Collection
-from order.models import Order, OrderItem, Address
 from coupon.models import Coupon, CouponUsage
+from django.core.management.base import BaseCommand
+
+from features.models import Brand, Collection, ProductImage
+from order.models import Address, Order, OrderItem
+from product.models import Category, Product, Review, Tag
+
 # from payment.models import Payment
+
 
 class Command(BaseCommand):
     help = "Deletes all product-related data (products, images, reviews, tags, categories, brands, collections ..)."

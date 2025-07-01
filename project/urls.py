@@ -14,31 +14,28 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path , include
-from django.conf.urls.static import static
-from django.conf.urls import handler404, handler500
+
 from django.conf import settings
+from django.conf.urls import handler404, handler500
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
 
 urlpatterns = [
-    
-    path('account/' ,include('account.urls',namespace='account')),
-    path('admin/'   , admin.site.urls),
-    path('',include('product.urls',namespace='product')),
-    path('order/'   ,include('order.urls',namespace='order')),
-    path('feature/'  ,include('features.urls',namespace='feature')),
-    path('cart/'    ,include('cart.urls',namespace='cart')),
-    path('contact/' ,include('contact.urls',namespace='contact')),
-    path('payment/' ,include('payment.urls',namespace='payment')),
+    path("account/", include("account.urls", namespace="account")),
+    path("admin/", admin.site.urls),
+    path("", include("product.urls", namespace="product")),
+    path("order/", include("order.urls", namespace="order")),
+    path("feature/", include("features.urls", namespace="feature")),
+    path("cart/", include("cart.urls", namespace="cart")),
+    path("contact/", include("contact.urls", namespace="contact")),
+    path("payment/", include("payment.urls", namespace="payment")),
     # path('coupon/'  ,include('coupon.urls',namespace='coupon')),
-
-
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # handler404 = 'home.views.handler404'
 # handler500 = 'home.views.handler500'
-

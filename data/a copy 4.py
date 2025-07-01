@@ -1,6 +1,7 @@
 import json
-from datetime import datetime, timedelta
 import random
+from datetime import datetime, timedelta
+
 from faker import Faker
 
 fake = Faker()
@@ -10,7 +11,7 @@ products = [
     {"id": "274", "name": "iPhone 15 Pro Max"},
     {"id": "275", "name": "MacBook Air M3"},
     {"id": "276", "name": "Nike Air Jordan 1 Retro High"},
-    {"id": "277", "name": "Samsung 65\" Q80C QLED 4K Smart TV"},
+    {"id": "277", "name": 'Samsung 65" Q80C QLED 4K Smart TV'},
     {"id": "278", "name": "Adidas Ultraboost Light"},
     {"id": "279", "name": "Sony WH-1000XM5 Wireless Noise Canceling Headphones"},
     {"id": "280", "name": "Levi's 511 Slim Fit Jeans"},
@@ -22,7 +23,7 @@ products = [
     {"id": "286", "name": "Nike Dri-FIT Legend Men's Training T-Shirt"},
     {"id": "287", "name": "Samsung Galaxy Buds2 Pro"},
     {"id": "288", "name": "Levi's Men's Trucker Jacket"},
-    {"id": "289", "name": "Sony Bravia XR A80L 55\" OLED TV"},
+    {"id": "289", "name": 'Sony Bravia XR A80L 55" OLED TV'},
     {"id": "290", "name": "Nintendo Switch Pro Controller"},
     {"id": "291", "name": "Apple AirPods Pro (2nd Generation)"},
     {"id": "292", "name": "Adidas Yoga Essentials Mat"},
@@ -61,7 +62,7 @@ products = [
     {"id": "325", "name": "Fitbit Charge 6 Fitness Tracker"},
     {"id": "326", "name": "Under Armour Undeniable 4.0 Duffel Bag"},
     {"id": "327", "name": "LIFX Smart LED Light Strip"},
-    {"id": "328", "name": "The Very Hungry Caterpillar Board Book"}
+    {"id": "328", "name": "The Very Hungry Caterpillar Board Book"},
 ]
 
 # Generate reviews
@@ -69,52 +70,84 @@ reviews = []
 for i in range(1, 201):
     product = random.choice(products)
     rating = random.choices([1, 2, 3, 4, 5], weights=[5, 10, 20, 35, 30])[0]
-    
+
     # Generate review content based on rating
     if rating == 1:
-        content = fake.paragraph(nb_sentences=2) + " " + random.choice([
-            "Terrible product, would not recommend.",
-            "Complete waste of money.",
-            "Broke after just a few days of use.",
-            "Not as described at all.",
-            "Worst purchase I've ever made."
-        ])
+        content = (
+            fake.paragraph(nb_sentences=2)
+            + " "
+            + random.choice(
+                [
+                    "Terrible product, would not recommend.",
+                    "Complete waste of money.",
+                    "Broke after just a few days of use.",
+                    "Not as described at all.",
+                    "Worst purchase I've ever made.",
+                ]
+            )
+        )
     elif rating == 2:
-        content = fake.paragraph(nb_sentences=1) + " " + random.choice([
-            "Disappointed with this purchase.",
-            "Expected much better quality.",
-            "Has several issues that need fixing.",
-            "Not worth the price in my opinion.",
-            "Wouldn't buy again."
-        ])
+        content = (
+            fake.paragraph(nb_sentences=1)
+            + " "
+            + random.choice(
+                [
+                    "Disappointed with this purchase.",
+                    "Expected much better quality.",
+                    "Has several issues that need fixing.",
+                    "Not worth the price in my opinion.",
+                    "Wouldn't buy again.",
+                ]
+            )
+        )
     elif rating == 3:
-        content = fake.paragraph(nb_sentences=2) + " " + random.choice([
-            "It's okay, but has some flaws.",
-            "Average product, does the job.",
-            "Not bad, but not great either.",
-            "Meets basic expectations.",
-            "Could be better for the price."
-        ])
+        content = (
+            fake.paragraph(nb_sentences=2)
+            + " "
+            + random.choice(
+                [
+                    "It's okay, but has some flaws.",
+                    "Average product, does the job.",
+                    "Not bad, but not great either.",
+                    "Meets basic expectations.",
+                    "Could be better for the price.",
+                ]
+            )
+        )
     elif rating == 4:
-        content = fake.paragraph(nb_sentences=3) + " " + random.choice([
-            "Very good product overall.",
-            "Happy with my purchase, would recommend.",
-            "Great value for money.",
-            "Impressed with the quality.",
-            "Exceeded my expectations."
-        ])
+        content = (
+            fake.paragraph(nb_sentences=3)
+            + " "
+            + random.choice(
+                [
+                    "Very good product overall.",
+                    "Happy with my purchase, would recommend.",
+                    "Great value for money.",
+                    "Impressed with the quality.",
+                    "Exceeded my expectations.",
+                ]
+            )
+        )
     else:  # rating == 5
-        content = fake.paragraph(nb_sentences=4) + " " + random.choice([
-            "Absolutely amazing! Best purchase ever!",
-            "Perfect in every way, highly recommend!",
-            "Exceeds all expectations, worth every penny!",
-            "Flawless performance, couldn't be happier!",
-            "Exceptional quality and value!"
-        ])
-    
+        content = (
+            fake.paragraph(nb_sentences=4)
+            + " "
+            + random.choice(
+                [
+                    "Absolutely amazing! Best purchase ever!",
+                    "Perfect in every way, highly recommend!",
+                    "Exceeds all expectations, worth every penny!",
+                    "Flawless performance, couldn't be happier!",
+                    "Exceptional quality and value!",
+                ]
+            )
+        )
+
     # Random date in the past year
-    created_at = datetime.now() - timedelta(days=random.randint(1, 365), hours=random.randint(1, 24))
-    
+    created_at = datetime.now() - timedelta(
+        days=random.randint(1, 365), hours=random.randint(1, 24)
+    )
+
     review = {
         "model": "your_app_name.Review",
         "pk": i,
@@ -124,13 +157,15 @@ for i in range(1, 201):
             "content": content,
             "rating": rating,
             "created_at": created_at.strftime("%Y-%m-%dT%H:%M:%SZ"),
-            "updated_at": (created_at + timedelta(minutes=random.randint(0, 60))).strftime("%Y-%m-%dT%H:%M:%SZ")
-        }
+            "updated_at": (
+                created_at + timedelta(minutes=random.randint(0, 60))
+            ).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        },
     }
     reviews.append(review)
 
 # Save to JSON file
-with open('reviews_fixture.json', 'w', encoding='utf-8') as f:
+with open("reviews_fixture.json", "w", encoding="utf-8") as f:
     json.dump(reviews, f, ensure_ascii=False, indent=2)
 
 print("Generated 200 reviews in reviews_fixture.json")

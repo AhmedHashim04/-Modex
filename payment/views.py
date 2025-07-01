@@ -1,12 +1,14 @@
-
-from .utils.paymob import get_auth_token, create_paymob_order, generate_payment_key
-from django.shortcuts import redirect, get_object_or_404
-from order.models import Order
-from .forms import PaymentProofForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
+
+from order.models import Order
+
+from .forms import PaymentProofForm
 from .models import VodafoneCashPayment
+from .utils.paymob import (create_paymob_order, generate_payment_key,
+                           get_auth_token)
+
 
 def pay_with_paymob(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -30,16 +32,21 @@ def pay_with_paymob(request, order_id):
         "apartment": "3",
     }
 
-    payment_token = generate_payment_key(token, paymob_order_id, amount_cents, billing_data)
+    payment_token = generate_payment_key(
+        token, paymob_order_id, amount_cents, billing_data
+    )
 
     iframe_id = "PUT_YOUR_IFRAME_ID_HERE"
     redirect_url = f"https://accept.paymobsolutions.com/api/acceptance/iframes/{iframe_id}?payment_token={payment_token}"
     return redirect(redirect_url)
 
+
 import hashlib
 import hmac
-from django.views.decorators.csrf import csrf_exempt
+
 from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+
 from order.models import Order
 
 
@@ -49,35 +56,37 @@ def payment_callback(request):
 
     # ترتيب الحقول حسب توثيق Paymob
     keys_to_hash = [
-        'amount_cents',
-        'created_at',
-        'currency',
-        'error_occured',
-        'has_parent_transaction',
-        'id',
-        'integration_id',
-        'is_3d_secure',
-        'is_auth',
-        'is_capture',
-        'is_refunded',
-        'is_standalone_payment',
-        'is_voided',
-        'order',
-        'owner',
-        'pending',
-        'source_data_pan',
-        'source_data_sub_type',
-        'source_data_type',
-        'success',
+        "amount_cents",
+        "created_at",
+        "currency",
+        "error_occured",
+        "has_parent_transaction",
+        "id",
+        "integration_id",
+        "is_3d_secure",
+        "is_auth",
+        "is_capture",
+        "is_refunded",
+        "is_standalone_payment",
+        "is_voided",
+        "order",
+        "owner",
+        "pending",
+        "source_data_pan",
+        "source_data_sub_type",
+        "source_data_type",
+        "success",
     ]
 
     hmac_secret = b"PUT_YOUR_HMAC_SECRET_HERE"
-    message = ''
+    message = ""
 
     for key in keys_to_hash:
-        message += data.get(key, '')
+        message += data.get(key, "")
 
-    computed_hmac = hmac.new(hmac_secret, message.encode('utf-8'), hashlib.sha512).hexdigest()
+    computed_hmac = hmac.new(
+        hmac_secret, message.encode("utf-8"), hashlib.sha512
+    ).hexdigest()
     sent_hmac = data.get("hmac")
 
     if hmac.compare_digest(computed_hmac, sent_hmac):
@@ -93,8 +102,6 @@ def payment_callback(request):
                 return HttpResponse("Order not found", status=404)
 
     return HttpResponse("FAILED", status=400)
-
-
 
 
 @login_required

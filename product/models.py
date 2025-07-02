@@ -1,5 +1,5 @@
 from decimal import Decimal
-
+from django.conf import settings
 from django.core.cache import cache
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import IntegrityError, models, transaction
@@ -44,6 +44,11 @@ class Product(models.Model):
     )
     overall_rating = models.FloatField(
         default=0.0, verbose_name=_("Overall Rating"), editable=False
+    )
+    wishlisted_by = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        through='Wishlist',
+        related_name='wishlist_products'
     )
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))
     discount = models.DecimalField(
@@ -230,3 +235,4 @@ def update_product_rating(sender, instance, **kwargs):
         **kwargs: Additional keyword arguments passed by the signal.
     """
     instance.product.update_rating()
+

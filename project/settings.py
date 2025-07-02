@@ -26,13 +26,22 @@ SECRET_KEY = "django-insecure-z9jy%8a11-eqdnr#_du_$jba)d%ac1+08_m1va^i8&919o$*@&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
 
 # Application definition
 
 INSTALLED_APPS = [
-    "account.apps.AccountsConfig",
+    'django.contrib.sites',  # مهم جدًا لـ allauth
+
+    # allauth apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # (اختياري) دعم تسجيل دخول اجتماعي
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+
     "contact",
     "product",
     "features",
@@ -48,8 +57,32 @@ INSTALLED_APPS = [
     "payment",
     "widget_tweaks",
 ]
+SITE_ID = 1
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',  # لتسجيل دخول admin
+    'allauth.account.auth_backends.AuthenticationBackend',  # allauth
+)
 
-LOGIN_URL = "/account/login/"
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': os.environ.get("GOOGLE_CLIENT_ID"),
+            'secret': os.environ.get("GOOGLE_SECRET"),
+            'key': ''
+        }
+    }
+}
+
+AUTH_USER_MODEL = 'accounts.User'
+
+# تسجيل الدخول وتحويل الصفحة بعده
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # optional: "none", "optional", "mandatory"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

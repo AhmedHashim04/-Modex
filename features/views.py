@@ -6,13 +6,31 @@ from django.core.paginator import Paginator
 from django.db import models
 from django.db.models import Q
 from django.utils.functional import cached_property
-from django.utils.http import urlencode
 from django.views.generic import ListView
 
 from product.models import Category, Product  # , Tag
 
 from .models import Collection  # ,Brand
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from .models import Wishlist
+
+@login_required
+def add_to_wishlist(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    Wishlist.objects.get_or_create(user=request.user, product=product)
+    return redirect('product_detail', pk=product_id)
+
+@login_required
+def remove_from_wishlist(request, product_id):
+    Wishlist.objects.filter(user=request.user, product_id=product_id).delete()
+    return redirect('wishlist')
+
+@login_required
+def wishlist_view(request):
+    wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
+    return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})
 
 class CollectionDetailView(ListView):
     model = Product

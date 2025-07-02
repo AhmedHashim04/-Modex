@@ -21,9 +21,14 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+# <h2>سجل دخول باستخدام</h2>
+# <a href="{% url 'social:begin' 'google-oauth2' %}?next=/">Google</a><br>
+# <a href="{% url 'social:begin' 'facebook' %}?next=/">Facebook</a>
+
 urlpatterns = [
-    path("account/", include("account.urls", namespace="account")),
     path("admin/", admin.site.urls),
+    path('accounts/', include('accounts.urls')),
+    path('accounts/', include('allauth.urls')),  
     path("", include("product.urls", namespace="product")),
     path("order/", include("order.urls", namespace="order")),
     path("feature/", include("features.urls", namespace="feature")),

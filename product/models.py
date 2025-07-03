@@ -13,7 +13,6 @@ from django.utils.translation import gettext_lazy as _
 
 from .utils import generate_product_slug
 
-
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"), db_index=True)
     category = models.ForeignKey(
@@ -64,6 +63,7 @@ class Product(models.Model):
         verbose_name=_("Trending"),
         help_text=_("Is this product trending?"),
     )
+
     weight = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -141,7 +141,6 @@ class Product(models.Model):
         cache.set("products_", {}, 60 * 5)
         super().save(*args, **kwargs)
 
-
 class Review(models.Model):
     RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
 
@@ -182,7 +181,6 @@ class Review(models.Model):
     def __str__(self):
         return f"{self.user.username} - {self.product.name} ({self.rating}/5)"
 
-
 class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name=_("Name"))
     parent = models.ForeignKey(
@@ -218,7 +216,6 @@ class Category(models.Model):
     def get_absolute_url(self):
         return reverse("product:category_detail", kwargs={"slug": self.slug})
 
-
 @receiver(post_save, sender=Review)
 @receiver(post_delete, sender=Review)
 def update_product_rating(sender, instance, **kwargs):
@@ -235,4 +232,3 @@ def update_product_rating(sender, instance, **kwargs):
         **kwargs: Additional keyword arguments passed by the signal.
     """
     instance.product.update_rating()
-

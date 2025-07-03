@@ -1,2 +1,0 @@
-make detailed code review of these, organize then by cross‑cutting concerns. call out potential bugs,
-stylistic issues, performance considerations, and Django best‑practices:

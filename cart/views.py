@@ -1,15 +1,12 @@
 import logging
 from typing import Any, Dict
-
 from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_POST
 from django.views.generic import ListView, TemplateView
-
 from product.models import Product
-
 from .cart import Cart as ShoppingCart
 
 logger = logging.getLogger(__name__)

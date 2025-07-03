@@ -1,11 +1,9 @@
 import uuid
 from decimal import Decimal
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
 from product.models import Product
 
 
@@ -21,9 +19,9 @@ class OrderStatus(models.TextChoices):
 
 class PaymentMethod(models.TextChoices):
     COD = "cod", _("Cash on Delivery")
-    CREDIT_CARD = "credit_card", _("Credit Card")
-    VODAFONE_CASH = "vodafone_cash", _("Vodafone Cash")
-    PAYPAL = "paypal", _("PayPal")
+    # CREDIT_CARD = "credit_card", _("Credit Card")
+    # VODAFONE_CASH = "vodafone_cash", _("Vodafone Cash")
+    # PAYPAL = "paypal", _("PayPal")
 
 
 class ShippingMethod(models.TextChoices):
@@ -67,9 +65,9 @@ class Order(models.Model):
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     status_changed_at = models.DateTimeField(null=True, blank=True)
     paid = models.BooleanField(_("Paid"), default=False)
-    coupon = models.ForeignKey(
-        "coupon.Coupon", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    # coupon = models.ForeignKey(
+    #     "coupon.Coupon", on_delete=models.SET_NULL, null=True, blank=True
+    # )
     invoice_pdf = models.FileField(
         upload_to="invoices/", null=True, blank=True, verbose_name="Invoice PDF"
     )

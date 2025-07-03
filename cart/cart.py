@@ -1,12 +1,8 @@
 from decimal import Decimal
-from typing import Any, Dict, Iterator
-
 from django.conf import settings
 from django.core.cache import cache
 from django.utils import timezone
-
 from product.models import Product
-
 from .utils import calculate_tax
 
 
@@ -75,7 +71,7 @@ class Cart:
         self.cart = {}
         self.save(clear=True)
 
-    def __iter__(self) -> Iterator[Dict[str, Any]]:
+    def __iter__(self):
         product_slugs = list(self.cart.keys())
         products = Product.objects.filter(slug__in=product_slugs).select_related(
             "category"
@@ -99,7 +95,7 @@ class Cart:
                 "total_price": Decimal(item["total_price"]),
             }
 
-    def __len__(self) -> int:
+    def __len__(self):
         return sum(item["quantity"] for item in self.cart.values())
 
     def save(self, clear: bool = False) -> None:
@@ -116,8 +112,6 @@ class Cart:
         else:
             cache.set(cache_key, self.cart, timeout=3600)
 
-    # FIX: Remove get_weight() - not implemented
-    # FIX: Tax calculation should be external
     def get_tax(self):
         return calculate_tax(self.get_total_price_after_discount())
 
@@ -141,7 +135,7 @@ class Cart:
             self.get_total_price_after_discount() * self.get_tax()
         ) + self.get_total_price_after_discount()
 
-    def get_cart_summary(self) -> Dict[str, Any]:
+    def get_cart_summary(self):
         total_price_after_discount = self.get_total_price_after_discount()
         tax_amount = self.get_tax() * total_price_after_discount
         total_price_after_discount_and_tax = total_price_after_discount + tax_amount

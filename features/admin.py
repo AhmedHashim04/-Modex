@@ -5,10 +5,10 @@ from .models import Collection, ProductImage  # , Brand
 from .models import Wishlist
 
 admin.site.register(Wishlist)
-class BrandAdmin(admin.ModelAdmin):
-    list_display = ("name", "desc")
-    search_fields = ("name", "desc")
-    prepopulated_fields = {"slug": ("name",)}
+# class BrandAdmin(admin.ModelAdmin):
+#     list_display = ("name", "desc")
+#     search_fields = ("name", "desc")
+#     prepopulated_fields = {"slug": ("name",)}
 
 
 # admin.site.register(Brand, BrandAdmin)

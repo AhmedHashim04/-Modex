@@ -19,7 +19,6 @@ from django.utils.http import urlencode
 from django.views.generic import DetailView, ListView, TemplateView
 from django_ratelimit.decorators import ratelimit
 
-from account.models import Profile
 from features.models import Collection, Tag
 from .forms import ReviewForm
 from .models import Category, Collection, Product, Review
@@ -180,6 +179,7 @@ class ProductListView(ListView):
             'categories': cache.get_or_set('all_categories', lambda: Category.objects.prefetch_related('products').all(), CACHE_TIMEOUT_PRODUCTS),
             'featured_collections': cache.get_or_set('collections', lambda: Collection.objects.all(), CACHE_TIMEOUT_PRODUCTS),
             'tags': cache.get_or_set('all_tags', lambda: Tag.objects.all(), CACHE_TIMEOUT_PRODUCTS),
+            
     # These are the filter and sort values currently applied by the user,
     # used by the frontend to display the selected filters and sorting options
     # after a search or filter/sort action, ensuring the UI reflects the user's choices.

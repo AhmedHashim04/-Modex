@@ -2,10 +2,20 @@
 from product.models import Product 
 
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect,render
-from .models import Wishlist
+from django.shortcuts import redirect,render, get_object_or_404
+from .models import Wishlist, Collection
 from django.contrib import messages
 from django.utils.translation import gettext as _
+from django.views.generic import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class CollectionDetailView(LoginRequiredMixin, DetailView):
+    model = Collection
+    template_name = 'features/collection_detail.html'
+    context_object_name = 'collection'
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
 
 @login_required
 def add_to_wishlist(request, product_slug):
@@ -29,7 +39,6 @@ def clear_wishlist(request):
     Wishlist.objects.filter(user=request.user).delete()
     messages.success(request, _('Wishlist cleared successfully!'))
     return redirect('wishlist')
-
 
 @login_required
 def view_wishlist(request):

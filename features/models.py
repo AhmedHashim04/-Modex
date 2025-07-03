@@ -3,7 +3,7 @@ from django.utils.translation import gettext as _
 from product.models import Product
 from django.conf import settings
 from django.db import models
-
+from django.utils.text import slugify
 class Wishlist(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
@@ -27,11 +27,17 @@ class ProductImage(models.Model):
         return f"Image for {self.product.name}"
 
 class Collection(models.Model):
+    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
     products = models.ManyToManyField("product.Product", related_name="collections")
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = "Collection"
@@ -105,3 +111,4 @@ class Tag(models.Model):
         indexes = [models.Index(fields=["name"])]
     def __str__(self):
         return self.name
+

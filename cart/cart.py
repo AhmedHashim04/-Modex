@@ -1,7 +1,7 @@
 from decimal import Decimal
 from django.conf import settings
 from django.core.cache import cache
-from django.utils import timezone
+from django.utils.timezone import now
 from product.models import Product
 from .utils import calculate_tax
 
@@ -35,30 +35,32 @@ class Cart:
 
         return cart
 
-    def add(self, product: Product, quantity: int = 1) -> None:
+    def add(self, product: Product, quantity: int = 1):
         if quantity <= 0:
             self.remove(product)
             return
 
-        product_slug = str(product.slug)
+        slug = str(product.slug)
+        price = Decimal(product.price)
+        discount = Decimal(product.discount)
+        final_price = Decimal(product.price_after_discount)
 
-        if product_slug not in self.cart:
-            self.cart[product_slug] = {
+        item = self.cart.get(slug)
+
+        if not item:
+            item = {
                 "quantity": 0,
-                "price": str(product.price),
-                "discount": str(product.discount),
-                "price_after_discount": str(product.price_after_discount),
-                "added_at": timezone.now().isoformat(),
+                "price": str(price),
+                "discount": str(discount),
+                "price_after_discount": str(final_price),
+                "added_at": now().isoformat(),
                 "total_price": "0",
             }
 
-        self.cart[product_slug]["quantity"] = quantity
+        item["quantity"] = quantity
+        item["total_price"] = str(final_price * quantity)
 
-        # FIX: Use Decimal for money calculations
-        price_after_discount = Decimal(self.cart[product_slug]["price_after_discount"])
-        total_price = price_after_discount * quantity
-        self.cart[product_slug]["total_price"] = str(total_price)
-
+        self.cart[slug] = item
         self.save()
 
     def remove(self, product: Product) -> None:

@@ -5,9 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from product.models import Product
-import uuid
 from decimal import Decimal
-
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -56,11 +54,6 @@ class Address(models.Model):
 
     def __str__(self):
         return f"{self.full_name} - {self.city}, {self.country}"
-
-
-# ============================
-#          ORDER MODEL
-# ============================
 
 class Order(models.Model):
     id = models.UUIDField(_("ID"), primary_key=True, editable=False, default=uuid.uuid4)
@@ -125,8 +118,3 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
-
-    def get_total_price(self) -> Decimal:
-        discount = getattr(self.product, "discount", 0)
-        discount_amount = self.price * self.quantity * (Decimal(discount) / 100)
-        return (self.price * self.quantity) - discount_amount

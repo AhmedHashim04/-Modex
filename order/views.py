@@ -15,15 +15,8 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, View
-# from coupon.views import get_coupon_from_session, remove_coupon_from_session
 from weasyprint import HTML
-
 from cart.cart import Cart
-# from coupon.models import Coupon
-# from coupon.views import remove_coupon
-from payment.forms import PaymentProofForm
-from payment.models import VodafoneCashPayment
-
 from .forms import AddressForm, OrderCreateForm
 from .models import Address, Order, OrderItem, OrderStatus
 
@@ -44,82 +37,82 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     template_name = "order/order_detail.html"
     context_object_name = "order"
 
-    def get_payment_status(self, order):
-        """Determine if payment form should be shown."""
-        has_payment = VodafoneCashPayment.objects.filter(order=order).exists()
-        is_vodafone_cash = (
-            order.payment_method and order.payment_method.lower() == "vodafone_cash"
-        )
-        return not has_payment and is_vodafone_cash
+    # def get_payment_status(self, order):
+    #     """Determine if payment form should be shown."""
+    #     has_payment = VodafoneCashPayment.objects.filter(order=order).exists()
+    #     is_vodafone_cash = (
+    #         order.payment_method and order.payment_method.lower() == "vodafone_cash"
+    #     )
+    #     return not has_payment and is_vodafone_cash
+        
+    # def get_vodafone_number(self):
+    #     """Return Vodafone number from settings or fallback."""
+    #     return getattr(settings, "VODAFONE_CASH_NUMBER", "01012345678")
 
-    def get_vodafone_number(self):
-        """Return Vodafone number from settings or fallback."""
-        return getattr(settings, "VODAFONE_CASH_NUMBER", "01012345678")
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     order = self.object
+    #     show_payment_form = self.get_payment_status(order)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        order = self.object
-        show_payment_form = self.get_payment_status(order)
+    #     context.update(
+    #         {
+    #             "form": PaymentProofForm(instance=order) if show_payment_form else None,
+    #             "vodafone_number": (
+    #                 self.get_vodafone_number() if show_payment_form else None
+    #             ),
+    #             "show_payment_form": show_payment_form,
+    #         }
+    #     )
+    #     return context
 
-        context.update(
-            {
-                "form": PaymentProofForm(instance=order) if show_payment_form else None,
-                "vodafone_number": (
-                    self.get_vodafone_number() if show_payment_form else None
-                ),
-                "show_payment_form": show_payment_form,
-            }
-        )
-        return context
+    # def post(self, request, *args, **kwargs):
+    #     self.object = self.get_object()
+    #     order = self.object
+    #     show_payment_form = self.get_payment_status(order)
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        order = self.object
-        show_payment_form = self.get_payment_status(order)
+    #     if not show_payment_form:
+    #         messages.info(
+    #             request,
+    #             "Payment proof is not required or already submitted for this order.",
+    #         )
+    #         return redirect(reverse("order:order_detail", kwargs={"pk": order.pk}))
 
-        if not show_payment_form:
-            messages.info(
-                request,
-                "Payment proof is not required or already submitted for this order.",
-            )
-            return redirect(reverse("order:order_detail", kwargs={"pk": order.pk}))
+    #     form = PaymentProofForm(request.POST, request.FILES, instance=order)
 
-        form = PaymentProofForm(request.POST, request.FILES, instance=order)
+    #     if form.is_valid():
+    #         form.save()
 
-        if form.is_valid():
-            form.save()
+    #         # Create VodafoneCashPayment record
+    #         VodafoneCashPayment.objects.create(
+    #             order=order,
+    #             transaction_id=form.cleaned_data.get("transaction_id"),
+    #             screenshot=form.cleaned_data.get("screenshot"),
+    #         )
 
-            # Create VodafoneCashPayment record
-            VodafoneCashPayment.objects.create(
-                order=order,
-                transaction_id=form.cleaned_data.get("transaction_id"),
-                screenshot=form.cleaned_data.get("screenshot"),
-            )
+    #         # Update order status
+    #         order.status = OrderStatus.PROCESSING
+    #         order.save()
 
-            # Update order status
-            order.status = OrderStatus.PROCESSING
-            order.save()
+    #         messages.success(
+    #             request,
+    #             "Payment proof submitted successfully. Your order is now being processed.",
+    #         )
+    #         return redirect(reverse("order:order_detail", kwargs={"pk": order.pk}))
 
-            messages.success(
-                request,
-                "Payment proof submitted successfully. Your order is now being processed.",
-            )
-            return redirect(reverse("order:order_detail", kwargs={"pk": order.pk}))
+    #     messages.error(
+    #         request,
+    #         "There was an error with your payment proof. Please check the details and try again.",
+    #     )
 
-        messages.error(
-            request,
-            "There was an error with your payment proof. Please check the details and try again.",
-        )
-
-        context = {
-            "order": order,
-            "form": form,
-            "vodafone_number": (
-                self.get_vodafone_number() if show_payment_form else None
-            ),
-            "show_payment_form": show_payment_form,
-        }
-        return render(request, self.template_name, context)
+    #     context = {
+    #         "order": order,
+    #         "form": form,
+    #         "vodafone_number": (
+    #             self.get_vodafone_number() if show_payment_form else None
+    #         ),
+    #         "show_payment_form": show_payment_form,
+    #     }
+    #     return render(request, self.template_name, context)
 
 
 class OrderCreateView(LoginRequiredMixin, CreateView):
@@ -166,16 +159,16 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         discount = cart.get_total_discount() or Decimal("0.00")
 
         # Apply coupon if exists
-        if coupon_discount := get_coupon_from_session(self.request)["discount"]:
-            discount += Decimal(coupon_discount)
-            try:
-                order.coupon = Coupon.objects.get(
-                    code=get_coupon_from_session(self.request)["code"]
-                )
-            except Coupon.DoesNotExist:
-                logger.warning(
-                    "Missing coupon: %s", get_coupon_from_session(self.request)["code"]
-                )
+        # if coupon_discount := get_coupon_from_session(self.request)["discount"]:
+        #     discount += Decimal(coupon_discount)
+        #     try:
+        #         order.coupon = Coupon.objects.get(
+        #             code=get_coupon_from_session(self.request)["code"]
+        #         )
+        #     except Coupon.DoesNotExist:
+        #         logger.warning(
+        #             "Missing coupon: %s", get_coupon_from_session(self.request)["code"]
+        #         )
 
         # Final price calculation
         order.total_price = max(
@@ -219,7 +212,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def _cleanup_session(self, cart):
         """Clean session data after successful order"""
         cart.clear()
-        remove_coupon(self.request)
+        # remove_coupon(self.request)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

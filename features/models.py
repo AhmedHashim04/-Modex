@@ -4,6 +4,7 @@ from product.models import Product
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
+
 class Wishlist(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     product = models.ForeignKey('Product', on_delete=models.CASCADE)
@@ -111,4 +112,3 @@ class Tag(models.Model):
         indexes = [models.Index(fields=["name"])]
     def __str__(self):
         return self.name
-

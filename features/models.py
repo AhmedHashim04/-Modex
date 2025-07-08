@@ -112,3 +112,50 @@ class Tag(models.Model):
         indexes = [models.Index(fields=["name"])]
     def __str__(self):
         return self.name
+
+# class OfferType(models.TextChoices):
+#     PERCENTAGE = "percentage", _("Percentage Discount")
+#     FIXED = "fixed", _("Fixed Amount Discount")
+#     GIFT = "gift", _("Gift Product")
+#     FREE_SHIPPING = "free_shipping", _("Free Shipping")
+
+# class Offer(models.Model):
+#     name = models.CharField(max_length=255, verbose_name=_("Offer Name"))
+#     description = models.TextField(blank=True, verbose_name=_("Description"))
+#     offer_type = models.CharField(max_length=20, choices=OfferType.choices, verbose_name=_("Offer Type"))
+#     value = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Value"))
+#     code = models.CharField(max_length=50, blank=True, null=True, unique=True, verbose_name=_("Promo Code"))
+#     is_active = models.BooleanField(default=True, verbose_name=_("Is Active"))
+#     start_date = models.DateTimeField(verbose_name=_("Start Date"))
+#     end_date = models.DateTimeField(verbose_name=_("End Date"))
+#     min_order_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True, verbose_name=_("Minimum Order Amount"))
+#     max_uses = models.PositiveIntegerField(blank=True, null=True, verbose_name=_("Maximum Uses"))
+#     used_count = models.PositiveIntegerField(default=0, verbose_name=_("Used Count"))
+#     users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True, verbose_name=_("Allowed Users"))
+#     products = models.ManyToManyField('product.Product', blank=True, verbose_name=_("Products"))
+#     collections = models.ManyToManyField('Collection', blank=True, verbose_name=_("Collections"))
+
+#     class Meta:
+#         verbose_name = _("Offer")
+#         verbose_name_plural = _("Offers")
+#         ordering = ['-start_date']
+
+#     def __str__(self):
+#         return self.name
+
+#     def is_valid(self, user=None, order_total=None, now=None):
+#         from django.utils import timezone
+#         now = now or timezone.now()
+#         if not self.is_active:
+#             return False
+#         if self.start_date and now < self.start_date:
+#             return False
+#         if self.end_date and now > self.end_date:
+#             return False
+#         if self.max_uses and self.used_count >= self.max_uses:
+#             return False
+#         if self.min_order_amount and order_total and order_total < self.min_order_amount:
+#             return False
+#         if self.users.exists() and user and user not in self.users.all():
+#             return False
+#         return True

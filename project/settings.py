@@ -32,7 +32,8 @@ ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     'django.contrib.sites',  # مهم جدًا لـ allauth
-
+    "accounts",
+    'home',
     # allauth apps
     'allauth',
     'allauth.account',
@@ -54,7 +55,6 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "payment",
     "widget_tweaks",
 ]
 SITE_ID = 1
@@ -73,7 +73,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-AUTH_USER_MODEL = 'accounts.User'
+# AUTH_USER_MODEL = 'accounts.User'
 
 # تسجيل الدخول وتحويل الصفحة بعده
 LOGIN_URL = 'login'
@@ -92,6 +92,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware"
 ]
 ROOT_URLCONF = "project.urls"
 

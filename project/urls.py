@@ -34,7 +34,7 @@ urlpatterns = [
     path("feature/", include("features.urls", namespace="feature")),
     path("cart/", include("cart.urls", namespace="cart")),
     path("contact/", include("contact.urls", namespace="contact")),
-    path("payment/", include("payment.urls", namespace="payment")),
+    # path("payment/", include("payment.urls", namespace="payment")),
     # path('coupon/'  ,include('coupon.urls',namespace='coupon')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

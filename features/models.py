@@ -4,10 +4,11 @@ from product.models import Product
 from django.conf import settings
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 class Wishlist(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey("product.Product", on_delete=models.CASCADE)
     added_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -20,7 +21,7 @@ class Wishlist(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="product_images"
+        "product.Product", on_delete=models.CASCADE, related_name="product_images"
     )
     image = models.ImageField(upload_to="product_images/")
 
@@ -83,7 +84,7 @@ class Color(models.TextChoices):
     YELLOW = "#ff0", _("Yellow")
 
 class ProductColor(models.Model):
-    product = models.ForeignKey('product.Product', on_delete=models.CASCADE, related_name="product_colors")
+    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="product_colors")
     color = models.CharField(max_length=25, choices=Color.choices)
     product_image = models.OneToOneField("ProductImage", on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -92,22 +93,10 @@ class ProductColor(models.Model):
 
 class Tag(models.Model):
     name = models.CharField(verbose_name=_("Name"),max_length=100)
-    color = models.CharField(
-        choices=Color.choices,
-        max_length=20,
-        blank=True,
-        null=True,
-        verbose_name=_("Color"),
-        help_text=_("Text color for tag (e.g. #fff or 'red')"),
-    )
-    bg_color = models.CharField(
-        choices=Color.choices,
-        max_length=20,
-        blank=True,
-        null=True,
-        verbose_name=_("Background Color"),
-        help_text=_("Background color for tag (e.g. #000 or 'blue')"),
-    )
+    color = models.CharField(choices=Color.choices,max_length=20,blank=True,null=True, 
+                                verbose_name=_("Color"),help_text=_("Text color for tag (e.g. #fff or 'red')"))
+    bg_color = models.CharField(choices=Color.choices,max_length=20,blank=True,null=True,
+                                verbose_name=_("Background Color"),help_text=_("Background color for tag (e.g. #000 or 'blue')"),)
     class Meta:
         indexes = [models.Index(fields=["name"])]
     def __str__(self):

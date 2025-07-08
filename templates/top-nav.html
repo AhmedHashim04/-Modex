@@ -1,0 +1,33 @@
+    <!-- A. Top navigation bar -->
+    <div class="modex-manage-nav modex-manage-nav-custom d-flex align-items-center justify-content-between px-2 px-md-3 py-1 flex-wrap">
+        <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap">
+            <!-- Account -->
+            <a href="login.html" class="manage-nav-link d-flex align-items-center">
+                <i class="fas fa-user-circle me-1"></i>
+                <span class="d-none d-sm-inline">Account</span>
+            </a>
+            <!-- Wishlist -->
+            <a href="wishlist.html" class="manage-nav-link d-flex align-items-center">
+                <i class="fas fa-heart me-1"></i>
+                <span class="d-none d-sm-inline">Wishlist</span>
+            </a>
+            <!-- Cart -->
+            <a href="cart.html" class="manage-nav-link d-flex align-items-center position-relative">
+                <i class="fas fa-shopping-cart me-1"></i>
+                <span class="d-none d-sm-inline">Cart</span>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" id="manageNavCartCount">0</span>
+            </a>
+        </div>
+        <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap mt-1 mt-md-0">
+            <!-- Location -->
+            <span class="manage-nav-location d-flex align-items-center">
+                <i class="fas fa-map-marker-alt me-1 text-danger"></i>
+                <span class="d-none d-sm-inline text-white">Your Location</span>
+            </span>
+            <!-- Time -->
+            <span class="manage-nav-time d-flex align-items-center">
+                <i class="fas fa-clock me-1 text-primary"></i>
+                <span id="modexCurrentTime"></span>
+            </span>
+        </div>
+    </div>

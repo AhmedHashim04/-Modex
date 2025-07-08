@@ -10,74 +10,29 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-
+from django.contrib.auth.models import User
 from .utils import generate_product_slug
+
 
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("Name"), db_index=True)
-    category = models.ForeignKey(
-        "Category",
-        on_delete=models.PROTECT,
-        verbose_name=_("Category"),
-        blank=True,
-        null=True,
-        related_name="products",
-    )
+    category = models.ForeignKey("Category",on_delete=models.PROTECT,verbose_name=_("Category"),blank=True,null=True,related_name="products",)
     # brand = models.ForeignKey('features.Brand',on_delete=models.PROTECT,verbose_name=_("Brand"),blank=True,null=True,related_name='products')
     description = models.TextField(max_length=1000, verbose_name=_("Description"))
-    price = models.DecimalField(
-        max_digits=20,
-        decimal_places=2,
-        verbose_name=_("Price"),
-        validators=[MinValueValidator(0)],
-    )
+    price = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Price"),validators=[MinValueValidator(0)],)
     # cost = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Cost"),blank=True,null=True,validators=[MinValueValidator(0)])
-    image = models.ImageField(
-        upload_to="products/", verbose_name=_("Product Image"), blank=True, null=True
-    )
-    slug = models.SlugField(
-        unique=True, blank=True, null=True, max_length=255, db_index=True
-    )
-    stock = models.PositiveIntegerField(
-        default=0, verbose_name=_("Stock"), validators=[MinValueValidator(0)]
-    )
-    overall_rating = models.FloatField(
-        default=0.0, verbose_name=_("Overall Rating"), editable=False
-    )
-    wishlisted_by = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        through='Wishlist',
-        related_name='wishlist_products'
-    )
+    image = models.ImageField(upload_to="products/", verbose_name=_("Product Image"), blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
+    stock = models.PositiveIntegerField(default=0, verbose_name=_("Stock"), validators=[MinValueValidator(0)])
+    overall_rating = models.FloatField(default=0.0, verbose_name=_("Overall Rating"), editable=False)
+    wishlisted_by = models.ManyToManyField(User,through='features.Wishlist',related_name='wishlist_products')
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))
-    discount = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        default=0,
-        verbose_name=_("Discount"),
-        help_text=_("Discount percentage (0-100)"),
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-    )
-    trending = models.BooleanField(
-        default=False,
-        verbose_name=_("Trending"),
-        help_text=_("Is this product trending?"),
-    )
+    discount = models.DecimalField(max_digits=5,decimal_places=2,default=0,verbose_name=_("Discount"),help_text=_("Discount percentage (0-100)"),validators=[MinValueValidator(0), MaxValueValidator(100)],)
+    trending = models.BooleanField(default=False,verbose_name=_("Trending"),help_text=_("Is this product trending?"),)
 
-    weight = models.DecimalField(
-        max_digits=5,
-        decimal_places=2,
-        verbose_name=_("Weight"),
-        blank=True,
-        null=True,
-        validators=[MinValueValidator(0)],
-    )
-    tags = models.ManyToManyField(
-        "Tag", verbose_name=_("Tags"), blank=True, related_name="products"
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Created At"), db_index=True
-    )
+    weight = models.DecimalField(max_digits=5,decimal_places=2,verbose_name=_("Weight"),blank=True,null=True,validators=[MinValueValidator(0)],)
+    tags = models.ManyToManyField("features.Tag", verbose_name=_("Tags"), blank=True, related_name="products")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"), db_index=True)
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 
     class Meta:
@@ -86,12 +41,7 @@ class Product(models.Model):
         indexes = [
             models.Index(fields=["price"], name="price_idx"),
             models.Index(fields=["-overall_rating"], name="rating_idx"),
-            models.Index(
-                fields=[
-                    "category",
-                ],
-                name="category_idx",
-            ),
+            models.Index(fields=["category",],name="category_idx",),
             # models.Index(fields=['category', 'brand'], name='category_brand_idx'),
         ]
 

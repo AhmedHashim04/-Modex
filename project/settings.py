@@ -73,7 +73,6 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# AUTH_USER_MODEL = 'accounts.User'
 
 # تسجيل الدخول وتحويل الصفحة بعده
 LOGIN_URL = 'login'

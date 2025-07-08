@@ -21,7 +21,7 @@ from django_ratelimit.decorators import ratelimit
 
 from features.models import Collection, Tag
 from .forms import ReviewForm
-from .models import Category, Collection, Product, Review
+from .models import Category, Product, Review
 
 # Constants for cache management
 CACHE_TIMEOUT_PRODUCTS = 60 * 60 * 4  # 4 minutes

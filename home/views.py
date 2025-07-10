@@ -24,5 +24,6 @@ class HomeView(TemplateView):
                 'randomProduct' : Product.objects.order_by('?').first()
             }
             cache.set('home_data', data, 60 * 60 * 24)  # Cache for 1 day
+            
         context['data'] = data
         return context

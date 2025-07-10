@@ -1,4 +1,4 @@
-from account.models import Profile
+# from account.models import Profile
 from cart.cart import Cart as ShoppingCart
 from product.models import Category
 

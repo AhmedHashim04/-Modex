@@ -142,7 +142,7 @@ class ProductListView(ListView):
 
         return queryset.order_by(sort_field)
 
-    def get_paginate_by(self):
+    def get_paginate_by(self,queryset=None):
         """Get validated items per page setting"""
         try:
             per_page = int(self.applied_filters['items_per_page'])

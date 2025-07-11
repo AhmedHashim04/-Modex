@@ -31,7 +31,7 @@ CACHE_TIMEOUT_PRICE_RANGE = 60 * 60 * 24  # 24 hours
 class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
-    template_name = 'product/products.html'
+    template_name = 'product/product_list.html'
     paginate_by = 12
     sort_options = {
         'default': '-created_at',

@@ -1274,11 +1274,13 @@ html {
     font-weight: 600;
     letter-spacing: 1px;
     box-shadow: 0 2px 8px #4fc3f755;
+}
 .trendy-img {
     object-fit: cover;
     height: 220px;
     border-radius: 0 0 2rem 2rem;
 }
+
 .trendy-title-1 {
     font-size: 2.1rem;
     color: hsl(var(--primary-color));
@@ -2194,59 +2196,178 @@ html {
     z-index: 3;
     animation: pulse 2s ease-in-out infinite;
 }
+
 .modex-footer {
-    background: linear-gradient(120deg, #fffbe6 60%, #ffe7e7 100%);
-    border-top-left-radius: 2.5rem;
-    border-top-right-radius: 2.5rem;
-    box-shadow: 0 -2px 24px rgba(0,0,0,0.07);
+    background: linear-gradient(120deg, hsl(var(--background-color)) 60%, hsl(var(--danger-color) / 0.08) 100%);
+    border-top-left-radius: 3.5rem;
+    border-top-right-radius: 3.5rem;
+    box-shadow: 0 -4px 32px hsl(var(--primary-color) / 0.10), 0 -1.5px 24px rgba(0,0,0,0.07);
+    padding-top: 3.5rem;
+    padding-bottom: 2.5rem;
+    width: 100vw;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    position: relative;
+    overflow: hidden;
 }
+
+.modex-footer::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: -80px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle at 30% 30%, hsl(var(--danger-color) / 0.10) 0%, hsl(var(--background-color)) 80%, transparent 100%);
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+}
+.modex-footer::after {
+    content: "";
+    position: absolute;
+    bottom: -80px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle at 70% 70%, hsl(var(--tertiary-color)) 0%, hsl(var(--background-color)) 80%, transparent 100%);
+    opacity: 0.25;
+    z-index: 0;
+    pointer-events: none;
+}
+
 .modex-footer-logo-img {
-    filter: drop-shadow(0 2px 8px #ffb6b6);
+    filter: drop-shadow(0 4px 16px hsl(var(--danger-color) / 0.15));
+    border-radius: 1.5rem;
+    background: hsl(var(--background-color));
+    padding: 0.25rem;
+    transition: transform 0.2s;
 }
+.modex-footer-logo-img:hover {
+    transform: scale(1.08) rotate(-6deg);
+}
+
 .modex-footer-logo-text {
-    color: #ff6f61;
+    color: hsl(var(--primary-color));
     font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+    letter-spacing: 2px;
+    font-size: 2.2rem;
+    text-shadow: 0 2px 8px hsl(var(--danger-color) / 0.10);
+    background: linear-gradient(90deg, hsl(var(--tertiary-color)) 10%, hsl(var(--primary-color)) 90%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
+
 .modex-footer-slogan {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
+    color: hsl(var(--primary-color));
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    margin-top: 0.5rem;
+    text-shadow: 0 1px 4px hsl(var(--background-color));
 }
+
 .modex-footer-quicklinks-title {
-    color: #ff6f61;
+    color: hsl(var(--primary-color));
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    text-shadow: 0 1px 4px hsl(var(--danger-color) / 0.10);
 }
 .modex-footer-categories-title {
-    color: #ffb300;
+    color: hsl(var(--tertiary-color));
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    text-shadow: 0 1px 4px hsl(var(--background-color));
 }
 .modex-footer-newsletter-title {
-    color: #0d6efd;
+    color: hsl(var(--secondary-color));
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 1.1rem;
+    text-shadow: 0 1px 4px hsl(var(--secondary-color) / 0.10);
 }
+
 .modex-footer-newsletter-form {
-    max-width: 320px;
+    max-width: 420px;
     margin-inline: auto;
+    background: hsl(var(--background-color) / 0.7);
+    border-radius: 2rem;
+    box-shadow: 0 2px 12px hsl(var(--danger-color) / 0.20);
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    gap: 0.5rem;
 }
+
 .modex-footer-newsletter-input {
-    background: #fff9e5;
+    background: hsl(var(--background-color));
+    border-radius: 2rem 0 0 2rem;
+    border: 1.5px solid hsl(var(--tertiary-color));
+    font-size: 1rem;
+    padding: 0.75rem 1.25rem;
+    box-shadow: 0 1px 4px hsl(var(--danger-color) / 0.10);
+    transition: border 0.2s, box-shadow 0.2s;
 }
+.modex-footer-newsletter-input:focus {
+    border-color: hsl(var(--primary-color));
+    box-shadow: 0 2px 8px hsl(var(--tertiary-color) / 0.20);
+    outline: none;
+}
+
 .modex-footer-newsletter-btn {
-    background: linear-gradient(90deg,#ffb300,#ff6f61);
+    background: linear-gradient(90deg, hsl(var(--tertiary-color)), hsl(var(--primary-color)) 80%);
     border: none;
+    color: #fff;
+    font-weight: 700;
+    border-radius: 0 2rem 2rem 0;
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+    box-shadow: 0 2px 8px hsl(var(--tertiary-color) / 0.20);
+    transition: background 0.2s, transform 0.15s;
 }
-.modex-footer-social-instagram {
-    color: #e1306c;
-    font-size: 1.5rem;
+.modex-footer-newsletter-btn:hover, .modex-footer-newsletter-btn:focus {
+    background: linear-gradient(90deg, hsl(var(--primary-color)), hsl(var(--tertiary-color)) 80%);
+    transform: translateY(-2px) scale(1.04);
 }
-.modex-footer-social-facebook {
-    color: #1877f3;
-    font-size: 1.5rem;
-}
-.modex-footer-social-twitter {
-    color: #1da1f2;
-    font-size: 1.5rem;
-}
+
+.modex-footer-social-instagram,
+.modex-footer-social-facebook,
+.modex-footer-social-twitter,
 .modex-footer-social-whatsapp {
-    color: #25d366;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    margin: 0 0.25rem;
+    background: hsl(var(--background-color));
+    border-radius: 50%;
+    width: 2.7rem;
+    height: 2.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px hsl(var(--danger-color) / 0.20);
+    transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    position: relative;
+    z-index: 1;
 }
+.modex-footer-social-instagram { color: #e1306c; }
+.modex-footer-social-facebook { color: #1877f3; }
+.modex-footer-social-twitter { color: #1da1f2; }
+.modex-footer-social-whatsapp { color: #25d366; }
+
+.modex-footer-social-instagram:hover,
+.modex-footer-social-facebook:hover,
+.modex-footer-social-twitter:hover,
+.modex-footer-social-whatsapp:hover {
+    background: linear-gradient(135deg, hsl(var(--background-color)) 60%, hsl(var(--danger-color) / 0.08) 100%);
+    transform: scale(1.13) rotate(-8deg);
+    box-shadow: 0 4px 16px hsl(var(--danger-color) / 0.15);
+}
+
 .modex-footer-hr {
-    border-color: #ffe7e7;
-}
+    border-color: hsl(var(--danger-color) / 0.10);
+    border-width: 2.5px;
+    border-radius: 2px;
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
+    opacity: 0.85;
 }

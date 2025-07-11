@@ -21,13 +21,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from home.views import HomeView
-# <h2>سجل دخول باستخدام</h2>
-# <a href="{% url 'social:begin' 'google-oauth2' %}?next=/">Google</a><br>
-# <a href="{% url 'social:begin' 'facebook' %}?next=/">Facebook</a>
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    # path('accounts/', include('accounts.urls')),
     path('accounts/', include("allauth.urls")),  
     path("products/", include("product.urls", namespace="product")),
     path('', HomeView.as_view(), name='home'),
@@ -35,8 +32,6 @@ urlpatterns = [
     path("feature/", include("features.urls", namespace="feature")),
     path("cart/", include("cart.urls", namespace="cart")),
     path("contact/", include("contact.urls", namespace="contact")),
-    # path("payment/", include("payment.urls", namespace="payment")),
-    # path('coupon/'  ,include('coupon.urls',namespace='coupon')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

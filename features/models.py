@@ -35,6 +35,7 @@ class Collection(models.Model):
     is_active = models.BooleanField(default=True)
     products = models.ManyToManyField("product.Product", related_name="collections")
     created_at = models.DateTimeField(auto_now_add=True)
+    is_offer = models.BooleanField(default=False,null=True,blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:

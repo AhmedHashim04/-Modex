@@ -1,4 +1,15 @@
 {% extends "base.html" %}
+{% comment %} data = {
+    'newCollections': Collection.objects.filter(is_active=True)[:4],
+    'randomCollections': Collection.objects.filter(is_active=True)[:4],
+    'mainCategories': Category.objects.filter(parent__isnull=True),
+    'subCategories': Category.objects.filter(parent__isnull=False),
+    'topRatedProducts': Product.objects.order_by('-overall_rating')[:20],
+    'newProducts': Product.objects.order_by('-created_at')[:20],
+    'trendingProducts': Product.objects.filter(trending=True)[:20],
+    'randomProducts': Product.objects.order_by('?')[:20],
+    'randomProduct' : Product.objects.order_by('?').first()
+} {% endcomment %}
 
 
 {% block content %}

@@ -1,56 +1,37 @@
-
     <!-- C. Subnav -->
     <nav class="navbar navbar-expand-lg navbar-light modex-subnav">
         <div class="container-fluid px-4">
-            <button  class="navbar-toggler  " type="button" data-bs-toggle="collapse" data-bs-target="#modexSubnav" aria-controls="modexSubnav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modexSubnav" aria-controls="modexSubnav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon modex-subnav-toggler-icon"></span>
             </button>
-            <div  class="collapse  navbar-collapse" id="modexSubnav">
-                <ul  class="navbar-nav  me-auto mb-2 mb-lg-0">
+            <div class="collapse navbar-collapse" id="modexSubnav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=deals">
+                        <a class="nav-link text-black modex-subnav-link" href="?cat=deals">
                             <i class="fas fa-bolt me-1"></i>Today's Deals
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=electronics">Electronics</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=fashion">Fashion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=home">Home & Living</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=beauty">Beauty</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=sports">Sports</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=brands">Brands</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="products.html?cat=giftcards">Gift Cards</a>
-                    </li>
-                </ul>
-
+                    {# Main categories from contextCategories #}
+                    {% for cat in contextCategories %}
+                        <li class="nav-item">
+                            <a class="nav-link text-black modex-subnav-link" href="?cat={{ cat.slug }}">
+                                {{ cat.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-black modex-hover-link" href="help.html">
+                        <a class="nav-link text-black modex-hover-link" href="">
                             <i class="fas fa-question-circle me-1"></i>Help
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black modex-hover-link" href="sell.html">
+                        <a class="nav-link text-black modex-hover-link" href="">
                             <i class="fas fa-store me-1"></i>Sell on Modex
                         </a>
                     </li>
                 </ul>
-
             </div>
         </div>
     </nav>
-
-

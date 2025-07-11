@@ -25,7 +25,7 @@ class Product(models.Model):
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
     stock = models.PositiveIntegerField(default=0, verbose_name=_("Stock"), validators=[MinValueValidator(0)])
     overall_rating = models.FloatField(default=0.0, verbose_name=_("Overall Rating"), editable=False)
-    wishlisted_by = models.ManyToManyField(User,through='features.Wishlist',related_name='wishlist_products')
+    # wishlisted_by = models.ManyToManyField(User,through='features.Wishlist',related_name='wishlist_products')
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))
     discount = models.DecimalField(max_digits=5,decimal_places=2,default=0,verbose_name=_("Discount"),help_text=_("Discount percentage (0-100)"),validators=[MinValueValidator(0), MaxValueValidator(100)],)
     trending = models.BooleanField(default=False,verbose_name=_("Trending"),help_text=_("Is this product trending?"),)
@@ -79,17 +79,17 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.pk and not self.slug:
             self.slug = generate_product_slug(self.name)
+
         try:
             with transaction.atomic():
                 super().save(*args, **kwargs)
         except IntegrityError:
-            self.slug = generate_product_slug(
-                self.name + str(timezone.now().timestamp())
-            )
-            cache.set("products_", {}, 60 * 5)
-            super().save(*args, **kwargs)
+            self.slug = generate_product_slug(f"{self.name}-{timezone.now().timestamp()}")
+            with transaction.atomic():
+                super().save(*args, **kwargs)
+
+        # Clear the cache once after save is confirmed
         cache.set("products_", {}, 60 * 5)
-        super().save(*args, **kwargs)
 
 class Review(models.Model):
     RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
@@ -158,9 +158,12 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             base = slugify(self.name)
-        while Product.objects.filter(slug=base).exists():
-            self.slug = f"{base}-{counter}"
-            counter += 1
+            slug = base
+            counter = 1
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{base}-{counter}"
+                counter += 1
+            self.slug = slug
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):

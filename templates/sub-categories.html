@@ -8,106 +8,19 @@
                 <i class="fas fa-chevron-right"></i>
             </button>
             <div class="subcat-slider-track d-flex flex-nowrap align-items-stretch">
-                <!-- Sub-category: Phones -->
+                {% for subcat in subCategories %}
                 <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=phones" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
+                    <a href="?subcat={{ subcat.slug }}" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
                         <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=facearea&w=200&q=80" alt="هواتف ذكية" />
+                            <img src="{% if subcat.image %}{{ subcat.image.url }}{% else %}https://via.placeholder.com/200x200?text={{ subcat.name|urlencode }}{% endif %}" alt="{{ subcat.name }}" />
                         </span>
-                        <span class="fw-bold fs-5 mb-1">هواتف ذكية</span>
-                        <span class="text-muted small">أحدث الهواتف والإكسسوارات</span>
+                        <span class="fw-bold fs-5 mb-1">{{ subcat.name }}</span>
+                        {% if subcat.description %}
+                        <span class="text-muted small">{{ subcat.description|truncatechars:40 }}</span>
+                        {% endif %}
                     </a>
                 </div>
-                <!-- Sub-category: Laptops -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=laptops" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=facearea&w=200&q=80" alt="لابتوبات" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">لابتوبات</span>
-                        <span class="text-muted small">أجهزة محمولة لجميع الاستخدامات</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Tablets -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=tablets" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=facearea&w=200&q=80" alt="أجهزة لوحية" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">أجهزة لوحية</span>
-                        <span class="text-muted small">تابلت للدراسة والترفيه</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Accessories -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=accessories" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=facearea&w=200&q=80" alt="إكسسوارات" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">إكسسوارات</span>
-                        <span class="text-muted small">سماعات، شواحن، وغيرها</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Smart Watches -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=smartwatches" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=facearea&w=200&q=80" alt="ساعات ذكية" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">ساعات ذكية</span>
-                        <span class="text-muted small">تابع صحتك بأناقة</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Cameras -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=cameras" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=facearea&w=200&q=80" alt="كاميرات" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">كاميرات</span>
-                        <span class="text-muted small">التقط أجمل اللحظات</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Gaming -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=gaming" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=facearea&w=200&q=80" alt="ألعاب إلكترونية" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">ألعاب إلكترونية</span>
-                        <span class="text-muted small">أحدث أجهزة الألعاب</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Speakers -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=speakers" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=facearea&w=200&q=80" alt="سماعات" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">سماعات</span>
-                        <span class="text-muted small">صوت نقي وقوي</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Home Appliances -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=homeappliances" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1503389152951-9c3d0c6b8c9a?auto=format&fit=facearea&w=200&q=80" alt="أجهزة منزلية" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">أجهزة منزلية</span>
-                        <span class="text-muted small">راحة وأناقة في منزلك</span>
-                    </a>
-                </div>
-                <!-- Sub-category: Kids -->
-                <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="products.html?subcat=kids" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
-                        <span class="circle-img mb-3 shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=facearea&w=200&q=80" alt="ألعاب أطفال" />
-                        </span>
-                        <span class="fw-bold fs-5 mb-1">ألعاب أطفال</span>
-                        <span class="text-muted small">مرح وتعليم للصغار</span>
-                    </a>
-                </div>
+                {% endfor %}
             </div>
             <button class="subcat-slider-arrow right" aria-label="التالي">
                 <i class="fas fa-chevron-left"></i>
@@ -230,7 +143,7 @@
         const rightBtn = document.querySelector('.subcat-slider-arrow.right');
         let current = 0;
         const visibleSlides = window.innerWidth < 768 ? 2 : 4;
-        const slideWidth = slides[0].offsetWidth + 40; // 40px gap approx
+        const slideWidth = slides[0] ? slides[0].offsetWidth + 40 : 220; // fallback
 
         function updateSlider() {
             const max = slides.length - visibleSlides;

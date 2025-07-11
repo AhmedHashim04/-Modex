@@ -28,8 +28,8 @@ class PaymentMethod(models.TextChoices):
 
 class ShippingMethod(models.TextChoices):
     STANDARD = "standard", _("Standard Shipping")
+    PICKUP = "pickup", _("In-store Pickup")
     # EXPRESS = "express", _("Express Shipping")
-    # PICKUP = "pickup", _("In-store Pickup")
 
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses", verbose_name=_("User"))

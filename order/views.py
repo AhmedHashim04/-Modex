@@ -2,8 +2,6 @@ import logging
 from decimal import Decimal
 from io import BytesIO
 
-# import async task from DjangoQ
-# from django_q.tasks import async_task
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -56,7 +54,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
                 self._create_order_items(order, cart)
                 self.object = order
 
-            self._schedule_invoice_generation(order)
+            # self._schedule_invoice_generation(order)
             self._cleanup_session(cart)
             messages.success(
                 self.request,
@@ -98,25 +96,25 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
                 price=item["price"],
             )
 
-    def _schedule_invoice_generation(self, order):
-        """Schedule PDF generation as async task"""
-        try:
-            base_url = self.request.build_absolute_uri("/")
+    # def _schedule_invoice_generation(self, order):
+    #     """Schedule PDF generation as async task"""
+    #     try:
+    #         base_url = self.request.build_absolute_uri("/")
 
-            async_task(
-                "orders.tasks.generate_invoice_pdf",
-                order.id,
-                base_url,
-                hook="orders.tasks.invoice_generation_hook",
-            )
-            logger.info("Scheduled invoice generation for order %s", order.id)
+    #         async_task(
+    #             "orders.tasks.generate_invoice_pdf",
+    #             order.id,
+    #             base_url,
+    #             hook="orders.tasks.invoice_generation_hook",
+    #         )
+    #         logger.info("Scheduled invoice generation for order %s", order.id)
 
-        except Exception as e:
-            logger.error(
-                "Failed to schedule invoice task for order %s: %s", order.id, str(e)
-            )
-            # Don't show error to user - order is still valid
-            # We'll have monitoring for failed tasks
+    #     except Exception as e:
+    #         logger.error(
+    #             "Failed to schedule invoice task for order %s: %s", order.id, str(e)
+    #         )
+    #         # Don't show error to user - order is still valid
+    #         # We'll have monitoring for failed tasks
 
     def _cleanup_session(self, cart):
         """Clean session data after successful order"""

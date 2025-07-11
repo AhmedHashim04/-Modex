@@ -1,0 +1,456 @@
+{% extends 'base.html' %}
+{% comment %} {% block title %}Your Cart Trader - Your Ultimate Shopping Destination{% endblock %} {% endcomment %}
+{% block content %}
+{% include "top-nav.html" %}
+{% include "nav.html" %}
+{% include "sub-nav.html" %}
+<section class="page-header bg-gradient-animated py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="h2 mb-3 text-white">Your Shopping Cart</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb breadcrumb-light mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white-50">Home</a></li>
+                        <li class="breadcrumb-item active text-white">Cart</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="col-md-6 text-md-end">
+                {% if cart %}
+                <form method="post" action="{% url 'cart:cart_clear' %}" class="d-inline-block">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-light btn-sm rounded-pill hover-scale">
+                        <i class="fas fa-trash-alt me-1"></i>Clear Cart
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Cart Content -->
+<div class="container py-5">
+    <div class="row">
+        <!-- Cart Items -->
+        <div class="col-lg-8 mb-4 mb-lg-0">
+            <div class="card border-0 rounded-4 shadow-soft overflow-hidden">
+                <div class="card-header bg-primary-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-shopping-cart me-2"></i>Your Items
+                    </h5>
+                </div>
+                
+                <div class="card-body p-0">
+                    {% if cart %}
+                    <div id="cartItemsContainer">
+                        {% for item in cart %}
+                        <div class="cart-item p-3 border-bottom hover-highlight">
+                            <div class="row align-items-center">
+                                <!-- Product Image -->
+                                <div class="col-md-2">
+                                    <div class="product-thumbnail">
+                                        {% if item.product.image %}
+                                        <img src="{{ item.product.image.url|default:'https://via.placeholder.com/400' }}" 
+                                            alt="{{ item.product.name }}" 
+                                            class="img-fluid rounded-3">
+                                        {% else %}
+                                        <img src="https://via.placeholder.com/10" 
+                                            alt="{{ item.product.name }}" 
+                                            class="img-fluid rounded-3">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <!-- Product Info -->
+                                <div class="col-md-4">
+                                    <h6 class="mb-1">
+                                        <a href="{% url 'product:product_detail' item.product.slug %}" 
+                                            class="text-decoration-none text-dark hover-primary">
+                                            {{ item.product.name }}
+                                        </a>
+                                    </h6>
+                                    <small class="text-muted">Category: {{ item.product.category.name }}</small>
+                                </div>
+                                
+                                <!-- Price -->
+                                <div class="col-md-2">
+                                    {% if item.discount > 0 %}
+
+                                    <span class="original-price">{{ item.price|floatformat:2 }} EGP</span>
+                                    <div>
+                                        <span class="discount-price">-{{ item.discount|floatformat:2 }} EGP</span>
+
+                                    </div>
+                                    {% else %}
+                                    <span class="discount-price">{{ item.price|floatformat:2 }} EGP</span>
+                                    {% endif %}    
+                                    <span class="fw-bold text-primary">{{ item.price_after_discount|floatformat:2 }} EGP</span>
+                                </div>
+                                
+                                <!-- Quantity Update -->
+                                <div class="col-md-3">
+                                    <form method="post" action="{% url 'cart:cart_add' item.product.slug %}" 
+                                        class="d-flex align-items-center">
+                                        {% csrf_token %}
+                                        <div class="input-group input-group-sm" style="width: 120px;">
+                                            <button class="btn btn-outline-secondary quantity-minus" type="button">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <input type="number" name="quantity" value="{{ item.quantity }}" 
+                                                min="1" max="{{ item.product.stock }}" 
+                                                class="form-control text-center quantity-input">
+                                            <button class="btn btn-outline-secondary quantity-plus" type="button">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                        <button type="submit" class="btn btn-sm btn-outline-primary ms-2">
+                                            Update
+                                        </button>
+                                    </form>
+                                </div>
+                                
+                                <!-- Remove Item -->
+                                <div class="col-md-1 text-end">
+                                    <form method="post" action="{% url 'cart:cart_remove' item.product.slug %}" 
+                                        class="d-inline-block">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            
+                            <!-- Subtotal -->
+                            <div class="row mt-2">
+                                <div class="col-12 text-end">
+                                    <small class="text-muted">
+                                        Subtotal: <span class="fw-bold">{{ item.total_price|floatformat:2 }} EGP</span>
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <!-- Empty Cart State -->
+                    <div class="text-center py-5">
+                        <div class="empty-cart-icon mb-4">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h5 class="mb-3">Your Cart is Empty</h5>
+                        <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+                        <a href="{% url 'product:products_list' %}" class="btn btn-primary rounded-pill hover-scale px-4">
+                            <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="col-lg-4">
+            <div class="card border-0 rounded-4 shadow-soft" style="top: 20px;">
+                <div class="card-header bg-primary-light">
+                    <h5 class="mb-0">
+                        <i class="fas fa-receipt me-2"></i>Order Summary
+                    </h5>
+                </div>
+                
+                <div class="card-body">
+                    <div class="summary-item d-flex justify-content-between mb-2">
+                        <span>Subtotal:</span>
+                        <span>{{ cart_summary.total_price|floatformat:2}} EGP</span>
+                    </div>
+                    <div class="summary-item d-flex justify-content-between mb-2">
+                        <span>Subtotal Discount:</span>
+                        <span>{{ cart_summary.total_discount|floatformat:2 }} EGP</span>
+                    </div>
+                    <!-- Tax Summary -->
+                    <div class="summary-item d-flex justify-content-between align-items-center mb-2">
+                        <span>
+                            <i class="fas fa-receipt text-primary me-1"></i>
+                            Tax
+                            <span class="badge bg-light text-primary ms-1" style="font-size: 0.8em;">
+                                {% if cart_summary.total_price_after_discount >= 3000 %}
+                                    0.5%
+                                {% elif cart_summary.total_price_after_discount >= 1000 %}
+                                    0.2%
+                                {% else %}
+                                    0.1%
+                                {% endif %}
+                            </span>
+                        </span>
+                        <span class="fw-bold">{{ cart_summary.tax_amount|floatformat:2 }} EGP</span>
+                    </div>
+                    <!-- Tax Calculation Details -->
+                    <div class="mb-3">
+                        <div class="card border-0 shadow-sm bg-light">
+                            <div class="card-body py-2 px-3">
+                                <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.97em;">
+                                    <span>Subtotal (After Discount):</span>
+                                    <span class="fw-semibold">{{ cart_summary.total_price_after_discount|floatformat:2 }} EGP</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.97em;">
+                                    <span>Tax Rate:</span>
+                                    <span class="fw-semibold">
+                                        {% if cart_summary.total_price_after_discount >= 3000 %}
+                                            0.5%
+                                        {% elif cart_summary.total_price_after_discount >= 1000 %}
+                                            0.2%
+                                        {% else %}
+                                            0.1%
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center" style="font-size: 0.97em;">
+                                    <span>Tax Amount:</span>
+                                    <span class="fw-semibold">{{ cart_summary.tax_amount|floatformat:2 }} EGP</span>
+                                </div>
+                                <hr class="my-2">
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Tax is calculated based on subtotal after discount:<br>
+                                    <span class="ms-3">- 0.5% if subtotal ≥ 3000 EGP</span><br>
+                                    <span class="ms-3">- 0.2% if subtotal ≥ 1000 EGP</span><br>
+                                    <span class="ms-3">- 0.1% if subtotal &lt; 1000 EGP</span>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    {% if discount %}
+                    <div class="summary-item d-flex justify-content-between mb-2 text-success">
+                        <span>Discount:</span>
+                        <span>
+                            {% if discount_type == 'percent' %}
+                                -{{ discount }}%
+                            {% else %}
+                                -{{ discount_amount }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% endif %}
+                    
+                    <hr class="my-3">
+                    
+                    <div class="summary-total d-flex justify-content-between fw-bold h5 mb-4">
+                        <span>Total:</span>
+                        <span class="text-primary">{{ cart_summary.total_price_after_discount_and_tax|floatformat:2 }} EGP</span>
+                    </div>
+                    
+                    {% if request.user.is_authenticated %}
+                    {% comment %} <div class="mt-4">
+                        {% if request.session.coupon_code %}
+                        <div class="alert alert-success coupon-alert btn-secondary " style="border-left: 4px solid #28a745; border-radius: 0; background-color: #f8f9fa; color: #212529;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <i class="fas fa-tag mr-2" style="color: #28a745;"></i>
+                                    <strong style="font-size: 1.1em;">{{ request.session.coupon_code }}</strong> applied successfully!
+                                </div>
+                                <a href="{% url 'coupon:remove_coupon' %}" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-times"></i> Remove
+                                </a>
+                            </div>
+                            
+                            <div class="coupon-details mt-2" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                
+                                <div class="detail-item" style="background: white; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                                    <div style="font-size: 0.8em; color: #6c757d;">Discount</div>
+                                    <div style="font-weight: bold; color: #dc3545;">{% if request.session.discount_type == 'percent' %}{{ request.session.coupon_amount|floatformat:2 }}%{% else %}-{{ request.session.coupon_amount|floatformat:2 }}{% endif %}</div>
+                                </div>
+                                
+                                <div class="detail-item" style="background: #e8f5e9; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                                    <div style="font-size: 0.8em; color: #6c757d;">New Total</div>
+                                    <div style="font-weight: bold; color: #28a745;">
+                                        {{ request.session.coupon_discount|floatformat:2 }}
+                                        <span style="font-size: 0.8em; color: #6c757d;">+Tax</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                        <style>
+                            .coupon-alert {
+                                transition: all 0.3s ease;
+                            }
+                            .coupon-alert:hover {
+                                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                            }
+                            .detail-item {
+                                transition: transform 0.2s ease;
+                            }
+                            .detail-item:hover {
+                                transform: translateY(-2px);
+                            }
+                        </style>
+                        {% else %}
+                        <h6 class="fw-bold mb-3">
+                            <i class="fas fa-tag me-2"></i>Promo Code
+                        </h6>
+                        <form method="post" action="{% url 'coupon:apply_coupon' %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="code" class="form-control rounded-start-pill" 
+                                        placeholder="Enter promo code" required>
+                                <button class="btn btn-outline-primary rounded-end-pill hover-scale" type="submit">
+                                    Apply
+                                </button>
+                            </div>
+                        </form>
+                        <br>
+
+                    </div>
+                        {% endif %} {% endcomment %}
+                        {% endif %}
+                    <div class="d-grid gap-2">
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'order:create_order' %}" 
+                            class="btn btn-primary btn-lg rounded-pill hover-scale {% if not cart %}disabled{% endif %}">
+                            <i class="fas fa-credit-card me-2"></i>Proceed to Checkout
+                        </a>
+                        {% else %}
+                        <a href="{% url 'account:login' %}" 
+                            class="btn btn-primary btn-lg rounded-pill hover-scale">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login to Checkout
+                        </a>
+                        {% endif %}
+                        <a href="{% url 'product:products_list' %}" 
+                            class="btn btn-outline-secondary rounded-pill hover-scale">
+                            <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+                        </a>
+                    </div>
+                    <!-- Promo Code -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Modern Header */
+    .page-header {
+        background: var(--gradient-primary, linear-gradient(135deg, #6B73FF 0%, #6B8DD6 50%, #8E6BFF 100%));
+        background-size: 200% 200%;
+        animation: gradient 8s ease infinite;
+    }
+
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .breadcrumb-light .breadcrumb-item.active {
+        color: hsl(var(--surface-color, 0 0% 100%));
+    }
+
+    /* Product Thumbnail */
+    .product-thumbnail {
+        width: 60px;
+        height: 60px;
+        border-radius: var(--border-radius, 1.2rem);
+        overflow: hidden;
+        border: 1px solid hsl(var(--border-color, 200 90% 85%));
+    }
+
+    .product-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Quantity Input */
+    .quantity-input {
+        border-left: 0;
+        border-right: 0;
+    }
+
+    .quantity-minus, .quantity-plus {
+        width: 30px;
+    }
+
+    /* Empty Cart State */
+    .empty-cart-icon {
+        font-size: 3.5rem;
+        color: hsl(var(--text-secondary, 200 90% 40%));
+        opacity: 0.2;
+    }
+
+    /* Hover Effects */
+    .hover-scale {
+        transition: var(--transition, transform 0.3s ease, box-shadow 0.3s ease);
+    }
+
+    .hover-scale:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-medium, 0 10px 25px rgba(0, 0, 0, 0.1)) !important;
+    }
+
+    .hover-highlight:hover {
+        background-color: hsla(var(--primary-color, 340 90% 65%), 0.03);
+    }
+
+    .hover-primary:hover {
+        color: hsl(var(--primary-color, 340 90% 65%)) !important;
+    }
+
+    /* Summary Items */
+    .summary-item {
+        padding: 0.5rem 0;
+        border-bottom: 1px dashed hsla(var(--text-primary, 222 84% 5%), 0.1);
+    }
+
+    .summary-total {
+        color: hsl(var(--primary-color, 340 90% 65%));
+    }
+
+    /* Light Primary Background */
+    .bg-primary-light {
+        background-color: hsla(var(--primary-color, 340 90% 65%), 0.1);
+    }
+
+    /* Soft Shadow */
+    .shadow-soft {
+        box-shadow: var(--shadow-light, 0 5px 15px rgba(0, 0, 0, 0.03));
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .page-header {
+            padding: 2rem 0;
+        }
+
+        .product-thumbnail {
+            width: 50px;
+            height: 50px;
+        }
+    }
+</style>
+
+<script>
+    // Quantity buttons functionality
+    document.querySelectorAll('.quantity-minus').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.nextElementSibling;
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        });
+    });
+    
+    document.querySelectorAll('.quantity-plus').forEach(button => {
+        button.addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            const max = parseInt(input.getAttribute('max'));
+            if (parseInt(input.value) < max) {
+                input.value = parseInt(input.value) + 1;
+            }
+        });
+    });
+</script>
+{% endblock %}

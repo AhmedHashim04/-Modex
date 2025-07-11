@@ -8,104 +8,46 @@
                 تجميعات مميزة لك
             </h2>
             <div class="row g-4 justify-content-center">
-                <!-- تجميعة الصيف الرائعة -->
+                {% for collection in newCollections %}
                 <div class="col-12 col-md-6 col-lg-4 d-flex">
                     <div class="cool-collection-card flex-fill d-flex flex-column h-100 position-relative trendy-shadow">
-                        <span class="cool-collection-badge cool-collection-badge--accent position-absolute top-0 start-0 m-3 z-2">جديد</span>
+                        {% if collection.badge %}
+                        <span class="cool-collection-badge {{ collection.badge_class }} position-absolute top-0 start-0 m-3 z-2">{{ collection.badge }}</span>
+                        {% endif %}
                         <div class="cool-collection-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="تجميعة الصيف" class="img-fluid w-100" style="min-height:180px;object-fit:cover;">
+                            <!-- صور منتجات التجميعة -->
+                            <div class="collection-products-images-grid d-flex flex-wrap justify-content-center align-items-center" style="gap:6px; min-height: 140px;">
+                                {% with products=collection.products.all|slice:":4" %}
+                                    {% for product in products %}
+                                        {% with img=product.product_images.first %}
+                                            <div style="flex:1 1 46%;max-width:46%;aspect-ratio:1/1;overflow:hidden;border-radius:12px;box-shadow:0 2px 8px 0 rgba(0,0,0,0.06);background:#fff;">
+                                                <img 
+                                                    src="{% if img %}https://picsum.photos/seed/{{ product.id }}/200/200{% else %}https://picsum.photos/seed/{{ product.id }}/200/200{% endif %}" 
+                                                    alt="{{ product.name }}" 
+                                                    class="img-fluid w-100 h-100" 
+                                                    style="object-fit:cover;min-height:80px;transition:transform 0.18s;"
+                                                >
+                                            </div>
+                                        {% endwith %}
+                                    {% endfor %}
+                                    {% if products|length == 0 %}
+                                        <div style="width:100%;aspect-ratio:2/1;overflow:hidden;border-radius:16px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;">
+                                            <img src="https://picsum.photos/seed/{{ collection.id }}/400/200"  alt="{{ collection.name }}" class="img-fluid w-100" style="min-height:120px;object-fit:cover;">
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
                         </div>
                         <div class="p-4 flex-grow-1 d-flex flex-column">
-                            <h3 class="card-title primary mb-2 fw-bold">تجميعة الصيف الرائعة</h3>
-                            <p class="text-muted mb-3 flex-grow-1">كل ما تحتاجه لصيف منعش: ملابس، إكسسوارات، وألعاب شاطئ.</p>
-                            <a href="products.html?collection=summer" class="btn btn-gradient-primary px-4 mt-auto rounded-pill shadow-sm">
-                                <i class="fas fa-sun ms-2"></i> تسوق الآن
+                            <h3 class="card-title primary mb-2 fw-bold" style="font-size:1.18rem;letter-spacing:0.5px;">{{ collection.name }}</h3>
+                            <p class="text-muted mb-3 flex-grow-1" style="font-size:0.99rem;">{{ collection.description|truncatechars:80 }}</p>
+                            <a href="?collection={{ collection.slug }}" class="btn btn-gradient-primary px-4 mt-auto rounded-pill shadow-sm" style="font-size:1.05rem;font-weight:600;">
+                                <i class="fas fa-star ms-2"></i> تسوق الآن
                             </a>
                         </div>
                     </div>
                 </div>
-                <!-- تجميعة المنزل العصري -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="cool-collection-card flex-fill d-flex flex-column h-100 position-relative trendy-shadow">
-                        <span class="cool-collection-badge cool-collection-badge--primary position-absolute top-0 start-0 m-3 z-2">الأكثر مبيعاً</span>
-                        <div class="cool-collection-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=800&q=80" alt="تجميعة المنزل العصري" class="img-fluid w-100" style="min-height:180px;object-fit:cover;">
-                        </div>
-                        <div class="p-4 flex-grow-1 d-flex flex-column">
-                            <h3 class="card-title secondary mb-2 fw-bold">منزلك العصري</h3>
-                            <p class="text-muted mb-3 flex-grow-1">ديكورات وأدوات منزلية عصرية تضيف لمسة فريدة لمنزلك.</p>
-                            <a href="products.html?collection=modern-home" class="btn btn-gradient-secondary px-4 mt-auto rounded-pill shadow-sm">
-                                <i class="fas fa-couch ms-2"></i> اكتشف المجموعة
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- تجميعة الإلكترونيات الحديثة -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="cool-collection-card flex-fill d-flex flex-column h-100 position-relative trendy-shadow">
-                        <span class="cool-collection-badge cool-collection-badge--secondary position-absolute top-0 start-0 m-3 z-2">خصومات</span>
-                        <div class="cool-collection-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=800&q=80" alt="إلكترونيات حديثة" class="img-fluid w-100" style="min-height:180px;object-fit:cover;">
-                        </div>
-                        <div class="p-4 flex-grow-1 d-flex flex-column">
-                            <h3 class="card-title accent mb-2 fw-bold">إلكترونيات حديثة</h3>
-                            <p class="text-muted mb-3 flex-grow-1">أحدث الأجهزة الذكية والإلكترونيات بأسعار منافسة.</p>
-                            <a href="products.html?collection=electronics" class="btn btn-gradient-accent px-4 mt-auto rounded-pill shadow-sm">
-                                <i class="fas fa-bolt ms-2"></i> تسوق الإلكترونيات
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- تجميعة الجمال والعناية -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="cool-collection-card flex-fill d-flex flex-column h-100 position-relative trendy-shadow">
-                        <span class="cool-collection-badge cool-collection-badge--accent position-absolute top-0 start-0 m-3 z-2">حصري</span>
-                        <div class="cool-collection-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=800&q=80" alt="عروض الجمال والعناية" class="img-fluid w-100" style="min-height:180px;object-fit:cover;">
-                        </div>
-                        <div class="p-4 flex-grow-1 d-flex flex-column">
-                            <h3 class="card-title tertiary mb-2 fw-bold">عروض الجمال والعناية</h3>
-                            <p class="text-muted mb-3 flex-grow-1">منتجات عناية وجمال أصلية من أفضل الماركات.</p>
-                            <a href="products.html?collection=beauty" class="btn btn-gradient-tertiary px-4 mt-auto rounded-pill shadow-sm">
-                                <i class="fas fa-magic ms-2"></i> اكتشف العروض
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- تجميعة الأطفال والألعاب -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="cool-collection-card flex-fill d-flex flex-column h-100 position-relative trendy-shadow">
-                        <span class="cool-collection-badge cool-collection-badge--tertiary position-absolute top-0 start-0 m-3 z-2">موصى به</span>
-                        <div class="cool-collection-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1503457574465-494bba506e52?auto=format&fit=crop&w=800&q=80" alt="عالم الأطفال والألعاب" class="img-fluid w-100" style="min-height:180px;object-fit:cover;">
-                        </div>
-                        <div class="p-4 flex-grow-1 d-flex flex-column">
-                            <h3 class="card-title primary mb-2 fw-bold">عالم الأطفال والألعاب</h3>
-                            <p class="text-muted mb-3 flex-grow-1">كل ما يحتاجه طفلك من ألعاب وهدايا تعليمية وترفيهية.</p>
-                            <a href="products.html?collection=kids" class="btn btn-gradient-primary px-4 mt-auto rounded-pill shadow-sm">
-                                <i class="fas fa-child ms-2"></i> تسوق للأطفال
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- تجميعة عروض اليوم -->
-                <div class="col-12 col-md-6 col-lg-4 d-flex">
-                    <div class="cool-collection-card flex-fill d-flex flex-column h-100 position-relative trendy-shadow">
-                        <span class="cool-collection-badge cool-collection-badge--danger position-absolute top-0 start-0 m-3 z-2">عروض اليوم</span>
-                        <div class="cool-collection-img-wrapper">
-                            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=800&q=80" alt="عروض اليوم فقط" class="img-fluid w-100" style="min-height:180px;object-fit:cover;">
-                        </div>
-                        <div class="p-4 flex-grow-1 d-flex flex-column">
-                            <h3 class="card-title danger mb-2 fw-bold">عروض اليوم فقط</h3>
-                            <p class="text-muted mb-3 flex-grow-1">تخفيضات حصرية على منتجات مختارة ليوم واحد فقط.</p>
-                            <a href="products.html?collection=daily-deals" class="btn btn-gradient-danger px-4 mt-auto rounded-pill shadow-sm">
-                                <i class="fas fa-fire ms-2"></i> اغتنم الفرصة
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
-    <style>
-    </style>

@@ -31,24 +31,22 @@ ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.sites',  # مهم جدًا لـ allauth
     "accounts",
-    'home',
-    # allauth apps
+    'django.contrib.sites', 
+    # Third-party apps
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
 
-    # (اختياري) دعم تسجيل دخول اجتماعي
+    # Add social providers if needed:
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
-
+    'home',
     "contact",
     "product",
     "features",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
-    # 'coupon',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -57,10 +55,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "widget_tweaks",
 ]
+
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  # لتسجيل دخول admin
-    'allauth.account.auth_backends.AuthenticationBackend',  # allauth
+    'django.contrib.auth.backends.ModelBackend',  
+    'allauth.account.auth_backends.AuthenticationBackend', 
 )
 
 SOCIALACCOUNT_PROVIDERS = {
@@ -75,7 +74,7 @@ SOCIALACCOUNT_PROVIDERS = {
 
 
 # تسجيل الدخول وتحويل الصفحة بعده
-LOGIN_URL = 'login'
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
@@ -100,7 +99,7 @@ ROOT_URLCONF = "project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["templates"],
+        "DIRS": [BASE_DIR /"templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

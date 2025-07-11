@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}{{ profile.user.get_full_name|default:"My Profile"}} Trader - Your Ultimate Shopping Destination{% endblock %}
+{% block title %}{{ profile.user.get_full_name|default:"My Profile"}} Modex - Your Ultimate Shopping Destination{% endblock %}
 
-{% block body %}
+{% block content %}
 
 
 <div class="container py-5">
@@ -169,7 +169,7 @@
                 
                 <!-- Modern Footer -->
                 <div class="card-footer text-center bg-transparent py-3 border-top-0">
-                    <small class="text-muted">© {% now "Y" %} Trader E-commerce Platform • Last login: {{ user.last_login|date:"d M Y H:i" }}</small>
+                    <small class="text-muted">© {% now "Y" %} Modex E-commerce Platform • Last login: {{ user.last_login|date:"d M Y H:i" }}</small>
                 </div>
             </div>
         </div>

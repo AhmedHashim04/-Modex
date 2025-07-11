@@ -4,8 +4,11 @@
 {% load static %}
 
 {% block title %}Contact Us - Your Ultimate Shopping Destination{% endblock %}
+{% block content %}
+{% include "top-nav.html" %}
+{% include "sub-nav.html" %}
+{% include "nav.html" %}
 
-{% block body %}
 <!-- Enhanced Page Header -->
 <section class="page-header bg-gradient-primary-to-secondary py-5">
     <div class="container btn-primary">
@@ -17,7 +20,7 @@
             <div class="col-md-4 animate__animated animate__fadeIn animate__delay-2s">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb justify-content-md-end">
-                        <li class="breadcrumb-item"><a href="/" class="text-white">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
                         <li class="breadcrumb-item active text-white-50" aria-current="page">Contact</li>
                     </ol>
                 </nav>
@@ -381,7 +384,6 @@
 </style>
 {% endblock %}
 
-{% block extra_js %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize tooltips
@@ -447,4 +449,3 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 </script>
-{% endblock %}

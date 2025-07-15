@@ -43,7 +43,7 @@ def clear_wishlist(request):
 @login_required
 def view_wishlist(request):
     wishlist_items = Wishlist.objects.filter(user=request.user).select_related('product')
-    return render(request, 'wishlist.html', {'wishlist_items': wishlist_items})
+    return render(request, 'features/wishlist.html', {'wishlist_items': wishlist_items})
 
 
 

@@ -1,8 +1,15 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
 {% block title %}Your Wishlist Trader - Your Ultimate Shopping Destination{% endblock %}
 
-{% block body %}
-    <section class="wishlist-hero">
+
+
+{% block content %}
+{% include "top-nav.html" %}
+{% include "nav.html" %}
+{% include "sub-nav.html" %}
+<section class="wishlist-hero">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8">
@@ -120,11 +127,11 @@
         {% endif %}
     </div>
 </section>
-{% endblock body %}
+
+{% endblock content %}
 
 
 <script>
-
         // Quantity input controls
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.quantity-btn.minus').forEach(btn => {

@@ -181,7 +181,7 @@
                                         <i class="far fa-heart"></i>
                                     </a>
                                 {% endif %}
-                                <button class="btn btn-sm compare-btn btn-outline-primary rounded-pill d-flex align-items-center justify-content-center flex-shrink-0"
+                                {% comment %} <button class="btn btn-sm compare-btn btn-outline-primary rounded-pill d-flex align-items-center justify-content-center flex-shrink-0"
                                         data-product-slug="{{ product.slug }}"
                                         onclick="toggleProductCompare('{{ product.slug }}'); return false;"
                                         data-product-name="{{ product.name }}"
@@ -189,7 +189,7 @@
                                         data-bs-toggle="tooltip" title="Add to compare"
                                         style="width: 40px; height: 40px;">
                                     <i class="fas fa-exchange-alt"></i>
-                                </button>
+                                </button> {% endcomment %}
                             </div>
                         </div>
                     </div>

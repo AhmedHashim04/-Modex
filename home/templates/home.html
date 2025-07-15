@@ -3,11 +3,6 @@
 
 {% block content %}
 
-    {# 1. Top Navigation and Main Navigation #}
-    {% include "top-nav.html" %}
-    {% include "nav.html" %}
-    {% include "sub-nav.html" %}
-
     {# 2. Hero / Main Banner Section (Big Products) #}
     {% include "featured-products.html" %}
 
@@ -15,30 +10,27 @@
     {% include "featured-collections.html" %}
 
     {# 4. Main Categories (for quick access to main sections) #}
-    {% include "collections.html" %}
+    {% include "main-categories.html" %}
 
     {# 5. Sub Categories (slider for trending sub-categories) #}
     {% include "sub-categories.html" %}
 
     {# 6. Featured Products (handpicked or bestsellers) #}
-    {% include "featured-products.html" %}
-
-    {# 7. Latest Offers (discounts, deals, time-limited offers) #}
     {% include "lastest-offers.html" %}
 
-    {# 8. Random/Top Picks (personalized or random picks) #}
+    {# 7. Latest Offers (discounts, deals, time-limited offers) #}
     {% include "random-products.html" %}
 
-    {# 9. Recommended For You (personalized recommendations) #}
+    {# 8. Random/Top Picks (personalized or random picks) #}
     {% include "recommended.html" %}
 
-    {# 10. Store Features/Advantages (why shop with us) #}
+    {# 9. Recommended For You (personalized recommendations) #}
     {% include "featured-cards.html" %}
 
-    {# 11. Newsletter Signup (to be implemented as a separate page/component) #}
+    {# 10. Store Features/Advantages (why shop with us) #}
     {# {% include "newsletter-signup.html" %} #}
 
-    {# 12. Blog/Articles Preview (to be implemented as a separate page/component) #}
+    {# 11. Newsletter Signup (to be implemented as a separate page/component) #}
     {# {% include "blog-preview.html" %} #}
 
 {% endblock content %}

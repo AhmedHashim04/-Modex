@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
+
 {% comment %} {% block title %}Your Cart Trader - Your Ultimate Shopping Destination{% endblock %} {% endcomment %}
 {% block content %}
-{% include "top-nav.html" %}
-{% include "nav.html" %}
-{% include "sub-nav.html" %}
+
 <section class="page-header bg-gradient-animated py-5">
     <div class="container">
         <div class="row align-items-center">
@@ -314,7 +314,7 @@
                             <i class="fas fa-credit-card me-2"></i>Proceed to Checkout
                         </a>
                         {% else %}
-                        <a href="{% url 'account:login' %}" 
+                        <a href="{% provider_login_url 'google' %}" 
                             class="btn btn-primary btn-lg rounded-pill hover-scale">
                             <i class="fas fa-sign-in-alt me-2"></i>Login to Checkout
                         </a>

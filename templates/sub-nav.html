@@ -1,3 +1,4 @@
+
     <!-- C. Subnav -->
     <nav class="navbar navbar-expand-lg navbar-light modex-subnav">
         <div class="container-fluid px-4">
@@ -8,17 +9,16 @@
             <div class="collapse navbar-collapse" id="modexSubnav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="?cat=deals">
+                        <a class="nav-link text-black modex-subnav-link" href="{% url 'product:products_list' %}">
                             <i class="fas fa-bolt me-1"></i>Today's Deals
                         </a>
                     </li>
-                    {# Main categories from contextCategories #}
-                    {% for cat in contextCategories %}
-                        <li class="nav-item">
-                            <a class="nav-link text-black modex-subnav-link" href="?cat={{ cat.slug }}">
-                                {{ cat.name }}
-                            </a>
-                        </li>
+                    {% for category in contextCategories %}
+                    <li class="nav-item">
+                        <a class="nav-link text-black modex-subnav-link {% if selected_category == category.slug %}active-category{% endif %}" href="{% url 'product:products_list' %}?category={{ category.slug }}">
+                            {{ category.name }}
+                        </a>
+                    </li>
                     {% endfor %}
                 </ul>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -28,7 +28,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black modex-hover-link" href="">
+                        <a class="nav-link text-black modex-hover-link" href="#">
                             <i class="fas fa-store me-1"></i>Sell on Modex
                         </a>
                     </li>

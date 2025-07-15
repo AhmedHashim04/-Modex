@@ -67,8 +67,9 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
-
-ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'
+ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
+ACCOUNT_ALLOW_REGISTRATION = True
+# ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'
 
 
 MIDDLEWARE = [

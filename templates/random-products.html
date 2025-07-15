@@ -1,7 +1,10 @@
+{% load static %}
+{% load i18n %}
+
     <section class="py-5 top-picks-section" id="top-picks">
         <div class="container-fluid px-0">
             <h2 class="mb-4 text-center fw-bold top-picks-title">
-                <span class="top-picks-title-gradient">Discover Top Picks for You</span>
+                <span class="top-picks-title-gradient">{% trans "Discover Top Picks for You" %}</span>
             </h2>
             <div class="position-relative">
                 <!-- Left Arrow -->
@@ -16,13 +19,13 @@
                 <div class="row gx-3 gy-4 flex-nowrap overflow-auto top-picks-row">
                     <div class="col-12">
                         <div id="top-picks-scroll-row" class="d-flex flex-row flex-nowrap justify-content-start align-items-stretch top-picks-scroll-row">
-                            {% for product in randomProducts %}
-                                <div class="product-showcase-card border-0 shadow-lg bg{{ forloop.counter|add:"-1"|divisibleby:"4"|yesno:"4,3,2,1" }}">
+                            {% for product in data.randomProducts %}
+                                <div class="product-showcase-card border-0 shadow-lg bg-light">
                                     <a href="{{ product.get_absolute_url }}">
                                         {% if product.main_image %}
                                             <img src="{{ product.main_image.url }}" class="w-100 d-block product-img" alt="{{ product.name }}">
                                         {% else %}
-                                            <img src="" class="w-100 d-block product-img" alt="{{ product.name }}">
+                                            <img src="{% static 'images/placeholder_product.png' %}" class="w-100 d-block product-img" alt="{{ product.name }}">
                                         {% endif %}
                                     </a>
                                     <div class="p-3">
@@ -31,7 +34,7 @@
                                                 {{ product.name|truncatechars:32 }}
                                             </a>
                                         </h6>
-                                        <p class="mb-0 fw-bold product-price {% if forloop.counter|divisibleby:2 %}blue{% else %}pink{% endif %}">
+                                        <p class="mb-0 fw-bold product-price text-primary">
                                             {% if product.discount_price %}
                                                 <span class="text-decoration-line-through text-muted me-1">${{ product.price }}</span>
                                                 ${{ product.discount_price }}
@@ -43,7 +46,7 @@
                                 </div>
                             {% empty %}
                                 <div class="text-center w-100 py-5">
-                                    <p class="text-muted">No products available at the moment.</p>
+                                    <p class="text-muted">{% trans "No products available at the moment." %}</p>
                                 </div>
                             {% endfor %}
                         </div>

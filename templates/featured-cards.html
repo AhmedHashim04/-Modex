@@ -1,8 +1,10 @@
+{% load i18n %}
+
     <!-- متجرنا - مميزات عصرية -->
     <section class="py-5 store-features-section bg-light">
         <div class="container-fluid px-0">
             <h2 class="fw-bold text-center mb-5" style="letter-spacing: 1px;">
-                <span class="gradient-text">لماذا تتسوق معنا؟</span>
+                <span class="gradient-text">{% trans "Why Shop With Us?" %}</span>
             </h2>
             <div class="row g-4 justify-content-center mx-0">
                 <!-- Fast Shipping -->
@@ -11,8 +13,8 @@
                         <div class="feature-icon mb-4 d-flex align-items-center justify-content-center mx-auto rounded-circle bg-success bg-opacity-10" style="width:80px;height:80px;">
                             <i class="fas fa-shipping-fast fa-2x text-success"></i>
                         </div>
-                        <h4 class="fw-bold mb-3">شحن سريع</h4>
-                        <p class="text-muted fs-5 mb-0">توصيل سريع ومجاني للطلبات فوق ٥٠ دولار. خيارات توصيل مرنة.</p>
+                        <h4 class="fw-bold mb-3">{% trans "Fast Shipping" %}</h4>
+                        <p class="text-muted fs-5 mb-0">{% trans "Fast and free delivery for orders over $50. Flexible delivery options." %}</p>
                     </div>
                 </div>
                 <!-- Secure Payment -->
@@ -21,8 +23,8 @@
                         <div class="feature-icon mb-4 d-flex align-items-center justify-content-center mx-auto rounded-circle bg-primary bg-opacity-10" style="width:80px;height:80px;">
                             <i class="fas fa-shield-alt fa-2x text-primary"></i>
                         </div>
-                        <h4 class="fw-bold mb-3">دفع آمن</h4>
-                        <p class="text-muted fs-5 mb-0">بياناتك محمية بأحدث تقنيات التشفير. ادفع بثقة وأمان.</p>
+                        <h4 class="fw-bold mb-3">{% trans "Secure Payment" %}</h4>
+                        <p class="text-muted fs-5 mb-0">{% trans "Your data is protected with the latest encryption technologies. Pay with confidence and security." %}</p>
                     </div>
                 </div>
                 <!-- Easy Returns -->
@@ -31,8 +33,8 @@
                         <div class="feature-icon mb-4 d-flex align-items-center justify-content-center mx-auto rounded-circle bg-warning bg-opacity-10" style="width:80px;height:80px;">
                             <i class="fas fa-undo-alt fa-2x text-warning"></i>
                         </div>
-                        <h4 class="fw-bold mb-3">إرجاع سهل</h4>
-                        <p class="text-muted fs-5 mb-0">سياسة إرجاع مرنة خلال ٣٠ يومًا بدون تعقيدات أو أسئلة.</p>
+                        <h4 class="fw-bold mb-3">{% trans "Easy Returns" %}</h4>
+                        <p class="text-muted fs-5 mb-0">{% trans "Flexible return policy within 30 days, without complications or questions." %}</p>
                     </div>
                 </div>
             </div>

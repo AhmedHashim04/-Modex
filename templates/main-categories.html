@@ -1,69 +1,53 @@
+{% load static %}
+{% load i18n %}
 
-    <!-- تصنيفات جذابة للزوار -->
-    <section class="attractive-categories-section py-5">
+    <!-- قسم التجميعات المميزة - ستايل عصري متناسق مع cool-collection-card -->
+    <section class="cool-collections-banner py-5">
         <div class="container-fluid px-0">
-            <h2 class="fw-bold text-center mb-4">✨ اكتشف تصنيفاتنا المميزة</h2>
-            <div class="row g-4 justify-content-center mx-0">
-                <!-- تصنيف الإلكترونيات -->
-                <div class="col-6 col-sm-4 col-md-2 d-flex">
-                    <a href="products.html?cat=electronics" class="category-card electronics d-block text-center p-4 shadow-sm rounded-4 w-100 text-decoration-none hover-shadow">
-                        <div class="mb-2">
-                            <i class="fas fa-laptop-code fa-2x text-primary"></i>
+            <h2 class="fw-bold text-center mb-5 cool-collections-banner-title">
+                <span style="display:inline-block;vertical-align:middle;">
+                    <i class="fas fa-star text-warning me-2"></i>
+                </span>
+                {% trans "Main Categories" %}
+            </h2>
+            <div class="row g-4 justify-content-center">
+                {% for category in data.mainCategories %}
+                <div class="col-12 col-md-6 col-lg-4 d-flex">
+                    <div class="cool-collection-card flex-fill d-flex flex-column h-100 position-relative trendy-shadow">
+                        <div class="cool-collection-img-wrapper">
+                            <!-- صور منتجات الفئة -->
+                            <div class="collection-products-images-grid d-flex flex-wrap justify-content-center align-items-center" style="gap:6px; min-height: 140px;">
+                                {% with products=category.product_set.all|slice:":4" %}
+                                    {% for product in products %}
+                                        {% with img=product.product_images.first %}
+                                            <div style="flex:1 1 46%;max-width:46%;aspect-ratio:1/1;overflow:hidden;border-radius:12px;box-shadow:0 2px 8px 0 rgba(0,0,0,0.06);background:#fff;">
+                                                <img 
+                                                    src="{% if img %}{{ img.image.url }}{% else %}{% static 'images/placeholder.png' %}{% endif %}" 
+                                                    alt="{{ product.name }}" 
+                                                    class="img-fluid w-100 h-100" 
+                                                    style="object-fit:cover;min-height:80px;transition:transform 0.18s;"
+                                                >
+                                            </div>
+                                        {% endwith %}
+                                    {% endfor %}
+                                    {% if products|length == 0 %}
+                                        <div style="width:100%;aspect-ratio:2/1;overflow:hidden;border-radius:16px;background:#f8f9fa;display:flex;align-items:center;justify-content:center;">
+                                            <img src="{% static 'images/placeholder_category.png' %}"  alt="{{ category.name }}" class="img-fluid w-100" style="min-height:120px;object-fit:cover;">
+                                        </div>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
                         </div>
-                        <div class="fw-semibold fs-5 mb-1">إلكترونيات</div>
-                        <div class="text-muted small">أحدث الأجهزة والتقنيات</div>
-                    </a>
-                </div>
-                <!-- تصنيف الموضة -->
-                <div class="col-6 col-sm-4 col-md-2 d-flex">
-                    <a href="products.html?cat=fashion" class="category-card fashion d-block text-center p-4 shadow-sm rounded-4 w-100 text-decoration-none hover-shadow">
-                        <div class="mb-2">
-                            <i class="fas fa-tshirt fa-2x text-danger"></i>
+                        <div class="p-4 flex-grow-1 d-flex flex-column">
+                            <h3 class="card-title primary mb-2 fw-bold" style="font-size:1.18rem;letter-spacing:0.5px;">{{ category.name }}</h3>
+                            <p class="text-muted mb-3 flex-grow-1" style="font-size:0.99rem;">{{ category.description|truncatechars:80 }}</p>
+                            <a href="{% url 'product:products_list' %}?category={{ category.slug }}" class="btn btn-gradient-primary px-4 mt-auto rounded-pill shadow-sm" style="font-size:1.05rem;font-weight:600;">
+                                <i class="fas fa-star ms-2"></i> {% trans "Shop Now" %}
+                            </a>
                         </div>
-                        <div class="fw-semibold fs-5 mb-1">موضة</div>
-                        <div class="text-muted small">أحدث صيحات الملابس</div>
-                    </a>
+                    </div>
                 </div>
-                <!-- تصنيف المنزل والديكور -->
-                <div class="col-6 col-sm-4 col-md-2 d-flex">
-                    <a href="products.html?cat=home" class="category-card home d-block text-center p-4 shadow-sm rounded-4 w-100 text-decoration-none hover-shadow">
-                        <div class="mb-2">
-                            <i class="fas fa-couch fa-2x text-success"></i>
-                        </div>
-                        <div class="fw-semibold fs-5 mb-1">منزل وديكور</div>
-                        <div class="text-muted small">كل ما تحتاجه لمنزلك</div>
-                    </a>
-                </div>
-                <!-- تصنيف الرياضة -->
-                <div class="col-6 col-sm-4 col-md-2 d-flex">
-                    <a href="products.html?cat=sports" class="category-card sports d-block text-center p-4 shadow-sm rounded-4 w-100 text-decoration-none hover-shadow">
-                        <div class="mb-2">
-                            <i class="fas fa-football-ball fa-2x text-warning"></i>
-                        </div>
-                        <div class="fw-semibold fs-5 mb-1">رياضة</div>
-                        <div class="text-muted small">معدات وأزياء رياضية</div>
-                    </a>
-                </div>
-                <!-- تصنيف الجمال والعناية -->
-                <div class="col-6 col-sm-4 col-md-2 d-flex">
-                    <a href="products.html?cat=beauty" class="category-card beauty d-block text-center p-4 shadow-sm rounded-4 w-100 text-decoration-none hover-shadow">
-                        <div class="mb-2">
-                            <i class="fas fa-magic fa-2x text-pink"></i>
-                        </div>
-                        <div class="fw-semibold fs-5 mb-1">جمال وعناية</div>
-                        <div class="text-muted small">منتجات العناية الشخصية</div>
-                    </a>
-                </div>
-                <!-- تصنيف الأطفال والألعاب -->
-                <div class="col-6 col-sm-4 col-md-2 d-flex">
-                    <a href="products.html?cat=kids" class="category-card kids d-block text-center p-4 shadow-sm rounded-4 w-100 text-decoration-none hover-shadow">
-                        <div class="mb-2">
-                            <i class="fas fa-baby fa-2x text-info"></i>
-                        </div>
-                        <div class="fw-semibold fs-5 mb-1">أطفال وألعاب</div>
-                        <div class="text-muted small">كل ما يخص الأطفال</div>
-                    </a>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>

@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -109,7 +110,7 @@
                         </div>
                         
                         <div class="social-auth">
-                            <button class="btn social-btn google-btn" onclick="location.href='{% url 'socialaccount_connections' %}?process=connect'">
+                            <button class="btn social-btn google-btn" onclick="location.href='{% provider_login_url 'google' %}?process=connect'">
                                 <i class="fab fa-google"></i>
                                 Google
                             </button>

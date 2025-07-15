@@ -21,8 +21,6 @@ def profile_view(request):
         form = ProfileForm(instance=request.user.profile)
     return render(request, 'account/profile.html', {'form': form})
 
-
-
 @login_required
 def edit_profile(request):
     profile = request.user.profile

@@ -32,15 +32,13 @@ ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
 
 INSTALLED_APPS = [
     "accounts",
-    'django.contrib.sites', 
-    # Third-party apps
+    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-
-    # Add social providers if needed:
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+
     'home',
     "contact",
     "product",
@@ -55,32 +53,22 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "widget_tweaks",
 ]
-
-SITE_ID = 1
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',  
-    'allauth.account.auth_backends.AuthenticationBackend', 
-)
-
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'APP': {
-            'client_id': os.environ.get("GOOGLE_CLIENT_ID"),
-            'secret': os.environ.get("GOOGLE_SECRET"),
-            'key': ''
-        }
-    }
-}
-
+# <a href="{% provider_login_url 'google' %}">Login with Google</a>
+# <a href="{% provider_login_url 'facebook' %}">Login with Facebook</a>
 
 # تسجيل الدخول وتحويل الصفحة بعده
 LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'check_profile_completion'
+
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # أو 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'  # optional: "none", "optional", "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

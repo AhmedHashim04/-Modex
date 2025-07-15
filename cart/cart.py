@@ -5,7 +5,6 @@ from django.utils.timezone import now
 from product.models import Product
 from .utils import calculate_tax
 
-
 class Cart:
     def __init__(self, request):
         self.request = request

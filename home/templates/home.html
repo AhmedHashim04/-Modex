@@ -1,15 +1,4 @@
 {% extends "base.html" %}
-{% comment %} data = {
-    'newCollections': Collection.objects.filter(is_active=True)[:4],
-    'randomCollections': Collection.objects.filter(is_active=True)[:4],
-    'mainCategories': Category.objects.filter(parent__isnull=True),
-    'subCategories': Category.objects.filter(parent__isnull=False),
-    'topRatedProducts': Product.objects.order_by('-overall_rating')[:20],
-    'newProducts': Product.objects.order_by('-created_at')[:20],
-    'trendingProducts': Product.objects.filter(trending=True)[:20],
-    'randomProducts': Product.objects.order_by('?')[:20],
-    'randomProduct' : Product.objects.order_by('?').first()
-} {% endcomment %}
 
 
 {% block content %}
@@ -20,13 +9,13 @@
     {% include "sub-nav.html" %}
 
     {# 2. Hero / Main Banner Section (Big Products) #}
-    {% include "big-products.html" %}
+    {% include "featured-products.html" %}
 
     {# 3. Featured Collections (Curated Collections) #}
-    {% include "collections.html" %}
+    {% include "featured-collections.html" %}
 
     {# 4. Main Categories (for quick access to main sections) #}
-    {% include "main-categories.html" %}
+    {% include "collections.html" %}
 
     {# 5. Sub Categories (slider for trending sub-categories) #}
     {% include "sub-categories.html" %}

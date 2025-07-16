@@ -1,9 +1,8 @@
-from coupon.models import Coupon, CouponUsage
 from django.core.management.base import BaseCommand
 
-from features.models import Brand, Collection, ProductImage
+from features.models import  Collection, ProductImage, Tag
 from order.models import Address, Order, OrderItem
-from product.models import Category, Product, Review, Tag
+from product.models import Category, Product, Review
 
 # from payment.models import Payment
 
@@ -12,9 +11,9 @@ class Command(BaseCommand):
     help = "Deletes all product-related data (products, images, reviews, tags, categories, brands, collections ..)."
 
     def handle(self, *args, **kwargs):
-        print("🧹 Deleting Coupons...")
-        Coupon.objects.all().delete()
-        CouponUsage.objects.all().delete()
+        # print("🧹 Deleting Coupons...")
+        # Coupon.objects.all().delete()
+        # CouponUsage.objects.all().delete()
 
         # print("🧹 Deleting Payments...")
         # Payment.objects.all().delete()
@@ -39,10 +38,11 @@ class Command(BaseCommand):
         Tag.objects.all().delete()
 
         print("🧹 Deleting Categories...")
+        Category.objects.exclude(parent=None).delete()
         Category.objects.all().delete()
 
-        print("🧹 Deleting Brands...")
-        Brand.objects.all().delete()
+        # print("🧹 Deleting Brands...")
+        # Brand.objects.all().delete()
 
         print("🧹 Deleting Collections...")
         Collection.objects.all().delete()

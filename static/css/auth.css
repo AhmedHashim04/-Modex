@@ -35,12 +35,7 @@
     min-height: 100vh;
 }
 
-.auth-section {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-}
+
 
 .auth-background {
     position: absolute;
@@ -246,13 +241,13 @@
 }
 
 .google-btn {
-    background: #db4437;
+    background: #fdba00;
     border-color: #db4437;
     color: white;
 }
 
 .google-btn:hover {
-    background: #c33d2e;
+    background: #ff1a0176;
     color: white;
     transform: translateY(-2px);
 }

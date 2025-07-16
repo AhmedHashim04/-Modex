@@ -13,12 +13,9 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         data = cache.get('home_data')
+        cache.clear()
         if not data:
             data = {
-
-
-                
-
                 'newCollections': Collection.objects.filter(is_active=True)[:3],
                 'randomCollections': Collection.objects.filter(is_active=True)[:9],
                 'mainCategories': Category.objects.filter(parent__isnull=True),
@@ -38,7 +35,3 @@ class HomeView(TemplateView):
             
         context['data'] = data
         return context['data']
-
-# ... existing code ...
-# ... existing code ...
-# ... existing code ...

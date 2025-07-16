@@ -15,7 +15,7 @@
                 <div class="subcat-slide d-flex flex-column align-items-center">
                     <a href="{% url 'product:products_list' %}?category={{ subcat.slug }}" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
                         <span class="circle-img mb-3 shadow-lg">
-                            <img src="{% if subcat.image %}{{ subcat.image.url }}{% else %}{% static 'images/placeholder_sub_category.png' %}{% endif %}" alt="{{ subcat.name }}" />
+                            <img src="{% if subcat.image %}{{ subcat.image.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}" alt="{{ subcat.name }}" />
                         </span>
                         <span class="fw-bold fs-5 mb-1">{{ subcat.name }}</span>
                         {% if subcat.description %}

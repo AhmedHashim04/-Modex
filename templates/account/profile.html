@@ -5,31 +5,134 @@
 
 {% block content %}
 
+<style>
+/* Advanced UX enhancements */
+.bg-blur-advanced {
+    backdrop-filter: blur(16px) saturate(180%);
+    background: hsla(var(--surface-color), 0.7);
+    box-shadow: var(--shadow-heavy);
+    border-radius: var(--border-radius-lg);
+    transition: box-shadow 0.3s;
+}
+.bg-blur-advanced:hover {
+    box-shadow: 0 16px 48px 0 hsla(var(--dark-surface), 0.25);
+}
+.bg-gradient-animated-advanced {
+    background: var(--gradient-primary);
+    background-size: 400% 400%;
+    animation: gradientBG 8s ease infinite;
+}
+@keyframes gradientBG {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+.avatar-container-advanced {
+    position: relative;
+    display: inline-block;
+}
+.avatar-edit-btn {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: hsla(var(--surface-color), 1);
+    border-radius: 50%;
+    padding: 0.2rem 0.3rem;
+    box-shadow: var(--shadow-light);
+    cursor: pointer;
+    font-size: 1rem;
+    color: hsl(var(--primary-color));
+    border: none;
+    transition: background 0.2s;
+}
+.avatar-edit-btn:hover {
+    background: hsl(var(--background-color));
+}
+.profile-detail-list {
+    font-size: 1.05rem;
+}
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 0;
+    border-bottom: 1px dashed hsl(var(--border-color));
+    transition: background 0.2s;
+}
+.detail-item:last-child {
+    border-bottom: none;
+}
+.detail-label {
+    color: hsl(var(--secondary-color));
+    font-weight: 500;
+}
+.detail-value {
+    color: hsl(var(--text-primary));
+    font-weight: 400;
+}
+.card.action-card {
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+    background: var(--gradient-primary);
+}
+.card.action-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: var(--shadow-medium);
+    background: var(--gradient-secondary);
+}
+.action-icon {
+    font-size: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: hsl(var(--background-color));
+    margin-bottom: .5rem;
+    box-shadow: var(--shadow-light);
+}
+@media (max-width: 767px) {
+    .card-body.p-4, .card-body.p-lg-5 { padding: 1.2rem !important; }
+    .card-header.py-4 { padding: 1.2rem 0 !important; }
+}
+</style>
 
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <!-- Modern Card with Glass Morphism Effect -->
-            <div class="card border-0 rounded-4 overflow-hidden bg-blur">
+            <div class="card border-0 rounded-4 overflow-hidden bg-blur-advanced">
                 <!-- Gradient Header with Animated Background -->
-                <div class="card-header bg-gradient-animated text-white text-center py-4">
-                    <div class="avatar-container mb-3">
-                        <div class="avatar-circle">
-                            <img src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}https://ui-avatars.com/api/?name={{ profile.user.get_full_name|urlencode }}&background=6B8DD6&color=fff&size=128{% endif %}" alt="Profile Picture" class="rounded-circle" style="width: 60px; height: 60px; object-fit: cover;">
+                <div class="card-header bg-gradient-animated-advanced text-white text-center py-4 position-relative">
+                    <div class="avatar-container-advanced mb-3">
+                        <div class="avatar-circle position-relative">
+                            <img src="https://ui-avatars.com/api/?name={{ profile.user.get_full_name|urlencode }}&background=6B8DD6&color=fff&size=128" alt="Profile Picture" class="rounded-circle shadow" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #fff;">
+                            <button class="avatar-edit-btn" title="Change Avatar" data-bs-toggle="tooltip" disabled>
+                                {% comment %} <i class="fas fa-camera"></i> {% endcomment %}
+                            </button>
                         </div>
                     </div>
-                    <h2 class="mb-0 fw-bold">{{ profile.user.get_full_name|default:"My Profile" }}</h2>
+                    <h2 class="mb-0 fw-bold text-white">{{ profile.user.get_full_name|default:"My Profile" }}</h2>
                     <p class="mb-0 opacity-75">Member since {{ profile.user.date_joined|date:"M Y" }}</p>
-                    {% if profile.age %}
-                        <p class="mb-0 opacity-75">Age: {{ profile.age }}</p>
-                    {% endif %}
+                    <div class="d-flex justify-content-center gap-2 mt-2">
+                        <span class="badge bg-light text-primary px-3 py-2 shadow-sm" style="font-size:0.95rem;">
+                            <i class="fas fa-envelope me-1"></i> {{ profile.user.email }}
+                        </span>
+                        {% if profile.phone %}
+                        <span class="badge bg-light text-primary px-3 py-2 shadow-sm" style="font-size:0.95rem;">
+                            <i class="fas fa-phone me-1"></i> {{ profile.phone }}
+                        </span>
+                        {% endif %}
+                    </div>
                 </div>
                 
                 <div class="card-body p-4 p-lg-5">
                     <div class="row g-4">
                         <!-- Personal Information Card -->
                         <div class="col-md-6">
-                            <div class="card border-0 shadow-soft h-100 hover-scale">
+                            <div class="card border-0 shadow-soft h-100 hover-scale bg-transparent">
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="icon-circle bg-primary-light text-primary">
@@ -45,11 +148,7 @@
                                         </div>
                                         <div class="detail-item">
                                             <span class="detail-label">Phone</span>
-                                            <span class="detail-value">{{ profile.phone_number|default:"Not set" }}</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <span class="detail-label">Date of Birth</span>
-                                            <span class="detail-value">{{ profile.date_of_birth|date:"d M Y"|default:"Not set" }}</span>
+                                            <span class="detail-value">{{ profile.phone|default:"Not set" }}</span>
                                         </div>
                                         <div class="detail-item">
                                             <span class="detail-label">Email</span>
@@ -58,7 +157,11 @@
                                         {% if profile.wishlist_count %}
                                             <div class="detail-item">
                                                 <span class="detail-label">Wishlist Items</span>
-                                                <span class="detail-value">{{ profile.wishlist_count }}</span>
+                                                <span class="detail-value">
+                                                    <a href="{% url 'features:wishlist' %}" class="text-decoration-none text-primary fw-semibold">
+                                                        {{ profile.wishlist_count }} <i class="fas fa-heart ms-1"></i>
+                                                    </a>
+                                                </span>
                                             </div>
                                         {% endif %}
                                     </div>
@@ -68,7 +171,7 @@
 
                         <!-- Shipping Address Card -->
                         <div class="col-md-6">
-                            <div class="card border-0 shadow-soft h-100 hover-scale">
+                            <div class="card border-0 shadow-soft h-100 hover-scale bg-transparent">
                                 <div class="card-body p-4">
                                     <div class="d-flex align-items-center mb-3">
                                         <div class="icon-circle bg-info-light text-info">
@@ -82,19 +185,15 @@
                                             <span class="detail-label">Address</span>
                                             <span class="detail-value">
                                                 {% if profile.address %}
-                                                    {{ profile.address }}, {{ profile.city }}, {{ profile.country }}
+                                                    {{ profile.address }}
                                                 {% else %}
-                                                    Not set
+                                                    <span class="text-danger">Not set</span>
                                                 {% endif %}
                                             </span>
                                         </div>
                                         <div class="detail-item">
                                             <span class="detail-label">ZIP Code</span>
                                             <span class="detail-value">{{ profile.postal_code|default:"Not set" }}</span>
-                                        </div>
-                                        <div class="detail-item">
-                                            <span class="detail-label">Last Updated</span>
-                                            <span class="detail-value">{{ profile.last_updated|timesince }} ago</span>
                                         </div>
                                         {% if profile.get_city_display_ar %}
                                             <div class="detail-item">
@@ -103,6 +202,12 @@
                                             </div>
                                         {% endif %}
                                     </div>
+                                    {% if not profile.address or not profile.postal_code %}
+                                    <div class="alert alert-warning mt-3 py-2 px-3 small d-flex align-items-center gap-2" role="alert">
+                                        <i class="fas fa-exclamation-triangle me-2"></i>
+                                        <span>Shipping address incomplete. <a href="{% url 'accounts:edit_profile' %}" class="alert-link">Complete now</a></span>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -110,70 +215,82 @@
 
                     <!-- Action Buttons -->
                     <div class="row g-4 mt-4">
-                        <div class="col-md-4">
-                            <a href="{% url 'order:order_list' %}" class="card action-card border-0 h-100 text-decoration-none hover-scale">
+                        <div class="col-md-3 col-6">
+                            <a href="{% url 'order:order_list' %}" class="card action-card border-0 h-100 text-decoration-none hover-scale" data-bs-toggle="tooltip" title="View your order history">
                                 <div class="card-body text-center p-4">
                                     <div class="action-icon bg-warning-light text-warning mb-3">
                                         <i class="fas fa-shopping-bag"></i>
                                     </div>
                                     <h5 class="card-title mb-2">My Orders</h5>
-                                    <p class="text-muted small">View your order history</p>
-                                    <div class="btn btn-sm btn-outline-warning mt-2">View Orders</div>
+                                    <p class="text-muted small">Order history & tracking</p>
+                                    {% comment %} <div class="btn btn-sm btn-outline-warning mt-2">View Orders</div> {% endcomment %}
                                 </div>
                             </a>
                         </div>
 
-                        <div class="col-md-4">
-                            <a href="{% url 'accounts:edit_profile'%}" class="card action-card border-0 h-100 text-decoration-none hover-scale">
+                        <div class="col-md-3 col-6">
+                            <a href="{% url 'accounts:edit_profile'%}" class="card action-card border-0 h-100 text-decoration-none hover-scale" data-bs-toggle="tooltip" title="Edit your profile">
                                 <div class="card-body text-center p-4">
                                     <div class="action-icon bg-success-light text-success mb-3">
                                         <i class="fas fa-user-edit"></i>
                                     </div>
                                     <h5 class="card-title mb-2">Edit Profile</h5>
-                                    <p class="text-muted small">Update your information</p>
-                                    <div class="btn btn-sm btn-outline-success mt-2">Edit Profile</div>
+                                    <p class="text-muted small">Update your info</p>
+                                    {% comment %} <div class="btn btn-sm btn-outline-success mt-2">Edit Profile</div> {% endcomment %}
                                 </div>
                             </a>
                         </div>
-                        <div class="col-md-4">
-                            {% comment %} <a href="{% url 'coupon:my_coupons' %}" class="card action-card border-0 h-100 text-decoration-none hover-scale">
+                        <div class="col-md-3 col-6">
+                            <a href="{% url 'features:wishlist' %}" class="card action-card border-0 h-100 text-decoration-none hover-scale" data-bs-toggle="tooltip" title="View your wishlist">
                                 <div class="card-body text-center p-4">
-                                    <div class="action-icon bg-info-light text-info mb-3">
-                                        <i class="fas fa-ticket-alt me-2"></i>
+                                    <div class="action-icon bg-pink-light text-danger mb-3">
+                                        <i class="fas fa-heart"></i>
                                     </div>
-                                    <h5 class="card-title mb-2">My Coupons</h5>
-                                    <p class="text-muted small">Manage your coupons</p>
-                                    <div class="btn btn-sm btn-outline-info mt-2">My Coupons</div>
+                                    <h5 class="card-title mb-2">Wishlist</h5>
+                                    <p class="text-muted small">Saved for later</p>
+                                    {% comment %} <div class="btn btn-sm btn-outline-danger mt-2">View Wishlist</div> {% endcomment %}
                                 </div>
-                            </a> {% endcomment %}
-                            <form action="{% url 'account_logout' %}" method="post" class="card action-card border-0 h-100 text-decoration-none hover-scale">
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <form action="{% url 'account_logout' %}" method="post" class="card action-card border-0 h-100 text-decoration-none hover-scale" data-bs-toggle="tooltip" title="Logout">
                                 {% csrf_token %}
-                                <button type="submit" class="card-body text-center p-4 bg-transparent border-0">
+                                <button type="submit" class="card-body text-center p-4 bg-transparent border-0 w-100">
                                     <div class="action-icon bg-danger-light text-danger mb-3">
                                         <i class="fas fa-sign-out-alt"></i>
                                     </div>
                                     <h5 class="card-title mb-2">Logout</h5>
-                                    <p class="text-muted small">Sign out from your account</p>
+                                    <p class="text-muted small">Sign out of your account</p>
                                     <div class="btn btn-sm btn-outline-danger mt-2">Logout</div>
                                 </button>
                             </form>
-                        </div>
-                        <div class="col-md-4">
-                                    {% comment %} logout if coupon here {% endcomment %}
-
-                                </div>
-                            </a>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Modern Footer -->
                 <div class="card-footer text-center bg-transparent py-3 border-top-0">
-                    <small class="text-muted">© {% now "Y" %} Modex E-commerce Platform • Last login: {{ user.last_login|date:"d M Y H:i" }}</small>
+                    <small class="text-muted">
+                        <span>© {% now "Y" %} Modex E-commerce Platform</span>
+                        <span class="mx-2">•</span>
+                        <span>Last login: 
+                            <span class="text-primary">{{ user.last_login|date:"d M Y H:i" }}</span>
+                        </span>
+                    </small>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    // Enable Bootstrap tooltips
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    });
+</script>
 
 {% endblock %}

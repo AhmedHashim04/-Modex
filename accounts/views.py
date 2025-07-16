@@ -19,7 +19,7 @@ def profile_view(request):
             form.save()
     else:
         form = ProfileForm(instance=request.user.profile)
-    return render(request, 'account/profile.html', {'form': form})
+    return render(request, 'account/profile.html', {'profile': request.user.profile})
 
 @login_required
 def edit_profile(request):
@@ -28,7 +28,7 @@ def edit_profile(request):
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('accounts:profile')
     else:
         form = ProfileForm(instance=profile)
     return render(request, 'account/edit_profile.html', {'form': form})

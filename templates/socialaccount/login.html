@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+
+{% block title %}Login with Google - Modex{% endblock %}
+
+{% block content %}
+    <div class="auth-page">
+        <div class="auth-section">
+            <div class="container d-flex justify-content-center" style="z-index:2; min-height: 0vh;max-height: 50vh;">
+                <div class="bg-blur" style="max-width: 420px; width: 100%; padding: 2.5rem 1.5rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-heavy); margin-top: 3rem;">
+                    <div class="card border-0 shadow-none" style="background: transparent;">
+                        <h2 class="mb-3 text-center" style="color: hsl(var(--primary-color)); font-family: var(--font-sans); font-weight: 800; letter-spacing: -1px;">
+                            Welcome to Modex!
+                        </h2>
+                        <p class="mb-4 text-center" style="color: hsl(var(--text-secondary)); font-size: 1.08rem;">
+                            Sign in with your Google account to continue
+                        </p>
+                        <form method="post" action="" aria-label="Sign in with Google">
+                            {% csrf_token %}
+                            <button type="submit" class="social-btn google-btn w-100 d-flex align-items-center justify-content-center"  aria-label="Continue with Google">
+                            <svg width="22" height="22" viewBox="0 0 48 48" style="margin-right: 0.5rem;" aria-hidden="true" focusable="false">
+                                <g>
+                                <path fill="#4285F4" d="M44.5 20H24v8.5h11.7C34.9 33.1 30.1 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c2.7 0 5.2 0.9 7.2 2.5l6.4-6.4C33.7 5.1 29.1 3 24 3 12.9 3 4 11.9 4 23s8.9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-0.1-2.7-0.2-4z"/>
+                                <path fill="#34A853" d="M6.3 14.7l7 5.1C15.5 16.1 19.4 13 24 13c2.7 0 5.2 0.9 7.2 2.5l6.4-6.4C33.7 5.1 29.1 3 24 3c-7.2 0-13.3 4.1-16.7 10.1z"/>
+                                <path fill="#FBBC05" d="M24 43c5.1 0 9.7-1.7 13.2-4.7l-6.1-5c-2.1 1.4-4.8 2.2-7.1 2.2-6.1 0-11.2-4.1-13-9.6l-7 5.4C6.7 39 14.7 43 24 43z"/>
+                                <path fill="#EA4335" d="M44.5 20H24v8.5h11.7c-1.1 3.1-4.1 6.5-11.7 6.5-6.6 0-12-5.4-12-12s5.4-12 12-12c2.7 0 5.2 0.9 7.2 2.5l6.4-6.4C33.7 5.1 29.1 3 24 3c-11 0-20 9-20 20s9 20 20 20c11 0 19.7-8 19.7-20 0-1.3-0.1-2.7-0.2-4z"/>
+                                </g>
+                            </svg>
+                            <span style="font-weight: 600;">Continue with Google</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+  // Focus the Google button for keyboard users
+  window.addEventListener('DOMContentLoaded', function() {
+    var btn = document.querySelector('button.google-btn');
+    if (btn) btn.focus();
+  });
+</script>
+{% endblock %}

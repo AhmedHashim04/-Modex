@@ -53,23 +53,30 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "widget_tweaks",
 ]
-# <a href="{% provider_login_url 'google' %}">Login with Google</a>
-# <a href="{% provider_login_url 'facebook' %}">Login with Facebook</a>
-
-# تسجيل الدخول وتحويل الصفحة بعده
+# ✅ تسجيل الدخول وتحويل الصفحة بعده
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = 'check_profile_completion'
-
-ACCOUNT_AUTHENTICATION_METHOD = 'email'  # أو 'username_email'
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_LOGOUT_REDIRECT_URL = '/'
-ACCOUNT_EMAIL_REQUIRED = True
+
+# ✅ إعدادات allauth الجديدة (بدون تحذيرات)
+ACCOUNT_LOGIN_METHODS = {'email'}  # مطلوبها للتسجيل عبر Google
+ACCOUNT_SIGNUP_FIELDS = ['email*']  # لا يوجد باسورد لأن الدخول عبر Google فقط
+
+# ✅ إيقاف التسجيل المحلي
+ACCOUNT_ALLOW_REGISTRATION = False
+
+# ✅ لا نحتاج باسورد ولا username
+ACCOUNT_SIGNUP_FIELDS = ['email*']
+# ACCOUNT_USERNAME_REQUIRED = False
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+# ✅ استخدام الأدابتور الافتراضي (أو مخصص لو عايز تمنع مستخدمين جدد)
 ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
-ACCOUNT_ALLOW_REGISTRATION = True
-# ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'
+
+# ✅ تفعيل تسجيل الدخول تلقائيًا بعد تأكيد الإيميل (مش مهم هنا لأن التسجيل Google)
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 
 MIDDLEWARE = [
@@ -133,24 +140,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_PATH = BASE_DIR / "logs"
 LOG_PATH.mkdir(exist_ok=True)
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "file": {
-            "level": "INFO",
-            "class": "logging.FileHandler",
-            "filename": BASE_DIR / "logs/app.log",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["file"],
-            "level": "INFO",
-            "propagate": True,
-        },
-    },
-}
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "file": {
+#             "level": "INFO",
+#             "class": "logging.FileHandler",
+#             "filename": BASE_DIR / "logs/app.log",
+#         },
+#     },
+#     "loggers": {
+#         "django": {
+#             "handlers": ["file"],
+#             "level": "INFO",
+#             "propagate": True,
+#         },
+#     },
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

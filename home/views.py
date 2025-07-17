@@ -5,6 +5,8 @@ from product.models import Category, Product
 from features.models import Collection
 from home.models import FeaturedProduct, FeaturedCollection
 from django.db.models import Avg
+from django.utils.translation import gettext as _
+from django.db.models import Count
 
 
 class HomeView(TemplateView):
@@ -15,22 +17,67 @@ class HomeView(TemplateView):
         data = cache.get('home_data')
         cache.clear()
         if not data:
-            data = {
-                'newCollections': Collection.objects.filter(is_active=True)[:3],
-                'randomCollections': Collection.objects.filter(is_active=True)[:9],
-                'mainCategories': Category.objects.filter(parent__isnull=True),
-                'subCategories': Category.objects.filter(parent__isnull=False),
-                'topRatedProducts': Product.objects.order_by('-overall_rating')[:20],
-                'newProducts': Product.objects.order_by('-created_at')[:30],
-                'featuredProducts': FeaturedProduct.objects.order_by('-created_at')[:4],
-                'featuredCollections': FeaturedCollection.objects.order_by('-created_at')[:4],
-                'trendingProducts': Product.objects.filter(trending=True)[:20],
-                'recommendedProducts': Product.objects.annotate(avg_rating=Avg('reviews__rating'))
-                    .order_by('-avg_rating')[:12],
+          
 
-                'randomProducts': Product.objects.order_by('?')[:20],
-                'randomProduct' : Product.objects.order_by('?').first()
+            data = {
+                # القسم الأول: العروض والإعلانات الكبيرة
+                'main_banners': FeaturedCollection.objects.filter(is_active=True).order_by('order')[:3],
+                
+                # الأقسام الرئيسية
+                'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct()[:8],
+                
+                # المنتجات المميزة (مع إمكانية التخصيص)
+                'featured_products_section': {
+                    'title': _("Featured Products"),
+                    'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:8],
+                    'layout': 'carousel'  # يمكن أن يكون 'grid' أو 'carousel'
+                },
+                
+                # أحدث المنتجات
+                'new_products_section': {
+                    'title': _("New Arrivals"),
+                    'products': Product.objects.filter(is_available=True).order_by('-created_at').select_related('category')[:12],
+                    'layout': 'grid'
+                },
+                
+                # الأكثر تقييماً
+                'top_rated_section': {
+                    'title': _("Top Rated"),
+                    'products': Product.objects.filter(is_available=True, overall_rating__gte=4).order_by('-overall_rating')[:12],
+                    'layout': 'carousel'
+                },
+                
+                # العروض الخاصة
+                'discounts_section': {
+                    'title': _("Hot Deals"),
+                    'products': Product.objects.filter(is_available=True, discount__gte=15).order_by('-discount')[:8],
+                    'layout': 'carousel'
+                },
+                
+                # المجموعات المميزة
+                'collections_section': {
+                    'title': _("Our Collections"),
+                    'collections': Collection.objects.filter(is_active=True).annotate(
+                        product_count=Count('products')
+                    ).filter(product_count__gt=0).order_by('-created_at')[:6],
+                    'layout': 'grid'
+                },
+                
+                # # قسم المدونة أو المحتوى (إن وجد)
+                # 'blog_section': {
+                #     'title': _("Latest News"),
+                #     'posts': BlogPost.objects.filter(is_published=True).order_by('-published_at')[:3]
+                # },
+                
+                # قسم العلامات التجارية (إن وجد)
+                # 'brands_section': {
+                #     'title': _("Our Brands"),
+                #     'brands': Brand.objects.annotate(
+                #         product_count=Count('products')
+                #     ).filter(product_count__gt=0).order_by('?')[:12]
+                # }
             }
+
             cache.set('home_data', data, 60 * 60 * 24)  # Cache for 1 day
             
         context['data'] = data

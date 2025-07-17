@@ -28,20 +28,19 @@ def contexts(request):
         wishlist = cache.get(wishlist_cache_key)
 
         if profile is None:
-            from accounts.models import Profile  # import هنا عشان ميعملش مشاكل لو الملف مش متاح
             try:
                 profile = Profile.objects.get(user=request.user.id)
                 cache.set(profile_cache_key, profile, 60 * 60 * 6)  # كاش 6 ساعات
             except Profile.DoesNotExist:
                 profile = None
 
-        # if wishlist is None and profile is not None:
-            # wishlist = profile.wishlist.all()
-            # cache.set(wishlist_cache_key, wishlist, 60 * 60 * 2)  # كاش ساعتين
+        if wishlist is None and profile is not None:
+            wishlist = profile.wishlist.all()
+            cache.set(wishlist_cache_key, wishlist, 60 * 60 * 2)  # كاش ساعتين
 
     context = {
         "contextCategories": categories,
-        # "contextBrands" : brands,
+        "contextWishlist": wishlist,
         "contextCart": cart.cart.keys(),
         "total_cart_price": cart.get_total_price_after_discount(),
         "total_cart_items": len(cart.cart.keys()),

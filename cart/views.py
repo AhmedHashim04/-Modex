@@ -11,32 +11,64 @@ from .cart import Cart as ShoppingCart
 
 logger = logging.getLogger(__name__)
 
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+from django.middleware.csrf import get_token
 
 @require_POST
 def cart_add(request, slug):
     cart = ShoppingCart(request)
     product = get_object_or_404(Product, slug=slug)
-    referer_url = request.META.get("HTTP_REFERER", reverse("cart:cart_list"))
-
-    if not url_has_allowed_host_and_scheme(
-        referer_url, allowed_hosts={request.get_host()}
-    ):
-        referer_url = reverse("cart:cart_list")
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     try:
         quantity = int(request.POST.get("quantity", 1))
         if quantity <= 0:
             raise ValueError
     except (ValueError, TypeError):
-        messages.error(request, "Invalid quantity specified")
+        message = "Invalid quantity specified"
+        if is_ajax:
+            return JsonResponse({
+                'success': False, 
+                'message': message,
+                'new_csrf_token': get_token(request)
+            })
+        messages.error(request, message)
         return redirect(referer_url)
 
     if not (product.is_available and product.is_in_stock):
-        messages.warning(request, f"{product.name} is currently unavailable")
+        message = f"{product.name} is currently unavailable"
+        if is_ajax:
+            return JsonResponse({
+                'success': False, 
+                'message': message,
+                'new_csrf_token': get_token(request)
+            })
+        messages.warning(request, message)
         return redirect(referer_url)
 
     cart.add(product=product, quantity=quantity)
-    messages.success(request, f"{product.name} added to cart successfully")
+    message = f"{product.name} added to cart successfully"
+    
+    if is_ajax:
+        context = {
+            'product': product,
+            'contextCart': cart.cart,
+            'user': request.user
+        }
+        updated_html = render_to_string('product/partials/product_card.html', context)
+        return JsonResponse({
+            'success': True,
+            'message': message,
+            'updated_html': updated_html,
+            'new_csrf_token': get_token(request),
+            'cart_count': cart.__len__()
+        })
+    
+    messages.success(request, message)
+    referer_url = request.META.get("HTTP_REFERER", reverse("cart:cart_list"))
+    if not url_has_allowed_host_and_scheme(referer_url, allowed_hosts={request.get_host()}):
+        referer_url = reverse("cart:cart_list")
     return redirect(referer_url)
 
 
@@ -44,17 +76,31 @@ def cart_add(request, slug):
 def cart_remove(request, slug):
     cart = ShoppingCart(request)
     product = get_object_or_404(Product, slug=slug)
-
-    referer_url = request.META.get("HTTP_REFERER", reverse("cart:cart_list"))
-    if not url_has_allowed_host_and_scheme(
-        referer_url, allowed_hosts={request.get_host()}
-    ):
-        referer_url = reverse("cart:cart_list")
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
 
     cart.remove(product)
-    messages.success(request, f"{product.name} removed from cart successfully")
+    message = f"{product.name} removed from cart successfully"
+    
+    if is_ajax:
+        context = {
+            'product': product,
+            'contextCart': cart.cart,
+            'user': request.user
+        }
+        updated_html = render_to_string('product/partials/product_card.html', context)
+        return JsonResponse({
+            'success': True,
+            'message': message,
+            'updated_html': updated_html,
+            'new_csrf_token': get_token(request),
+            'cart_count': cart.__len__()
+        })
+    
+    messages.success(request, message)
+    referer_url = request.META.get("HTTP_REFERER", reverse("cart:cart_list"))
+    if not url_has_allowed_host_and_scheme(referer_url, allowed_hosts={request.get_host()}):
+        referer_url = reverse("cart:cart_list")
     return redirect(referer_url)
-
 
 @require_POST
 def cart_clear(request):

@@ -1,0 +1,82 @@
+<section class="col-lg-9">
+    <!-- Active Filters -->
+    {% if search_query or selected_category or selected_brand or min_price or max_price or sort_by %}
+    <div class="card mb-4 border-0 glass-card shadow-sm">
+        <div class="card-body py-2">
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <small class="text-muted me-2">Active filters:</small>
+                {% if search_query %}
+                <span class="badge bg-light text-dark glass-badge">
+                    Search: "{{ search_query }}"
+                    <a href="?{% querystring request.GET search='' %}" class="text-danger ms-1">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </span>
+                {% endif %}
+                {% if selected_category %}
+                <span class="badge bg-light text-dark glass-badge">
+                    Category: {{ selected_category }}
+                    <a href="?{% querystring request.GET category='' %}" class="text-danger ms-1">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </span>
+                {% endif %}
+                {% if selected_brand %}
+                <span class="badge bg-light text-dark glass-badge">
+                    Brand: {{ selected_brand }}
+                    <a href="?{% querystring request.GET brand='' %}" class="text-danger ms-1">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </span>
+                {% endif %}
+                {% if min_price %}
+                <span class="badge bg-light text-dark glass-badge">
+                    Min: {{ min_price }}
+                    <a href="?{% querystring request.GET min_price='' %}" class="text-danger ms-1">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </span>
+                {% endif %}
+                {% if max_price %}
+                <span class="badge bg-light text-dark glass-badge">
+                    Max: {{ max_price }}
+                    <a href="?{% querystring request.GET max_price='' %}" class="text-danger ms-1">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </span>
+                {% endif %}
+                {% if sort_by %}
+                <span class="badge bg-light text-dark glass-badge">
+                    Sorted by: {{ sort_by|title }}
+                    <a href="?{% querystring request.GET sort_by='' %}" class="text-danger ms-1">
+                        <i class="fas fa-times"></i>
+                    </a>
+                </span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div id="productsContainer" class="row {% if view_mode == 'grid' %}row-cols-1 row-cols-sm-2 row-cols-md-3 g-4{% else %}gy-4{% endif %}">
+        {% for product in products %}
+            <div class="{% if view_mode == 'list' %}col-12{% else %}col{% endif %}">
+                <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect {% if view_mode == 'list' %}flex-row{% endif %}">
+                {% include "product/partials/product_card.html" %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if not products %}
+        <div class="text-center py-5 glass-card rounded-4 p-5">
+            <i class="fas fa-search fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">No products found</h4>
+            <p class="text-muted">Try adjusting your search criteria or filters.</p>
+            <a href="{% url 'product:product_list' %}" class="btn btn-primary rounded-pill mt-3">
+                <i class="fas fa-undo me-1"></i> Reset Search
+            </a>
+        </div>
+    {% endif %}
+
+</section>

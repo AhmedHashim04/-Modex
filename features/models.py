@@ -6,18 +6,6 @@ from django.db import models
 from django.utils.text import slugify
 from django.contrib.auth.models import User
 
-class Wishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey("product.Product", on_delete=models.CASCADE)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = "Wishlist"
-        verbose_name_plural = "Wishlists"
-        unique_together = ('user', 'product')  
-
-    def __str__(self):
-        return f"{self.user} ♥ {self.product}"
 
 class ProductImage(models.Model):
     product = models.ForeignKey(

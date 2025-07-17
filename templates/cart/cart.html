@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% load socialaccount %}
 
 {% comment %} {% block title %}Your Cart Trader - Your Ultimate Shopping Destination{% endblock %} {% endcomment %}
@@ -142,7 +142,7 @@
                         </div>
                         <h5 class="mb-3">Your Cart is Empty</h5>
                         <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
-                        <a href="{% url 'product:products_list' %}" class="btn btn-primary rounded-pill hover-scale px-4">
+                        <a href="{% url 'product:product_list' %}" class="btn btn-primary rounded-pill hover-scale px-4">
                             <i class="fas fa-shopping-bag me-2"></i>Start Shopping
                         </a>
                     </div>
@@ -243,69 +243,6 @@
                     </div>
                     
                     {% if request.user.is_authenticated %}
-                    {% comment %} <div class="mt-4">
-                        {% if request.session.coupon_code %}
-                        <div class="alert alert-success coupon-alert btn-secondary " style="border-left: 4px solid #28a745; border-radius: 0; background-color: #f8f9fa; color: #212529;">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <i class="fas fa-tag mr-2" style="color: #28a745;"></i>
-                                    <strong style="font-size: 1.1em;">{{ request.session.coupon_code }}</strong> applied successfully!
-                                </div>
-                                <a href="{% url 'coupon:remove_coupon' %}" class="btn btn-sm btn-outline-danger">
-                                    <i class="fas fa-times"></i> Remove
-                                </a>
-                            </div>
-                            
-                            <div class="coupon-details mt-2" style="display: flex; gap: 15px; flex-wrap: wrap;">
-                                
-                                <div class="detail-item" style="background: white; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                                    <div style="font-size: 0.8em; color: #6c757d;">Discount</div>
-                                    <div style="font-weight: bold; color: #dc3545;">{% if request.session.discount_type == 'percent' %}{{ request.session.coupon_amount|floatformat:2 }}%{% else %}-{{ request.session.coupon_amount|floatformat:2 }}{% endif %}</div>
-                                </div>
-                                
-                                <div class="detail-item" style="background: #e8f5e9; padding: 8px 12px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                                    <div style="font-size: 0.8em; color: #6c757d;">New Total</div>
-                                    <div style="font-weight: bold; color: #28a745;">
-                                        {{ request.session.coupon_discount|floatformat:2 }}
-                                        <span style="font-size: 0.8em; color: #6c757d;">+Tax</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                        
-                        <style>
-                            .coupon-alert {
-                                transition: all 0.3s ease;
-                            }
-                            .coupon-alert:hover {
-                                box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-                            }
-                            .detail-item {
-                                transition: transform 0.2s ease;
-                            }
-                            .detail-item:hover {
-                                transform: translateY(-2px);
-                            }
-                        </style>
-                        {% else %}
-                        <h6 class="fw-bold mb-3">
-                            <i class="fas fa-tag me-2"></i>Promo Code
-                        </h6>
-                        <form method="post" action="{% url 'coupon:apply_coupon' %}">
-                            {% csrf_token %}
-                            <div class="input-group">
-                                <input type="text" name="code" class="form-control rounded-start-pill" 
-                                        placeholder="Enter promo code" required>
-                                <button class="btn btn-outline-primary rounded-end-pill hover-scale" type="submit">
-                                    Apply
-                                </button>
-                            </div>
-                        </form>
-                        <br>
-
-                    </div>
-                        {% endif %} {% endcomment %}
                         {% endif %}
                     <div class="d-grid gap-2">
                         {% if user.is_authenticated %}
@@ -319,12 +256,11 @@
                             <i class="fas fa-sign-in-alt me-2"></i>Login to Checkout
                         </a>
                         {% endif %}
-                        <a href="{% url 'product:products_list' %}" 
+                        <a href="{% url 'product:product_list' %}" 
                             class="btn btn-outline-secondary rounded-pill hover-scale">
                             <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
                         </a>
                     </div>
-                    <!-- Promo Code -->
                 </div>
             </div>
         </div>

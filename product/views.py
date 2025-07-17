@@ -174,15 +174,27 @@ class ProductListView(ListView):
         # Get validated pagination values
         paginate_by = self.get_paginate_by()
         page_obj = context['page_obj']
-        
+        paginator = context.get('paginator')
+
+        # Ensure paginator and page_obj are present
+        if not paginator or not page_obj:
+            queryset = context.get('products') or self.get_queryset()
+            paginator = Paginator(queryset, paginate_by)
+            page_number = self.request.GET.get('page')
+            page_obj = paginator.get_page(page_number)
+            context['paginator'] = paginator
+            context['page_obj'] = page_obj
+            context['products'] = page_obj.object_list
+
+
         context.update({
             'categories': cache.get_or_set('all_categories', lambda: Category.objects.prefetch_related('products').all(), CACHE_TIMEOUT_PRODUCTS),
             'featured_collections': cache.get_or_set('collections', lambda: Collection.objects.all(), CACHE_TIMEOUT_PRODUCTS),
             'tags': cache.get_or_set('all_tags', lambda: Tag.objects.all(), CACHE_TIMEOUT_PRODUCTS),
-            
-    # These are the filter and sort values currently applied by the user,
-    # used by the frontend to display the selected filters and sorting options
-    # after a search or filter/sort action, ensuring the UI reflects the user's choices.
+                    
+            # These are the filter and sort values currently applied by the user,
+            # used by the frontend to display the selected filters and sorting options
+            # after a search or filter/sort action, ensuring the UI reflects the user's choices.
 
             'selected_filter': filters['search'],
             'selected_category': filters['category'],

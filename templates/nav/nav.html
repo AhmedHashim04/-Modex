@@ -2,6 +2,7 @@
     <!-- B. Main navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark modex-navbar">
         <div class="container-fluid px-4">
+
             <!-- Logo -->
             <a class="navbar-brand d-flex align-items-center modex-navbar-brand modex-navbar-brand-hover" href="{% url 'home' %}">
                 <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Modex Logo" width="40" class="me-2 modex-navbar-logo">
@@ -12,10 +13,10 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modexNavbar" aria-controls="modexNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            
+
             <!-- Navbar Content -->
             <div class="collapse navbar-collapse" id="modexNavbar">
-                <form class="d-flex mx-lg-4 flex-grow-1 modex-navbar-search-form" action="{% url 'product:products_list' %}" method="GET">
+                <form class="d-flex mx-lg-4 flex-grow-1 modex-navbar-search-form" action="{% url 'product:product_list' %}" method="GET">
                     <div class="input-group input-group-lg w-100">
                         <select class="form-select modex-navbar-search-select" name="category">
                             <option value="" {% if not selected_category %}selected{% endif %}>All</option>
@@ -29,7 +30,7 @@
                         </button>
                     </div>
                 </form>
-                
+
                 <form class="d-flex align-items-center mx-sm-4 modex-lang-form">
                     <select class="form-select modex-navbar-lang-select trendy-lang-select lang-hover-effect" aria-label="Language select">
                         <option value="ar">🇪🇬 العربية</option>

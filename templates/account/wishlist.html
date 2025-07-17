@@ -1,9 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
 {% block title %}Your Wishlist Trader - Your Ultimate Shopping Destination{% endblock %}
-
-
 
 {% block content %}
 
@@ -37,12 +35,12 @@
 
 <section class="wishlist-content py-5">
     <div class="container">
-        {% if wishlist_products %}
+        {% if contextWishlist %}
         <div class="wishlist-controls mb-4">
             <div class="row align-items-center">
                 <div class="col-md-6">
                     <div class="wishlist-actions">
-                        <a href="{% url 'product:clear_wishlist' %}" class="btn btn-outline-primary me-2">
+                        <a href="{% url 'accounts:clear_wishlist' %}" class="btn btn-outline-primary me-2">
                             <i class="fas fa-trash me-1"></i>Clear All
                         </a>
                     </div>
@@ -51,12 +49,10 @@
         </div>
 
         <div id="wishlistItems" class="wishlist-items row">
-            {% for product in wishlist_products %}
+            {% for product in contextWishlist %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card wishlist-card h-100">
-                    <a href="{% url 'product:add_remove_wishlist' product.slug %}" class="remove-from-wishlist" title="Remove from wishlist">
-                        <i class="fas fa-times"></i>
-                    </a>
+                    {% include "product/partials/wishlist_button.html" %}
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
                     {% else %}
@@ -118,7 +114,7 @@
             </div>
             <h3 class="mb-3">Your wishlist is empty</h3>
             <p class="text-muted mb-4">Start adding your favorite products to create your perfect wishlist.</p>
-            <a href="{% url 'product:products_list' %}" class="btn btn-primary btn-lg">
+            <a href="{% url 'product:product_list' %}" class="btn btn-primary btn-lg">
                 <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
             </a>
         </div>

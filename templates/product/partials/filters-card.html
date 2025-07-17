@@ -47,21 +47,6 @@
                 </select>
             </div>
 
-            <!-- Brand Filter -->
-            <div class="filter-group mb-3">
-                <label for="brand" class="filter-label fw-bold text-dark">
-                    <i class="fas fa-copyright me-2"></i>Brand
-                </label>
-                <select name="brand" id="brand" class="btn-outline-primary text-secondary form-select rounded-pill">
-                    <option value="">All Brands</option>
-                    {% for brand in brands %}
-                        <option class="btn-outline-primary text-primary " value="{{ brand.slug }}" {% if selected_brand == brand.slug %}selected{% endif %}>
-                            {{ brand.name }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
-
             <!-- Price Range Filter -->
             <div class="filter-group mb-3">
                 <label class="filter-label fw-bold text-dark">
@@ -131,7 +116,7 @@
                 <button type="submit" class="btn btn-primary w-100 apply-btn rounded-pill shadow-primary">
                     <i class="fas fa-filter me-2"></i>Apply Filters
                 </button>
-                <a href="{% url 'product:products_list' %}" class="btn btn-outline-secondary w-100 mt-2 reset-btn rounded-pill">
+                <a href="{% url 'product:product_list' %}" class="btn btn-outline-secondary w-100 mt-2 reset-btn rounded-pill">
                     <i class="fas fa-undo me-2"></i>Reset
                 </a>
             </div>

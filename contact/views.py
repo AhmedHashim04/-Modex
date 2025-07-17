@@ -9,7 +9,7 @@ from .forms import EmailForm
 
 class SendEmailView(FormView):
     form_class = EmailForm
-    template_name = "contact.html"
+    template_name = "contact/contact.html"
     success_url = reverse_lazy("home:home")
 
     def form_valid(self, form):

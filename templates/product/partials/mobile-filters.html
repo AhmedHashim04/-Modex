@@ -10,15 +10,15 @@
     <div class="offcanvas-body glass-bg">
         <form method="get" id="mobileFiltersForm" class="vstack gap-3">
             <div>
-                <label for="mobileSearch" class="form-label text-light">Search</label>
+                <label for="mobileSearch" class="form-label text-danger">Search</label>
                 <div class="input-group">
-                    <span class="input-group-text bg-transparent text-light"><i class="fas fa-search"></i></span>
+                    <span class="input-group-text bg-transparent text-danger"><i class="fas fa-search"></i></span>
                     <input type="text" name="search" id="mobileSearch" value="{{ search_query }}" 
                             class="form-control rounded-pill glass-input" placeholder="Search products...">
                 </div>
             </div>
             <div>
-                <label for="mobileCategory" class="form-label text-light">Category</label>
+                <label for="mobileCategory" class="form-label text-danger">Category</label>
                 <select name="category" id="mobileCategory" class="form-select rounded-pill glass-input">
                     <option value="">All Categories</option>
                     {% for cat in categories %}
@@ -28,37 +28,26 @@
                     {% endfor %}
                 </select>
             </div>
-            <div>
-                <label for="mobileBrand" class="form-label text-light">Brand</label>
-                <select name="brand" id="mobileBrand" class="form-select rounded-pill glass-input">
-                    <option value="">All Brands</option>
-                    {% for brand in brands %}
-                        <option value="{{ brand.slug }}" {% if selected_brand == brand.slug %}selected{% endif %}>
-                            {{ brand.name }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
             <div class="row">
                 <div class="col">
-                    <label for="mobileMinPrice" class="form-label text-light">Min Price</label>
+                    <label for="mobileMinPrice" class="form-label text-danger">Min Price</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent text-light">Min</span>
+                        <span class="input-group-text bg-transparent text-danger">Min</span>
                         <input type="number" name="min_price" id="mobileMinPrice" value="{{ min_price }}" 
                                step="0.01" class="form-control rounded-pill glass-input" placeholder="0.00">
                     </div>
                 </div>
                 <div class="col">
-                    <label for="mobileMaxPrice" class="form-label text-light">Max Price</label>
+                    <label for="mobileMaxPrice" class="form-label text-danger">Max Price</label>
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent text-light">Max</span>
+                        <span class="input-group-text bg-transparent text-danger">Max</span>
                         <input type="number" name="max_price" id="mobileMaxPrice" value="{{ max_price }}" 
                                step="0.01" class="form-control rounded-pill glass-input" placeholder="1000.00">
                     </div>
                 </div>
             </div>
             <div>
-                <label for="mobileSortBy" class="form-label text-light">Sort by</label>
+                <label for="mobileSortBy" class="form-label text-danger">Sort by</label>
                 <select name="sort_by" id="mobileSortBy" class="form-select rounded-pill glass-input">
                     <option value="">Default</option>
                     <option value="price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
@@ -70,12 +59,12 @@
             <div class="d-flex justify-content-between align-items-end">
                 <div class="btn-group glass-btn-group">
                     <input type="hidden" name="view_mode" id="mobileViewModeInput" value="{{ view_mode }}">
-                    <button type="button" class="btn btn-outline-light {% if view_mode == 'grid' %}active{% endif %}" 
-                            onclick="setMobileViewMode('grid')" data-bs-toggle="tooltip" title="Grid View">
+                    <button type="button" class="btn btn-outline-danger {% if view_mode == 'grid' %}active{% endif %}" 
+                            onclick="setViewMode('grid')" data-bs-toggle="tooltip" title="Grid View">
                         <i class="fas fa-th"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-light {% if view_mode == 'list' %}active{% endif %}" 
-                            onclick="setMobileViewMode('list')" data-bs-toggle="tooltip" title="List View">
+                    <button type="button" class="btn btn-outline-danger {% if view_mode == 'list' %}active{% endif %}" 
+                            onclick="setViewMode('list')" data-bs-toggle="tooltip" title="List View">
                         <i class="fas fa-list"></i>
                     </button>
                 </div>
@@ -89,7 +78,7 @@
                 <button type="submit" class="btn btn-primary rounded-pill shadow-primary" data-bs-dismiss="offcanvas">
                     <i class="fas fa-filter me-1"></i> Apply Filters
                 </button>
-                <a href="{% url 'product:products_list' %}" class="btn btn-outline-light rounded-pill">
+                <a href="{% url 'product:product_list' %}" class="btn btn-outline-danger rounded-pill">
                     <i class="fas fa-undo me-1"></i> Reset
                 </a>
             </div>

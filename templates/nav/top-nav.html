@@ -10,10 +10,10 @@
                 <span class="d-none d-sm-inline">{{ request.user.username }}</span>
             </a>
             <!-- Wishlist -->
-            <a href="{% url 'features:wishlist' %}" class="manage-nav-link d-flex align-items-center">
+            <a href="{% url 'accounts:wishlist' %}" class="manage-nav-link d-flex align-items-center">
                 <i class="fas fa-heart me-1"></i>
                 <span class="d-none d-sm-inline">Wishlist</span>
-                <span class="badge bg-danger ms-1">{{ contextWishlist|length }}</span>
+                {% comment %} <span class="badge bg-danger ms-1" id="wishlist-count" >{{ contextWishlist|length }}</span> {% endcomment %}
             </a>
             {% else %}
             <div class="d-flex align-items-center gap-2">
@@ -37,7 +37,7 @@
             </a>
             
             <!-- Shop -->
-            <a href="{% url 'product:products_list' %}" class="manage-nav-link d-flex align-items-center">
+            <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex align-items-center">
                 <i class="fas fa-store me-1"></i>
                 <span class="d-none d-sm-inline">Shop</span>
             </a>

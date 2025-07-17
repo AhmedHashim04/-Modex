@@ -36,12 +36,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(max_length=15, blank=True)
     address = models.TextField(blank=True)
-    governorate = models.CharField(
-        max_length=10,
-        choices=EGYPT_GOVERNORATES,
-        blank=True,
-        verbose_name="المحافظة"
-    )
+    governorate = models.CharField(max_length=10,choices=EGYPT_GOVERNORATES,blank=True,verbose_name="المحافظة")
+    wishlist = models.ManyToManyField('product.Product', blank=True, related_name='wishlists')
 
     def __str__(self):
         return self.user.username

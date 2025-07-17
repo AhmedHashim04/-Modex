@@ -1,4 +1,4 @@
-{% if product.slug not in contextCart or not user.is_authenticated %}
+{% if product.slug not in contextCart %}
     <form method="POST" action="{% url 'cart:cart_add' product.slug %}" class="d-flex align-items-center flex-nowrap w-100" id="add-to-cart-form-{{ product.slug }}">
         {% csrf_token %}
         <div class="quantity-control d-flex align-items-center flex-shrink-0" style="width: 90px; min-width: 90px;">

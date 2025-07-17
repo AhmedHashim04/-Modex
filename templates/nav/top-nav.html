@@ -28,14 +28,56 @@
             {% endif %}
             
             <!-- Cart -->
-            <a href="{% url 'cart:cart_list' %}" class="manage-nav-link d-flex align-items-center position-relative">
-                <i class="fas fa-shopping-cart me-1"></i>
-                <span class="d-none d-sm-inline">Cart</span>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark cart-pulse" id="manageNavCartCount">
-                    {{ total_cart_items }}
+            <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center position-relative cart-advanced-link" id="cart-link">
+                <i class="fas fa-shopping-cart me-1 fs-5"></i>
+                <span class="d-none d-sm-inline fw-semibold">
+                    Cart 
+                    <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
+                        {{ request.cart.total_quantity|default:"Modex" }}
+                    </span>
                 </span>
             </a>
-            
+
+
+<script>
+// تحميل العداد فور ظهور الصفحة (حل مشكلة الـ 0 المؤقت)
+document.addEventListener('DOMContentLoaded', function() {
+    // حل سريع: إعادة طلب العدد من الخادم
+    fetchCartCount();
+});
+
+async function fetchCartCount() {
+    try {
+        const response = await fetch('{% url "cart:cart_count_api" %}');
+        const data = await response.json();
+        updateCartCounter(data.count || 0);
+    } catch (error) {
+        console.error("Failed to load cart count:", error);
+    }
+}
+</script>
+
+<script>
+// دالة لتحديث عداد السلة في النافبار
+function updateCartCounter(count) {
+    const counters = document.querySelectorAll('.cart-counter');
+    counters.forEach(counter => {
+        // إضافة تأثير عند التغيير فقط
+        if (parseInt(counter.textContent) !== count) {
+            counter.classList.add('counter-update');
+            setTimeout(() => {
+                counter.classList.remove('counter-update');
+            }, 500);
+        }
+        counter.textContent = count;
+    });
+}
+
+// ربط مع أحداث التحديث
+document.addEventListener('cartUpdated', function(e) {
+    updateCartCounter(e.detail.count);
+});
+</script>       
             <!-- Shop -->
             <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex align-items-center">
                 <i class="fas fa-store me-1"></i>

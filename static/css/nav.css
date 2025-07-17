@@ -178,9 +178,9 @@
     padding-bottom: 0.5rem;
     font-size: 1.25rem;
 }
-#manageNavCartCount {
+/* #manageNavCartCount {
     font-size: 0.75rem;
-}
+} */
 #modexCurrentTime {
     color: hsl(var(--tertiary-color));
 }
@@ -220,10 +220,10 @@
         font-size: 1.3rem !important;
         margin-right: 0 !important;
     }
-    #manageNavCartCount {
+    /* #manageNavCartCount {
         left: 60% !important;
         top: 0 !important;
-    }
+    } */
 }
 
 /* Subnav */

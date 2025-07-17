@@ -35,85 +35,124 @@ function getCookie(name) {
     return cookieValue;
 }
 
+// دالة لتحديث عداد السلة
+function updateCartIndicator(count) {
+    // تحديث جميع عدادات السلة في الصفحة
+    const cartCounters = document.querySelectorAll('.cart-counter');
+    cartCounters.forEach(counter => {
+        const prevCount = parseInt(counter.textContent || 0);
+        counter.textContent = count;
+        
+        // إضافة تأثير إذا زاد العدد
+        if (count > prevCount) {
+            animateCartIcon();
+        }
+    });
+}
+
+// دالة لإضافة تأثير على أيقونة السلة
+function animateCartIcon() {
+    const cartIcon = document.querySelector('#cart-link i.fa-shopping-cart');
+    if (cartIcon) {
+        cartIcon.classList.add('animate-bounce');
+        setTimeout(() => {
+            cartIcon.classList.remove('animate-bounce');
+        }, 1000);
+    }
+}
+
+// دالة لمعالجة إرسال النموذج
+async function handleCartFormSubmit(form, actionType) {
+    const formData = new FormData(form);
+    const csrfToken = getCookie('csrftoken');
+    
+    try {
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': csrfToken
+            },
+            credentials: 'include'
+        });
+
+        if (!response.ok) throw new Error('Network response was not ok');
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // تحديث واجهة المنتج
+            const productContainer = form.closest('.product-container') || form.closest('.card');
+            if (productContainer && data.updated_html) {
+                productContainer.innerHTML = data.updated_html;
+                initializeCartForms();
+            }
+            
+            // تحديث عداد السلة
+            if (data.cart_count !== undefined) {
+                updateCartIndicator(data.cart_count);
+            }
+            
+            showToast(data.message, 'success');
+        } else {
+            showToast(data.message || 'حدث خطأ ما', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('حدث خطأ في الاتصال بالخادم', 'error');
+    }
+}
+
+// دالة لعرض الرسائل
+function showToast(message, type) {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type} position-fixed bottom-0 end-0 m-3`;
+    toast.innerHTML = `
+        <div class="d-flex align-items-center">
+            <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+            <span>${message}</span>
+        </div>
+    `;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+}
+
+// تهيئة النماذج عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     initializeCartForms();
 });
 
+// ربط أحداث النماذج
 function initializeCartForms() {
-    // معالجة إضافة المنتج إلى السلة
-    document.querySelectorAll('[id^="add-to-cart-form-"]').forEach(form => {
+    document.querySelectorAll('[id^="add-to-cart-form-"], [id^="remove-from-cart-form-"]').forEach(form => {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            handleCartFormSubmit(this, 'add');
+            const actionType = this.id.startsWith('add') ? 'add' : 'remove';
+            handleCartFormSubmit(this, actionType);
         });
     });
-
-    // معالجة إزالة المنتج من السلة
-    document.querySelectorAll('[id^="remove-from-cart-form-"]').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            handleCartFormSubmit(this, 'remove');
-        });
-    });
-}
-
-function handleCartFormSubmit(form, actionType) {
-    const formData = new FormData(form);
-    const csrfToken = getCookie('csrftoken');
-    
-    fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            'X-CSRFToken': csrfToken
-        },
-        credentials: 'include' // مهم لإرسال الكوكيز
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.success) {
-            // تحديث الواجهة
-            const productContainer = form.closest('.product-container') || form.closest('.card');
-            if (productContainer && data.updated_html) {
-                productContainer.innerHTML = data.updated_html;
-                initializeCartForms(); // إعادة ربط الأحداث للنماذج الجديدة
-            }
-            
-            showToast(data.message, 'success');
-            
-            // تحديث عداد السلة إذا كان موجوداً
-            if (data.cart_count !== undefined) {
-                updateCartCount(data.cart_count);
-            }
-        } else {
-            showToast(data.message || 'حدث خطأ ما', 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showToast('حدث خطأ في الاتصال بالخادم', 'error');
-    });
-}
-
-function updateCartCount(count) {
-    const cartCountElements = document.querySelectorAll('.cart-count');
-    cartCountElements.forEach(el => {
-        el.textContent = count;
-    });
-}
-
-function showToast(message, type) {
-    // يمكنك استخدام مكتبة مثل Toastify.js أو SweetAlert2 لعرض رسائل أجمل
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
 }
 </script>
+
+<style>
+.animate-bounce {
+    animation: bounce 0.5s;
+}
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+.toast {
+    padding: 12px 16px;
+    border-radius: 4px;
+    color: white;
+    z-index: 1000;
+}
+.toast-success {
+    background-color: #28a745;
+}
+.toast-error {
+    background-color: #dc3545;
+}
+</style>

@@ -50,11 +50,15 @@ def cart_add(request, slug):
     cart.add(product=product, quantity=quantity)
     message = f"{product.name} added to cart successfully"
     
+
+
+
     if is_ajax:
         context = {
             'product': product,
             'contextCart': cart.cart,
             'user': request.user
+            
         }
         updated_html = render_to_string('product/partials/product_card.html', context)
         return JsonResponse({
@@ -71,6 +75,10 @@ def cart_add(request, slug):
         referer_url = reverse("cart:cart_list")
     return redirect(referer_url)
 
+def cart_count(request):
+    cart = ShoppingCart(request)
+    count = cart.__len__()
+    return JsonResponse({'count': count})
 
 @require_POST
 def cart_remove(request, slug):

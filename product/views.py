@@ -215,7 +215,7 @@ class ProductListView(ListView):
         })
         return context
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
+class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/product_detail.html'
     context_object_name = 'product'

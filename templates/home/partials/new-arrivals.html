@@ -1,0 +1,21 @@
+{% load i18n %}
+
+{% if new_products_section.products %}
+<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
+    <div class="section-header">
+        <h2 class="section-title">{{ new_products_section.title }}</h2>
+        <p class="section-subtitle">{% trans 'Discover the latest products that have arrived at our store' %}</p>
+    </div>
+    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
+        {% for product in new_products_section.products %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
+                            {% include "product/partials/product_card.html" %}
+                    </div>
+                </div>
+
+        {% endfor %}
+    </div>
+    
+</section>
+{% endif %}

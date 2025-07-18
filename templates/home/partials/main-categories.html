@@ -1,0 +1,63 @@
+{% load i18n %}
+
+{% if main_categories %}
+<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
+    <div class="section-header">
+        <h2 class="section-title">{% trans 'Discover Our Categories' %}</h2>
+        <p class="section-subtitle">{% trans 'Browse a wide variety of toys and gifts suitable for all ages and occasions' %}</p>
+    </div>
+    <div class="position-relative">
+        <button class="category-arrow category-arrow-left d-none d-md-flex align-items-center justify-content-center"
+                style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="categories-grid flex-nowrap overflow-auto" style="scroll-behavior: smooth; display: flex; gap: 1.5rem; padding: 1rem 2.5rem;">
+            {% for category in main_categories %}
+                <div class="category-card flex-shrink-0" style="min-width: 180px; max-width: 220px;">
+                    <div class="category-icon">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <a href="{% url 'product:product_list' %}?category={{ category.slug }}" style="text-decoration:none;">
+                        <h3 class="category-title">{{ category.name }}</h3>
+                        <p class="category-count">{{ category.products.count }} {% trans 'Products' %}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <button class="category-arrow category-arrow-right d-none d-md-flex align-items-center justify-content-center"
+                style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</section>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const grid = document.querySelector('.categories-grid');
+    const leftBtn = document.querySelector('.category-arrow-left');
+    const rightBtn = document.querySelector('.category-arrow-right');
+
+    function updateArrows() {
+        if (!grid) return;
+        // Show arrows only if scrollable
+        if (grid.scrollWidth > grid.clientWidth + 10) {
+            leftBtn.classList.remove('d-none');
+            rightBtn.classList.remove('d-none');
+        } else {
+            leftBtn.classList.add('d-none');
+            rightBtn.classList.add('d-none');
+        }
+    }
+
+    if (leftBtn && rightBtn && grid) {
+        leftBtn.addEventListener('click', function() {
+            grid.scrollBy({ left: -grid.clientWidth * 0.7, behavior: 'smooth' });
+        });
+        rightBtn.addEventListener('click', function() {
+            grid.scrollBy({ left: grid.clientWidth * 0.7, behavior: 'smooth' });
+        });
+        window.addEventListener('resize', updateArrows);
+        updateArrows();
+    }
+});
+</script>
+{% endif %}

@@ -6,6 +6,6 @@ app_name = "features"
 
 
 urlpatterns = [
-    path('collection/', views.CollectionDetailView.as_view(), name='collection_detail'),
+    # path('collection/<slug:slug>/', views.CollectionDetailView.as_view(), name='collection_detail'),
 
 ]

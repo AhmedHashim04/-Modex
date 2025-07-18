@@ -8,225 +8,33 @@
 {% block content %}
 
 <!-- Main Banners Section - New Modern Style -->
-{% if main_banners %}
-<section class="section main-banners py-5" 
-         style="background: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%); 
-                position: relative; 
-                overflow: hidden;
-                padding: 4rem 0;">
-    
-    <!-- Decorative Elements -->
-    <div class="position-absolute top-0 start-0 w-100 h-100 z-0">
-        <div class="position-absolute top-0 end-0" style="width: 300px; height: 300px; background: radial-gradient(circle at center, hsla(var(--accent-color), 0.15) 0%, transparent 70%);"></div>
-        <div class="position-absolute bottom-0 start-0" style="width: 400px; height: 400px; background: radial-gradient(circle at center, hsla(var(--secondary-color), 0.1) 0%, transparent 70%);"></div>
-        <div class="position-absolute top-20 start-30" style="width: 200px; height: 200px; background: radial-gradient(circle at center, hsla(var(--tertiary-color), 0.1) 0%, transparent 70%);"></div>
-    </div>
-    
-    <div class="w-100 position-relative z-1" style="max-width: 100vw; padding: 0 0;">
-        <div class="row justify-content-center mb-4">
-            <div class="col-12 text-center">
-                <h2 class="fw-bold mb-3" style="color: white; font-size: 2.5rem; text-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                    {% trans "Featured Collections" %}
-                </h2>
-                <p class="lead mb-0" style="color: rgba(255,255,255,0.85); max-width: 700px; margin: 0 auto;">
-                    {% trans "Discover our exclusive collections curated just for you" %}
-                </p>
-            </div>
-        </div>
-        
-        <div class="banner-carousel position-relative">
-            <!-- Navigation Arrows -->
-            <div class="banner-nav d-flex justify-content-between position-absolute top-50 start-0 w-100 px-3 z-2" style="transform: translateY(-50%);">
-                <button class="banner-prev btn btn-lg rounded-circle p-0 d-flex align-items-center justify-content-center" 
-                        style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3);">
-                    <i class="fas fa-chevron-left text-white fs-4"></i>
-                </button>
-                <button class="banner-next btn btn-lg rounded-circle p-0 d-flex align-items-center justify-content-center" 
-                        style="width: 50px; height: 50px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3);">
-                    <i class="fas fa-chevron-right text-white fs-4"></i>
-                </button>
-            </div>
-            
-            <!-- Banner Cards -->
-            <div class="row flex-nowrap overflow-auto banners-horizontal-scroll gap-4 px-2 py-3" 
-                 style="scroll-snap-type: x mandatory; scroll-behavior: smooth; -ms-overflow-style: none; scrollbar-width: none;">
-                {% for banner in main_banners %}
-                <div class="col-auto" style="scroll-snap-align: center;">
-                    <div class="banner-card-new position-relative rounded-4 shadow-lg overflow-hidden glass-effect" 
-                         style="width: 380px; height: 360px; background: rgba(255,255,255,0.95); 
-                                box-shadow: var(--shadow-heavy);
-                                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                                border: 1px solid rgba(255,255,255,0.5);">
-                        
-                        <!-- Banner Image -->
-                        <div class="position-relative w-100 h-100 overflow-hidden">
-                            <img src="{{ banner.image.url }}" alt="{{ banner.title }}" 
-                                 class="w-100 h-100 object-fit-cover" 
-                                 style="filter: brightness(0.85) saturate(1.1); 
-                                        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);">
-                            
-                            <!-- Gradient Overlay -->
-                            <div class="banner-overlay position-absolute top-0 start-0 w-100 h-100" 
-                                 style="background: linear-gradient(120deg, rgba(255,92,168,0.15) 0%, rgba(255,224,102,0.1) 100%);"></div>
-                            
-                            <!-- Decorative Elements -->
-                            <div class="position-absolute top-0 start-0 w-100 h-100">
-                                <span class="position-absolute top-20 start-20 translate-middle" 
-                                      style="width: 100px; height: 100px; 
-                                             background: radial-gradient(circle at 30% 30%, hsl(var(--tertiary-color), 0.2), transparent 70%); 
-                                             opacity: 0.3; border-radius: 50%;"></span>
-                                <span class="position-absolute bottom-10 end-10 translate-middle" 
-                                      style="width: 70px; height: 70px; 
-                                             background: radial-gradient(circle at 70% 70%, hsl(var(--primary-color), 0.2), transparent 70%); 
-                                             opacity: 0.25; border-radius: 50%;"></span>
-                            </div>
-                        </div>
-                        
-                        <!-- Banner Info -->
-                        <div class="banner-info-new position-absolute bottom-0 start-0 w-100 px-4 py-3 text-start" 
-                             style="background: rgba(255,255,255,0.92); 
-                                    backdrop-filter: blur(12px);
-                                    border-radius: 0 0 1.5rem 1.5rem;
-                                    transition: transform 0.4s ease-out;">
-                            <h3 class="fw-bold mb-1" style="color: hsl(var(--primary-color)); font-size: 1.8rem; line-height: 1.2;">
-                                {{ banner.offer }}
-                            </h3>
-                            <p class="mb-2" style="color: hsl(var(--text-secondary)); font-size: 1.05rem; min-height: 3em;">
-                                {{ banner.description|truncatechars:80 }}asdsad
-                            </p>
-                            {% comment %} {% if banner.link %} {% endcomment %}
-                            <a href="{{ banner.link }}addsa" 
-                               class="btn btn-accent rounded-pill px-4 py-2 mt-1 shadow-sm" 
-                               style="background: var(--gradient-accent); 
-                                      color: white; 
-                                      font-weight: 600; 
-                                      letter-spacing: 0.5px;
-                                      transition: all 0.3s ease;
-                                      transform-origin: center;">
-                                {% trans "Shop Now" %}
-                                <i class="fas fa-arrow-right ms-2"></i>
-                            </a>
-                            {% comment %} {% endif %} {% endcomment %}
-                        </div>
-                        
-                        <!-- Floating Badge -->
-                        <div class="position-absolute top-3 end-3 bg-white px-3 py-2 rounded-pill shadow-sm" 
-                             style="color: hsl(var(--primary-color)); font-weight: 700; font-size: 0.9rem;">
-                            <i class="fas fa-star me-1" style="color: hsl(var(--tertiary-color));"></i>
-                            {% trans "Featured" %}
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            
-            <!-- Scroll Indicator -->
-            <div class="d-flex justify-content-center mt-4">
-                <div class="d-flex gap-2">
-                    {% for banner in main_banners %}
-                    <button class="banner-indicator rounded-pill p-1 border-0" 
-                            style="width: 12px; height: 12px; background: rgba(255,255,255,0.4); 
-                                   transition: all 0.3s ease;"></button>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-{% endif %}
+{% include "home/partials/main-banner.html" %}
 <hr>
+
 <!-- Categories Section -->
-{% if main_categories %}
-<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
-    <div class="section-header">
-        <h2 class="section-title">{% trans 'Discover Our Categories' %}</h2>
-        <p class="section-subtitle">{% trans 'Browse a wide variety of toys and gifts suitable for all ages and occasions' %}</p>
-    </div>
-    <div class="categories-grid">
-        {% for category in main_categories %}
-            <div class="category-card">
-                <div class="category-icon">
-                    <i class="fas fa-box"></i>
-                </div>
-                <a href="{% url 'product:product_list' %}?category={{ category.slug }}" style="text-decoration:none;">
-                    <h3 class="category-title">{{ category.name }}</h3>
-                    <p class="category-count">{{ category.products.count }} {% trans 'Products' %}</p>
-                </a>
-            </div>
-        {% endfor %}
-    </div>
-</section>
-{% endif %}
-    </div>
-    <hr>
+ 
+{% include "home/partials/main-categories.html" %}
+<hr>
+
 <!-- Featured Products Section -->
-{% if featured_products_section.products %}
-<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
+{% include "home/partials/features.products.html" %}
+<hr>
+
+<!-- Sub Categories Section -->
+{% if sub_categories_section.products %}
     <div class="section-header">
-        <h2 class="section-title">{{ featured_products_section.title }}</h2>
-        <p class="section-subtitle">{% trans 'The best carefully selected products for an enjoyable shopping experience' %}</p>
+        <h2 class="section-title">{% trans 'Explore Our Subcategories' %}</h2>
+        <p class="section-subtitle">{% trans 'Find a diverse selection of toys and gifts for every age and occasion' %}</p>
     </div>
-
-    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
-        {% for fp in featured_products_section.products %}
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
-                        {% with product=fp.product %}
-                            {% include "product/partials/product_card.html" %}
-                        {% endwith %}
-                    </div>
-                </div>
-
-        {% endfor %}
-    </div>
-    
-</section>
+    {% include "home/partials/sub-categories.html" with subCategories=sub_categories_section.products %}
 {% endif %}
 <hr>
+
 <!-- New Arrivals Section -->
-{% if new_products_section.products %}
-<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
-    <div class="section-header">
-        <h2 class="section-title">{{ new_products_section.title }}</h2>
-        <p class="section-subtitle">{% trans 'Discover the latest products that have arrived at our store' %}</p>
-    </div>
-    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
-        {% for product in new_products_section.products %}
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="{{ product.image }}" alt="{{ product.name }}">
-                    {% if product.is_new %}<div class="product-badge">{% trans 'New' %}</div>{% endif %}
-                </div>
-                <div class="product-info">
-                    <div class="product-category">{{ product.category.name }}</div>
-                    <h3 class="product-title">{{ product.name }}</h3>
-                    <div class="product-rating">
-                        {% for i in "12345" %}
-                            {% if product.overall_rating|default:0 >= i|add:'0' %}
-                                <i class="fas fa-star"></i>
-                            {% elif product.overall_rating|default:0 > i|add:'-1' %}
-                                <i class="fas fa-star-half-alt"></i>
-                            {% else %}
-                                <i class="far fa-star"></i>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                    <div class="product-price">
-                        <span class="current-price">{{ product.price }} {{ product.currency|default:'SAR' }}</span>
-                        {% if product.old_price %}<span class="old-price">{{ product.old_price }} {{ product.currency|default:'SAR' }}</span>{% endif %}
-                        {% if product.discount %}<span class="discount-badge">{{ product.discount }}%</span>{% endif %}
-                    </div>
-                    <button class="btn-add-to-cart btn-gradient-primary">
-                        <i class="fas fa-shopping-cart"></i> {% trans 'Add to Cart' %}
-                    </button>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</section>
-{% endif %}
+{% include "home/partials/new-arrivals.html" %}
+
 <hr>
+
 <!-- Top Rated Section -->
 {% if top_rated_section.products %}
 <section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
@@ -234,41 +42,23 @@
         <h2 class="section-title">{{ top_rated_section.title }}</h2>
         <p class="section-subtitle">{% trans 'Our customers top rated products' %}</p>
     </div>
-    <div class="products-carousel">
-        {% for product in top_rated_section.products %}
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="{{ product.image }}" alt="{{ product.name }}">
-                </div>
-                <div class="product-info">
-                    <div class="product-category">{{ product.category.name }}</div>
-                    <h3 class="product-title">{{ product.name }}</h3>
-                    <div class="product-rating">
-                        {% for i in "12345" %}
-                            {% if product.overall_rating|default:0 >= i|add:'0' %}
-                                <i class="fas fa-star"></i>
-                            {% elif product.overall_rating|default:0 > i|add:'-1' %}
-                                <i class="fas fa-star-half-alt"></i>
-                            {% else %}
-                                <i class="far fa-star"></i>
-                            {% endif %}
-                        {% endfor %}
+
+    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
+        {% for product in new_products_section.products %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
+                            {% include "product/partials/product_card.html" %}
                     </div>
-                    <div class="product-price">
-                        <span class="current-price">{{ product.price }} {{ product.currency|default:'SAR' }}</span>
-                        {% if product.old_price %}<span class="old-price">{{ product.old_price }} {{ product.currency|default:'SAR' }}</span>{% endif %}
-                        {% if product.discount %}<span class="discount-badge">{{ product.discount }}%</span>{% endif %}
-                    </div>
-                    <button class="btn-add-to-cart btn-gradient-primary">
-                        <i class="fas fa-shopping-cart"></i> {% trans 'Add to Cart' %}
-                    </button>
                 </div>
-            </div>
+
         {% endfor %}
     </div>
+
+
 </section>
 {% endif %}
 <hr>
+
 <!-- Hot Deals Section -->
 {% if discounts_section.products %}
 <section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
@@ -292,7 +82,7 @@
 </section>
 {% endif %}
 <hr>
-<!-- Collections Section -->
+{% comment %} <!-- Collections Section -->
 {% if collections_section.collections %}
 <section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
     <div class="section-header">
@@ -315,9 +105,10 @@
     </div>
 </section>
 {% endif %}
-<hr>
+<hr> {% endcomment %}
+
 {% include "home/partials/features.html" %}
-{% include "home/partials/newsettler.html" %}
+{% comment %} {% include "home/partials/newsettler.html" %} {% endcomment %}
 
 
 

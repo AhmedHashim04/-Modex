@@ -19,38 +19,56 @@
             <div class="footer-col">
                 <h3 class="footer-title">Quick Links</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Home</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Store</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Offers</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Favorites</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Shopping Cart</a></li>
+                    <li>
+                        <a href="{% url 'home' %}">
+                            <i class="fas fa-chevron-left"></i> Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'product:product_list' %}">
+                            <i class="fas fa-chevron-left"></i> Store
+                        </a>
+                    </li>
+                    <li>
+                        {% comment %} <a href="{% url 'offers:offers_list' %}">
+                            <i class="fas fa-chevron-left"></i> Offers
+                        </a> {% endcomment %}
+                    </li>
+                    <li>
+                        <a href="{% url 'accounts:wishlist' %}">
+                            <i class="fas fa-chevron-left"></i> Favorites
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'cart:cart_list' %}">
+                            <i class="fas fa-chevron-left"></i> Shopping Cart
+                        </a>
+                    </li>
                 </ul>
             </div>
             
             <div class="footer-col">
                 <h3 class="footer-title">Categories</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Cars Toys</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Building Toys</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Educational Toys</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Outdoor Toys</a></li>
-                    <li><a href="#"><i class="fas fa-chevron-left"></i> Souvenirs</a></li>
+                    {% for category in contextCategories|slice:":5" %}
+                    <li><a href="{% url 'product:product_list' %}?category={{ category.slug }}"><i class="fas fa-chevron-left"></i> {{ category.name }}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
             
             <div class="footer-col">
                 <h3 class="footer-title">Contact Us</h3>
                 <ul class="footer-links">
-                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Riyadh, Saudi Arabia</a></li>
-                    <li><a href="tel:+966112345678"><i class="fas fa-phone"></i> +966 11 234 5678</a></li>
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> ttt</a></li>
+                    <li><a href="tel:+966112345678"><i class="fas fa-phone"></i> +966 ttt</a></li>
                     <li><a href="mailto:info@example.com"><i class="fas fa-envelope"></i> info@example.com</a></li>
-                    <li><a href="#"><i class="fas fa-clock"></i> Sunday to Thursday: 9am - 10pm</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Sunday to Thursday: tt</a></li>
                 </ul>
             </div>
         </div>
         
         <div class="copyright">
-            &copy; 2023 Gifts and Toys. All rights reserved.
+            &copy; 2025 Modex. All rights reserved.
         </div>
     </footer>
 

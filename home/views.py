@@ -20,39 +20,44 @@ class HomeView(TemplateView):
         
 
             data = {
-                'main_banners': FeaturedCollection.objects.filter(is_active=True).order_by('order')[:20],
-                'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct()[:8],
+                # 'main_banners': FeaturedCollection.objects.filter(is_active=True).order_by('order')[:20],
+                'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct()[:50],
                 'featured_products_section': {
                     'title': _("Featured Products"), 
-                    'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:8],
+                    'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:30],
+                    'layout': 'carousel'  # يمكن أن يكون 'grid' أو 'carousel'
+                },
+                'sub_categories_section': {
+                    'title': _("Sub Categories"), 
+                    'products': Category.objects.filter(parent__isnull=False, products__isnull=False).distinct()[:50],
                     'layout': 'carousel'  # يمكن أن يكون 'grid' أو 'carousel'
                 },
                 'new_products_section': {
                     'title': _("New Arrivals"),
-                    'products': Product.objects.filter(is_available=True).order_by('-created_at').select_related('category')[:12],
+                    'products': Product.objects.filter(is_available=True).order_by('-created_at').select_related('category')[:20],
                     'layout': 'grid'
                 },
                 'top_rated_section': {
                     'title': _("Top Rated"),
-                    'products': Product.objects.filter(is_available=True, overall_rating__gte=4).order_by('-overall_rating')[:12],
-                    'layout': 'carousel'
+                    'products': Product.objects.filter(is_available=True, overall_rating__gte=4).order_by('-overall_rating')[:20],
+                    'layout': 'grid'
                 },
                 
 
                 'discounts_section': {
                     'title': _("Hot Deals"),
-                    'products': Product.objects.filter(is_available=True, discount__gte=15).order_by('-discount')[:8],
+                    'products': Product.objects.filter(is_available=True, discount__gte=15).order_by('-discount')[:20],
                     'layout': 'carousel'
                 },
                 
 
-                'collections_section': {
-                    'title': _("Our Collections"),
-                    'collections': Collection.objects.filter(is_active=True).annotate(
-                        product_count=Count('products')
-                    ).filter(product_count__gt=0).order_by('-created_at')[:6],
-                    'layout': 'grid'
-                },
+                # 'collections_section': {
+                #     'title': _("Our Collections"),
+                #     'collections': Collection.objects.filter(is_active=True).annotate(
+                #         product_count=Count('products')
+                #     ).filter(product_count__gt=0).order_by('-created_at')[:6],
+                #     'layout': 'carousel'
+                # },
                 
                 # # قسم المدونة أو المحتوى (إن وجد)
                 # 'blog_section': {

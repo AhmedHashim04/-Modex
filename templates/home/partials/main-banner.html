@@ -1,0 +1,225 @@
+
+
+{% load i18n %}
+
+{% if main_banners %}
+
+    <style>
+        .main-banners {
+            background: radial-gradient(ellipse at top, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 5rem 0;
+        }
+        .main-banners .particle-1 {
+            width: 120px; height: 120px;
+            background: radial-gradient(circle, hsla(var(--accent-color), 0.2) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .main-banners .particle-2 {
+            animation-delay: 2s;
+            width: 180px; height: 180px;
+            background: radial-gradient(circle, hsla(var(--secondary-color), 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .main-banners .particle-3 {
+            animation-delay: 4s;
+            width: 80px; height: 80px;
+            background: radial-gradient(circle, hsla(var(--tertiary-color), 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+        .main-banners .main-banner-title {
+            color: hsl(var(--surface-color));
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        .main-banners .main-banner-lead {
+            color: hsl(var(--text-light));
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .main-banners .banner-nav {
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        .main-banners .banner-nav button {
+            width: 60px; height: 60px;
+            background: hsla(var(--surface-color), 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid hsla(var(--surface-color), 0.25);
+            pointer-events: auto;
+        }
+        .main-banners .banner-nav .banner-prev i,
+        .main-banners .banner-nav .banner-next i {
+            color: hsl(var(--primary-color));
+            font-size: 1.5rem;
+        }
+        .main-banners .banners-horizontal-scroll {
+            scroll-snap-type: x mandatory;
+        }
+        .main-banners .banner-item {
+            scroll-snap-align: start;
+        }
+        .main-banners .banner-card-new {
+            box-shadow: var(--shadow-heavy);
+            background: hsl(var(--surface-color));
+        }
+        .main-banners .banner-card-new .parallax-layer {
+            height: 100%;
+        }
+        .main-banners .banner-card-new img.parallax-layer {
+            transform: scale(1.05);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .main-banners .banner-overlay {
+            background: linear-gradient(120deg, hsla(var(--primary-color), 0.4) 0%, transparent 100%);
+        }
+        .main-banners .banner-card-new .floating-badges .badge,
+        .main-banners .banner-card-new .position-absolute.bottom-4.start-4 .badge {
+            font-weight: 600;
+        }
+        .main-banners .banner-card-new .badge-new {
+            background: hsl(var(--secondary-color));
+            color: hsl(var(--surface-color));
+        }
+        .main-banners .banner-card-new .badge-discount {
+            background: hsl(var(--accent-color));
+            color: hsl(var(--surface-color));
+            font-weight: 600;
+        }
+        .main-banners .banner-info-new {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 0 0 1.5rem 1.5rem;
+            transform: translateY(0);
+        }
+        .main-banners .banner-info-new h3 {
+            line-height: 1.2;
+            font-size: 1.8rem;
+        }
+        .main-banners .banner-info-new .btn {
+            background: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--accent-color)) 100%);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .main-banners .banner-info-new .btn i {
+            transition: transform 0.3s ease;
+        }
+        .main-banners .banner-indicator {
+            width: 14px;
+            height: 14px;
+            background: hsl(var(--secondary-color), 0.25);
+            transition: all 0.3s ease;
+        }
+        .main-banners .view-all-btn {
+            border-color: hsl(var(--primary-color));
+            color: hsl(var(--primary-color));
+            background: hsla(var(--surface-color), 0.7);
+            font-weight: 700;
+        }
+        .main-banners .view-all-btn i {
+            color: hsl(var(--primary-color));
+        }
+    </style>
+
+    <section class="section main-banners py-6">
+        <!-- Animated Particles Background -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 z-0">
+            <div class="position-absolute top-10 end-5 floating particle-1"></div>
+            <div class="position-absolute bottom-10 start-5 floating particle-2"></div>
+            <div class="position-absolute top-25 start-33 floating particle-3"></div>
+        </div>
+        
+        <div class="container-xl position-relative z-1">
+            <div class="row justify-content-center mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="fw-bold mb-3 display-4 main-banner-title">
+                        {% trans "Curated Collections" %}
+                        <span class="d-block mt-2 gradient-text fw-bolder">{% trans "Just For You" %}</span>
+                    </h2>
+                    <p class="lead mb-0 main-banner-lead">
+                        {% trans "Discover limited edition pieces handpicked by our stylists" %}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="banner-carousel position-relative">
+                <!-- Navigation Arrows: show at the edges of the container -->
+                <div class="banner-nav d-none d-lg-block ">
+                    <button class="banner-prev btn btn-lg rounded-circle p-0 d-flex align-items-center justify-content-center hover-grow position-absolute top-50 start-0 translate-middle-y z-2"
+                        style="left: 0; margin-left: 10px; background-color:rgba(255, 213, 0, 0.32);">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="banner-next btn btn-lg rounded-circle p-0 d-flex align-items-center justify-content-center hover-grow position-absolute top-50 end-0 translate-middle-y z-2"
+                        style="right: 0; margin-right: 10px; background-color:rgba(255, 213, 0, 0.32);">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                
+                <!-- Banner Cards - Bigger, More Attractive Style -->
+                <div class="flex-nowrap overflow-auto banners-horizontal-scroll gap-5 px-2 py-4 d-flex"
+                     style="scroll-snap-type: x mandatory; margin-left: calc(-1 * ((100vw - 100%) / 2) + 40px); margin-right: calc(-1 * ((100vw - 100%) / 2) + 40px);">
+                    {% for banner in main_banners %}
+                    <div class="flex-shrink-0 banner-item" style="min-width: 480px; max-width: 600px; height: 380px; scroll-snap-align: center;">
+                        <div class="banner-card-new position-relative rounded-5 overflow-hidden glass-effect shadow-lg" style="height: 100%; border: 4px solid hsl(var(--primary-color), 0.12); box-shadow: 0 8px 32px 0 rgba(255,92,168,0.18), 0 1.5px 8px 0 rgba(79,195,247,0.10); transition: transform 0.3s; will-change: transform;">
+                            
+                            <!-- Banner Image with Parallax -->
+                            <div class="position-relative w-100 h-100 overflow-hidden parallax-layer" style="height: 100%;">
+                                <img src="{{ banner.image.url }}" alt="{{ banner.title }}"
+                                    class="w-100 h-100 object-fit-cover parallax-layer" style="min-height: 100%; filter: brightness(0.92) saturate(1.1);">
+                                
+                                <!-- Gradient Overlay -->
+                                <div class="banner-overlay position-absolute top-0 start-0 w-100 h-100" style="background: linear-gradient(135deg, hsla(var(--primary-color),0.65) 0%, hsla(var(--secondary-color),0.45) 100%); opacity: 0.75;"></div>
+                                
+                                <!-- Floating Elements -->
+                                <div class="position-absolute bottom-4 start-4 d-flex gap-3" style="z-index:2;">
+                                    <span class="badge rounded-pill py-3 px-4 glass-effect badge-new fs-5" style="font-size: 1.15rem; background: hsla(var(--tertiary-color),0.95); color: hsl(var(--primary-color)); box-shadow: 0 2px 8px hsla(var(--primary-color),0.10);">
+                                        <i class="fas fa-bolt me-1"></i> {% trans "New" %}
+                                    </span>
+                                    {% if banner.discount %}
+                                    <span class="badge rounded-pill py-3 px-4 badge-discount fs-5" style="font-size: 1.15rem; background: hsla(var(--danger-color),0.92); color: #fff; box-shadow: 0 2px 8px hsla(var(--danger-color),0.10);">
+                                        -{{ banner.discount }}%
+                                    </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="banner-info-new position-absolute bottom-0 start-0 w-100 px-5 py-4" style="background: linear-gradient(0deg, rgba(34,34,34,0.82) 80%, rgba(34,34,34,0.0) 100%); z-index:3;">
+                                <h3 class="fw-bold mb-2 text-white display-5" style="font-size: 2.2rem; text-shadow: 0 2px 12px rgba(0,0,0,0.18);">
+                                    {{ banner.offer }}
+                                </h3>
+                                <p class="mb-4 text-white-80 fs-5" style="color: #fffbe7; font-size: 1.15rem; text-shadow: 0 1px 6px rgba(0,0,0,0.10);">
+                                    {{ banner.description|truncatechars:100 }}
+                                </p>
+                                <a href="{{ banner.link }}" 
+                                   class="btn btn-lg btn-primary rounded-pill px-5 py-3 shadow-lg hover-grow fs-5" style="font-size: 1.15rem; font-weight: 700; letter-spacing: 0.02em;">
+                                    {% trans "Explore Collection" %}
+                                    <i class="fas fa-arrow-right ms-2"></i>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Scroll Indicator -->
+                <div class="d-flex justify-content-center mt-4">
+                    <div class="d-flex gap-2">
+                        {% for banner in main_banners %}
+                        <button class="banner-indicator rounded-pill p-1 border-0 hover-grow"></button>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- View All Button -->
+            <div class="text-center mt-5">
+                <a href="" class="btn btn-outline-light btn-lg rounded-pill px-5 py-3 glass-effect hover-grow view-all-btn">
+                    {% trans "View All Collections" %}
+                    <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+{% endif %}

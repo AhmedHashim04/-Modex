@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% load socialaccount %}
+
 {% block title %}Product Detail Trader - Your Ultimate Shopping Destination{% endblock %}
 {% load widget_tweaks %}
 {% block content %}
@@ -444,7 +446,8 @@
                                     </div>
                                 {% else %}
                                     <div class="alert alert-info">
-                                        Please <a href="{% url 'account:login' %}?next={{ request.path }}">login</a> to submit a review.
+
+                                        Please <a href="{% provider_login_url 'google' %}">login</a> to submit a review.
                                     </div>
                                 {% endif %}
                             </div>

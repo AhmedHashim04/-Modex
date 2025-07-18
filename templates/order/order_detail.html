@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 {% block title %}Your Order Trader - Your Ultimate Shopping Destination{% endblock %}
 
 {% block content %}
@@ -70,7 +70,7 @@
                                     <i class="fas fa-map-marker-alt me-3 text-primary"></i>
                                     <div>
                                         <small class="text-muted">Order Address</small>
-                                        <div class="fw-bold">{{ order.address }}</div>
+                                        <div class="fw-bold">{{ order.address_list_create }}</div>
                                     </div>
                                 </div>
                             </div>

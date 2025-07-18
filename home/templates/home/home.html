@@ -1,39 +1,103 @@
 {% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Home" %}{% endblock %}
+
 
 
 {% block content %}
+<!-- Hero / Main Banners Carousel -->
+<section class="py-5">
+  <div id="mainBannerCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% for banner in main_banners %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        <img src="{{ banner.image.url }}" class="d-block w-100" alt="{{ banner.title }}">
+        <div class="carousel-caption d-none d-md-block glass p-3 rounded">
+          <h5>{{ banner.title }}</h5>
+          <p>{{ banner.subtitle }}</p>
+          <a href="{{ banner.link }}" class="btn btn-gradient-primary">{% trans "Shop Now" %}</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#mainBannerCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{% trans "Previous" %}</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#mainBannerCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{% trans "Next" %}</span>
+    </button>
+  </div>
+</section>
 
-{% include "home-section.html" %}
+<!-- Main Categories Grid -->
+<section class="container py-5">
+  <h2 class="mb-4 text-center text-secondary">{% trans "Shop by Category" %}</h2>
+  <div class="row g-4">
+    {% for category in main_categories %}
+    <div class="col-6 col-md-3">
+      <a href="{% url 'products:category' category.slug %}" class="text-decoration-none">
+        <div class="feature-card text-center p-3 trend-shadow float">
+          <img src="{{ category.image.url }}" alt="{{ category.name }}" class="img-fluid mb-2">
+          <h5 class="m-0">{{ category.name }}</h5>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 
-{% comment %} 
-    {# 2. Hero / Main Banner Section (Big Products) #}
-    {% include "featured-products.html" %}
+<!-- Sections: Featured / New Arrivals / Top Rated / Hot Deals -->
+{% for section in [featured_products_section, new_products_section, top_rated_section, discounts_section] %}
+<section class="container py-5">
+  <h2 class="mb-4">{{ section.title }}</h2>
+  {% if section.layout == 'carousel' %}
+  <div id="secCarousel{{ forloop.counter }}" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      {% for item in section.products %}
+      <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        {% include "product/partials/product_card.html" with product=item.product if item.product else product=item %}
+      </div>
+      {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#secCarousel{{ forloop.counter }}" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{% trans "Previous" %}</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#secCarousel{{ forloop.counter }}" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{% trans "Next" %}</span>
+    </button>
+  </div>
+  {% else %}
+  <div class="row g-4">
+    {% for product in section.products %}
+    <div class="col-6 col-md-3">
+      {% include "product/partials/product_card.html" with product=product %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+{% endfor %}
 
-    {# 3. Featured Collections (Curated Collections) #}
-    {% include "featured-collections.html" %}
+<!-- Collections Grid -->
+<section class="container py-5">
+  <h2 class="mb-4 text-center text-secondary">{% trans "Our Collections" %}</h2>
+  <div class="row g-4">
+    {% for coll in collections_section.collections %}
+    <div class="col-6 col-md-4">
+      <a href="{% url 'products:collection' coll.slug %}" class="text-decoration-none">
+        <div class="feature-card trend-shadow p-4 hover:translate-y-" >
+          <h4 class="mb-2">{{ coll.name }}</h4>
+          <p class="small text-secondary">{{ coll.product_count }} {% trans "items" %}</p>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 
-    {# 4. Main Categories (for quick access to main sections) #}
-    {% include "main-categories.html" %}
-
-    {# 5. Sub Categories (slider for trending sub-categories) #}
-    {% include "sub-categories.html" %}
-
-    {# 6. Featured Products (handpicked or bestsellers) #}
-    {% include "lastest-offers.html" %}
-
-    {# 7. Latest Offers (discounts, deals, time-limited offers) #}
-    {% include "random-products.html" %}
-
-    {# 8. Random/Top Picks (personalized or random picks) #}
-    {% include "recommended.html" %}
-
-    {# 9. Recommended For You (personalized recommendations) #}
-    {% include "featured-cards.html" %} {% endcomment %}
-
-    {# 10. Store Features/Advantages (why shop with us) #}
-    {# {% include "newsletter-signup.html" %} #}
-
-    {# 11. Newsletter Signup (to be implemented as a separate page/component) #}
-    {# {% include "blog-preview.html" %} #}
-
-{% endblock content %}
+{% endblock %}

@@ -1,55 +1,56 @@
-
-    <footer class="modex-footer mt-5 pt-5 pb-3">
-        <div class="container">
-            <div class="row gy-4 align-items-center">
-                <!-- Logo & Slogan -->
-                <div class="col-12 col-md-4 text-center text-md-start">
-                    <a  href="{% url 'home' %}" class="d-inline-flex align-items-center mb-2 text-decoration-none">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Modex Logo" width="48" class="me-2 modex-footer-logo-img">
-                        <span class="fw-bold fs-4 modex-footer-logo-text">Modex</span>
-                    </a>
-                    <p class="mb-0 text-muted modex-footer-slogan">هدايا وألعاب تفرح القلب وتبهر العيون</p>
-                </div>
-                <!-- Quick Links -->
-                <div class="col-6 col-md-2">
-                    <h6 class="fw-bold mb-3 modex-footer-quicklinks-title">روابط سريعة</h6>
-                    <ul class="list-unstyled">
-                        <li><a  href="{% url 'home' %}" class="text-decoration-none text-muted footer-link">الرئيسية</a></li>
-                        <li><a href="products.html" class="text-decoration-none text-muted footer-link">المنتجات</a></li>
-                        <li><a href="about.html" class="text-decoration-none text-muted footer-link">عن مودكس</a></li>
-                        <li><a href="contact.html" class="text-decoration-none text-muted footer-link">تواصل معنا</a></li>
-                    </ul>
-                </div>
-                <!-- Categories -->
-                <div class="col-6 col-md-2">
-                    <h6 class="fw-bold mb-3 modex-footer-categories-title">الأقسام</h6>
-                    <ul class="list-unstyled">
-                        <li><a href="products.html?collection=toys" class="text-decoration-none text-muted footer-link">ألعاب</a></li>
-                        <li><a href="products.html?collection=gifts" class="text-decoration-none text-muted footer-link">هدايا</a></li>
-                        <li><a href="products.html?collection=kids" class="text-decoration-none text-muted footer-link">للأطفال</a></li>
-                        <li><a href="products.html?collection=daily-deals" class="text-decoration-none text-muted footer-link">عروض اليوم</a></li>
-                    </ul>
-                </div>
-                <!-- Newsletter & Social -->
-                <div class="col-12 col-md-4 text-center text-md-end">
-                    <h6 class="fw-bold mb-3 modex-footer-newsletter-title">اشترك في النشرة البريدية</h6>
-                    <form class="d-flex mb-3 justify-content-center justify-content-md-end modex-footer-newsletter-form">
-                        <input type="email" class="form-control rounded-start-pill border-0 shadow-sm modex-footer-newsletter-input" placeholder="بريدك الإلكتروني">
-                        <button type="submit" class="btn btn-primary rounded-end-pill px-4 modex-footer-newsletter-btn">اشترك</button>
-                    </form>
-                    <div class="d-flex justify-content-center justify-content-md-end gap-3">
-                        <a href="#" class="text-decoration-none modex-footer-social-instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-decoration-none modex-footer-social-facebook" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                        <a href="#" class="text-decoration-none modex-footer-social-twitter" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-decoration-none modex-footer-social-whatsapp" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    </div>
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="footer-logo">
+                    <i class="fas fa-gift"></i>
+                    Mo<span>dex</span>
+                </a>
+                <p class="footer-about">
+                    Our store offers a wide range of educational toys and gifts for kids, we strive to provide safe and high-quality products that develop children's skills and bring joy to their hearts.
+                </p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
-            <hr class="my-4 modex-footer-hr">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <small class="text-muted">© 2024 Modex. جميع الحقوق محفوظة. | صُنع بحب <i class="fas fa-heart text-danger"></i></small>
-                </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-title">Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Store</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Offers</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Favorites</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Shopping Cart</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-title">Categories</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Cars Toys</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Building Toys</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Educational Toys</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Outdoor Toys</a></li>
+                    <li><a href="#"><i class="fas fa-chevron-left"></i> Souvenirs</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-col">
+                <h3 class="footer-title">Contact Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fas fa-map-marker-alt"></i> Riyadh, Saudi Arabia</a></li>
+                    <li><a href="tel:+966112345678"><i class="fas fa-phone"></i> +966 11 234 5678</a></li>
+                    <li><a href="mailto:info@example.com"><i class="fas fa-envelope"></i> info@example.com</a></li>
+                    <li><a href="#"><i class="fas fa-clock"></i> Sunday to Thursday: 9am - 10pm</a></li>
+                </ul>
             </div>
         </div>
+        
+        <div class="copyright">
+            &copy; 2023 Gifts and Toys. All rights reserved.
+        </div>
     </footer>
+

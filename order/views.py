@@ -141,7 +141,7 @@ class OrderCancelView(LoginRequiredMixin, View):
 class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
     template_name = "order/address_list_create.html"
     form_class = AddressForm
-    success_url = reverse_lazy("order:address")
+    success_url = reverse_lazy("order:address_list_create")
 
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)

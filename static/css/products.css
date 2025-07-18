@@ -385,3 +385,67 @@
     .product-card:nth-child(4) { animation-delay: 0.3s; }
     .product-card:nth-child(5) { animation-delay: 0.4s; }
     .product-card:nth-child(6) { animation-delay: 0.5s; }
+
+
+
+
+.section, .container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.section, .container {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+/* Custom Scrollbar */
+.banners-horizontal-scroll::-webkit-scrollbar {
+    height: 8px;
+    background: transparent;
+}
+
+.banners-horizontal-scroll::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.3);
+    border-radius: 4px;
+}
+
+.banners-horizontal-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.5);
+}
+
+/* Glass Effect */
+.glass-effect {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px 0 rgba(255, 92, 168, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Hover Effects */
+.banner-card-new:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(255, 92, 168, 0.25);
+}
+
+.banner-card-new:hover img {
+    transform: scale(1.08);
+}
+
+.banner-card-new:hover .banner-info-new {
+    transform: translateY(-10px);
+}
+
+.btn-accent:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px -5px rgba(255, 92, 168, 0.3);
+}
+
+/* Active Indicator */
+.banner-indicator.active {
+    background: white !important;
+    width: 24px !important;
+}
+

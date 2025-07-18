@@ -10,51 +10,42 @@ from django.db.models import Count
 
 
 class HomeView(TemplateView):
-    template_name = 'home.html'
+    template_name = 'home/home.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         data = cache.get('home_data')
         cache.clear()
         if not data:
-          
+        
 
             data = {
-                # القسم الأول: العروض والإعلانات الكبيرة
-                'main_banners': FeaturedCollection.objects.filter(is_active=True).order_by('order')[:3],
-                
-                # الأقسام الرئيسية
+                'main_banners': FeaturedCollection.objects.filter(is_active=True).order_by('order')[:20],
                 'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct()[:8],
-                
-                # المنتجات المميزة (مع إمكانية التخصيص)
                 'featured_products_section': {
-                    'title': _("Featured Products"),
+                    'title': _("Featured Products"), 
                     'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:8],
                     'layout': 'carousel'  # يمكن أن يكون 'grid' أو 'carousel'
                 },
-                
-                # أحدث المنتجات
                 'new_products_section': {
                     'title': _("New Arrivals"),
                     'products': Product.objects.filter(is_available=True).order_by('-created_at').select_related('category')[:12],
                     'layout': 'grid'
                 },
-                
-                # الأكثر تقييماً
                 'top_rated_section': {
                     'title': _("Top Rated"),
                     'products': Product.objects.filter(is_available=True, overall_rating__gte=4).order_by('-overall_rating')[:12],
                     'layout': 'carousel'
                 },
                 
-                # العروض الخاصة
+
                 'discounts_section': {
                     'title': _("Hot Deals"),
                     'products': Product.objects.filter(is_available=True, discount__gte=15).order_by('-discount')[:8],
                     'layout': 'carousel'
                 },
                 
-                # المجموعات المميزة
+
                 'collections_section': {
                     'title': _("Our Collections"),
                     'collections': Collection.objects.filter(is_active=True).annotate(

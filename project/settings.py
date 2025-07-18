@@ -28,11 +28,23 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
 
-# Application definition
+LANGUAGE_CODE = 'en'  # اللغة الافتراضية
+
+LANGUAGES = [
+    ('en', 'English'),
+    ('ar', 'Arabic'),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',  # مجلد لحفظ ملفات الترجمة
+]
+
+USE_I18N = True
+USE_L10N = True
+
 
 INSTALLED_APPS = [
     "accounts",
-    'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -45,13 +57,16 @@ INSTALLED_APPS = [
     "features",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
+
+    "widget_tweaks",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "widget_tweaks",
+    'django.contrib.sites',
+    'django.contrib.humanize',
 ]
 # ✅ تسجيل الدخول وتحويل الصفحة بعده
 LOGIN_URL = '/'
@@ -87,7 +102,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "allauth.account.middleware.AccountMiddleware"
+    "allauth.account.middleware.AccountMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
+
 ]
 ROOT_URLCONF = "project.urls"
 

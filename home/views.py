@@ -27,6 +27,12 @@ class HomeView(TemplateView):
                     'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:30],
                     'layout': 'carousel'  # يمكن أن يكون 'grid' أو 'carousel'
                 },
+                'daily_products_section': {
+                    'title': _("Daily Products"),
+                    'products': Product.objects.filter(is_available=True).order_by('?').select_related('category')[:20],
+                    'layout': 'grid'
+                },
+                
                 'sub_categories_section': {
                     'title': _("Sub Categories"), 
                     'products': Category.objects.filter(parent__isnull=False, products__isnull=False).distinct()[:50],

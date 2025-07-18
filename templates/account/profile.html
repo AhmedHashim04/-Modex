@@ -28,27 +28,6 @@
     100% {background-position:0% 50%;}
 }
 
-.avatar-container-advanced {
-    position: relative;
-    display: inline-block;
-}
-.avatar-edit-btn {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background: hsla(var(--surface-color), 1);
-    border-radius: 50%;
-    padding: 0.2rem 0.3rem;
-    box-shadow: var(--shadow-light);
-    cursor: pointer;
-    font-size: 1rem;
-    color: hsl(var(--primary-color));
-    border: none;
-    transition: background 0.2s;
-}
-.avatar-edit-btn:hover {
-    background: hsl(var(--background-color));
-}
 .profile-detail-list {
     font-size: 1.05rem;
 }
@@ -106,14 +85,14 @@
             <div class="card border-0 rounded-4 overflow-hidden bg-blur-advanced">
                 <!-- Gradient Header with Animated Background -->
                 <div class="card-header bg-gradient-animated-advanced text-white text-center py-4 position-relative">
-                    <div class="avatar-container-advanced mb-3">
+                    {% comment %} <div class="avatar-container-advanced mb-3">
                         <div class="avatar-circle position-relative">
                             <img src="https://ui-avatars.com/api/?name={{ profile.user.get_full_name|urlencode }}&background=6B8DD6&color=fff&size=128" alt="Profile Picture" class="rounded-circle shadow" style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #fff;">
                             <button class="avatar-edit-btn" title="Change Avatar" data-bs-toggle="tooltip" disabled>
-                                {% comment %} <i class="fas fa-camera"></i> {% endcomment %}
+                                <i class="fas fa-camera"></i> 
                             </button>
                         </div>
-                    </div>
+                    </div> {% endcomment %}
                     <h2 class="mb-0 fw-bold text-white">{{ profile.user.get_full_name|default:"My Profile" }}</h2>
                     <p class="mb-0 opacity-75">Member since {{ profile.user.date_joined|date:"M Y" }}</p>
                     <div class="d-flex justify-content-center gap-2 mt-2">

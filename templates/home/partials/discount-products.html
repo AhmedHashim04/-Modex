@@ -1,0 +1,23 @@
+{% load i18n %}
+
+{% if discounts_section.products %}
+<section class="section">
+    
+    <div class="section-header">
+        <h2 class="section-title">{{ discounts_section.title }}</h2>
+        <p class="section-subtitle">{% trans 'Take advantage of the best deals and special offers' %}</p>
+    </div>
+
+    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
+        {% for product in discounts_section.products %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
+            {% include "product/partials/product_card.html" %}
+        </div>
+    </div>
+
+        {% endfor %}
+    </div>
+
+</section>
+{% endif %}

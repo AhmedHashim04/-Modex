@@ -1,11 +1,12 @@
 {% load i18n %}
 
-{% if new_products_section.products %}
+{% if top_rated_section.products %}
 <section class="section">
     <div class="section-header">
-        <h2 class="section-title">{{ new_products_section.title }}</h2>
-        <p class="section-subtitle">{% trans 'Discover the latest products that have arrived at our store' %}</p>
+        <h2 class="section-title">{{ top_rated_section.title }}</h2>
+        <p class="section-subtitle">{% trans 'Our customers top rated products' %}</p>
     </div>
+
     <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
         {% for product in new_products_section.products %}
                 <div class="col">
@@ -16,6 +17,7 @@
 
         {% endfor %}
     </div>
-    
+
+
 </section>
 {% endif %}

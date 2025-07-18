@@ -4,7 +4,7 @@
 <style>
     /* Advanced, modern, standout product card styles */
     .advanced-featured-products-section {
-        background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+        {% comment %} background: linear-gradient(135deg, hsl(var(--background-color)) 0%, hsl(var(--border-color)) 100%); {% endcomment %}
         position: relative;
         overflow: hidden;
         padding-top: 2.5rem;
@@ -19,21 +19,21 @@
     .advanced-featured-products-section .section-title {
         font-size: 2.5rem;
         font-weight: 800;
-        background: linear-gradient(90deg, #6366f1 0%, #f472b6 100%);
+        background: var(--gradient-primary);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
     .advanced-featured-products-section .section-subtitle {
-        color: #64748b;
+        color: hsl(var(--text-secondary));
         font-size: 1.15rem;
         font-weight: 500;
         margin-top: 0.5rem;
     }
     .advanced-featured-products-section .product-card-advanced {
-        background: rgba(255,255,255,0.95);
+        background: hsla(var(--surface-color), 0.95);
         border-radius: 1.5rem;
-        box-shadow: 0 8px 32px 0 rgba(99,102,241,0.10), 0 1.5px 8px 0 rgba(244,114,182,0.10);
+        box-shadow: var(--shadow-medium);
         transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s;
         position: relative;
         overflow: visible;
@@ -42,7 +42,7 @@
     }
     .advanced-featured-products-section .product-card-advanced:hover {
         transform: translateY(-8px) scale(1.025);
-        box-shadow: 0 16px 48px 0 rgba(99,102,241,0.18), 0 3px 16px 0 rgba(244,114,182,0.12);
+        box-shadow: var(--shadow-heavy);
         z-index: 2;
     }
     .advanced-featured-products-section .product-badges-advanced {
@@ -59,19 +59,19 @@
         font-weight: 700;
         border-radius: 1rem;
         padding: 0.45em 1.1em;
-        box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+        box-shadow: 0 2px 8px hsla(var(--secondary-color), 0.10);
         letter-spacing: 0.02em;
     }
     .advanced-featured-products-section .badge-advanced-new {
-        background: linear-gradient(90deg, #34d399 0%, #10b981 100%);
+        background: linear-gradient(90deg, hsl(var(--accent-color)) 0%, hsl(var(--accent-color)) 100%);
         color: #fff;
     }
     .advanced-featured-products-section .badge-advanced-discount {
-        background: linear-gradient(90deg, #f43f5e 0%, #f59e42 100%);
+        background: var(--gradient-danger);
         color: #fff;
     }
     .advanced-featured-products-section .product-image-advanced {
-        background: linear-gradient(135deg, #e0e7ff 0%, #f8fafc 100%);
+        background: linear-gradient(135deg, hsl(var(--border-color)) 0%, hsl(var(--background-color)) 100%);
         border-radius: 1.25rem;
         overflow: hidden;
         min-height: 180px;
@@ -81,13 +81,13 @@
         justify-content: center;
         margin-bottom: 1.25rem;
         position: relative;
-        box-shadow: 0 2px 12px rgba(99,102,241,0.07);
+        box-shadow: 0 2px 12px hsla(var(--secondary-color), 0.07);
     }
     .advanced-featured-products-section .product-image-advanced img {
         max-height: 180px;
         object-fit: contain;
         transition: transform 0.3s;
-        filter: drop-shadow(0 2px 8px rgba(99,102,241,0.08));
+        filter: drop-shadow(0 2px 8px hsla(var(--secondary-color), 0.08));
     }
     .advanced-featured-products-section .product-card-advanced:hover .product-image-advanced img {
         transform: scale(1.07) rotate(-2deg);
@@ -96,7 +96,7 @@
         font-size: 1.15rem;
         font-weight: 700;
         margin-bottom: 0.25rem;
-        color: #1e293b;
+        color: hsl(var(--text-primary));
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
@@ -113,8 +113,8 @@
         gap: 0.3rem;
     }
     .advanced-featured-products-section .tag-badge-advanced {
-        background: #e0e7ff;
-        color: #6366f1;
+        background: hsl(var(--border-color));
+        color: hsl(var(--secondary-color));
         font-size: 0.85rem;
         border-radius: 0.75rem;
         padding: 0.2em 0.8em;
@@ -123,11 +123,11 @@
     .advanced-featured-products-section .price-advanced {
         font-size: 1.15rem;
         font-weight: 800;
-        color: #6366f1;
+        color: hsl(var(--secondary-color));
     }
     .advanced-featured-products-section .old-price-advanced {
         font-size: 0.95rem;
-        color: #64748b;
+        color: hsl(var(--text-secondary));
         text-decoration: line-through;
         margin-right: 0.5em;
     }
@@ -136,14 +136,14 @@
         font-weight: 600;
         border-radius: 1rem;
         padding: 0.3em 1em;
-        background: #f0fdf4;
-        color: #10b981;
-        border: 1px solid #bbf7d0;
+        background: hsl(var(--accent-color), 0.12);
+        color: hsl(var(--accent-color));
+        border: 1px solid hsl(var(--accent-color), 0.25);
     }
     .advanced-featured-products-section .stock-badge-advanced.out {
-        background: #fef2f2;
-        color: #ef4444;
-        border: 1px solid #fecaca;
+        background: hsl(var(--danger-color), 0.10);
+        color: hsl(var(--danger-color));
+        border: 1px solid hsl(var(--danger-color), 0.18);
     }
     .advanced-featured-products-section .product-actions-advanced {
         margin-top: 1rem;
@@ -151,7 +151,6 @@
         gap: 0.5rem;
         flex-wrap: wrap;
     }
-    /* Decorative floating shapes */
     .advanced-featured-products-section .floating-shape {
         position: absolute;
         z-index: 0;
@@ -162,19 +161,19 @@
     .advanced-featured-products-section .floating-shape.shape1 {
         top: -60px; left: -60px;
         width: 180px; height: 180px;
-        background: radial-gradient(circle at 40% 40%, #6366f1 0%, transparent 80%);
+        background: radial-gradient(circle at 40% 40%, hsl(var(--secondary-color)) 0%, transparent 80%);
         border-radius: 50%;
     }
     .advanced-featured-products-section .floating-shape.shape2 {
         bottom: -80px; right: -80px;
         width: 220px; height: 220px;
-        background: radial-gradient(circle at 60% 60%, #f472b6 0%, transparent 80%);
+        background: radial-gradient(circle at 60% 60%, hsl(var(--primary-color)) 0%, transparent 80%);
         border-radius: 50%;
     }
     .advanced-featured-products-section .floating-shape.shape3 {
         top: 30%; right: 10%;
         width: 90px; height: 90px;
-        background: radial-gradient(circle at 50% 50%, #f59e42 0%, transparent 80%);
+        background: radial-gradient(circle at 50% 50%, hsl(var(--tertiary-color)) 0%, transparent 80%);
         border-radius: 50%;
     }
 </style>
@@ -188,7 +187,7 @@
         <p class="section-subtitle">{% trans 'The best carefully selected products for an enjoyable shopping experience' %}</p>
     </div>
 
-    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
+    <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
         {% for fp in featured_products_section.products %}
             <div class="col d-flex">
                 <div class="card product-card-advanced flex-fill d-flex flex-column position-relative">

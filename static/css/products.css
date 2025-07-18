@@ -389,18 +389,6 @@
 
 
 
-.section, .container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-.section, .container {
-    max-width: 100vw !important;
-    width: 100vw !important;
-    margin: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-
 /* Custom Scrollbar */
 .banners-horizontal-scroll::-webkit-scrollbar {
     height: 8px;

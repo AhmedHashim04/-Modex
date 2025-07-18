@@ -1,34 +1,3 @@
-:root {
-    /* Cheerful, playful palette for gifts & kid toys */
-    --primary-color: 340 90% 65%;   /* #FF5CA8 - Pink (fun, playful) */
-    --tertiary-color: 48 100% 67%;  /* #FFE066 - Yellow (happy, bright) */
-    --secondary-color: 200 90% 65%; /* #4FC3F7 - Sky Blue (friendly) */
-    --accent-color: 141 70% 60%;    /* #4ADE80 - Green (fresh, energetic) */
-    --danger-color: 0 84% 60%;      /* #EF4444 - Red (for errors/warnings) */
-    --background-color: 48 100% 97%; /* #FFF9E5 - Soft yellow background */
-    --surface-color: 0 0% 100%;     /* #FFFFFF - Card/Surface */
-    --dark-surface: 222 84% 5%;     /* #0F172A - For contrast */
-    --text-primary: 222 84% 5%;     /* #0F172A - Main text */
-    --text-nav: 340 90% 65%;        /* #FF5CA8 - Pink nav text */
-    --text-secondary: 200 90% 40%;  /* #2286A8 - Muted blue for secondary text */
-    --text-light: 48 100% 67%;      /* #FFE066 - Light yellow for highlights */
-    --border-color: 200 90% 85%;    /* #B3E5FC - Light blue border */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
-    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
-    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
-    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
-    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
-    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
-    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
-    --border-radius: 1.2rem;
-    --border-radius-lg: 2rem;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-
 /* Authentication Pages Styles */
 .auth-page {
     background: var(--gradient-primary);
@@ -346,7 +315,7 @@
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
-
+/* 
 /* Avatar Circle */
 .avatar-circle {
     width: 80px;
@@ -361,7 +330,7 @@
     border: 3px solid hsl(var(--surface-color) / 0.3);
 }
 
-/* Avatar Edit Section */
+/*
 .avatar-edit {
     text-align: center;
 }
@@ -400,7 +369,8 @@
 
 .avatar-upload-btn:hover {
     background: rgba(255, 255, 255, 0.3);
-}
+} */
+
 /* Floating Labels */
 .form-floating label {
     padding-left: 40px;

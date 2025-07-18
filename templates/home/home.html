@@ -6,18 +6,26 @@
 
 
 {% block content %}
-
+{% comment %} 
 <!-- Main Banners Section - New Modern Style -->
 {% include "home/partials/main-banner.html" %}
+<hr> {% endcomment %}
+
+
+<!-- Daily Products Section -->
+{% include "home/partials/daily-products.html" %}
 <hr>
+<div class="custom-narrow-container">
 
 <!-- Categories Section -->
- 
 {% include "home/partials/main-categories.html" %}
+<hr>
+<!-- New Arrivals Section -->
+{% include "home/partials/new-arrivals.html" %}
 <hr>
 
 <!-- Featured Products Section -->
-{% include "home/partials/features.products.html" %}
+{% include "home/partials/features-products.html" %}
 <hr>
 
 <!-- Sub Categories Section -->
@@ -30,58 +38,16 @@
 {% endif %}
 <hr>
 
-<!-- New Arrivals Section -->
-{% include "home/partials/new-arrivals.html" %}
-
-<hr>
 
 <!-- Top Rated Section -->
-{% if top_rated_section.products %}
-<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
-    <div class="section-header">
-        <h2 class="section-title">{{ top_rated_section.title }}</h2>
-        <p class="section-subtitle">{% trans 'Our customers top rated products' %}</p>
-    </div>
-
-    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
-        {% for product in new_products_section.products %}
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
-                            {% include "product/partials/product_card.html" %}
-                    </div>
-                </div>
-
-        {% endfor %}
-    </div>
-
-
-</section>
-{% endif %}
+{% include "home/partials/top-rated.html" %}
 <hr>
 
 <!-- Hot Deals Section -->
-{% if discounts_section.products %}
-<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
-    
-    <div class="section-header">
-        <h2 class="section-title">{{ discounts_section.title }}</h2>
-        <p class="section-subtitle">{% trans 'Take advantage of the best deals and special offers' %}</p>
-    </div>
-
-    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
-        {% for product in discounts_section.products %}
-        <div class="col">
-            <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
-            {% include "product/partials/product_card.html" %}
-        </div>
-    </div>
-
-        {% endfor %}
-    </div>
-
-</section>
-{% endif %}
+{% include "home/partials/discount-products.html" %}
 <hr>
+</div>
+
 {% comment %} <!-- Collections Section -->
 {% if collections_section.collections %}
 <section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">

@@ -1,4 +1,5 @@
-<nav aria-label="Products pagination" class="mt-4">
+{% load i18n %}
+<nav aria-label="{% trans 'Products pagination' %}" class="mt-4">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
             <li class="page-item">
@@ -11,7 +12,7 @@
                                 transition: var(--transition);
                         ">
 
-                    <i class="fas fa-angle-left"></i> Prev
+                    <i class="fas fa-angle-left"></i> {% trans "Prev" %}
                 </a>
             </li>
         {% endif %}
@@ -52,7 +53,7 @@
                                 transition: var(--transition);
                         ">
 
-                    Next <i class="fas fa-angle-right"></i>
+                    {% trans "Next" %} <i class="fas fa-angle-right"></i>
                 </a>
             </li>
         {% endif %}

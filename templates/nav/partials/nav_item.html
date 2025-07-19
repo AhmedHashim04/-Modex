@@ -1,0 +1,14 @@
+<!-- templates/includes/nav_item.html -->
+{% load i18n %}
+
+<span class="d-flex align-items-center">
+    {% if LANGUAGE_CODE == "ar" %}
+        {{ text|safe }}
+        <i class="{{ icon_class|default:'fas' }} {{ icon }} mx-1"></i>
+        {% if badge %}<span class="badge {{ badge_class }} rounded-pill ms-1">{{ badge }}</span>{% endif %}
+    {% else %}
+        <i class="{{ icon_class|default:'fas' }} {{ icon }} mx-1"></i>
+        {{ text|safe }}
+        {% if badge %}<span class="badge {{ badge_class }} rounded-pill ms-1">{{ badge }}</span>{% endif %}
+    {% endif %}
+</span>

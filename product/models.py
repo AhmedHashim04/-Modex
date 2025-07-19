@@ -15,7 +15,7 @@ from .utils import generate_product_slug
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=255, verbose_name=_("Name"), db_index=True)
+    name = models.CharField(max_length=255,unique=True, verbose_name=_("Name"), db_index=True)
     category = models.ForeignKey("Category",on_delete=models.PROTECT,verbose_name=_("Category"),blank=True,null=True,related_name="products",)
     # brand = models.ForeignKey('features.Brand',on_delete=models.PROTECT,verbose_name=_("Brand"),blank=True,null=True,related_name='products')
     description = models.TextField(max_length=1000, verbose_name=_("Description"))

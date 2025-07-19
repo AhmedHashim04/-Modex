@@ -1,6 +1,7 @@
 
 {% extends 'base/base.html' %}
-{% block title %}Products Trader - Your Ultimate Shopping Destination{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Products Trader - Your Ultimate Shopping Destination" %}{% endblock %}
 
 {% block content %}
 
@@ -9,24 +10,28 @@
         <div class="d-flex justify-content-between align-items-center">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 bg-transparent text-light">
-                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-light opacity-75">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'product:product_list' %}" class="text-light opacity-75">Products</a></li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'home' %}" class="text-light opacity-75">{% trans "Home" %}</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'product:product_list' %}" class="text-light opacity-75">{% trans "Products" %}</a>
+                    </li>
                     <li class="breadcrumb-item active text-light">
                         {% if search_query %}
-                            Search: "{{ search_query }}"
+                            {% blocktrans with query=search_query %}Search: "{{ query }}"{% endblocktrans %}
                         {% else %}
-                            All Products
+                            {% trans "All Products" %}
                         {% endif %}
                     </li>
                 </ol>
             </nav>
             <div class="d-flex align-items-center">
                 <span class="badge bg-primary rounded-pill me-3">
-                    {{ products.paginator.count }} Products
+                    {{ products.paginator.count }} {% trans "Products" %}
                 </span>
                 <button class="btn btn-sm glass-btn" data-bs-toggle="offcanvas" 
                         data-bs-target="#filtersOffcanvas" aria-controls="filtersOffcanvas">
-                    <i class="fas fa-filter me-1"></i> Filters
+                    <i class="fas fa-filter me-1"></i> {% trans "Filters" %}
                 </button>
             </div>
         </div>

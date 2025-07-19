@@ -1,27 +1,53 @@
 {% extends 'base/base.html' %}
 {% load socialaccount %}
+{% load i18n %}
 
-{% comment %} {% block title %}Your Cart Trader - Your Ultimate Shopping Destination{% endblock %} {% endcomment %}
 {% block content %}
 
 <section class="page-header bg-gradient-animated py-5">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6">
-                <h1 class="h2 mb-3 text-white">Your Shopping Cart</h1>
+                <h1 class="h2 mb-3 text-white">
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% if LANGUAGE_CODE == "ar" %}
+                        سلة التسوق الخاصة بك
+                    {% else %}
+                        Your Shopping Cart
+                    {% endif %}
+                </h1>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-light mb-0">
-                        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white-50">Home</a></li>
-                        <li class="breadcrumb-item active text-white">Cart</li>
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'home' %}" class="text-white-50">
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% if LANGUAGE_CODE == "ar" %}
+                                    الرئيسية 
+                                {% else %}
+                                    Home
+                                {% endif %}
+                            </a>
+                        </li>
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == "ar" %}/
+                        <li >
+                            السلة  
+                            {% else %}
+                            <li class="breadcrumb-item active text-white">
+                                Cart
+                            {% endif %}
+                        </li>
                     </ol>
+
                 </nav>
+                
             </div>
             <div class="col-md-6 text-md-end">
                 {% if cart %}
                 <form method="post" action="{% url 'cart:cart_clear' %}" class="d-inline-block">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-outline-light btn-sm rounded-pill hover-scale">
-                        <i class="fas fa-trash-alt me-1"></i>Clear Cart
+                        <i class="fas fa-trash-alt me-1"></i>{% trans "Clear Cart" %}
                     </button>
                 </form>
                 {% endif %}
@@ -38,7 +64,13 @@
             <div class="card border-0 rounded-4 shadow-soft overflow-hidden">
                 <div class="card-header bg-primary-light">
                     <h5 class="mb-0">
-                        <i class="fas fa-shopping-cart me-2"></i>Your Items
+                        <i class="fas fa-shopping-cart me-2"></i>
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == "ar" %}
+                            عناصر السلة
+                        {% else %}
+                            Your Items
+                        {% endif %}
                     </h5>
                 </div>
                 
@@ -71,22 +103,20 @@
                                             {{ item.product.name }}
                                         </a>
                                     </h6>
-                                    <small class="text-muted">Category: {{ item.product.category.name }}</small>
+                                    <small class="text-muted">{% trans "Category" %}: {{ item.product.category.name }}</small>
                                 </div>
                                 
                                 <!-- Price -->
                                 <div class="col-md-2">
                                     {% if item.discount > 0 %}
-
-                                    <span class="original-price">{{ item.price|floatformat:2 }} EGP</span>
+                                    <span class="original-price">{{ item.price|floatformat:2 }} {% trans "EGP" %}</span>
                                     <div>
-                                        <span class="discount-price">-{{ item.discount|floatformat:2 }} EGP</span>
-
+                                        <span class="discount-price">-{{ item.discount|floatformat:2 }} {% trans "EGP" %}</span>
                                     </div>
                                     {% else %}
-                                    <span class="discount-price">{{ item.price|floatformat:2 }} EGP</span>
+                                    <span class="discount-price">{{ item.price|floatformat:2 }} {% trans "EGP" %}</span>
                                     {% endif %}    
-                                    <span class="fw-bold text-primary">{{ item.price_after_discount|floatformat:2 }} EGP</span>
+                                    <span class="fw-bold text-primary">{{ item.price_after_discount|floatformat:2 }} {% trans "EGP" %}</span>
                                 </div>
                                 
                                 <!-- Quantity Update -->
@@ -106,7 +136,7 @@
                                             </button>
                                         </div>
                                         <button type="submit" class="btn btn-sm btn-outline-primary ms-2">
-                                            Update
+                                            {% trans "Update" %}
                                         </button>
                                     </form>
                                 </div>
@@ -127,7 +157,12 @@
                             <div class="row mt-2">
                                 <div class="col-12 text-end">
                                     <small class="text-muted">
-                                        Subtotal: <span class="fw-bold">{{ item.total_price|floatformat:2 }} EGP</span>
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% if LANGUAGE_CODE == "ar" %}
+                                            المجموع الفرعي: <span class="fw-bold">{{ item.total_price|floatformat:2 }} ج.م</span>
+                                        {% else %}
+                                            Subtotal: <span class="fw-bold">{{ item.total_price|floatformat:2 }} EGP</span>
+                                        {% endif %}
                                     </small>
                                 </div>
                             </div>
@@ -140,10 +175,29 @@
                         <div class="empty-cart-icon mb-4">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <h5 class="mb-3">Your Cart is Empty</h5>
-                        <p class="text-muted mb-4">Looks like you haven't added any items to your cart yet.</p>
+                        <h5 class="mb-3">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                سلة التسوق فارغة
+                            {% else %}
+                                Your Cart is Empty
+                            {% endif %}
+                        </h5>
+                        <p class="text-muted mb-4">
+                            {% if LANGUAGE_CODE == "ar" %}
+                                يبدو أنك لم تضف أي منتجات إلى سلة التسوق بعد.
+                            {% else %}
+                                Looks like you haven't added any items to your cart yet.
+                            {% endif %}
+                        </p>
                         <a href="{% url 'product:product_list' %}" class="btn btn-primary rounded-pill hover-scale px-4">
-                            <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+                            <i class="fas fa-shopping-bag me-2"></i>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                ابدأ التسوق
+                            {% else %}
+                                Start Shopping
+                            {% endif %}
                         </a>
                     </div>
                     {% endif %}
@@ -156,24 +210,59 @@
             <div class="card border-0 rounded-4 shadow-soft" style="top: 20px;">
                 <div class="card-header bg-primary-light">
                     <h5 class="mb-0">
-                        <i class="fas fa-receipt me-2"></i>Order Summary
+                        <i class="fas fa-receipt me-2"></i>
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == "ar" %}
+                            ملخص الطلب
+                        {% else %}
+                            Order Summary
+                        {% endif %}
                     </h5>
                 </div>
                 
                 <div class="card-body">
                     <div class="summary-item d-flex justify-content-between mb-2">
-                        <span>Subtotal:</span>
-                        <span>{{ cart_summary.total_price|floatformat:2}} EGP</span>
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == "ar" %}
+                            <span>المجموع الفرعي:</span>
+                        {% else %}
+                            <span>Subtotal:</span>
+                        {% endif %}
+                        <span>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                {{ cart_summary.total_price|floatformat:2 }} ج.م
+                            {% else %}
+                                {{ cart_summary.total_price|floatformat:2 }} EGP
+                            {% endif %}
+                        </span>
                     </div>
                     <div class="summary-item d-flex justify-content-between mb-2">
-                        <span>Subtotal Discount:</span>
-                        <span>{{ cart_summary.total_discount|floatformat:2 }} EGP</span>
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == "ar" %}
+                            <span>خصم المجموع الفرعي:</span>
+                        {% else %}
+                            <span>Subtotal Discount:</span>
+                        {% endif %}
+                        <span>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                {{ cart_summary.total_discount|floatformat:2 }} ج.م
+                            {% else %}
+                                {{ cart_summary.total_discount|floatformat:2 }} EGP
+                            {% endif %}
+                        </span>
                     </div>
                     <!-- Tax Summary -->
                     <div class="summary-item d-flex justify-content-between align-items-center mb-2">
                         <span>
                             <i class="fas fa-receipt text-primary me-1"></i>
-                            Tax
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                ضريبة
+                            {% else %}
+                                Tax
+                            {% endif %}
                             <span class="badge bg-light text-primary ms-1" style="font-size: 0.8em;">
                                 {% if cart_summary.total_price_after_discount >= 3000 %}
                                     0.5%
@@ -184,18 +273,42 @@
                                 {% endif %}
                             </span>
                         </span>
-                        <span class="fw-bold">{{ cart_summary.tax_amount|floatformat:2 }} EGP</span>
+                        <span class="fw-bold">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                {{ cart_summary.tax_amount|floatformat:2 }} ج.م
+                            {% else %}
+                                {{ cart_summary.tax_amount|floatformat:2 }} EGP
+                            {% endif %}
+                        </span>
                     </div>
                     <!-- Tax Calculation Details -->
                     <div class="mb-3">
                         <div class="card border-0 shadow-sm bg-light">
                             <div class="card-body py-2 px-3">
                                 <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.97em;">
-                                    <span>Subtotal (After Discount):</span>
-                                    <span class="fw-semibold">{{ cart_summary.total_price_after_discount|floatformat:2 }} EGP</span>
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% if LANGUAGE_CODE == "ar" %}
+                                        <span>المجموع الفرعي (بعد الخصم):</span>
+                                    {% else %}
+                                        <span>Subtotal (After Discount):</span>
+                                    {% endif %}
+                                    <span class="fw-semibold">
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% if LANGUAGE_CODE == "ar" %}
+                                            {{ cart_summary.total_price_after_discount|floatformat:2 }} ج.م
+                                        {% else %}
+                                            {{ cart_summary.total_price_after_discount|floatformat:2 }} EGP
+                                        {% endif %}
+                                    </span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center mb-1" style="font-size: 0.97em;">
-                                    <span>Tax Rate:</span>
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% if LANGUAGE_CODE == "ar" %}
+                                        <span>معدل الضريبة:</span>
+                                    {% else %}
+                                        <span>Tax Rate:</span>
+                                    {% endif %}
                                     <span class="fw-semibold">
                                         {% if cart_summary.total_price_after_discount >= 3000 %}
                                             0.5%
@@ -207,16 +320,40 @@
                                     </span>
                                 </div>
                                 <div class="d-flex justify-content-between align-items-center" style="font-size: 0.97em;">
-                                    <span>Tax Amount:</span>
-                                    <span class="fw-semibold">{{ cart_summary.tax_amount|floatformat:2 }} EGP</span>
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% if LANGUAGE_CODE == "ar" %}
+                                        <span>قيمة الضريبة:</span>
+                                    {% else %}
+                                        <span>Tax Amount:</span>
+                                    {% endif %}
+                                    <span class="fw-semibold">
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% if LANGUAGE_CODE == "ar" %}
+                                            {{ cart_summary.tax_amount|floatformat:2 }} ج.م
+                                        {% else %}
+                                            {{ cart_summary.tax_amount|floatformat:2 }} EGP
+                                        {% endif %}
+                                    </span>
                                 </div>
                                 <hr class="my-2">
                                 <small class="text-muted">
                                     <i class="fas fa-info-circle me-1"></i>
-                                    Tax is calculated based on subtotal after discount:<br>
-                                    <span class="ms-3">- 0.5% if subtotal ≥ 3000 EGP</span><br>
-                                    <span class="ms-3">- 0.2% if subtotal ≥ 1000 EGP</span><br>
-                                    <span class="ms-3">- 0.1% if subtotal &lt; 1000 EGP</span>
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% if LANGUAGE_CODE == "ar" %}
+                                        <span>يتم حساب الضريبة بناءً على المجموع الفرعي بعد الخصم:</span><br>
+                                    {% else %}
+                                        <span>Tax is calculated based on subtotal after discount:</span><br>
+                                    {% endif %}
+                                    {% get_current_language as LANGUAGE_CODE %}
+                                    {% if LANGUAGE_CODE == "ar" %}
+                                        <span class="ms-3">- 0.5% إذا كان الإجمالي ≥ 3000 ج.م</span><br>
+                                        <span class="ms-3">- 0.2% إذا كان الإجمالي ≥ 1000 ج.م</span><br>
+                                        <span class="ms-3">- 0.1% إذا كان الإجمالي &lt; 1000 ج.م</span>
+                                    {% else %}
+                                        <span class="ms-3">- 0.5% if subtotal ≥ 3000 ج.م</span><br>
+                                        <span class="ms-3">- 0.2% if subtotal ≥ 1000 ج.م</span><br>
+                                        <span class="ms-3">- 0.1% if subtotal &lt; 1000 ج.م</span>
+                                    {% endif %}
                                 </small>
                             </div>
                         </div>
@@ -224,7 +361,7 @@
                     
                     {% if discount %}
                     <div class="summary-item d-flex justify-content-between mb-2 text-success">
-                        <span>Discount:</span>
+                        <span>{% trans "Discount" %}:</span>
                         <span>
                             {% if discount_type == 'percent' %}
                                 -{{ discount }}%
@@ -238,8 +375,20 @@
                     <hr class="my-3">
                     
                     <div class="summary-total d-flex justify-content-between fw-bold h5 mb-4">
-                        <span>Total:</span>
-                        <span class="text-primary">{{ cart_summary.total_price_after_discount_and_tax|floatformat:2 }} EGP</span>
+                        {% get_current_language as LANGUAGE_CODE %}
+                        {% if LANGUAGE_CODE == "ar" %}
+                            <span>الإجمالي:</span>
+                        {% else %}
+                            <span>Total:</span>
+                        {% endif %}
+                        <span class="text-primary">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                {{ cart_summary.total_price_after_discount_and_tax|floatformat:2 }} ج.م
+                            {% else %}
+                                {{ cart_summary.total_price_after_discount_and_tax|floatformat:2 }} EGP
+                            {% endif %}
+                        </span>
                     </div>
                     
                     {% if request.user.is_authenticated %}
@@ -248,17 +397,29 @@
                         {% if user.is_authenticated %}
                         <a href="{% url 'order:create_order' %}" 
                             class="btn btn-primary btn-lg rounded-pill hover-scale {% if not cart %}disabled{% endif %}">
-                            <i class="fas fa-credit-card me-2"></i>Proceed to Checkout
+                            <i class="fas fa-credit-card me-2"></i>{% trans "Proceed to Checkout" %}
                         </a>
                         {% else %}
                         <a href="{% provider_login_url 'google' %}" 
                             class="btn btn-primary btn-lg rounded-pill hover-scale">
-                            <i class="fas fa-sign-in-alt me-2"></i>Login to Checkout
+                            <i class="fas fa-sign-in-alt me-2"></i>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                تسجيل الدخول لإتمام الشراء
+                            {% else %}
+                                Login to Checkout
+                            {% endif %}
                         </a>
                         {% endif %}
                         <a href="{% url 'product:product_list' %}" 
                             class="btn btn-outline-secondary rounded-pill hover-scale">
-                            <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+                            <i class="fas fa-shopping-bag me-2"></i>
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% if LANGUAGE_CODE == "ar" %}
+                                متابعة التسوق
+                            {% else %}
+                                Continue Shopping
+                            {% endif %}
                         </a>
                     </div>
                 </div>

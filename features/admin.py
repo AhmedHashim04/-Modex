@@ -14,40 +14,40 @@ class ProductInline(admin.TabularInline):
     extra = 1
 
 
-class CollectionAdmin(admin.ModelAdmin):
-    inlines = [ProductInline]
-    list_display = ("name", "slug", "created_at", "is_active")
-    list_filter = ("created_at", "is_active")
-    search_fields = ("name", "description")
-    ordering = ("-created_at",)
-    prepopulated_fields = {"slug": ("name",)}
-    filter_horizontal = ("products",)  # لو في ManyToMany مباشرة في Collection
+# class CollectionAdmin(admin.ModelAdmin):
+#     inlines = [ProductInline]
+#     list_display = ("name", "slug", "created_at", "is_active")
+#     list_filter = ("created_at", "is_active")
+#     search_fields = ("name", "description")
+#     ordering = ("-created_at",)
+#     prepopulated_fields = {"slug": ("name",)}
+#     filter_horizontal = ("products",)  # لو في ManyToMany مباشرة في Collection
 
-    def export_collections_to_csv(self, request, queryset):
-        import csv
+#     def export_collections_to_csv(self, request, queryset):
+#         import csv
 
-        from django.http import HttpResponse
+#         from django.http import HttpResponse
 
-        response = HttpResponse(content_type="text/csv")
-        response["Content-Disposition"] = "attachment; filename=collections.csv"
+#         response = HttpResponse(content_type="text/csv")
+#         response["Content-Disposition"] = "attachment; filename=collections.csv"
 
-        writer = csv.writer(response)
-        writer.writerow(["ID", "Name", "Slug", "Created At", "Is Active"])
+#         writer = csv.writer(response)
+#         writer.writerow(["ID", "Name", "Slug", "Created At", "Is Active"])
 
-        for collection in queryset:
-            writer.writerow(
-                [
-                    collection.id,
-                    collection.name,
-                    collection.slug,
-                    collection.created_at,
-                    collection.is_active,
-                ]
-            )
+#         for collection in queryset:
+#             writer.writerow(
+#                 [
+#                     collection.id,
+#                     collection.name,
+#                     collection.slug,
+#                     collection.created_at,
+#                     collection.is_active,
+#                 ]
+#             )
 
-        return response
+#         return response
 
-    export_collections_to_csv.short_description = "Export selected collections to CSV"
+#     export_collections_to_csv.short_description = "Export selected collections to CSV"
 
 
-admin.site.register(Collection, CollectionAdmin)
+# admin.site.register(Collection, CollectionAdmin)

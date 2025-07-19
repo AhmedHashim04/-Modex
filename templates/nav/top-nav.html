@@ -1,42 +1,89 @@
+{% load i18n %}
+
 {% load socialaccount %}
-    <!-- A. Top navigation bar -->
-    <div class="modex-manage-nav modex-manage-nav-custom d-flex align-items-center justify-content-between px-2 px-md-3 py-1 flex-wrap">
-        <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap">
-            <!-- Account -->
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'accounts:profile' %}" class="manage-nav-link d-flex align-items-center">
-                <i class="fas fa-user-circle me-1"></i>
-                <span class="d-none d-sm-inline">{{ request.user.username }}</span>
-            </a>
-            <!-- Wishlist -->
-            <a href="{% url 'accounts:wishlist' %}" class="manage-nav-link d-flex align-items-center">
-                <i class="fas fa-heart me-1"></i>
-                <span class="d-none d-sm-inline">Wishlist</span>
-                {% comment %} <span class="badge bg-danger ms-1" id="wishlist-count" >{{ contextWishlist|length }}</span> {% endcomment %}
-            </a>
-            {% else %}
-            <div class="d-flex align-items-center gap-2">
-
-                <a href="{% provider_login_url 'google' %}" class="manage-nav-link d-flex align-items-center" style="color: #4285F4;">
-                    <i class="fab fa-google me-1"></i>
-                    <span class="d-none d-sm-inline">Login with Google</span>
-                </a>
-            </div>
-            
-
-            {% endif %}
-            
-            <!-- Cart -->
-            <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center position-relative cart-advanced-link" id="cart-link">
-                <i class="fas fa-shopping-cart me-1 fs-5"></i>
-                <span class="d-none d-sm-inline fw-semibold">
-                    Cart 
-                    <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
-                        {{ request.cart.total_quantity|default:"Modex" }}
-                    </span>
+{% get_current_language as LANGUAGE_CODE %}
+<!-- A. Top navigation bar -->
+<div class="modex-manage-nav modex-manage-nav-custom d-flex align-items-center justify-content-between px-2 px-md-3 py-1 flex-wrap"
+     {% if LANGUAGE_CODE == "ar" %}dir="rtl"{% endif %}>
+    <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap"
+         {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+        <!-- Account -->
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'accounts:profile' %}" class="manage-nav-link d-flex align-items-center"
+           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+            {% if LANGUAGE_CODE == "ar" %}
+                <span class="d-none d-sm-inline">
+                    {{ request.user.username }}
                 </span>
+                <i class="fas fa-user-circle ms-1"></i>
+            {% else %}
+                <i class="fas fa-user-circle me-1"></i>
+                <span class="d-none d-sm-inline">
+                    {{ request.user.username }}
+                </span>
+            {% endif %}
+        </a>
+        <!-- Wishlist -->
+        <a href="{% url 'accounts:wishlist' %}" class="manage-nav-link d-flex align-items-center"
+           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+            {% if LANGUAGE_CODE == "ar" %}
+                <span class="d-none d-sm-inline">
+                    المفضلة
+                </span>
+                <i class="fas fa-heart ms-1"></i>
+            {% else %}
+                <i class="fas fa-heart me-1"></i>
+                <span class="d-none d-sm-inline">
+                    Wishlist
+                </span>
+            {% endif %}
+            {% comment %} <span class="badge bg-danger ms-1" id="wishlist-count" >{{ contextWishlist|length }}</span> {% endcomment %}
+        </a>
+        {% else %}
+        <div class="d-flex align-items-center gap-2"
+             {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+            <a href="{% provider_login_url 'google' %}" class="manage-nav-link d-flex align-items-center" style="color: #4285F4;"
+               {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse; color: #4285F4;"{% endif %}>
+                {% if LANGUAGE_CODE == "ar" %}
+                <i class="fab fa-google ms-1"></i>
+                    <span class="d-none d-sm-inline">
+                        تسجيل الدخول عبر جوجل
+                    </span>
+                {% else %}
+                    <i class="fab fa-google me-1"></i>
+                    <span class="d-none d-sm-inline">
+                        Login with Google
+                    </span>
+                {% endif %}
             </a>
-
+        </div>
+        {% endif %}
+        
+        <!-- Cart -->
+        <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center position-relative cart-advanced-link" id="cart-link"
+                {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+                {% if LANGUAGE_CODE == "ar" %}
+                    <span class="d-none d-sm-inline fw-semibold">
+                        السلة
+                        <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
+                            {{ request.cart.total_quantity|default:"Modex" }}
+                        </span>
+                    </span>
+                    <i class="fas fa-shopping-cart ms-1 fs-5"></i>
+                {% else %}
+                    <i class="fas fa-shopping-cart me-1 fs-5"></i>
+                    <span class="d-none d-sm-inline fw-semibold">
+                        Cart
+                        <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
+                            {% if LANGUAGE_CODE == "ar" %}
+                                {{ request.cart.total_quantity|default:"Modex" }}
+                            {% else %}
+                                {{ request.cart.total_quantity|default:"Modex" }}
+                            {% endif %}
+                        </span>
+                    </span>
+                {% endif %}
+        </a>
 
 <script>
 // تحميل العداد فور ظهور الصفحة (حل مشكلة الـ 0 المؤقت)
@@ -77,60 +124,48 @@ document.addEventListener('cartUpdated', function(e) {
     updateCartCounter(e.detail.count);
 });
 </script>       
-            <!-- Shop -->
-            <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex align-items-center">
-                <i class="fas fa-store me-1"></i>
-                <span class="d-none d-sm-inline">Shop</span>
-            </a>
-        </div>
-        <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap mt-1 mt-md-0">
-            <!-- Location -->
-            <a href="#" class="manage-nav-location d-flex align-items-center">
-                <i class="fas fa-map-marker-alt me-1 text-danger"></i>
-                <span class="d-none d-sm-inline text-white">
-                    Cairo, Egypt
+        <!-- Shop -->
+        <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex align-items-center"
+           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+            {% if LANGUAGE_CODE == "ar" %}
+                <span class="d-none d-sm-inline">
+                    المتجر
                 </span>
-            </a>
-            
-            <!-- Time -->
-            <div class="manage-nav-time d-flex align-items-center">
-                <i class="fas fa-clock me-1 text-primary"></i>
-                <span id="modexCurrentTime">10:24 AM</span>
-            </div>
-        </div>
+                <i class="fas fa-store ms-1"></i>
+            {% else %}
+                <i class="fas fa-store me-1"></i>
+                <span class="d-none d-sm-inline">
+                    Shop
+                </span>
+            {% endif %}
+        </a>
     </div>
+</div>
 
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Update time display
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('modexCurrentTime').textContent = timeStr;
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    
+    // Initialize time and update every minute
+    updateTime();
+    setInterval(updateTime, 60000);
+    
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.modex-navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
         }
-        
-        // Initialize time and update every minute
-        updateTime();
-        setInterval(updateTime, 60000);
-        
-        // Add scroll effect to navbar
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.modex-navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        
-        // Add active state to subnav links
-        document.querySelectorAll('.modex-subnav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                document.querySelectorAll('.modex-subnav-link').forEach(el => {
-                    el.classList.remove('active-category');
-                });
-                this.classList.add('active-category');
+    });
+    
+    // Add active state to subnav links
+    document.querySelectorAll('.modex-subnav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            document.querySelectorAll('.modex-subnav-link').forEach(el => {
+                el.classList.remove('active-category');
             });
+            this.classList.add('active-category');
         });
-    </script>
+    });
+</script>

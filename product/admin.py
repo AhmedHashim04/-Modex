@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 
 from features.admin import ProductImageInline
-from features.models import Collection
+# from features.models import Collection
 
 from .models import Category, Product, Review  # , Tag
 
@@ -43,17 +43,18 @@ def export_products_to_csv(modeladmin, request, queryset):
     return response
 
 
-class ProductInline(admin.TabularInline):
-    model = Collection.products.through
-    extra = 1
-    verbose_name = _("Collection Product")
-    verbose_name_plural = _("Collection Products")
-    autocomplete_fields = ["collection", "product"]
+# class ProductInline(admin.TabularInline):
+#     model = Collection.products.through
+#     extra = 1
+#     verbose_name = _("Collection Product")
+#     verbose_name_plural = _("Collection Products")
+#     autocomplete_fields = ["collection", "product"]
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductImageInline, ProductInline]
+    # inlines = [ProductImageInline, ProductInline]
+    inlines = [ProductImageInline]
     # list_display = ('name', 'price', 'cost', 'profit', 'stock', 'created_at')
     list_display = ("name", "price", "stock", "created_at")
     list_filter = ("created_at", "stock", "category")

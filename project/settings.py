@@ -81,7 +81,6 @@ ACCOUNT_SIGNUP_FIELDS = ['email*']  # لا يوجد باسورد لأن الدخ
 ACCOUNT_ALLOW_REGISTRATION = False
 
 # ✅ لا نحتاج باسورد ولا username
-ACCOUNT_SIGNUP_FIELDS = ['email*']
 # ACCOUNT_USERNAME_REQUIRED = False
 # ACCOUNT_EMAIL_REQUIRED = True
 # ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
@@ -97,13 +96,13 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
-    'django.middleware.locale.LocaleMiddleware',
 
 ]
 ROOT_URLCONF = "project.urls"

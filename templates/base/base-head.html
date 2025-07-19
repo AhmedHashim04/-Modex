@@ -1,8 +1,6 @@
 {% load static %}
 {% load i18n %}
-{% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
@@ -11,16 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title class="modex-title">
         {% block title %}
-        Modex - Your Ultimate Shopping Destination
+        {% trans "Modex - Your Ultimate Shopping Destination" %}
         {% endblock title %}
     </title>
 
     <meta name="csrf-token" content="{{ csrf_token }}">
-    {% if header_offer %}
-    <div class="top-bar">
-        🎉 توصيل مجاني للطلبات فوق 200 ريال 🎁
-    </div>
-    {% endif %}
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -33,5 +26,7 @@
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
     <link rel="stylesheet" href="{% static 'css/products.css' %}">
 
-    
+    {% get_current_language_bidi as LANGUAGE_BIDI %}
+    <meta name="language-direction" content="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+    <meta name="language-code" content="{{ LANGUAGE_CODE }}">
 </head>

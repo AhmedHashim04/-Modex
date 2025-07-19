@@ -17,12 +17,14 @@
                 <li class="breadcrumb-item"><a href="{% url 'product:product_list' %}">Products</a></li>
                 <li class="breadcrumb-item active">{{ product.name }}</li>
 
+
             </ol>
         </nav>
     </div>
 </section>
 <!-- Product Detail -->
 <section class="py-4 trendy-product-detail">
+    
     <div class="container">
         <div class="row g-5 align-items-start">
             <!-- Product Images -->
@@ -57,11 +59,15 @@
                     </div>
                 </div>
             </div>
+            
             <!-- Product Info -->
             <div class="col-lg-6">
+                {% include "product/partials/wishlist_button.html" %}
+
                 <div class="product-details bg-white rounded-4 shadow-sm p-4">
                     <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
                         <div>
+                            
                             <h1 class="h3 mb-2 text-primary fw-bold trendy-title">{{ product.name }}</h1>
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 {% if product.trending %}
@@ -73,6 +79,7 @@
                             </div>
                         </div>
                         <div class="d-flex align-items-center gap-2">
+                            
                             {% comment %} {% if product in contextWishlist %}
                                 <a href="{% url 'product:add_remove_wishlist' product.slug %}" 
                                     class="btn btn-light border-0 text-danger fs-5 p-2 rounded-circle shadow-sm" title="Remove from wishlist">
@@ -87,6 +94,7 @@
                             <button class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm" title="Share product">
                                 <i class="fas fa-share-alt"></i>
                             </button>
+                            
                         </div>
                     </div>
                     <div class="d-flex align-items-center gap-2 mb-2">
@@ -120,7 +128,7 @@
                     <div class="availability mb-4">
                         <span class="badge bg-{% if product.stock > 0 %}success{% else %}danger{% endif %} px-3 py-2 fs-6">
                             {% if product.stock > 0 %}
-                                <i class="fas fa-check-circle me-1"></i> In Stock ({{ product.stock }})
+                                <i class="fas fa-check-circle me-1"></i> In Stock {% comment %} ({{ product.stock }}) {% endcomment %}
                             {% else %}
                                 <i class="fas fa-times-circle me-1"></i> Out of Stock
                             {% endif %}
@@ -135,10 +143,10 @@
                                 <form method="POST" action="{% url 'cart:cart_add' product.slug %}" class="d-flex align-items-center gap-3 flex-wrap">
                                     {% csrf_token %}
                                     <div class="input-group trendy-quantity-group" style="width: 140px;">
-                                        <button class="btn btn-outline-secondary quantity-btn minus trendy-qty-btn" type="button">-</button>
+                                        <button class="btn btn-light border quantity-btn minus trendy-qty-btn rounded-start" type="button" style="width: 38px; height: 38px; font-size: 1.25rem;">-</button>
                                         <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" 
-                                               class="form-control text-center quantity-input border-0 trendy-qty-input" required>
-                                        <button class="btn btn-outline-secondary quantity-btn plus trendy-qty-btn" type="button">+</button>
+                                               class="form-control text-center quantity-input border-0 trendy-qty-input" style="max-width: 60px; height: 38px; font-size: 1.1rem;" required>
+                                        <button class="btn btn-light border quantity-btn plus trendy-qty-btn rounded-end" type="button" style="width: 38px; height: 38px; font-size: 1.25rem;">+</button>
                                     </div>
                                     <button type="submit" class="btn btn-primary trendy-add-cart flex-grow-1">
                                         <i class="fas fa-shopping-cart me-2"></i>Add to Cart

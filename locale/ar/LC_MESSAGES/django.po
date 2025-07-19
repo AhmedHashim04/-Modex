@@ -1,33 +1,33 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# ملف ترجمة عربي لموقع تجارة إلكترونية
+# حقوق النشر (C) السنة مالك حقوق النشر للحزمة
+# هذا الملف موزع تحت نفس رخصة الحزمة.
+# أول مؤلف <البريد@الإلكتروني.كوم>، السنة.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-18 03:10+0300\n"
+"POT-Creation-Date: 2025-07-19 00:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: Arabic <ar@li.org>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
 #: accounts/views.py:53
 msgid "Removed from wishlist."
-msgstr "تمت الإزالة من قائمة الرغبات."
+msgstr "تمت إزالة المنتج من قائمة الرغبات."
 
 #: accounts/views.py:56
 msgid "Added to wishlist."
-msgstr "تمت الإضافة إلى قائمة الرغبات."
+msgstr "تمت إضافة المنتج إلى قائمة الرغبات."
 
 #: accounts/views.py:65
 msgid "Wishlist cleared successfully!"
-msgstr "تمت تصفية قائمة الرغبات بنجاح!"
+msgstr "تم مسح قائمة الرغبات بنجاح!"
 
 #: all_project models.py:119 features/models.py:46
 msgid "Beige"
@@ -175,11 +175,11 @@ msgstr "تم الشحن"
 
 #: all_project models.py:174 order/models.py:20
 msgid "Delivered"
-msgstr "تم التسليم"
+msgstr "تم التوصيل"
 
 #: all_project models.py:175 order/models.py:21
 msgid "Cancelled"
-msgstr "أُلغي"
+msgstr "تم الإلغاء"
 
 #: all_project models.py:176 order/models.py:22
 msgid "Returned"
@@ -231,7 +231,7 @@ msgstr "الرمز البريدي"
 
 #: all_project models.py:198 order/models.py:42
 msgid "Is Default"
-msgstr "افتراضي؟"
+msgstr "افتراضي"
 
 #: all_project models.py:208 order/models.py:52
 msgid "Address"
@@ -263,7 +263,7 @@ msgstr "طريقة الشحن"
 
 #: all_project models.py:222 order/admin.py:19 order/models.py:65
 msgid "Total Price"
-msgstr "السعر الإجمالي"
+msgstr "إجمالي السعر"
 
 #: all_project models.py:223 order/models.py:66
 msgid "Status Changed At"
@@ -323,61 +323,29 @@ msgstr "عرض"
 
 #: home/models.py:13 home/models.py:29
 msgid "Is Active"
-msgstr "نشط؟"
-
-#: home/templates/home/home-section.html:16 home/templates/home/home.html:19 templates/home/home.html:107
-msgid "Shop Now"
-msgstr "تسوق الآن"
-
-#: home/templates/home/home-section.html:27
-msgid "Shop By Category"
-msgstr "تسوق حسب الفئة"
-
-#: home/templates/home/home-section.html:50 home/templates/home/home-section.html:78 home/templates/home/home-section.html:96 home/templates/home/home-section.html:114
-msgid "View All"
-msgstr "عرض الكل"
-
-#: home/templates/home/home-section.html:139
-msgid "products"
-msgstr "منتجات"
-
-#: home/templates/home/home.html:4
-msgid "Home"
-msgstr "الرئيسية"
-
-#: home/templates/home/home.html:26 home/templates/home/home.html:67
-msgid "Previous"
-msgstr "السابق"
-
-#: home/templates/home/home.html:30 home/templates/home/home.html:71
-msgid "Next"
-msgstr "التالي"
-
-#: home/templates/home/home.html:37
-msgid "Shop by Category"
-msgstr "تسوق حسب الفئة"
-
-#: home/templates/home/home.html:88 home/views.py:50
-msgid "Our Collections"
-msgstr "مجموعاتنا"
-
-#: home/templates/home/home.html:95
-msgid "items"
-msgstr "عناصر"
+msgstr "نشط"
 
 #: home/views.py:26
 msgid "Featured Products"
 msgstr "منتجات مميزة"
 
 #: home/views.py:31
+msgid "Daily Products"
+msgstr "منتجات اليوم"
+
+#: home/views.py:37
+msgid "Sub Categories"
+msgstr "تصنيفات فرعية"
+
+#: home/views.py:42
 msgid "New Arrivals"
 msgstr "وصل حديثاً"
 
-#: home/views.py:36
+#: home/views.py:47
 msgid "Top Rated"
 msgstr "الأعلى تقييماً"
 
-#: home/views.py:43
+#: home/views.py:54
 msgid "Hot Deals"
 msgstr "عروض ساخنة"
 
@@ -393,27 +361,27 @@ msgstr "تعيين الطلبات المحددة كمشحونة"
 #: order/admin.py:65
 #, python-format
 msgid "%d order(s) marked as cancelled."
-msgstr "تم تعليم %d طلب كملغي."
+msgstr "تم تعليم %d طلب كمُلغى."
 
 #: order/admin.py:67
 msgid "Mark selected orders as cancelled"
-msgstr "تعيين الطلبات المحددة كملغاة"
+msgstr "تعيين الطلبات المحددة كمُلغاة"
 
 #: product/admin.py:13
 msgid "Export selected products to CSV"
-msgstr "تصدير المنتجات المحددة إلى CSV"
+msgstr "تصدير المنتجات المحددة إلى ملف CSV"
 
 #: product/admin.py:49
 msgid "Collection Product"
-msgstr "منتج المجموعة"
+msgstr "منتج مجموعة"
 
 #: product/admin.py:50
 msgid "Collection Products"
-msgstr "منتجات المجموعة"
+msgstr "منتجات المجموعات"
 
-#: product/models.py:19 product/models.py:152
+#: product/models.py:19 product/models.py:152 templates/product/partials/filters-card.html:26
 msgid "Category"
-msgstr "فئة"
+msgstr "التصنيف"
 
 #: product/models.py:21 product/models.py:145
 msgid "Description"
@@ -429,11 +397,11 @@ msgstr "المخزون"
 
 #: product/models.py:27
 msgid "Overall Rating"
-msgstr "التقييم العام"
+msgstr "التقييم الكلي"
 
 #: product/models.py:29
 msgid "Is Available"
-msgstr "متوفر؟"
+msgstr "متوفر"
 
 #: product/models.py:30
 msgid "Discount"
@@ -463,7 +431,7 @@ msgstr "الوسوم"
 msgid "Product"
 msgstr "منتج"
 
-#: product/models.py:40 templates/home/home.html:156 templates/home/home.html:312
+#: product/models.py:40 templates/home/partials/main-categories.html:22 templates/product/product_list.html:17 templates/product/product_list.html:30
 msgid "Products"
 msgstr "منتجات"
 
@@ -473,7 +441,7 @@ msgstr "مراجعة"
 
 #: product/models.py:112
 msgid "Write your feedback here"
-msgstr "اكتب ملاحظاتك هنا"
+msgstr "اكتب رأيك هنا"
 
 #: product/models.py:115
 msgid "Rating"
@@ -481,11 +449,11 @@ msgstr "التقييم"
 
 #: product/models.py:125
 msgid "Reviews"
-msgstr "مراجعات"
+msgstr "المراجعات"
 
 #: product/models.py:140
 msgid "Parent Category"
-msgstr "الفئة الرئيسية"
+msgstr "التصنيف الرئيسي"
 
 #: product/models.py:147
 msgid "Image"
@@ -493,7 +461,7 @@ msgstr "صورة"
 
 #: product/models.py:153
 msgid "Categories"
-msgstr "فئات"
+msgstr "التصنيفات"
 
 #: templates/account/login.html:6
 msgid "Login with Google - Modex"
@@ -501,11 +469,11 @@ msgstr "تسجيل الدخول باستخدام جوجل - مودكس"
 
 #: templates/account/login.html:18
 msgid "Welcome to Modex!"
-msgstr "مرحبًا بك في مودكس!"
+msgstr "مرحباً بك في مودكس!"
 
 #: templates/account/login.html:22
 msgid "Login using your Google account to continue"
-msgstr "سجّل الدخول باستخدام حساب جوجل للمتابعة"
+msgstr "سجّل الدخول باستخدام حسابك في جوجل للمتابعة"
 
 #: templates/account/login.html:37
 msgid "Continue with Google"
@@ -535,53 +503,60 @@ msgstr "إرسال رابط إعادة التعيين"
 msgid "Back to Login"
 msgstr "العودة لتسجيل الدخول"
 
-#: templates/home/home.html:29
-msgid "Featured Collections"
-msgstr "مجموعات مميزة"
+#: templates/home/home.html:35
+msgid "Explore Our Subcategories"
+msgstr "استكشف التصنيفات الفرعية لدينا"
 
-#: templates/home/home.html:32
-msgid "Discover our exclusive collections curated just for you"
-msgstr "اكتشف مجموعاتنا الحصرية المختارة خصيصًا لك"
+#: templates/home/home.html:36
+msgid "Find a diverse selection of toys and gifts for every age and occasion"
+msgstr "اكتشف مجموعة متنوعة من الألعاب والهدايا لكل الأعمار والمناسبات"
 
-#: templates/home/home.html:118
-msgid "Featured"
+#: templates/home/partials/daily-products.html:227
+msgid "Today's Picks"
+msgstr "اختيارات اليوم"
+
+#: templates/home/partials/daily-products.html:234
+msgid ""
+"🔥 Discover the most trending products, handpicked for you every day! 🔥"
+msgstr "🔥 اكتشف أكثر المنتجات رواجاً المختارة لك يومياً! 🔥"
+
+#: templates/home/partials/daily-products.html:237
+msgid "Shop Now"
+msgstr "تسوق الآن"
+
+#: templates/home/partials/daily-products.html:248
+msgid "Hot"
 msgstr "مميز"
 
-#: templates/home/home.html:145
-msgid "Discover Our Categories"
-msgstr "اكتشف فئاتنا"
-
-#: templates/home/home.html:146
-msgid "Browse a wide variety of toys and gifts suitable for all ages and occasions"
-msgstr "تصفح مجموعة واسعة من الألعاب والهدايا المناسبة لجميع الأعمار والمناسبات"
-
-#: templates/home/home.html:170
-msgid "The best carefully selected products for an enjoyable shopping experience"
-msgstr "أفضل المنتجات المختارة بعناية لتجربة تسوق ممتعة"
-
-#: templates/home/home.html:194
-msgid "Discover the latest products that have arrived at our store"
-msgstr "اكتشف أحدث المنتجات التي وصلت إلى متجرنا"
-
-#: templates/home/home.html:201
-msgid "New"
-msgstr "جديد"
-
-#: templates/home/home.html:223 templates/home/home.html:265
-msgid "Add to Cart"
-msgstr "أضف إلى السلة"
-
-#: templates/home/home.html:237
-msgid "Our customers top rated products"
-msgstr "المنتجات الأعلى تقييماً من عملائنا"
-
-#: templates/home/home.html:280
+#: templates/home/partials/discount-products.html:8
 msgid "Take advantage of the best deals and special offers"
 msgstr "استفد من أفضل العروض والخصومات الخاصة"
 
-#: templates/home/home.html:302
-msgid "Discover our carefully selected special collections"
-msgstr "اكتشف مجموعاتنا الخاصة المختارة بعناية"
+#: templates/home/partials/features-products.html:188
+msgid ""
+"The best carefully selected products for an enjoyable shopping experience"
+msgstr "أفضل المنتجات المختارة بعناية لتجربة تسوق ممتعة"
+
+#: templates/home/partials/features-products.html:201
+#: templates/home/partials/main-banner.html:177
+#: templates/product/partials/product_card.html:6
+msgid "New"
+msgstr "جديد"
+
+#: templates/home/partials/features-products.html:221
+#: templates/product/partials/product_card.html:24
+msgid "No product image"
+msgstr "لا توجد صورة للمنتج"
+
+#: templates/home/partials/features-products.html:272
+#: templates/product/partials/product_card.html:80
+msgid "In Stock"
+msgstr "متوفر في المخزون"
+
+#: templates/home/partials/features-products.html:276
+#: templates/product/partials/product_card.html:84
+msgid "Out of Stock"
+msgstr "غير متوفر"
 
 #: templates/home/partials/features.html:11
 msgid "Fast Delivery"
@@ -589,7 +564,7 @@ msgstr "توصيل سريع"
 
 #: templates/home/partials/features.html:12
 msgid "Delivery within 24-48 hours to all regions of the Kingdom"
-msgstr "توصيل خلال 24-48 ساعة إلى جميع مناطق المملكة"
+msgstr "توصيل خلال 24-48 ساعة لجميع مناطق المملكة"
 
 #: templates/home/partials/features.html:18
 msgid "Quality Assurance"
@@ -605,7 +580,7 @@ msgstr "إرجاع سهل"
 
 #: templates/home/partials/features.html:26
 msgid "Ability to return the product within 14 days"
-msgstr "إمكانية إرجاع المنتج خلال 14 يومًا"
+msgstr "إمكانية إرجاع المنتج خلال 14 يوم"
 
 #: templates/home/partials/features.html:32
 msgid "Technical Support"
@@ -614,3 +589,246 @@ msgstr "دعم فني"
 #: templates/home/partials/features.html:33
 msgid "Technical support is available 24/7"
 msgstr "الدعم الفني متوفر 24/7"
+
+#: templates/home/partials/main-banner.html:136
+msgid "Curated Collections"
+msgstr "مجموعات مختارة"
+
+#: templates/home/partials/main-banner.html:137
+msgid "Just For You"
+msgstr "خصيصاً لك"
+
+#: templates/home/partials/main-banner.html:140
+msgid "Discover limited edition pieces handpicked by our stylists"
+msgstr "اكتشف قطعاً محدودة الإصدار مختارة بعناية من خبرائنا"
+
+#: templates/home/partials/main-banner.html:196
+msgid "Explore Collection"
+msgstr "استكشف المجموعة"
+
+#: templates/home/partials/main-banner.html:218
+msgid "View All Collections"
+msgstr "عرض جميع المجموعات"
+
+#: templates/home/partials/main-categories.html:6
+msgid "Discover Our Categories"
+msgstr "اكتشف تصنيفاتنا"
+
+#: templates/home/partials/main-categories.html:7
+msgid ""
+"Browse a wide variety of toys and gifts suitable for all ages and occasions"
+msgstr "تصفح مجموعة واسعة من الألعاب والهدايا المناسبة لكل الأعمار والمناسبات"
+
+#: templates/home/partials/new-arrivals.html:7
+msgid "Discover the latest products that have arrived at our store"
+msgstr "اكتشف أحدث المنتجات التي وصلت إلى متجرنا"
+
+#: templates/home/partials/top-rated.html:7
+msgid "Our customers top rated products"
+msgstr "المنتجات الأعلى تقييماً من عملائنا"
+
+#: templates/product/partials/cart_button.html:10
+msgid "Add"
+msgstr "إضافة"
+
+#: templates/product/partials/cart_button.html:17
+msgid "Remove"
+msgstr "إزالة"
+
+#: templates/product/partials/cart_button.html:65
+msgid "Product added to cart successfully!"
+msgstr "تمت إضافة المنتج إلى السلة بنجاح!"
+
+#: templates/product/partials/cart_button.html:66
+msgid "Product removed from cart."
+msgstr "تمت إزالة المنتج من السلة."
+
+#: templates/product/partials/cart_button.html:69
+msgid "An error occurred."
+msgstr "حدث خطأ."
+
+#: templates/product/partials/cart_button.html:70
+msgid "A network error occurred."
+msgstr "حدث خطأ في الشبكة."
+
+#: templates/product/partials/filters-card.html:6
+#: templates/product/product_list.html:34
+msgid "Filters"
+msgstr "الفلاتر"
+
+#: templates/product/partials/filters-card.html:14
+msgid "Search"
+msgstr "بحث"
+
+#: templates/product/partials/filters-card.html:19
+msgid "Search products..."
+msgstr "ابحث عن المنتجات..."
+
+#: templates/product/partials/filters-card.html:29
+msgid "All Categories"
+msgstr "كل التصنيفات"
+
+#: templates/product/partials/filters-card.html:40
+msgid "Tag"
+msgstr "وسم"
+
+#: templates/product/partials/filters-card.html:43
+msgid "All Tags"
+msgstr "كل الوسوم"
+
+#: templates/product/partials/filters-card.html:55
+msgid "Price Range"
+msgstr "نطاق السعر"
+
+#: templates/product/partials/filters-card.html:60
+msgid "Min"
+msgstr "الحد الأدنى"
+
+#: templates/product/partials/filters-card.html:67
+msgid "Max"
+msgstr "الحد الأعلى"
+
+#: templates/product/partials/filters-card.html:78
+msgid "Sort by"
+msgstr "ترتيب حسب"
+
+#: templates/product/partials/filters-card.html:81
+msgid "Default"
+msgstr "الافتراضي"
+
+#: templates/product/partials/filters-card.html:82
+msgid "Price: Low to High"
+msgstr "السعر: من الأقل للأعلى"
+
+#: templates/product/partials/filters-card.html:83
+msgid "Price: High to Low"
+msgstr "السعر: من الأعلى للأقل"
+
+#: templates/product/partials/filters-card.html:84
+msgid "Name: A to Z"
+msgstr "الاسم: من أ إلى ي"
+
+#: templates/product/partials/filters-card.html:85
+msgid "Name: Z to A"
+msgstr "الاسم: من ي إلى أ"
+
+#: templates/product/partials/filters-card.html:86
+msgid "Rating: High to Low"
+msgstr "التقييم: من الأعلى للأقل"
+
+#: templates/product/partials/filters-card.html:87
+msgid "Popularity"
+msgstr "الأكثر شهرة"
+
+#: templates/product/partials/filters-card.html:96
+msgid "View Mode"
+msgstr "طريقة العرض"
+
+#: templates/product/partials/filters-card.html:100
+msgid "Grid View"
+msgstr "عرض شبكي"
+
+#: templates/product/partials/filters-card.html:104
+msgid "List View"
+msgstr "عرض قائمة"
+
+#: templates/product/partials/filters-card.html:119
+msgid "Apply Filters"
+msgstr "تطبيق الفلاتر"
+
+#: templates/product/partials/filters-card.html:122
+msgid "Reset"
+msgstr "إعادة تعيين"
+
+#: templates/product/partials/pagination.html:2
+msgid "Products pagination"
+msgstr "ترقيم الصفحات للمنتجات"
+
+#: templates/product/partials/pagination.html:15
+msgid "Prev"
+msgstr "السابق"
+
+#: templates/product/partials/pagination.html:56
+msgid "Next"
+msgstr "التالي"
+
+#: templates/product/partials/product_card.html:70
+#: templates/product/partials/product_card.html:73
+#: templates/product/partials/product_card.html:75
+msgid "EGP"
+msgstr "ج.م"
+
+#: templates/product/partials/products-grid.html:9
+msgid "Active filters:"
+msgstr "الفلاتر المفعلة:"
+
+#: templates/product/partials/products-grid.html:12
+#, python-format
+msgid "Search: \"%(search_query)s\""
+msgstr "بحث: \"%(search_query)s\""
+
+#: templates/product/partials/products-grid.html:20
+#, python-format
+msgid "Category: %(selected_category)s"
+msgstr "التصنيف: %(selected_category)s"
+
+#: templates/product/partials/products-grid.html:28
+#, python-format
+msgid "Brand: %(selected_brand)s"
+msgstr "العلامة التجارية: %(selected_brand)s"
+
+#: templates/product/partials/products-grid.html:36
+#, python-format
+msgid "Min: %(min_price)s"
+msgstr "الحد الأدنى: %(min_price)s"
+
+#: templates/product/partials/products-grid.html:44
+#, python-format
+msgid "Max: %(max_price)s"
+msgstr "الحد الأعلى: %(max_price)s"
+
+#: templates/product/partials/products-grid.html:52
+#, python-format
+msgid "Sorted by: %(sort_by|title)s"
+msgstr "ترتيب حسب: %(sort_by|title)s"
+
+#: templates/product/partials/products-grid.html:76
+msgid "No products found"
+msgstr "لم يتم العثور على منتجات"
+
+#: templates/product/partials/products-grid.html:77
+msgid "Try adjusting your search criteria or filters."
+msgstr "حاول تعديل معايير البحث أو الفلاتر."
+
+#: templates/product/partials/products-grid.html:79
+msgid "Reset Search"
+msgstr "إعادة تعيين البحث"
+
+#: templates/product/partials/wishlist_button.html:7
+msgid "Toggle wishlist"
+msgstr "تبديل قائمة الرغبات"
+
+#: templates/product/partials/wishlist_button.html:9
+msgid "Remove from wishlist"
+msgstr "إزالة من قائمة الرغبات"
+
+#: templates/product/partials/wishlist_button.html:9
+msgid "Add to wishlist"
+msgstr "إضافة إلى قائمة الرغبات"
+
+#: templates/product/product_list.html:4
+msgid "Products Trader - Your Ultimate Shopping Destination"
+msgstr "تاجر المنتجات - وجهتك المثالية للتسوق"
+
+#: templates/product/product_list.html:14
+msgid "Home"
+msgstr "الرئيسية"
+
+#: templates/product/product_list.html:21
+#, python-format
+msgid "Search: \"%(query)s\""
+msgstr "بحث: \"%(query)s\""
+
+#: templates/product/product_list.html:23
+msgid "All Products"
+msgstr "كل المنتجات"

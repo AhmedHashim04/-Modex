@@ -1,13 +1,15 @@
+{% load i18n %}
 <section class="col-lg-9">
     <!-- Active Filters -->
+    
     {% if search_query or selected_category or selected_brand or min_price or max_price or sort_by %}
     <div class="card mb-4 border-0 glass-card shadow-sm">
         <div class="card-body py-2">
             <div class="d-flex flex-wrap align-items-center gap-2">
-                <small class="text-muted me-2">Active filters:</small>
+                <small class="text-muted me-2">{% trans "Active filters:" %}</small>
                 {% if search_query %}
                 <span class="badge bg-light text-dark glass-badge">
-                    Search: "{{ search_query }}"
+                    {% blocktrans %}Search: "{{ search_query }}"{% endblocktrans %}
                     <a href="?{% querystring request.GET search='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
@@ -15,7 +17,7 @@
                 {% endif %}
                 {% if selected_category %}
                 <span class="badge bg-light text-dark glass-badge">
-                    Category: {{ selected_category }}
+                    {% blocktrans %}Category: {{ selected_category }}{% endblocktrans %}
                     <a href="?{% querystring request.GET category='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
@@ -23,7 +25,7 @@
                 {% endif %}
                 {% if selected_brand %}
                 <span class="badge bg-light text-dark glass-badge">
-                    Brand: {{ selected_brand }}
+                    {% blocktrans %}Brand: {{ selected_brand }}{% endblocktrans %}
                     <a href="?{% querystring request.GET brand='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
@@ -31,7 +33,7 @@
                 {% endif %}
                 {% if min_price %}
                 <span class="badge bg-light text-dark glass-badge">
-                    Min: {{ min_price }}
+                    {% blocktrans %}Min: {{ min_price }}{% endblocktrans %}
                     <a href="?{% querystring request.GET min_price='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
@@ -39,7 +41,7 @@
                 {% endif %}
                 {% if max_price %}
                 <span class="badge bg-light text-dark glass-badge">
-                    Max: {{ max_price }}
+                    {% blocktrans %}Max: {{ max_price }}{% endblocktrans %}
                     <a href="?{% querystring request.GET max_price='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
@@ -47,7 +49,7 @@
                 {% endif %}
                 {% if sort_by %}
                 <span class="badge bg-light text-dark glass-badge">
-                    Sorted by: {{ sort_by|title }}
+                    {% blocktrans %}Sorted by: {{ sort_by|title }}{% endblocktrans %}
                     <a href="?{% querystring request.GET sort_by='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
@@ -71,10 +73,10 @@
     {% if not products %}
         <div class="text-center py-5 glass-card rounded-4 p-5">
             <i class="fas fa-search fa-3x text-muted mb-3"></i>
-            <h4 class="text-muted">No products found</h4>
-            <p class="text-muted">Try adjusting your search criteria or filters.</p>
+            <h4 class="text-muted">{% trans "No products found" %}</h4>
+            <p class="text-muted">{% trans "Try adjusting your search criteria or filters." %}</p>
             <a href="{% url 'product:product_list' %}" class="btn btn-primary rounded-pill mt-3">
-                <i class="fas fa-undo me-1"></i> Reset Search
+                <i class="fas fa-undo me-1"></i> {% trans "Reset Search" %}
             </a>
         </div>
     {% endif %}

@@ -1,1 +1,1 @@
-grep -rnw --include="*.html" "contextWishlist" .
+grep -rnw --include="*.html" "contextCart" .

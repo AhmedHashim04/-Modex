@@ -23,13 +23,20 @@ from django.conf.urls.i18n import i18n_patterns
 from home.views import HomeView
 from .ahmed import test_limit
 from project.admin import custom_admin_site
-# رابط تغيير اللغة لازم يكون خارج i18n_patterns
 urlpatterns = [
     path("test-limit/", test_limit),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
 
-# جميع المسارات القابلة للترجمة داخل i18n_patterns
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns = [
+        path('__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
+    
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
 urlpatterns += i18n_patterns(
 
     path('', HomeView.as_view(), name='home'),  # صفحة البداية
@@ -45,16 +52,6 @@ urlpatterns += i18n_patterns(
 
     prefix_default_language=False,
 )
-
-# ملفات static/media في وضع التطوير
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
-    
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # handler404 = 'home.views.handler404'
 # handler500 = 'home.views.handler500'

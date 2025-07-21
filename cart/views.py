@@ -20,6 +20,7 @@ def cart_add(request, slug):
     product = get_object_or_404(Product, slug=slug)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     referer_url = request.META.get("HTTP_REFERER", reverse("cart:cart_list"))
+
     if not url_has_allowed_host_and_scheme(referer_url, allowed_hosts={request.get_host()}):
         referer_url = reverse("cart:cart_list")
     try:
@@ -30,13 +31,11 @@ def cart_add(request, slug):
         message = _("Invalid quantity specified")
         if is_ajax:
             return JsonResponse({'success': False, 'message': message})
-        messages.error(request, message)
         return redirect(referer_url)
     if not product.is_available:
         message = _("%(name)s is currently unavailable") % {"name": product.name}
         if is_ajax:
             return JsonResponse({'success': False, 'message': message})
-        messages.warning(request, message)
         return redirect(referer_url)
     cart.add(product=product, quantity=quantity)
     message = _("%(name)s added to cart successfully") % {"name": product.name}
@@ -44,17 +43,26 @@ def cart_add(request, slug):
     if is_ajax:
         context = {
             'product': product,
-            'contextCart': cart.cart,
+            'cart_items_keys': cart.cart,
             'user': request.user
         }
-        updated_html = render_to_string('product/partials/product_card.html', context, request=request)
+        
+        source = request.POST.get('source')
+
+        if source == 'new_card':
+            template_name = 'product/partials/trendy_product_card.html'
+        else:
+            template_name = 'product/partials/product_card.html'
+
+        updated_html = render_to_string(template_name, context, request=request)
+
+
         return JsonResponse({
             'success': True,
             'message': message,
             'updated_html': updated_html,
             'cart_count': cart_count
         })
-    messages.success(request, message)
     return redirect(referer_url)
 
 @ratelimit(key='ip', rate='5/m', method='POST', block=True)
@@ -75,10 +83,19 @@ def cart_remove(request, slug):
     if is_ajax:
         context = {
             'product': product,
-            'contextCart': cart.cart,
+            'cart_items_keys': cart.cart,
             'user': request.user
         }
-        updated_html = render_to_string('product/partials/product_card.html', context, request=request)
+
+        source = request.POST.get('source')
+
+        if source == 'new_card':
+            template_name = 'product/partials/trendy_product_card.html'
+        else:
+            template_name = 'product/partials/product_card.html'
+
+        updated_html = render_to_string(template_name, context, request=request)
+
         return JsonResponse({
             'success': True,
             'message': message,
@@ -86,7 +103,6 @@ def cart_remove(request, slug):
             'cart_count': cart_count
         })
 
-    messages.success(request, message)
     return redirect(referer_url)
 
 @ratelimit(key='ip', rate='60/m', method='GET', block=False)
@@ -98,10 +114,11 @@ def cart_count(request):
 @require_POST
 def cart_clear(request):
     cart = ShoppingCart(request)
+    print(request.headers)
+
     cart.clear()
     messages.success(request, "Cart cleared successfully")
     return redirect("cart:cart_list")
-
 
 class CartView(ListView):
 

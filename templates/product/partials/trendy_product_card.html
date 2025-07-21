@@ -73,7 +73,7 @@
 
                 <div class="bottom-row">
                     <div class="price">
-                        {% if product.discount and product.discount > 0 %}
+                        {% if product.discount  %}
                             <span class="price-current">
                                 {{ product.price_after_discount|floatformat:2 }} EGP
                             </span>
@@ -98,7 +98,7 @@
                 </div>
                 <div class="actions-row">
                     {% if product.is_available %}
-                        {% include "product/partials/cart_button.html" %}
+                        {% include "product/partials/new_cart_button.html" %}
                     {% endif %}
 
                     {% include "product/partials/wishlist_button.html" %}

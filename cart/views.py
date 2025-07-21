@@ -13,17 +13,15 @@ from django.utils.translation import gettext as _
 from django_ratelimit.decorators import ratelimit
 from django.http import HttpResponse
 
-@ratelimit(key='ip', rate='1/m', method='POST', block=True)
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 @require_POST
 def cart_add(request, slug):
     cart = ShoppingCart(request)
     product = get_object_or_404(Product, slug=slug)
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-
     referer_url = request.META.get("HTTP_REFERER", reverse("cart:cart_list"))
     if not url_has_allowed_host_and_scheme(referer_url, allowed_hosts={request.get_host()}):
         referer_url = reverse("cart:cart_list")
-
     try:
         quantity = int(request.POST.get("quantity", 1))
         if quantity <= 0:
@@ -34,18 +32,15 @@ def cart_add(request, slug):
             return JsonResponse({'success': False, 'message': message})
         messages.error(request, message)
         return redirect(referer_url)
-
     if not product.is_available:
         message = _("%(name)s is currently unavailable") % {"name": product.name}
         if is_ajax:
             return JsonResponse({'success': False, 'message': message})
         messages.warning(request, message)
         return redirect(referer_url)
-
     cart.add(product=product, quantity=quantity)
     message = _("%(name)s added to cart successfully") % {"name": product.name}
     cart_count = len(cart)
-
     if is_ajax:
         context = {
             'product': product,
@@ -59,11 +54,10 @@ def cart_add(request, slug):
             'updated_html': updated_html,
             'cart_count': cart_count
         })
-
     messages.success(request, message)
     return redirect(referer_url)
 
-
+@ratelimit(key='ip', rate='5/m', method='POST', block=True)
 @require_POST
 def cart_remove(request, slug):
     cart = ShoppingCart(request)
@@ -95,6 +89,7 @@ def cart_remove(request, slug):
     messages.success(request, message)
     return redirect(referer_url)
 
+@ratelimit(key='ip', rate='60/m', method='GET', block=False)
 def cart_count(request):
     cart = ShoppingCart(request)
     count = cart.__len__()

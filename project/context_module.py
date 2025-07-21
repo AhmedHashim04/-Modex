@@ -9,17 +9,16 @@ from accounts.models import Profile
 
 #هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
 #شوف اوقات ال كاش كدا مناسبة 
-
 def contexts(request):
-    # cache.clear()
+    cache.clear()
     context = {}
-
     categories = cache.get('context_categories')
     if categories is None:
-        categories = Category.objects.filter(parent=None)[:10]
-        cache.set('context_categories', categories, 60 * 60 * 24) # كاش يوم
+        categories = list(Category.objects.filter(parent=None)[:10])
+        cache.set('context_categories', categories, 60 * 60 * 24)  # كاش يوم
 
     cart = ShoppingCart(request)
+    cart_items_keys = cart.cart.keys()
 
     profile = None
     wishlist = None
@@ -39,18 +38,17 @@ def contexts(request):
                 profile = None
 
         if wishlist is None and profile is not None:
-            wishlist = profile.wishlist.all()
+            wishlist = list(profile.wishlist.all())
             cache.set(wishlist_cache_key, wishlist, 60 * 60 * 2)  # كاش ساعتين
-        context["contextProfile"] = profile
-        context["contextWishlist"] = wishlist
 
+        context["profile"] = profile
+        context["wishlist"] = wishlist
 
     context.update({
-        "contextCategories": categories,
-        "contextCart": cart.cart.keys(),
+        "categories": categories,
+        "cart_items_keys": cart_items_keys,
         "total_cart_price": cart.get_total_price_after_discount(),
-        "total_cart_items": len(cart.cart.keys()),
+        "total_cart_items": len(cart_items_keys),
     })
-
 
     return context

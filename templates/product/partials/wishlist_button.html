@@ -3,9 +3,9 @@
 <a href="{% if request.user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}" 
     class="action-btn wishlist-btn btn btn-outline-danger btn-sm rounded-pill d-flex align-items-center justify-content-center flex-shrink-0"
     data-slug="{{ product.slug }}" 
-    data-in-wishlist="{% if product in contextWishlist %}true{% else %}false{% endif %}" 
+    data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}" 
     title="Toggle wishlist" 
     style="width: 40px; height: 40px;">
-    <i class="{% if product in contextWishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
+    <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
 </a>
 

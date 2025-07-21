@@ -213,6 +213,8 @@ class ProductListView(ListView):
         })
         return context
 
+@method_decorator(ratelimit(key='ip', rate='30/m', method='ALL', block=True), name='dispatch')
+@method_decorator(ratelimit(key='user', rate='2/m', method='POST', block=True), name='post')
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/product_detail.html'
@@ -288,7 +290,6 @@ class ProductDetailView(DetailView):
 
         return {'related_products': related_products}
 
-
     def get_recently_viewed_products(self, product):
         """Retrieve recently viewed products from session"""
         session_key = 'recently_viewed'
@@ -317,7 +318,7 @@ class ProductDetailView(DetailView):
         viewed_ids = viewed_ids[:self.max_recently_viewed]
         self.request.session[session_key] = viewed_ids
         self.request.session.modified = True
-
+    
     def post(self, request, *args, **kwargs):
         """Handle review submission"""
         self.object = self.get_object()

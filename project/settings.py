@@ -26,6 +26,11 @@ SECRET_KEY = "django-insecure-z9jy%8a11-eqdnr#_du_$jba)d%ac1+08_m1va^i8&919o$*@&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+INTERNAL_IPS = [
+    '127.0.0.1',
+    # ممكن تضيف أي IP تاني عايز تسمح له يشوف الـ toolbar
+]
+
 ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
 
 LANGUAGE_CODE = 'en'  # اللغة الافتراضية
@@ -56,6 +61,7 @@ INSTALLED_APPS = [
     "features",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
+    'debug_toolbar',
     'django_ratelimit',
     "widget_tweaks",
     "django.contrib.admin",
@@ -93,19 +99,22 @@ ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 
 MIDDLEWARE = [
+    'project.rate_limit_logging.RatelimitLoggingMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     'django.middleware.locale.LocaleMiddleware',
     "django.middleware.common.CommonMiddleware",
-    'django_ratelimit.middleware.RatelimitMiddleware',
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    'django_ratelimit.middleware.RatelimitMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
 
 ]
-RATELIMIT_VIEW='home.views.rate_limit_exceeded'
+RATELIMIT_VIEW='home.views.RateLimitExceeded'
 ROOT_URLCONF = "project.urls"
 
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True

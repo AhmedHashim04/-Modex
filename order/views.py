@@ -17,9 +17,11 @@ from weasyprint import HTML
 from cart.cart import Cart
 from .forms import AddressForm, OrderCreateForm
 from .models import Address, Order, OrderItem
+from django.utils.decorators import method_decorator
+from django_ratelimit.decorators import ratelimit
 
-logger = logging.getLogger(__name__)
 
+@method_decorator(ratelimit(key='user', rate='20/m', block=True), name='dispatch')
 class OrderListView(LoginRequiredMixin, ListView):
     model = Order
     template_name = "order/order_list.html"
@@ -28,6 +30,7 @@ class OrderListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
+@method_decorator(ratelimit(key='user', rate='20/m', block=True), name='dispatch')
 class OrderDetailView(LoginRequiredMixin, DetailView):
     model = Order
     template_name = "order/order_detail.html"
@@ -36,6 +39,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
+@method_decorator(ratelimit(key='user', rate='2/m', block=True), name='dispatch')
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderCreateForm
@@ -126,6 +130,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         context["cart"] = Cart(self.request)
         return context
 
+@method_decorator(ratelimit(key='user', rate='3/m', block=True), name='dispatch')
 class OrderCancelView(LoginRequiredMixin, View):
     def post(self, request, pk):
         order = Order.objects.filter(pk=pk, user=request.user).first()
@@ -138,6 +143,7 @@ class OrderCancelView(LoginRequiredMixin, View):
         context["order"] = self.object
         return context
 
+@method_decorator(ratelimit(key='user', rate='5/m', block=True), name='dispatch')
 class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
     template_name = "order/address_list_create.html"
     form_class = AddressForm

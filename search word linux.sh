@@ -1,1 +1,1 @@
-grep -rnw --include="*.py" "cache" .
+grep -rnw --include="*.html" "contextWishlist" .

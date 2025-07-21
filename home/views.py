@@ -5,6 +5,9 @@ from product.models import Category, Product
 from home.models import FeaturedProduct
 from django.utils.translation import gettext as _
 from django.shortcuts import  render
+from django.http import HttpResponse
+from django.utils import timezone
+from django.http import JsonResponse
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
@@ -50,36 +53,37 @@ class HomeView(TemplateView):
                     'products': Product.objects.filter(is_available=True, discount__gte=15).order_by('-discount')[:20],
                     'layout': 'carousel'
                 },
-                
-
-                # 'collections_section': {
-                #     'title': _("Our Collections"),
-                #     'collections': Collection.objects.filter(is_active=True).annotate(
-                #         product_count=Count('products')
-                #     ).filter(product_count__gt=0).order_by('-created_at')[:6],
-                #     'layout': 'carousel'
-                # },
-                
-                # # قسم المدونة أو المحتوى (إن وجد)
-                # 'blog_section': {
-                #     'title': _("Latest News"),
-                #     'posts': BlogPost.objects.filter(is_published=True).order_by('-published_at')[:3]
-                # },
-                
-                # قسم العلامات التجارية (إن وجد)
-                # 'brands_section': {
-                #     'title': _("Our Brands"),
-                #     'brands': Brand.objects.annotate(
-                #         product_count=Count('products')
-                #     ).filter(product_count__gt=0).order_by('?')[:12]
-                # }
+            
             }
             cache.set('home_data', data, 60 * 60 * 24)  # Cache for 1 day
             
         context['data'] = data
         return context['data']
+    
 
 
-def rate_limit_exceeded(request, exception):
-    print(exception)
-    return render(request, 'home/rate_limit_exceeded.html', {'exception': exception})
+class RateLimitExceeded(HttpResponse):
+    """
+    HTTP 429 Too Many Requests response.
+    Supports JSON and HTML responses, custom messages, and Retry-After header.
+    """
+
+    default_message = _("Rate limit exceeded. Please try again later.")
+
+    def __init__(self, message=None, retry_after=None, as_json=False, extra_data=None, *args, **kwargs):
+        message = message or self.default_message
+        if as_json:
+            data = {"detail": str(message)}
+            if extra_data:
+                data.update(extra_data)
+            content_type = "application/json"
+            content = JsonResponse(data, status=429)
+            super().__init__(content=content.content, status=429, content_type=content_type, *args, **kwargs)
+        else:
+            super().__init__(str(message), status=429, *args, **kwargs)
+        if retry_after is not None:
+            # Accepts seconds or datetime
+            if isinstance(retry_after, (int, float)):
+                self["Retry-After"] = str(int(retry_after))
+            elif isinstance(retry_after, timezone.datetime):
+                self["Retry-After"] = retry_after.strftime("%a, %d %b %Y %H:%M:%S GMT")

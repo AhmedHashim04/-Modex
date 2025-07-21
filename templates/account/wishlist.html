@@ -23,7 +23,7 @@
                             <i class="fas fa-heart"></i>
                         </div>
                         <div class="stat-content">
-                            <h3>{{ wishlist_count }}</h3>
+                            <h3>{{ profile.wishlist.count }}</h3>
                             <p>Items in Wishlist</p>
                         </div>
                     </div>
@@ -35,21 +35,28 @@
 
 <section class="wishlist-content py-5">
     <div class="container">
-        {% if contextWishlist %}
+        {% if profile.wishlist %}
         <div class="wishlist-controls mb-4">
             <div class="row align-items-center">
                 <div class="col-md-6">
+
+                                        
                     <div class="wishlist-actions">
-                        <a href="{% url 'accounts:clear_wishlist' %}" class="btn btn-outline-primary me-2">
+                        <a href="#" id="clear-wishlist-btn" class="btn btn-outline-primary me-2">
                             <i class="fas fa-trash me-1"></i>Clear All
                         </a>
+
+                        <form id="clear-wishlist-form" method="POST" action="{% url 'accounts:clear_wishlist' %}" style="display:none;">
+                            {% csrf_token %}
+                        </form>
                     </div>
+
                 </div>
             </div>
         </div>
 
         <div id="wishlistItems" class="wishlist-items row">
-            {% for product in contextWishlist %}
+            {% for product in profile.wishlist.all %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card wishlist-card h-100">
                     {% include "product/partials/wishlist_button.html" %}

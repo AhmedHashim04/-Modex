@@ -45,19 +45,18 @@ USE_L10N = True
 
 INSTALLED_APPS = [
     "accounts",
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
-
-    'home',
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
+    "allauth.socialaccount.providers.facebook",
+    "home",
     "contact",
     "product",
     "features",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
-
+    'django_ratelimit',
     "widget_tweaks",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -98,6 +97,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     'django.middleware.locale.LocaleMiddleware',
     "django.middleware.common.CommonMiddleware",
+    'django_ratelimit.middleware.RatelimitMiddleware',
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -105,6 +105,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 
 ]
+RATELIMIT_VIEW='home.views.rate_limit_exceeded'
 ROOT_URLCONF = "project.urls"
 
 # SESSION_EXPIRE_AT_BROWSER_CLOSE = True
@@ -243,7 +244,7 @@ CACHES = {
     }
 }
 RATELIMIT_ENABLE = True
-
+RATELIMIT_USE_CACHE = "default"
 VODAFONE_CASH_NUMBER = "01558763958"
 
 SECURE_BROWSER_XSS_FILTER = True

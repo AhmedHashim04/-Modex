@@ -13,7 +13,7 @@
 
 :root {
     /* Cheerful, playful palette for gifts & kid toys */
-    --primary-color: 340 90% 65%;   /* #FF5CA8 - Pink (fun, playful) */
+    --primary-color: 217 91% 60%;   /* #FF5CA8 - Pink (fun, playful) */
     --tertiary-color: 48 100% 67%;  /* #FFE066 - Yellow (happy, bright) */
     --secondary-color: 200 90% 65%; /* #4FC3F7 - Sky Blue (friendly) */
     --accent-color: 141 70% 60%;    /* #4ADE80 - Green (fresh, energetic) */
@@ -224,14 +224,6 @@ html {
     border-color: transparent;
     transform: translateY(-2px);
     box-shadow: var(--shadow-medium);
-}
-
-.btn-add-to-cart {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    font-size: 0.875rem;
-    border-radius: var(--border-radius);
-    transition: var(--transition);
 }
 
 

@@ -8,32 +8,24 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.urls import reverse
 from django.utils import timezone
-from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from django.contrib.auth.models import User
-from .utils import generate_product_slug
+from .utils import generate_product_slug, generate_category_slug
 
 
 class Product(models.Model):
     name = models.CharField(max_length=255,unique=True, verbose_name=_("Name"), db_index=True)
     category = models.ForeignKey("Category",on_delete=models.PROTECT,verbose_name=_("Category"),blank=True,null=True,related_name="products",)
-    # brand = models.ForeignKey('features.Brand',on_delete=models.PROTECT,verbose_name=_("Brand"),blank=True,null=True,related_name='products')
     description = models.TextField(max_length=1000, verbose_name=_("Description"))
     price = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Price"),validators=[MinValueValidator(0)],)
-    # cost = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Cost"),blank=True,null=True,validators=[MinValueValidator(0)])
     image = models.ImageField(upload_to="products/", verbose_name=_("Product Image"), blank=True, null=True)
-    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
-    stock = models.PositiveIntegerField(default=0, verbose_name=_("Stock"), validators=[MinValueValidator(0)])
     overall_rating = models.FloatField(default=0.0, verbose_name=_("Overall Rating"), editable=False)
-    # wishlisted_by = models.ManyToManyField(User,through='features.Wishlist',related_name='wishlist_products')
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))
     discount = models.DecimalField(max_digits=5,decimal_places=2,default=0,verbose_name=_("Discount"),help_text=_("Discount percentage (0-100)"),validators=[MinValueValidator(0), MaxValueValidator(100)],)
     trending = models.BooleanField(default=False,verbose_name=_("Trending"),help_text=_("Is this product trending?"),)
-
-    weight = models.DecimalField(max_digits=5,decimal_places=2,verbose_name=_("Weight"),blank=True,null=True,validators=[MinValueValidator(0)],)
     tags = models.ManyToManyField("features.Tag", verbose_name=_("Tags"), blank=True, related_name="products")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"), db_index=True)
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
+    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
 
     class Meta:
         verbose_name = _("Product")
@@ -42,11 +34,11 @@ class Product(models.Model):
             models.Index(fields=["price"], name="price_idx"),
             models.Index(fields=["-overall_rating"], name="rating_idx"),
             models.Index(fields=["category",],name="category_idx",),
-            # models.Index(fields=['category', 'brand'], name='category_brand_idx'),
         ]
 
     def __str__(self):
-        return f"{self.name} - {self.price} EGP - {self.stock} in stock"
+        if self.is_available :return (f"{self.name} - {self.price} EGP - Available ")
+        else :return (f"{self.name} - {self.price} EGP - Not available")
 
     def get_absolute_url(self):
         return reverse("product:product_detail", kwargs={"slug": self.slug})
@@ -60,16 +52,9 @@ class Product(models.Model):
         )
 
     @property
-    def is_in_stock(self):
-        return self.stock > 0
-
-    @property
     def has_discount(self):
         return self.discount > 0
 
-    @property
-    def is_on_sale(self):
-        return self.price_after_discount < self.price
 
     def update_rating(self):
         result = self.reviews.aggregate(average_rating=Avg("rating"))
@@ -132,21 +117,21 @@ class Review(models.Model):
         return f"{self.user.username} - {self.product.name} ({self.rating}/5)"
 
 class Category(models.Model):
-    name = models.CharField(max_length=50, verbose_name=_("Name"))
-    parent = models.ForeignKey(
-        "self",
-        limit_choices_to={"parent__isnull": True},
-        on_delete=models.PROTECT,
+    name = models.CharField(max_length=50, unique=True, verbose_name=_("Name Category"))
+    parent = models.ForeignKey("self", limit_choices_to={"parent__isnull": True}, on_delete=models.PROTECT,
         verbose_name=_("Parent Category"),
         blank=True,
         null=True,
-        related_name="children",
-    )
+        related_name="children",)
+    
     description = models.TextField(max_length=1000, verbose_name=_("Description"))
     image = models.ImageField(
         upload_to="category_pictures/", verbose_name=_("Image"), blank=True, null=True
     )
-    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255)
+
+    slug = models.SlugField(
+        blank=True, max_length=255, null=True, unique=True, verbose_name=_("Slug")
+    )
 
     class Meta:
         verbose_name = _("Category")
@@ -157,17 +142,10 @@ class Category(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            base = slugify(self.name)
-            slug = base
-            counter = 1
-            while Product.objects.filter(slug=slug).exists():
-                slug = f"{base}-{counter}"
-                counter += 1
-            self.slug = slug
+            self.slug = generate_category_slug(self.name)
         super().save(*args, **kwargs)
 
-    def get_absolute_url(self):
-        return reverse("product:category_detail", kwargs={"slug": self.slug})
+
 
 @receiver(post_save, sender=Review)
 @receiver(post_delete, sender=Review)

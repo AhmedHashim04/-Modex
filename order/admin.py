@@ -5,6 +5,7 @@ from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
 
 from .models import Address, Order, OrderItem, OrderStatus
+from project.admin import custom_admin_site
 
 
 class OrderItemInline(admin.TabularInline):
@@ -17,7 +18,6 @@ class OrderItemInline(admin.TabularInline):
         return obj.get_total_price()
 
     total_price.short_description = _("Total Price")
-
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
@@ -66,9 +66,11 @@ class OrderAdmin(admin.ModelAdmin):
 
     mark_as_cancelled.short_description = _("Mark selected orders as cancelled")
 
-
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
     list_display = ("full_name", "user", "city", "country", "is_default")
     list_filter = ("country", "is_default")
     search_fields = ("full_name", "user__username", "address_line")
+
+custom_admin_site.register(Order)
+custom_admin_site.register(Address)

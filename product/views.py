@@ -3,7 +3,6 @@ from decimal import Decimal
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
@@ -19,7 +18,7 @@ from django.utils.http import urlencode
 from django.views.generic import DetailView, ListView, TemplateView
 from django_ratelimit.decorators import ratelimit
 
-from features.models import Collection, Tag
+from features.models import Tag
 from .forms import ReviewForm
 from .models import Category, Product, Review
 
@@ -189,7 +188,6 @@ class ProductListView(ListView):
 
         context.update({
             'categories': cache.get_or_set('all_categories', lambda: Category.objects.prefetch_related('products').all(), CACHE_TIMEOUT_PRODUCTS),
-            'featured_collections': cache.get_or_set('collections', lambda: Collection.objects.all(), CACHE_TIMEOUT_PRODUCTS),
             'tags': cache.get_or_set('all_tags', lambda: Tag.objects.all(), CACHE_TIMEOUT_PRODUCTS),
                     
             # These are the filter and sort values currently applied by the user,

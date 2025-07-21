@@ -7,19 +7,23 @@ from product.models import Category
 from django.core.cache import cache
 from accounts.models import Profile
 
+#هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
+#شوف اوقات ال كاش كدا مناسبة 
+
 def contexts(request):
-    cache.clear()
-    # استخدم الكاش لفئة الأقسام الرئيسية
+    # cache.clear()
+    context = {}
+
     categories = cache.get('context_categories')
     if categories is None:
         categories = Category.objects.filter(parent=None)[:10]
-        cache.set('context_categories', categories, 60 * 60 * 24)  # كاش ليوم كامل
+        cache.set('context_categories', categories, 60 * 60 * 24) # كاش يوم
 
     cart = ShoppingCart(request)
 
-    # نظام الكاش للبروفايل والويشليست للمستخدم
     profile = None
     wishlist = None
+    
     if request.user.is_authenticated:
         profile_cache_key = f"context_profile_{request.user.id}"
         wishlist_cache_key = f"context_wishlist_{request.user.id}"
@@ -37,18 +41,16 @@ def contexts(request):
         if wishlist is None and profile is not None:
             wishlist = profile.wishlist.all()
             cache.set(wishlist_cache_key, wishlist, 60 * 60 * 2)  # كاش ساعتين
-
-    context = {
-        "contextCategories": categories,
-        "contextWishlist": wishlist,
-        "contextCart": cart.cart.keys(),
-        "total_cart_price": cart.get_total_price_after_discount(),
-        "total_cart_items": len(cart.cart.keys()),
-    }
-
-    if request.user.is_authenticated and profile is not None:
         context["contextProfile"] = profile
         context["contextWishlist"] = wishlist
 
-    # print(context["contextCategories"])
+
+    context.update({
+        "contextCategories": categories,
+        "contextCart": cart.cart.keys(),
+        "total_cart_price": cart.get_total_price_after_discount(),
+        "total_cart_items": len(cart.cart.keys()),
+    })
+
+
     return context

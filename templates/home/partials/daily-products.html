@@ -3,352 +3,228 @@
 {% if daily_products_section.products %}
 <style>
     .hero-section-daily {
-        background: var(--gradient-primary);
-        min-height: 420px;
+        background: linear-gradient(120deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 60%, hsl(var(--accent-color)) 100%);
+        min-height: 480px;
         display: flex;
         align-items: center;
         position: relative;
         overflow: hidden;
+        border-radius: 2.5rem;
+        box-shadow: 0 8px 48px 0 rgba(60, 72, 88, 0.13);
+        margin-bottom: 2.5rem;
+        animation: fadeInUp 1.2s cubic-bezier(.23,1.01,.32,1) both;
     }
-    .daily-animated-circle-1 {
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(40px);}
+        100% { opacity: 1; transform: translateY(0);}
+    }
+    .daily-animated-circle-1,
+    .daily-animated-circle-2,
+    .daily-animated-circle-3 {
         z-index: 0;
         position: absolute;
+        pointer-events: none;
+    }
+    .daily-animated-circle-1 {
         top: 0;
         left: 0;
-        transform: translate(-50%, -50%);
+        transform: translate(-40%, -40%);
+        display: none;
+    }
+    .daily-animated-circle-2 {
+        bottom: 0;
+        right: 0;
+        transform: translate(40%, 40%);
+        display: none;
+    }
+    .daily-animated-circle-3 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.08;
         display: none;
     }
     @media (min-width: 768px) {
-        .daily-animated-circle-1 {
-            display: block;
-        }
-        .daily-animated-circle-2 {
+        .daily-animated-circle-1,
+        .daily-animated-circle-2,
+        .daily-animated-circle-3 {
             display: block;
         }
     }
     .daily-animated-circle-1-inner {
-        width: 180px;
-        height: 180px;
+        width: 200px;
+        height: 200px;
         background: radial-gradient(circle at 40% 40%, hsl(var(--secondary-color)) 0%, hsl(var(--tertiary-color)) 100%);
         opacity: 0.22;
         border-radius: 50%;
-        filter: blur(8px);
-    }
-    .daily-animated-circle-2 {
-        z-index: 0;
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        transform: translate(50%, 50%);
-        display: none;
+        filter: blur(12px);
+        animation: pulseCircle1 5s infinite alternate;
     }
     .daily-animated-circle-2-inner {
-        width: 220px;
-        height: 220px;
+        width: 260px;
+        height: 260px;
         background: radial-gradient(circle at 60% 60%, hsl(var(--primary-color)) 0%, hsl(var(--accent-color)) 100%);
         opacity: 0.16;
         border-radius: 50%;
-        filter: blur(12px);
+        filter: blur(18px);
+        animation: pulseCircle2 6s infinite alternate;
+    }
+    .daily-animated-circle-3-inner {
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle at 50% 50%, #fff 0%, hsl(var(--primary-color)) 100%);
+        border-radius: 50%;
+        filter: blur(32px);
+        opacity: 0.10;
+        animation: rotateCircle 18s linear infinite;
+    }
+    @keyframes pulseCircle1 {
+        0% { transform: scale(1);}
+        100% { transform: scale(1.08);}
+    }
+    @keyframes pulseCircle2 {
+        0% { transform: scale(1);}
+        100% { transform: scale(1.12);}
+    }
+    @keyframes rotateCircle {
+        0% { transform: translate(-50%, -50%) scale(1.2) rotate(0deg);}
+        100% { transform: translate(-50%, -50%) scale(1.2) rotate(360deg);}
     }
     .daily-container-z1 {
         z-index: 1;
         position: relative;
     }
     .badge.bg-gradient-primary {
-        background: var(--gradient-primary) !important;
-        font-size: 1rem;
-        letter-spacing: 1px;
+        background: linear-gradient(90deg, hsl(var(--primary-color)), hsl(var(--accent-color))) !important;
+        font-size: 1.08rem;
+        letter-spacing: 1.5px;
         color: #fff !important;
+        box-shadow: 0 2px 12px 0 rgba(60, 72, 88, 0.10);
+        padding: 0.6em 1.3em;
+        border-radius: 2em;
+        font-weight: 700;
+        text-transform: uppercase;
+        animation: badgePop 1.2s cubic-bezier(.23,1.01,.32,1) both;
+    }
+    @keyframes badgePop {
+        0% { transform: scale(0.7);}
+        80% { transform: scale(1.1);}
+        100% { transform: scale(1);}
     }
     .daily-title {
         color: hsl(var(--text-primary));
-        letter-spacing: -1px;
-        text-shadow: 0 2px 16px hsla(var(--secondary-color),0.18);
+        letter-spacing: -1.5px;
+        text-shadow: 0 4px 24px hsla(var(--secondary-color),0.18);
+        font-size: 2.7rem;
+        line-height: 1.1;
+        margin-bottom: 0.7em;
+        font-family: 'Cairo', 'Tajawal', 'Rubik', sans-serif;
+        background: linear-gradient(90deg, hsl(var(--primary-color)), hsl(var(--accent-color)));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
     }
     .daily-lead {
-        color: hsl(var(--text-secondary));
-        font-size: 1.25rem;
+        color: hsl(var(--text-primary));
+        font-size: 1.35rem;
+        font-weight: 500;
+        margin-bottom: 2em;
+        text-shadow: 0 2px 12px hsla(var(--primary-color),0.10);
+        letter-spacing: 0.2px;
     }
     .daily-shop-btn {
-        background: var(--gradient-primary);
+        background: linear-gradient(90deg, hsl(var(--primary-color)), hsl(var(--accent-color)));
         color: #fff;
-        border-radius: var(--border-radius-lg);
-        font-size: 1.15rem;
-        transition: var(--transition);
+        border-radius: 2em;
+        font-size: 1.18rem;
+        font-weight: 700;
+        padding: 0.9em 2.5em;
+        box-shadow: 0 4px 24px 0 rgba(60, 72, 88, 0.13);
+        transition: transform 0.18s, box-shadow 0.22s;
+        border: none;
+        letter-spacing: 1px;
     }
     .daily-shop-btn:hover, .daily-shop-btn:focus {
-        transform: scale(1.05);
-    }
-    .trendy-card {
-        background: hsla(var(--surface-color),0.92);
-        border-radius: var(--border-radius-lg);
-        box-shadow: var(--shadow-medium);
-        transition: var(--transition);
-        position: relative;
-    }
-    .trendy-card:hover {
-        transform: translateY(-8px) scale(1.04) rotate(-1deg);
-        box-shadow: var(--shadow-heavy);
-    }
-    .trendy-hot-badge {
-        background: var(--gradient-accent);
+        transform: scale(1.07) translateY(-2px);
+        box-shadow: 0 8px 32px 0 rgba(60, 72, 88, 0.18);
         color: #fff;
-        font-size: 0.85rem;
-        border-radius: 1rem;
-        padding: 0.4em 0.9em;
-        box-shadow: 0 2px 8px hsla(var(--primary-color),0.18);
     }
-    .trendy-product-card {
-        border-radius: 2rem;
-        background: linear-gradient(135deg, hsla(var(--surface-color),0.98) 80%, hsla(var(--primary-color),0.08) 100%);
-        box-shadow: 0 8px 32px 0 hsla(var(--primary-color),0.10);
-        transition: box-shadow 0.3s, transform 0.3s;
+    .daily-products-carousel {
         position: relative;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        overflow: hidden;
-    }
-    .trendy-product-card:hover {
-        box-shadow: 0 12px 36px 0 hsla(var(--primary-color),0.18), 0 2px 8px 0 hsla(var(--accent-color),0.10);
-        transform: translateY(-6px) scale(1.035) rotate(-0.5deg);
-    }
-    .trendy-badge-new {
-        background: var(--gradient-accent);
-        color: #fff;
-        font-size: 0.9rem;
-        box-shadow: 0 2px 8px hsla(var(--accent-color),0.18);
-        letter-spacing: 0.5px;
-    }
-    .trendy-badge-discount {
-        background: linear-gradient(90deg, #ff416c 0%, #ff4b2b 100%);
-        color: #fff;
-        font-size: 0.9rem;
-        box-shadow: 0 2px 8px hsla(var(--danger-color),0.18);
-    }
-    .trendy-image-wrapper {
-        min-height: 170px;
-        background: linear-gradient(120deg, hsla(var(--primary-color),0.07) 60%, hsla(var(--accent-color),0.04) 100%);
-        border-radius: 1.5rem 1.5rem 0 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-    }
-    .trendy-image-link {
-        width: 100%;
-        height: 100%;
-        display: block;
         z-index: 2;
-        position: relative;
-    }
-    .trendy-main-image {
-        height: 150px;
+        padding: 0.5rem 0;
+        min-height: 340px;
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        animation: fadeInUp 1.2s 0.2s cubic-bezier(.23,1.01,.32,1) both;
     }
-    .trendy-img {
-        max-height: 120px;
-        max-width: 100%;
-        object-fit: contain;
-        filter: drop-shadow(0 4px 16px hsla(var(--primary-color),0.10));
-        transition: transform 0.3s;
+    @media (max-width: 991.98px) {
+        .daily-title { font-size: 2.1rem;}
+        .daily-products-carousel { gap: 1rem;}
     }
-    .trendy-no-image {
-        min-height: 120px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: #f8f9fa;
-        width: 100%;
-        height: 100%;
+    @media (max-width: 767.98px) {
+        .hero-section-daily { min-height: 320px; border-radius: 1.2rem;}
+        .daily-title { font-size: 1.5rem;}
+        .daily-lead { font-size: 1.05rem;}
+        .daily-products-carousel { gap: 0.7rem;}
     }
-    .trendy-glow {
-        width: 90px;
-        height: 40px;
-        background: radial-gradient(circle, hsla(var(--primary-color),0.12) 0%, transparent 80%);
-        filter: blur(8px);
-        z-index: 1;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+    /* Subtle floating animation for product cards */
+    .daily-products-carousel > * {
+        animation: floatCard 3.5s ease-in-out infinite alternate;
     }
-    .trendy-card-body {
-        background: transparent;
-    }
-    .trendy-title {
-        font-size: 1.1rem;
-        letter-spacing: -0.5px;
-    }
-    .trendy-title-hover:hover {
-        color: hsl(var(--primary-color));
-        text-shadow: 0 2px 8px hsla(var(--primary-color),0.10);
-    }
-    .trendy-card-text {
-        min-height: 2.5em;
-    }
-    .trendy-tag {
-        font-size: 0.75rem;
-    }
-    .trendy-price {
-        font-size: 1.1rem;
-    }
-    .trendy-old-price {
-        font-size: 0.95rem;
-        text-decoration: line-through;
-        margin-left: 0.25em;
-    }
-    .trendy-stock-in {
-        font-size: 0.85rem;
-    }
-    .trendy-stock-out {
-        font-size: 0.85rem;
+    .daily-products-carousel > *:nth-child(2) { animation-delay: 0.5s;}
+    .daily-products-carousel > *:nth-child(3) { animation-delay: 1s;}
+    .daily-products-carousel > *:nth-child(4) { animation-delay: 1.5s;}
+    .daily-products-carousel > *:nth-child(5) { animation-delay: 2s;}
+    .daily-products-carousel > *:nth-child(6) { animation-delay: 2.5s;}
+    @keyframes floatCard {
+        0% { transform: translateY(0);}
+        100% { transform: translateY(-10px);}
     }
 </style>
 
 <section class="hero-section hero-section-daily py-5">
     <!-- Animated Gradient Circles -->
-    <div class="daily-animated-circle-1 position-absolute top-0 start-0 translate-middle d-none d-md-block">
+    <div class="daily-animated-circle-1">
         <div class="daily-animated-circle-1-inner"></div>
     </div>
-    <div class="daily-animated-circle-2 position-absolute bottom-0 end-0 translate-middle d-none d-md-block">
+    <div class="daily-animated-circle-2">
         <div class="daily-animated-circle-2-inner"></div>
+    </div>
+    <div class="daily-animated-circle-3">
+        <div class="daily-animated-circle-3-inner"></div>
     </div>
     <div class="container daily-container-z1">
         <div class="row align-items-center">
             <!-- Hero Text -->
             <div class="col-lg-5 col-md-6 mb-4 mb-md-0">
-                <div class="mb-2 d-flex align-items-center gap-2">
-                    <span class="badge rounded-pill bg-gradient-primary">
+                <div class="mb-3 d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill bg-gradient-primary shadow">
                         <i class="bi bi-lightning-charge-fill me-1"></i> {% trans "Today's Picks" %}
                     </span>
                 </div>
-                <h1 class="display-4 fw-bold mb-3 daily-title">
+                <h1 class="fw-bold mb-3 daily-title">
                     {{ daily_products_section.title }}
                 </h1>
                 <p class="lead mb-4 daily-lead">
-                    {% trans '🔥 Discover the most trending products, handpicked for you every day! 🔥' %}
+                    {% trans '🔥Discover the latest trending products handpicked for you every day! 🔥' %}
                 </p>
-                <a href="{% url 'product:product_list' %}" class="btn btn-lg px-5 py-3 fw-semibold shadow-lg border-0 daily-shop-btn">
-                    <i class="bi bi-bag-heart me-2"></i> {% trans 'Shop Now' %}
+                <a href="{% url 'product:product_list' %}" class="btn btn-lg px-5 py-3 fw-semibold shadow-lg daily-shop-btn">
+                    <i class="bi bi-bag-heart me-2"></i> {% trans 'Shop now' %}
                 </a>
             </div>
             <!-- Hero Products Carousel/Showcase -->
             <div class="col-lg-7 col-md-6">
-                <div class="row row-cols-2 row-cols-md-3 g-4 justify-content-center">
+                <div class="daily-products-carousel product-card">
                     {% for product in daily_products_section.products|slice:":6" %}
-                        <div class="col d-flex">
-                            <div class="card h-100 shadow-lg border-0 glass-card product-card hover-effect position-relative trendy-card">
-                                <div class="position-absolute top-0 end-0 m-2">
-                                    <span class="badge bg-gradient trendy-hot-badge">
-                                        <i class="bi bi-star-fill"></i> {% trans "Hot" %}
-                                    </span>
-                                </div>
-                    <!-- Trendy & Advanced Product Card -->
-                    <div class="trendy-product-card glassy-card">
-                        <!-- Floating Badges -->
-                        <div class="position-absolute top-0 start-0 m-3 d-flex flex-column gap-2 z-2" style="pointer-events:none;">
-                            {% if product.is_new %}
-                                <span class="badge rounded-pill px-3 py-2 fw-semibold trendy-badge-new">
-                                    <i class="bi bi-fire me-1"></i> New
-                                </span>
-                            {% endif %}
-                            {% if product.discount_percentage %}
-                                <span class="badge rounded-pill px-3 py-2 fw-semibold trendy-badge-discount">
-                                    <i class="bi bi-percent me-1"></i> -{{ product.discount_percentage }}%
-                                </span>
-                            {% endif %}
-                        </div>
-                        <!-- Product Image with Glow & Hover Effect -->
-                        <div class="trendy-image-wrapper">
-                            <a href="{% url 'product:product_detail' product.slug %}" class="trendy-image-link">
-                                <div class="main-image trendy-main-image">
-                                    {% if product.image %}
-                                        <img src="{{ product.image.url }}" alt="{{ product.name }}"
-                                            class="img-fluid trendy-img">
-                                    {% else %}
-                                        <div class="trendy-no-image">
-                                            <i class="fas fa-image fa-3x text-primary mb-2"></i>
-                                            <p class="text-primary small mb-0">No product image</p>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                            </a>
-                            <!-- Subtle Glow -->
-                            <div class="trendy-glow"></div>
-                        </div>
-                        <!-- Product Body -->
-                        <div class="card-body d-flex flex-column flex-grow-1 px-4 py-3 trendy-card-body">
-                            <div class="mb-1">
-                                <h5 class="card-title mb-1 fw-bold trendy-title">
-                                    <a href="{% url 'product:product_detail' product.slug %}" class="text-dark text-decoration-none trendy-title-hover">
-                                        {{ product.name }}
-                                    </a>
-                                </h5>
-                                <div class="d-flex align-items-center mb-2">
-                                    <div class="rating-stars small me-2">
-                                        {% for i in "12345" %}
-                                            {% if forloop.counter <= product.overall_rating %}
-                                                <i class="fas fa-star text-warning"></i>
-                                            {% else %}
-                                                <i class="far fa-star text-warning"></i>
-                                            {% endif %}
-                                        {% endfor %}
-                                    </div>
-                                    <small class="text-muted">({{ product.review_count }})</small>
-                                </div>
-                                <p class="card-text text-muted small mb-2 trendy-card-text">
-                                    {{ product.short_description|default:product.description|truncatewords:20 }}
-                                </p>
-                                <!-- Tags -->
-                                {% if product.tags.all %}
-                                <div class="product-tags d-flex flex-wrap gap-1 mb-1">
-                                    {% for tag in product.tags.all %}
-                                        <span class="badge rounded-pill bg-light text-primary border border-primary-subtle px-2 py-1 trendy-tag">#{{ tag.name }}</span>
-                                    {% endfor %}
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="mt-auto">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div class="price">
-                                        {% if product.discount > 0 %}
-                                            <span class="fw-bold text-danger trendy-price">
-                                                {{ product.price_after_discount|floatformat:2 }} EGP
-                                            </span>
-                                            <small class="text-muted text-decoration-line-through ms-1 trendy-old-price">
-                                                {{ product.price|floatformat:2 }} EGP
-                                            </small>
-                                        {% else %}
-                                            <span class="fw-bold text-primary trendy-price">
-                                                {{ product.price|floatformat:2 }} EGP
-                                            </span>
-                                        {% endif %}
-                                    </div>
-                                    {% if product.stock > 0 %}
-                                        <span class="badge bg-success bg-opacity-10 text-success small px-3 py-2 trendy-stock-in">
-                                            <i class="fas fa-check-circle me-1"></i> In Stock
-                                        </span>
-                                    {% else %}
-                                        <span class="badge bg-danger bg-opacity-10 text-danger small px-3 py-2 trendy-stock-out">
-                                            <i class="fas fa-times-circle me-1"></i> Out of Stock
-                                        </span>
-                                    {% endif %}
-                                </div>
-                                <!-- Product Actions -->
-                                <div class="product-actions d-flex align-items-center gap-2 flex-nowrap">
-                                    {% include "product/partials/cart_button.html" %}
-                                    {% include "product/partials/wishlist_button.html" %}
-                                </div>
-                            </div>
-                        </div>
+                <div class="col">
+                    <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
+                            {% include "product/partials/trendy_product_card.html" %}
                     </div>
-                            </div>
-                        </div>
+                </div>
                     {% endfor %}
                 </div>
             </div>

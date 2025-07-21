@@ -39,6 +39,21 @@
             {% endif %}
             {% comment %} <span class="badge bg-danger ms-1" id="wishlist-count" >{{ contextWishlist|length }}</span> {% endcomment %}
         </a>
+        <a href="{% url 'order:order_list' %}" class="manage-nav-link d-flex align-items-center"
+           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+            {% if LANGUAGE_CODE == "ar" %}
+                <span class="d-none d-sm-inline">
+                    قائمة الطلبات
+                </span>
+                <i class="fas fa-receipt ms-1"></i>
+            {% else %}
+                <i class="fas fa-receipt me-1"></i>
+                <span class="d-none d-sm-inline">
+                    Orders
+                </span>
+            {% endif %}
+        </a>
+
         {% else %}
         <div class="d-flex align-items-center gap-2"
              {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>

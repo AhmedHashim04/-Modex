@@ -1,38 +1,38 @@
 
-    <!-- C. Subnav -->
-    <nav class="navbar navbar-expand-lg navbar-light modex-subnav">
-        <div class="container-fluid px-4">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modexSubnav" aria-controls="modexSubnav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon modex-subnav-toggler-icon"></span>
-            </button>
+<!-- C. Subnav -->
+<nav class="navbar navbar-expand-lg navbar-light modex-subnav shadow-sm py-2" style="background: #f8fafc;">
+    <div class="container-fluid px-4">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modexSubnav" aria-controls="modexSubnav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon modex-subnav-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="modexSubnav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link" href="{% url 'product:product_list' %}">
-                            <i class="fas fa-bolt me-1"></i>Today's Deals
-                        </a>
-                    </li>
-                    {% for category in contextCategories %}
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-subnav-link {% if selected_category == category.slug %}active-category{% endif %}" href="{% url 'product:product_list' %}?category={{ category.slug }}">
-                            {{ category.name }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-hover-link" href="{% url 'contact:contact' %}">
-                            <i class="fas fa-question-circle me-1"></i>Help
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-black modex-hover-link" href="#">
-                            <i class="fas fa-store me-1"></i>Sell on Modex
-                        </a>
-                    </li>
-                </ul>
-            </div>
+        <div class="collapse navbar-collapse" id="modexSubnav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+                <li class="nav-item">
+                    {% comment %} <a class="nav-link text-black modex-subnav-link" href="{% url 'product:product_list' %}">
+                        <i class="fas fa-bolt me-1"></i>Today's Deals
+                    </a> {% endcomment %}
+                </li>
+                {% for category in contextCategories %}
+                <li class="nav-item">
+                    <a class="nav-link modex-subnav-link {% if selected_category == category.slug %}active-category{% endif %}" href="{% url 'product:product_list' %}?category={{ category.slug }}">
+                        {{ category.name }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
+                <li class="nav-item">
+                    <a class="nav-link modex-hover-link" href="{% url 'contact:contact' %}">
+                        <i class="fas fa-question-circle me-1"></i>Help
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link modex-hover-link" href="#">
+                        <i class="fas fa-store me-1"></i>Sell on Modex
+                    </a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>

@@ -7,10 +7,7 @@
         <p class="section-subtitle">{% trans 'Browse a wide variety of toys and gifts suitable for all ages and occasions' %}</p>
     </div>
     <div class="position-relative">
-        <button class="category-arrow category-arrow-left d-none d-md-flex align-items-center justify-content-center"
-                style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
-            <i class="fas fa-chevron-left"></i>
-        </button>
+
         <div class="categories-grid flex-nowrap overflow-auto" style="scroll-behavior: smooth; display: flex; gap: 1.5rem; padding: 1rem 2.5rem;">
             {% for category in main_categories %}
                 <div class="category-card flex-shrink-0" style="min-width: 180px; max-width: 220px;">
@@ -24,13 +21,22 @@
                 </div>
             {% endfor %}
         </div>
-        <button class="category-arrow category-arrow-right d-none d-md-flex align-items-center justify-content-center"
-                style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
-            <i class="fas fa-chevron-right"></i>
-        </button>
+
     </div>
 </section>
-<script>
+{% endif %}
+
+
+            {% comment %} <button class="category-arrow category-arrow-left d-none d-md-flex align-items-center justify-content-center"
+                    style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
+                <i class="fas fa-chevron-left"></i>
+            </button> {% endcomment %}
+        {% comment %} <div class="categories-grid flex-nowrap overflow-auto" style="scroll-behavior: smooth; display: flex; gap: 1.5rem; padding: 1rem 2.5rem;"> {% endcomment %}
+            {% comment %} <button class="category-arrow category-arrow-right d-none d-md-flex align-items-center justify-content-center"
+                style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
+            <i class="fas fa-chevron-right"></i>
+            </button> {% endcomment %}
+{% comment %} <script>
 document.addEventListener('DOMContentLoaded', function() {
     const grid = document.querySelector('.categories-grid');
     const leftBtn = document.querySelector('.category-arrow-left');
@@ -59,5 +65,4 @@ document.addEventListener('DOMContentLoaded', function() {
         updateArrows();
     }
 });
-</script>
-{% endif %}
+</script> {% endcomment %}

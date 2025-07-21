@@ -62,13 +62,13 @@ class Cart:
         self.cart[slug] = item
         self.save()
 
-    def remove(self, product: Product) -> None:
+    def remove(self, product: Product):
         product_slug = str(product.slug)
         if product_slug in self.cart:
             del self.cart[product_slug]
             self.save()
 
-    def clear(self) -> None:
+    def clear(self):
         self.cart = {}
         self.save(clear=True)
 
@@ -99,7 +99,7 @@ class Cart:
     def __len__(self):
         return sum(item["quantity"] for item in self.cart.values())
 
-    def save(self, clear: bool = False) -> None:
+    def save(self, clear: bool = False):
         self.session[self.session_id] = self.cart
         self.session.modified = True
 

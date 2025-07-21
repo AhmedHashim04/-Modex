@@ -1,0 +1,108 @@
+    {% load i18n %}
+
+    
+    <div class="col d-flex">
+        <div class="product-card-modern w-100 h-100 position-relative">
+
+            <!-- Top Badges -->
+            <div class="badge-top">
+                {% if product.trending %}
+                    <span class="badge-hot">
+                        <i class="bi bi-fire"></i> {% trans "Hot" %}
+                    </span>
+                {% endif %}
+                {% if product.discount  %}
+                    <span class="badge-discount">
+                        <i class="bi bi-percent"></i> -{{ product.discount }}%
+                    </span>
+                {% endif %}
+                {% if not product.trending and not product.discount %}
+                    {% if product.created_at|date:"U" > now|date:"U"|add:"-604800" %}
+                        <span class="badge-new">
+                            <i class="bi bi-star"></i> {% trans "New" %}
+                        </span>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <!-- Product Image -->
+            <div class="image-section">
+                <a href="{% url 'product:product_detail' product.slug %}">
+                    <div class="main-image">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <div class="no-image">
+                                <i class="fas fa-image fa-2x mb-2"></i>
+                                <span>{% trans "No image" %}</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card Body -->
+            <div class="card-body">
+                <a href="{% url 'product:product_detail' product.slug %}" class="product-title text-decoration-none">
+                    {{ product.name }}
+                </a>
+                <div class="rating-row">
+                    <div class="rating-stars">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= product.overall_rating %}
+                                <i class="fas fa-star text-warning"></i>
+                            {% else %}
+                                <i class="far fa-star text-warning"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% if product.review_count %}
+                        <small class="text-muted">({{ product.review_count }})</small>
+                    {% endif %}
+                </div>
+                <div class="desc">
+                    {{ product.short_description|default:product.description|truncatewords:18 }}
+                </div>
+                {% if product.tags.all %}
+                <div class="tags-row">
+                    {% for tag in product.tags.all %}
+                        <span class="tag">#{{ tag.name }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="bottom-row">
+                    <div class="price">
+                        {% if product.discount and product.discount > 0 %}
+                            <span class="price-current">
+                                {{ product.price_after_discount|floatformat:2 }} EGP
+                            </span>
+                            <span class="price-old">
+                                {{ product.price|floatformat:2 }} EGP
+                            </span>
+                        {% else %}
+                            <span class="price-normal">
+                                {{ product.price|floatformat:2 }} EGP
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% if product.is_available %}
+                        <span class="stock-in">
+                            <i class="fas fa-check-circle"></i> {% trans "In Stock" %}
+                        </span>
+                    {% else %}
+                        <span class="stock-out">
+                            <i class="fas fa-times-circle"></i> {% trans "Out of Stock" %}
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="actions-row">
+                    {% if product.is_available %}
+                        {% include "product/partials/cart_button.html" %}
+                    {% endif %}
+
+                    {% include "product/partials/wishlist_button.html" %}
+                </div>
+            </div>
+        </div>
+    </div>

@@ -2,12 +2,9 @@
 from django.core.cache import cache
 from django.views.generic import TemplateView
 from product.models import Category, Product
-from features.models import Collection
-from home.models import FeaturedProduct, FeaturedCollection
-from django.db.models import Avg
+from home.models import FeaturedProduct
 from django.utils.translation import gettext as _
-from django.db.models import Count
-
+from django.shortcuts import  render
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
@@ -15,17 +12,15 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         data = cache.get('home_data')
-        cache.clear()
-        if not data:
-        
-
+        if data is None:
             data = {
-                # 'main_banners': FeaturedCollection.objects.filter(is_active=True).order_by('order')[:20],
-                'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct()[:50],
+
+                'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct(),
+                
                 'featured_products_section': {
                     'title': _("Featured Products"), 
                     'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:30],
-                    'layout': 'carousel'  # يمكن أن يكون 'grid' أو 'carousel'
+                    'layout': 'carousel'  #'grid'
                 },
                 'daily_products_section': {
                     'title': _("Daily Products"),
@@ -36,7 +31,7 @@ class HomeView(TemplateView):
                 'sub_categories_section': {
                     'title': _("Sub Categories"), 
                     'products': Category.objects.filter(parent__isnull=False, products__isnull=False).distinct()[:50],
-                    'layout': 'carousel'  # يمكن أن يكون 'grid' أو 'carousel'
+                    'layout': 'carousel'  # 'grid'
                 },
                 'new_products_section': {
                     'title': _("New Arrivals"),
@@ -79,8 +74,12 @@ class HomeView(TemplateView):
                 #     ).filter(product_count__gt=0).order_by('?')[:12]
                 # }
             }
-
             cache.set('home_data', data, 60 * 60 * 24)  # Cache for 1 day
             
         context['data'] = data
         return context['data']
+
+
+def rate_limit_exceeded(request, exception):
+    print(exception)
+    return render(request, 'home/rate_limit_exceeded.html', {'exception': exception})

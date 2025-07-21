@@ -1,0 +1,1 @@
+grep -rnw --include="*.py" "cache" .

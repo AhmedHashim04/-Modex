@@ -16,32 +16,6 @@ class ProductImage(models.Model):
     def __str__(self):
         return f"Image for {self.product.name}"
 
-class Collection(models.Model):
-    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=True)
-    is_active = models.BooleanField(default=True)
-    products = models.ManyToManyField("product.Product", related_name="collections")
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_offer = models.BooleanField(default=False,null=True,blank=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = "Collection"
-        verbose_name_plural = "Collections"
-
-        indexes = [
-        models.Index(fields=["created_at"]),
-        models.Index(fields=["is_active"]),
-    ]
-
-    def __str__(self):
-        return self.name
-
 class Color(models.TextChoices):
     BEIGE = "#f5f5dc", _("Beige")
     BLACK = "#000", _("Black")
@@ -71,25 +45,50 @@ class Color(models.TextChoices):
     VIOLET = "#ee82ee", _("Violet")
     WHITE = "#fff", _("White")
     YELLOW = "#ff0", _("Yellow")
-
 class ProductColor(models.Model):
-    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="product_colors")
-    color = models.CharField(max_length=25, choices=Color.choices)
-    product_image = models.OneToOneField("ProductImage", on_delete=models.SET_NULL, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors')
+    color = models.CharField(max_length=20, choices=Color.choices)
+    image = models.ImageField(upload_to=f'products/colors/{product.name}/', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.product.name} - {self.color}"
+        return f"{self.product.name} - {self.get_color_display()}"
 
 class Tag(models.Model):
     name = models.CharField(verbose_name=_("Name"),max_length=100)
-    color = models.CharField(choices=Color.choices,max_length=20,blank=True,null=True, 
-                                verbose_name=_("Color"),help_text=_("Text color for tag (e.g. #fff or 'red')"))
-    bg_color = models.CharField(choices=Color.choices,max_length=20,blank=True,null=True,
-                                verbose_name=_("Background Color"),help_text=_("Background color for tag (e.g. #000 or 'blue')"),)
+    # color = models.CharField(choices=Color.choices,max_length=20,blank=True,null=True, 
+    #                             verbose_name=_("Color"),help_text=_("Text color for tag (e.g. #fff or 'red')"))
+    # bg_color = models.CharField(choices=Color.choices,max_length=20,blank=True,null=True,
+    #                             verbose_name=_("Background Color"),help_text=_("Background color for tag (e.g. #000 or 'blue')"),)
     class Meta:
         indexes = [models.Index(fields=["name"])]
     def __str__(self):
         return self.name
+
+# class Collection(models.Model):
+#     slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
+#     name = models.CharField(max_length=100)
+#     description = models.TextField(blank=True)
+#     is_active = models.BooleanField(default=True)
+#     products = models.ManyToManyField("product.Product", related_name="collections")
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     is_offer = models.BooleanField(default=False,null=True,blank=True)
+
+#     def save(self, *args, **kwargs):
+#         if not self.slug:
+#             self.slug = slugify(self.name)
+#         super().save(*args, **kwargs)
+
+#     class Meta:
+#         verbose_name = "Collection"
+#         verbose_name_plural = "Collections"
+
+#         indexes = [
+#         models.Index(fields=["created_at"]),
+#         models.Index(fields=["is_active"]),
+#     ]
+
+#     def __str__(self):
+#         return self.name
 
 # class OfferType(models.TextChoices):
 #     PERCENTAGE = "percentage", _("Percentage Discount")

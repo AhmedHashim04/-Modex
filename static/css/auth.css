@@ -457,3 +457,50 @@
 .shadow-soft {
     box-shadow: var(--shadow-light);
 }
+
+/* Advanced UX enhancements */
+.bg-blur-advanced {
+    backdrop-filter: blur(16px) saturate(180%);
+    background: hsla(var(--surface-color), 0.7);
+    box-shadow: var(--shadow-heavy);
+    border-radius: var(--border-radius-lg);
+    transition: box-shadow 0.3s;
+}
+.bg-blur-advanced:hover {
+    box-shadow: 0 16px 48px 0 hsla(var(--dark-surface), 0.25);
+}
+.bg-gradient-animated-advanced {
+    background: var(--gradient-primary);
+    background-size: 400% 400%;
+    animation: gradientBG 8s ease infinite;
+}
+@keyframes gradientBG {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+.card.action-card {
+    transition: transform 0.18s, box-shadow 0.18s;
+    cursor: pointer;
+    background: var(--gradient-primary);
+}
+.card.action-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: var(--shadow-medium);
+    background: var(--gradient-secondary);
+}
+.icon-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: hsl(var(--background-color));
+    color: hsl(var(--text-color));
+    box-shadow: var(--shadow-light);
+}
+@media (max-width: 767px) {
+    .card-body.p-4, .card-body.p-lg-5 { padding: 1.2rem !important; }
+    .card-header.py-4 { padding: 1.2rem 0 !important; }
+}

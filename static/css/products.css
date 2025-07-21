@@ -254,9 +254,6 @@
             height: 160px;
         }
         
-        .product-actions {
-            flex-wrap: wrap;
-        }
         
         .quantity-control {
             order: 1;
@@ -585,6 +582,12 @@
     gap: 0.5em;
     margin-top: 0.2em;
 }
+.actions-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-top: 0.2em;
+}
 
 
 .trendy-product-detail {
@@ -625,45 +628,7 @@
     background: hsl(var(--background-color));
     border: 1px solid hsl(var(--border-color));
 }
-.trendy-qty-btn {
-    border: none;
-    background: hsl(var(--background-color));
-    color: hsl(var(--primary-color));
-    font-weight: bold;
-    font-size: 1.2rem;
-    width: 38px;
-    transition: background 0.2s, color 0.2s;
-}
-.trendy-qty-btn:hover {
-    background: hsl(var(--secondary-color) / 0.12);
-    color: hsl(var(--accent-color));
-}
-.trendy-qty-input {
-    border: none !important;
-    background: transparent !important;
-    font-size: 1.1rem;
-    font-weight: 500;
-    width: 48px;
-    color: hsl(var(--text-primary));
-}
-.trendy-add-cart, .trendy-view-cart, .trendy-remove-cart {
-    border-radius: var(--border-radius);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    min-width: 160px;
-    box-shadow: var(--shadow-light);
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-}
-.trendy-add-cart:hover, .trendy-view-cart:hover {
-    background: var(--gradient-primary);
-    color: #fff;
-    box-shadow: var(--shadow-medium);
-}
-.trendy-remove-cart:hover {
-    background: hsl(var(--danger-color));
-    color: #fff;
-    box-shadow: var(--shadow-medium);
-}
+
 .product-gallery .main-image img {
     transition: transform 0.3s;
     background: hsl(var(--background-color));

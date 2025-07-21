@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<div class="product-card-wrapper" data-product-slug="{{ product.slug }}" data-source="cart_button">
+<div data-product-slug="{{ product.slug }}" data-source="cart_button">
     {% if product.slug not in cart_items_keys %}
         {% if product.is_available %}
             <form method="POST" action="{% url 'cart:cart_add' product.slug %}" class="d-flex align-items-center flex-nowrap w-100 product-cart-form" id="add-to-cart-form-{{ product.slug }}">
@@ -18,10 +18,11 @@
             </form>
         {% endif %}
     {% else %}
-        {% if product.is_available %}
-            <form method="POST" action="{% url 'cart:cart_remove' product.slug %}" class="flex-grow-1 product-cart-form" id="remove-from-cart-form-{{ product.slug }}">
+    {% if product.is_available %}
+
+            <form method="POST" action="{% url 'cart:cart_remove' product.slug %}" class="d-flex align-items-center flex-nowrap w-100 product-cart-form" id="remove-from-cart-form-{{ product.slug }}">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center">
+                <button type="submit" class="btn btn-outline-secondary btn-sm px-3 py-2 rounded-pill ms-3 flex-grow-1 d-flex align-items-center justify-content-center">
                     <i class="fas fa-trash-alt me-2"></i>{% trans "Remove" %}
                 </button>
             </form>

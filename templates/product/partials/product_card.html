@@ -86,10 +86,14 @@
                                 {% endif %}
                             </div>
                             
-                            <!-- Product Actions -->
-                            <div class="product-actions d-flex align-items-center gap-2 flex-nowrap">
+                    {% if product.is_available %}
+                        <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
+                            <div class="flex-grow-1 w-100">
                                 {% include "product/partials/cart_button.html" %}
-                                {% include "product/partials/wishlist_button.html" %}
                             </div>
                         </div>
+                    {% endif %}
+                            {% include "product/partials/wishlist_button.html" %}
+                        </div>
+            
                     </div>

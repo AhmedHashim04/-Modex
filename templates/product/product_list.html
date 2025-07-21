@@ -46,9 +46,6 @@
 
             <!-- Filters Card -->
             {% include "product/partials/filters-card.html" %}
-            {% if featuredCollections %}
-            {% include "sidebar-collections.html" %}
-            {% endif %} 
         </aside>
 
         <!-- Products Grid -->
@@ -63,9 +60,8 @@
 </div>
 
 <script>
-
     // View mode functions
-    function setViewMode(mode) {
+function setViewMode(mode) {
     document.getElementById('viewModeInput').value = mode;
     document.getElementById('filtersForm').submit();
     }
@@ -73,27 +69,6 @@
     function setMobileViewMode(mode) {
     document.getElementById('mobileViewModeInput').value = mode;
     }
-
-        // Quantity input controls
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.parentElement.querySelector('.quantity-input');
-                    if (parseInt(input.value) > parseInt(input.min)) {
-                        input.value = parseInt(input.value) - 1;
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.parentElement.querySelector('.quantity-input');
-                    if (parseInt(input.value) < parseInt(input.max)) {
-                        input.value = parseInt(input.value) + 1;
-                    }
-                });
-            });
-        });
 
 </script>
 

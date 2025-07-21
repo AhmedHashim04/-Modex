@@ -13,15 +13,13 @@
                     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
                     <li class="breadcrumb-item"><a href="{% url 'product:product_list' %}">Products</a></li>
                     <li class="breadcrumb-item active">{{ product.name }}</li>
-
-
                 </ol>
             </nav>
         </div>
     </section>
     
     <!-- Product Detail -->
-    <section class="py-4 trendy-product-detail">
+    <section class="py-4 trendy-product-detail ">
         <div class="container">
             <div class="row g-5 align-items-start">
                 <!-- Product Images -->
@@ -29,6 +27,7 @@
                     <div class="product-gallery bg-white rounded-4 shadow-sm p-4">
                         <div class="main-image mb-3 border rounded-4 overflow-hidden d-flex align-items-center justify-content-center" style="height: 420px;">
                             {% if product.image %}
+                            
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" 
                                     class="img-fluid w-100 h-100" id="mainProductImage" style="object-fit: contain; transition: transform 0.3s;">
                             {% else %}
@@ -44,7 +43,8 @@
                                     <img src="{{ product.image.url }}" alt="{{ product.name }}" 
                                         class="img-fluid h-100 w-100" style="object-fit: cover; cursor: pointer;"
                                         onclick="changeMainImage(this)">
-                                </div>
+                                
+                                    </div>
                             {% endif %}
                             {% for image in product.product_images.all %}
                                 <div class="thumbnail-item border rounded-3 overflow-hidden bg-white shadow-sm" style="width: 70px; height: 70px;">
@@ -109,12 +109,6 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <button class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm" title="Share product">
-                                    {% include "product/partials/wishlist_button.html" with product=product %}
-                                    {% comment %} <i class="fas fa-share-alt"></i> {% endcomment %}
-                                </button>
-                            </div>
                         </div>
                         <div class="d-flex align-items-center gap-2 mb-2">
                             <div class="rating-stars">
@@ -128,6 +122,7 @@
                             </div>
                             {% comment %} <span class="text-muted small">({{ product_reviews.count }} reviews)</span> {% endcomment %}
                         </div>
+
                         {% if product.tags.all %}
                             <div class="product-tags mb-3">
                                 {% for tag in product.tags.all %}
@@ -158,7 +153,11 @@
                         </div>
                         <div class="product-actions mb-4">
                             {% include "product/partials/cart_button.html" %}
+                            <a href="{% if request.user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}" data-slug="{{ product.slug }}" data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}" title="Toggle wishlist" style="width: 40px; height: 40px;"><i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i></a>
+
+                            
                         </div>
+
                         <div class="product-meta">
                             <div class="row g-3">
                                 <div class="col-md-6">
@@ -173,6 +172,7 @@
                                         <span>{% if product.variant_colors.all %}Available in different colors{% else %}No colors available{% endif %}</span>
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -194,12 +194,6 @@
                             <i class="fas fa-info-circle me-1"></i> Description
                         </button>
                     </li>
-                    {% comment %} <li class="nav-item" role="presentation">
-                        <button class="nav-link trendy-tab-btn" id="specifications-tab" data-bs-toggle="tab"
-                                data-bs-target="#specifications" type="button" role="tab" aria-controls="specifications" aria-selected="false">
-                            <i class="fas fa-list-alt me-1"></i> Specifications
-                        </button>
-                    </li> {% endcomment %}
                     <li class="nav-item" role="presentation">
                         <button class="nav-link trendy-tab-btn" id="reviews-tab" data-bs-toggle="tab"
                                 data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">
@@ -216,37 +210,6 @@
                             {{ product.description|default:"No description available."|linebreaks }}
                         </div>
                     </div>
-{% comment %}                     
-                    <!-- Specifications Tab -->
-                    <div class="tab-pane fade" id="specifications" role="tabpanel">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <tbody>
-                                    <tr>
-                                        <th width="30%">Category</th>
-                                        <td>{{ product.category.name }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Brand</th>
-                                        <td>{{ product.brand.name|default:"N/A" }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>SKU</th>
-                                        <td>{{ product.sku|default:"N/A" }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Weight</th>
-                                        <td>{{ product.weight|default:"N/A" }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Dimensions</th>
-                                        <td>{{ product.dimensions|default:"N/A" }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> {% endcomment %}
-                    
                     <!-- Reviews Tab -->
                     <div class="tab-pane fade" id="reviews" role="tabpanel">
                         <div class="row">
@@ -307,8 +270,8 @@
                                         </div>
                                     </div>
                                 {% else %}
+                                <br>
                                     <div class="alert alert-info">
-
                                         Please <a href="{% provider_login_url 'google' %}">login</a> to submit a review.
                                     </div>
                                 {% endif %}
@@ -410,60 +373,11 @@
             </a>
         </div>
         <div class="row g-4">
-            {% for rp in related_products %}
+            {% for product in related_products %}
                 <div class="col-md-3 col-6">
                     <div class="card product-card h-100 border-0 shadow-sm position-relative">
-                        <!-- Badges -->
-                        <div class="position-absolute top-0 start-0 p-2">
-                            {% if rp.is_new %}
-                                <span class="badge bg-success">New</span>
-                            {% endif %}
-                            {% if rp.get_discount_percentage %}
-                                <span class="badge bg-danger">-{{ rp.get_discount_percentage }}%</span>
-                            {% endif %}
-                        </div>
 
-                        <!-- Product Image -->
-                        <a href="{{ rp.get_absolute_url }}" class="d-block overflow-hidden rounded-top">
-                            {% if rp.image %}
-                                <img src="{{ rp.image.url }}" class="card-img-top" alt="{{ rp.name }}" 
-                                     style="height: 220px; object-fit: cover; transition: transform 0.3s;">
-                            {% else %}
-                                <div class="d-flex align-items-center justify-content-center bg-light" 
-                                     style="height: 220px;">
-                                    <i class="fas fa-image fa-3x text-primary"></i>
-                                </div>
-                            {% endif %}
-                        </a>
-
-                        <!-- Card Body -->
-                        <div class="card-body text-center">
-                            <h6 class="card-title mb-2">
-                                <a href="{{ rp.get_absolute_url }}" class="text-dark text-decoration-none">{{ rp.name|truncatechars:40 }}</a>
-                            </h6>
-                            <div class="price mb-3">
-                                <span class="text-primary fw-bold">{{ rp.price_after_discount|floatformat:2 }} EGP</span>
-                                {% if rp.discount %}
-                                
-                                <small class="text-muted text-decoration-line-through ms-1">{{ rp.price|floatformat:2 }} EGP</small>
-                                <span class="badge bg-danger ms-2">-{{ rp.discount }}%</span>
-                                {% endif %}
-                            </div>
-                            <div class="d-flex justify-content-center gap-2">
-                <div>
-                    {% if product.is_available %}
-                        <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
-                            <div class="flex-grow-1 w-100">
-                        {% include "product/partials/cart_button.html" %}
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    {% include "product/partials/wishlist_button.html" %}
-                </div>
-
-                            </div>
-                        </div>
+                        {% include "product/partials/product_card.html" %}
                     </div>
                 </div>
             {% endfor %}

@@ -28,7 +28,6 @@ DEBUG = True
 
 INTERNAL_IPS = [
     '127.0.0.1',
-    # ممكن تضيف أي IP تاني عايز تسمح له يشوف الـ toolbar
 ]
 
 ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
@@ -61,7 +60,7 @@ INSTALLED_APPS = [
     "features",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
-    'debug_toolbar',
+    # 'debug_toolbar',
     'django_ratelimit',
     "widget_tweaks",
     "django.contrib.admin",
@@ -110,7 +109,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     'django_ratelimit.middleware.RatelimitMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 
 ]

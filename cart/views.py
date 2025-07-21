@@ -13,7 +13,7 @@ from django.utils.translation import gettext as _
 from django_ratelimit.decorators import ratelimit
 from django.http import HttpResponse
 
-@ratelimit(key='ip', rate='5/m', method='POST', block=True)
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 @require_POST
 def cart_add(request, slug):
     cart = ShoppingCart(request)
@@ -39,7 +39,7 @@ def cart_add(request, slug):
         return redirect(referer_url)
     cart.add(product=product, quantity=quantity)
     message = _("%(name)s added to cart successfully") % {"name": product.name}
-    cart_count = len(cart)
+    cart_count = len(cart.cart)
     if is_ajax:
         context = {
             'product': product,
@@ -61,7 +61,35 @@ def cart_add(request, slug):
         })
     return redirect(referer_url)
 
-@ratelimit(key='ip', rate='5/m', method='POST', block=True)
+@ratelimit(key='ip', rate='20/m', method='POST', block=True)
+@require_POST
+def cart_update(request, slug):
+    cart = ShoppingCart(request)
+    product = get_object_or_404(Product, slug=slug)
+    referer_url = request.META.get("HTTP_REFERER", reverse("cart:cart_list"))
+
+    if not url_has_allowed_host_and_scheme(
+        referer_url, allowed_hosts={request.get_host()}
+    ):
+        referer_url = reverse("cart:cart_list")
+
+    try:
+        quantity = int(request.POST.get("quantity", 1))
+        if quantity <= 0:
+            raise ValueError
+    except (ValueError, TypeError):
+        messages.error(request, "Invalid quantity specified")
+        return redirect(referer_url)
+
+    if not (product.is_available):
+        messages.warning(request, f"{product.name} is currently unavailable")
+        return redirect(referer_url)
+
+    cart.add(product=product, quantity=quantity)
+    messages.success(request, f"{product.name} updated in cart successfully")
+    return redirect(referer_url)
+
+@ratelimit(key='ip', rate='10/m', method='POST', block=True)
 @require_POST
 def cart_remove(request, slug):
     cart = ShoppingCart(request)
@@ -74,7 +102,7 @@ def cart_remove(request, slug):
 
     cart.remove(product)
     message = _("%(name)s removed from cart successfully") % {"name": product.name}
-    cart_count = len(cart)
+    cart_count = len(cart.cart)
 
     if is_ajax:
         context = {
@@ -100,7 +128,7 @@ def cart_remove(request, slug):
 @ratelimit(key='ip', rate='60/m', method='GET', block=False)
 def cart_count(request):
     cart = ShoppingCart(request)
-    count = cart.__len__()
+    count = len(cart.cart)
     return JsonResponse({'count': count})
 
 @require_POST

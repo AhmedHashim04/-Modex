@@ -6,20 +6,8 @@
 <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 
 <!-- Custom JS -->
-<script src="{% static 'js/products.js' %}"></script>
-<script src="{% static 'js/search.js' %}"></script>
 <script src="{% static 'js/cart.js' %}"></script>
-
-<script>
-    function updateModexTime() {
-        const el = document.getElementById('modexCurrentTime');
-        if (!el) return;
-        const now = new Date();
-        el.textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-    }
-    setInterval(updateModexTime, 1000);
-    updateModexTime();
-</script>
+{% comment %} <script src="{% static 'js/search.js' %}"></script> {% endcomment %}
 
 <script>
     // ✅ 1. دالة لجلب الـ CSRF Token من الكوكيز

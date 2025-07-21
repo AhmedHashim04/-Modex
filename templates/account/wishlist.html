@@ -130,27 +130,3 @@
 </section>
 
 {% endblock content %}
-
-
-<script>
-        // Quantity input controls
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.parentElement.querySelector('.quantity-input');
-                    if (parseInt(input.value) > parseInt(input.min)) {
-                        input.value = parseInt(input.value) - 1;
-                    }
-                });
-            });
-            
-            document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const input = this.parentElement.querySelector('.quantity-input');
-                    if (parseInt(input.value) < parseInt(input.max)) {
-                        input.value = parseInt(input.value) + 1;
-                    }
-                });
-            });
-        });
-</script>

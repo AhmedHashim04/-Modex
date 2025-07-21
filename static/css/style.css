@@ -322,12 +322,6 @@ html {
     color: hsl(0 65% 51%);
 }
 
-/* Badge Styles */
-.badge {
-    font-size: 0.75rem;
-    font-weight: 600;
-}
-
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.01ms !important;

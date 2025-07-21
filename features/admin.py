@@ -1,8 +1,10 @@
 from django.contrib import admin
 
-from .models import ProductImage, ProductColor
+from .models import ProductImage, ProductColor, Tag
 from project.admin import custom_admin_site
 
+admin.site.register(Tag)
+custom_admin_site.register(Tag)
 
 
 class ProductImageInline(admin.TabularInline):

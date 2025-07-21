@@ -1,137 +1,30 @@
 {% load i18n %}
 
-{% if product.slug not in cart_items_keys %}
-    {% if product.is_available %}
-        <form method="POST" action="{% url 'cart:cart_add' product.slug %}" class="d-flex align-items-center flex-nowrap w-100 product-cart-form" id="add-to-cart-form-{{ product.slug }}">
-            {% csrf_token %}
-            <div class="input-group trendy-quantity-group" style="width: 140px;">
-                <button type="button" class="btn btn-light border quantity-btn minus rounded-start" style="width: 38px; height: 38px;">-</button>
-                <input type="number" name="quantity" value="1" min="1" max="100"
-                       class="form-control text-center quantity-input border-0" style="max-width: 60px; height: 38px;" required>
-                <button type="button" class="btn btn-light border quantity-btn plus rounded-end" style="width: 38px; height: 38px;">+</button>
-            </div>
+<div class="product-card-wrapper" data-product-slug="{{ product.slug }}" data-source="cart_button">
+    {% if product.slug not in cart_items_keys %}
+        {% if product.is_available %}
+            <form method="POST" action="{% url 'cart:cart_add' product.slug %}" class="d-flex align-items-center flex-nowrap w-100 product-cart-form" id="add-to-cart-form-{{ product.slug }}">
+                {% csrf_token %}
+                <div class="input-group trendy-quantity-group" style="width: 140px;">
+                    <button type="button" class="btn btn-light border quantity-btn minus rounded-start" style="width: 38px; height: 38px;">-</button>
+                    <input type="number" name="quantity" value="1" min="1" max="100"
+                        class="form-control text-center quantity-input border-0" style="max-width: 60px; height: 38px;" required>
+                    <button type="button" class="btn btn-light border quantity-btn plus rounded-end" style="width: 38px; height: 38px;">+</button>
+                </div>
 
-            <button type="submit" class="btn btn-primary btn-sm px-3 py-2 rounded-pill ms-3 flex-grow-1 d-flex align-items-center justify-content-center">
-                <i class="fas fa-shopping-cart me-2"></i>{% trans "Add" %}
-            </button>
-        </form>
+                <button type="submit" class="btn btn-primary btn-sm px-3 py-2 rounded-pill ms-3 flex-grow-1 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-shopping-cart me-2"></i>{% trans "Add" %}
+                </button>
+            </form>
+        {% endif %}
+    {% else %}
+        {% if product.is_available %}
+            <form method="POST" action="{% url 'cart:cart_remove' product.slug %}" class="flex-grow-1 product-cart-form" id="remove-from-cart-form-{{ product.slug }}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-trash-alt me-2"></i>{% trans "Remove" %}
+                </button>
+            </form>
+        {% endif %}
     {% endif %}
-{% else %}
-    {% if product.is_available %}
-        <form method="POST" action="{% url 'cart:cart_remove' product.slug %}" class="flex-grow-1 product-cart-form" id="remove-from-cart-form-{{ product.slug }}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center">
-                <i class="fas fa-trash-alt me-2"></i>{% trans "Remove" %}
-            </button>
-        </form>
-    {% endif %}
-{% endif %}
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    initializeCartForms();
-    setupQuantityButtons();
-});
-
-function getCookie(name) {
-    let cookieValue = null;
-    if (document.cookie) {
-        const cookies = document.cookie.split(';');
-        for (let cookie of cookies) {
-            cookie = cookie.trim();
-            if (cookie.startsWith(name + '=')) {
-                cookieValue = decodeURIComponent(cookie.slice(name.length + 1));
-                break;
-            }
-        }
-    }
-    return cookieValue;
-}
-
-function updateCartIndicator(count) {
-    document.querySelectorAll('.cart-counter').forEach(counter => {
-        counter.textContent = count;
-    });
-}
-
-function animateCartIcon() {
-    const icon = document.querySelector('#cart-link i.fa-shopping-cart');
-    if (icon) {
-        icon.classList.add('animate-bounce');
-        setTimeout(() => icon.classList.remove('animate-bounce'), 800);
-    }
-}
-
-async function handleCartFormSubmit(form, actionType) {
-    const csrfToken = getCookie('csrftoken');
-    const formData = new FormData(form);
-    const source = form.dataset.source;
-    if (source) {
-        formData.append('source', source);
-    }
-    try {
-        const res = await fetch(form.action, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrfToken,
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-            body: formData,
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-            const container = form.closest('.product-container') || form.closest('.card');
-            if (container && data.updated_html) {
-                container.innerHTML = data.updated_html;
-                initializeCartForms();
-                setupQuantityButtons();
-            }
-
-            if (data.cart_count !== undefined) {
-                updateCartIndicator(data.cart_count);
-                animateCartIcon();
-            }
-
-        } else {
-        }
-
-    } catch (err) {
-        console.error(err);
-        showToast("{{ _('A network error occurred.') }}", 'error');
-    }
-}
-function initializeCartForms() {
-    document.querySelectorAll('.product-cart-form').forEach(form => {
-        // إلغاء ربط الـ submit السابق (لو موجود)
-        form.replaceWith(form.cloneNode(true));
-    });
-
-    document.querySelectorAll('.product-cart-form').forEach(form => {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const type = this.id.startsWith('add') ? 'add' : 'remove';
-            handleCartFormSubmit(this, type);
-        });
-    });
-}
-
-
-function setupQuantityButtons() {
-    document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const input = this.parentElement.querySelector('.quantity-input');
-            const min = parseInt(input.min);
-            if (parseInt(input.value) > min) input.value = parseInt(input.value) - 1;
-        });
-    });
-
-    document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const input = this.parentElement.querySelector('.quantity-input');
-            const max = parseInt(input.max);
-            if (parseInt(input.value) < max) input.value = parseInt(input.value) + 1;
-        });
-    });
-}
-</script>
+</div>

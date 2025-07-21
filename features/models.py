@@ -45,6 +45,7 @@ class Color(models.TextChoices):
     VIOLET = "#ee82ee", _("Violet")
     WHITE = "#fff", _("White")
     YELLOW = "#ff0", _("Yellow")
+
 class ProductColor(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors')
     color = models.CharField(max_length=20, choices=Color.choices)

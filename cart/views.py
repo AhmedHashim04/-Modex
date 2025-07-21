@@ -47,20 +47,16 @@ def cart_add(request, slug):
             'user': request.user
         }
         
-        source = request.POST.get('source')
-
-        if source == 'new_card':
-            template_name = 'product/partials/trendy_product_card.html'
-        else:
-            template_name = 'product/partials/product_card.html'
-
-        updated_html = render_to_string(template_name, context, request=request)
-
+        updated_htmls = {
+            'cart_button': render_to_string('product/partials/cart_button.html', context, request=request),
+            'new_cart_button': render_to_string('product/partials/new_cart_button.html', context, request=request),
+        }
 
         return JsonResponse({
             'success': True,
             'message': message,
-            'updated_html': updated_html,
+            'updated_htmls': updated_htmls,
+            'product_slug': product.slug,
             'cart_count': cart_count
         })
     return redirect(referer_url)
@@ -87,22 +83,18 @@ def cart_remove(request, slug):
             'user': request.user
         }
 
-        source = request.POST.get('source')
-
-        if source == 'new_card':
-            template_name = 'product/partials/trendy_product_card.html'
-        else:
-            template_name = 'product/partials/product_card.html'
-
-        updated_html = render_to_string(template_name, context, request=request)
+        updated_htmls = {
+            'cart_button': render_to_string('product/partials/cart_button.html', context, request=request),
+            'new_cart_button': render_to_string('product/partials/new_cart_button.html', context, request=request),
+        }
 
         return JsonResponse({
             'success': True,
             'message': message,
-            'updated_html': updated_html,
+            'updated_htmls': updated_htmls,
+            'product_slug': product.slug,
             'cart_count': cart_count
         })
-
     return redirect(referer_url)
 
 @ratelimit(key='ip', rate='60/m', method='GET', block=False)

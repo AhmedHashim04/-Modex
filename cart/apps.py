@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 class CartConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "cart"
-    verbose_name = _("Cart")  # ← هنا اسم التطبيق اللي هيظهر في لوحة التحكم
+    verbose_name = _("Cart") 
 
     def ready(self):
         import cart.signals

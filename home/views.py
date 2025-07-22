@@ -27,7 +27,7 @@ class HomeView(TemplateView):
                 },
                 'daily_products_section': {
                     'title': _("Daily Products"),
-                    'products': Product.objects.filter(is_available=True).order_by('?').select_related('category')[:20],
+                    'products': Product.objects.filter(is_available=True).order_by('?').select_related('category')[:100],
                     'layout': 'grid'
                 },
                 
@@ -55,7 +55,7 @@ class HomeView(TemplateView):
                 },
             
             }
-            cache.set('home_data', data, 60 * 60 * 24)  # Cache for 1 day
+            cache.set('home_data', data, 60 * 60 * 24)  # 1 day
             
         context['data'] = data
         return context['data']

@@ -1,1 +1,1 @@
-grep -rnw --include="*.html" "cookie" .
+grep -rnw --include="*.js" "prevBtn" .

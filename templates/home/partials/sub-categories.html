@@ -8,7 +8,7 @@
             <div class="subcat-slider-track d-flex flex-nowrap align-items-stretch">
                 {% for subcat in subCategories %}
                 <div class="subcat-slide d-flex flex-column align-items-center">
-                    <a href="?subcat={{ subcat.slug }}" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
+                    <a href="{% url 'product:product_list' %}?category={{ subcat.slug }}" class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none">
                         <span class="circle-img mb-3 shadow-lg">
                             <img src="{% if subcat.image %}{{ subcat.image.url }}{% else %}https://via.placeholder.com/200x200?text={{ subcat.name|urlencode }}{% endif %}" alt="{{ subcat.name }}" />
                         </span>

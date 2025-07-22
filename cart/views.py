@@ -8,10 +8,10 @@ from product.models import Product
 from .cart import Cart as ShoppingCart
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-from django.middleware.csrf import get_token
+# from django.middleware.csrf import get_token
 from django.utils.translation import gettext as _
 from django_ratelimit.decorators import ratelimit
-from django.http import HttpResponse
+# from django.http import HttpResponse
 
 @ratelimit(key='ip', rate='10/m', method='POST', block=True)
 @require_POST
@@ -134,7 +134,6 @@ def cart_count(request):
 @require_POST
 def cart_clear(request):
     cart = ShoppingCart(request)
-    print(request.headers)
 
     cart.clear()
     messages.success(request, "Cart cleared successfully")

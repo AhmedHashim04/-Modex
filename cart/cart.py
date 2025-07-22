@@ -15,10 +15,10 @@ class Cart:
     def _get_or_create_cart(self):
         if self.request.user.is_authenticated:
             cache_key = f"cart_user_{self.request.user.id}"
-            cart = cache.get(cache_key)
         else:
             cache_key = f"cart_session_{self.session.session_key}"
-            cart = cache.get(cache_key)
+            
+        cart = cache.get(cache_key)
 
         if cart is None:
             cart = self.session.get(self.session_id, {})

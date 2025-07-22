@@ -5,6 +5,9 @@
 <!-- HTMX -->
 <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+
 <!-- Custom JS -->
 <script src="{% static 'js/cart.js' %}"></script>
 {% comment %} <script src="{% static 'js/search.js' %}"></script> {% endcomment %}
@@ -43,36 +46,40 @@
         },
         body: new URLSearchParams({ slug: slug })
     })
-    .then(async response => {
-        let data;
-        try {
-            data = await response.json();
-        } catch (e) {
-            throw new Error("The server response is not valid JSON");
+.then(async response => {
+    let data;
+    try {
+        data = await response.json();
+    } catch (e) {
+        throw new Error("The server response is not valid JSON");
+    }
 
-        if (!response.ok) {
-            throw new Error(data.message || "An error occurred while processing.");
+    if (!response.ok) {
+        throw new Error(data.message || "An error occurred while processing.");
+    }
+
+    // ✅ تحديث كل الأزرار
+    const allButtons = document.querySelectorAll(`[data-action="wishlist"][data-slug="${slug}"]`);
+    allButtons.forEach(button => {
+        const icon = button.querySelector('i');
+        if (data.status === 'added') {
+            icon.classList.remove('far');
+            icon.classList.add('fas', 'text-danger');
+        } else if (data.status === 'removed') {
+            icon.classList.remove('fas', 'text-danger');
+            icon.classList.add('far');
         }
-
-        // ✅ تحديث جميع الأزرار الخاصة بنفس المنتج
-        const allButtons = document.querySelectorAll(`[data-action="wishlist"][data-slug="${slug}"]`);
-        allButtons.forEach(button => {
-            const icon = button.querySelector('i');
-            if (data.status === 'added') {
-                icon.classList.remove('far');
-                icon.classList.add('fas', 'text-danger');
-            } else if (data.status === 'removed') {
-                icon.classList.remove('fas', 'text-danger');
-                icon.classList.add('far');
-            }
-        });
     });
+})
+.catch(error => {
+    console.error("Wishlist toggle error:", error.message);
 });
+    });
+    
 
 
-</script>
 
-<script>
+    
     function updateqty(button, action) {
         const input = button.parentElement.querySelector('.quantity-input');
         const currentValue = parseInt(input.value);

@@ -1,68 +1,150 @@
 {% load i18n %}
-
 {% if main_categories %}
-<section class="section">
-    <div class="section-header">
-        <h2 class="section-title">{% trans 'Discover Our Categories' %}</h2>
-        <p class="section-subtitle">{% trans 'Browse a wide variety of toys and gifts suitable for all ages and occasions' %}</p>
-    </div>
-    <div class="position-relative">
-
-        <div class="categories-grid flex-nowrap overflow-auto" style="scroll-behavior: smooth; display: flex; gap: 1.5rem; padding: 1rem 2.5rem;">
-            {% for category in main_categories %}
-                <div class="category-card flex-shrink-0" style="min-width: 180px; max-width: 220px;">
-                    <div class="category-icon">
-                        <i class="fas fa-box"></i>
-                    </div>
-                    <a href="{% url 'product:product_list' %}?category={{ category.slug }}" style="text-decoration:none;">
-                        <h3 class="category-title">{{ category.name }}</h3>
-                        <p class="category-count">{{ category.products.count }} {% trans 'Products' %}</p>
-                    </a>
-                </div>
-            {% endfor %}
+    <div class="container ">
+        <div class="section-header text-center mb-5">
+            <h2 class="section-title display-5 fw-bold">{% trans 'Discover Our Categories' %}</h2>
+            <p class="section-subtitle text-muted">{% trans 'Browse a wide variety of toys and gifts suitable for all ages and occasions' %}</p>
         </div>
-
+        
+        <div class="position-relative">
+            <div class="categories-carousel swiper">
+                <div class="swiper-wrapper">
+                    {% for category in main_categories %}
+                    <div class="swiper-slide">
+                        <div class="category-card card h-100 border-0 shadow-sm">
+                            <div class="category-image-container">
+                                {% if category.image %}
+                                <img src="{{ category.image.url }}" 
+                                     alt="{{ category.name }}" 
+                                     class="category-image card-img-top" 
+                                     loading="lazy"
+                                     onerror="this.src=''">
+                                {% else %}
+                                <div class="category-image-placeholder">
+                                    <i class="fas fa-box-open fa-3x text-primary"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="card-body text-center">
+                                <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
+                                    <h3 class="category-title card-title h5">{{ category.name }}</h3>
+                                    <p class="category-count text-muted small">
+                                        {{ category.products.count }} {% trans 'Products' %}
+                                        {% if category.children.all %}
+                                        <span class="d-block mt-1">
+                                            {{ category.children.count }} {% trans 'Subcategories' %}
+                                        </span>
+                                        {% endif %}
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="swiper-button-prev category-nav-prev"></div>
+            <div class="swiper-button-next category-nav-next"></div>
+        </div>
+        
+        {% if main_categories|length > 5 %}
+        <div class="text-center mt-4">
+            {% comment %} <a href="{% url 'product:category_list' %}" class="btn btn-outline-primary">
+                {% trans 'View All Categories' %} <i class="fas fa-arrow-right ms-2"></i>
+            </a> {% endcomment %}
+        </div>
+        {% endif %}
     </div>
-</section>
-{% endif %}
 
-
-            {% comment %} <button class="category-arrow category-arrow-left d-none d-md-flex align-items-center justify-content-center"
-                    style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
-                <i class="fas fa-chevron-left"></i>
-            </button> {% endcomment %}
-        {% comment %} <div class="categories-grid flex-nowrap overflow-auto" style="scroll-behavior: smooth; display: flex; gap: 1.5rem; padding: 1rem 2.5rem;"> {% endcomment %}
-            {% comment %} <button class="category-arrow category-arrow-right d-none d-md-flex align-items-center justify-content-center"
-                style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); z-index: 2; background: hsla(0,0%,100%,0.8); border: none; border-radius: 50%; width: 44px; height: 44px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); font-size: 1.5rem;">
-            <i class="fas fa-chevron-right"></i>
-            </button> {% endcomment %}
-{% comment %} <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const grid = document.querySelector('.categories-grid');
-    const leftBtn = document.querySelector('.category-arrow-left');
-    const rightBtn = document.querySelector('.category-arrow-right');
-
-    function updateArrows() {
-        if (!grid) return;
-        // Show arrows only if scrollable
-        if (grid.scrollWidth > grid.clientWidth + 10) {
-            leftBtn.classList.remove('d-none');
-            rightBtn.classList.remove('d-none');
-        } else {
-            leftBtn.classList.add('d-none');
-            rightBtn.classList.add('d-none');
+<!-- CSS الإضافي -->
+<style>
+    .categories-section {
+        padding: 3rem 0;
+        background-color: hsl(var(--background-color));
+    }
+    .category-card {
+        transition: var(--transition);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-medium);
+    }
+    .category-image-container {
+        height: 180px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: hsl(var(--surface-color));
+    }
+    .category-image {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease;
+    }
+    .category-card:hover .category-image {
+        transform: scale(1.05);
+    }
+    .category-image-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: hsl(var(--text-secondary));
+        background-color: hsl(var(--border-color));
+    }
+    .category-nav-prev, .category-nav-next {
+        color: hsl(var(--text-primary));
+        background: rgba(255, 255, 255, 0.8);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        box-shadow: var(--shadow-light);
+    }
+    .category-nav-prev::after, .category-nav-next::after {
+        font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+        .category-image-container {
+            height: 120px;
+        }
+        .category-nav-prev, .category-nav-next {
+            display: none;
         }
     }
+</style>
 
-    if (leftBtn && rightBtn && grid) {
-        leftBtn.addEventListener('click', function() {
-            grid.scrollBy({ left: -grid.clientWidth * 0.7, behavior: 'smooth' });
+<!-- JavaScript -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const swiper = new Swiper('.categories-carousel', {
+            slidesPerView: 1,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: '.category-nav-next',
+                prevEl: '.category-nav-prev',
+            },
+            breakpoints: {
+                576: {
+                    slidesPerView: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                },
+                992: {
+                    slidesPerView: 4,
+                },
+                1200: {
+                    slidesPerView: 5,
+                }
+            }
         });
-        rightBtn.addEventListener('click', function() {
-            grid.scrollBy({ left: grid.clientWidth * 0.7, behavior: 'smooth' });
-        });
-        window.addEventListener('resize', updateArrows);
-        updateArrows();
-    }
-});
-</script> {% endcomment %}
+    });
+</script>
+{% endif %}

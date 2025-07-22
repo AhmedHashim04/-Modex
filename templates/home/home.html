@@ -49,31 +49,6 @@
 <hr>
 </div>
 
-{% comment %} <!-- Collections Section -->
-{% if collections_section.collections %}
-<section class="section" style="width: 100vw; max-width: 100vw; margin: 0; padding: 0;">
-    <div class="section-header">
-        <h2 class="section-title">{{ collections_section.title }}</h2>
-        <p class="section-subtitle">{% trans 'Discover our carefully selected special collections' %}</p>
-    </div>
-    <div class="collections-grid">
-        {% for collection in collections_section.collections %}
-            <div class="collection-card">
-                <div class="collection-image" style="background-image: url('{{ collection.image.url }}')"></div>
-                <div class="collection-overlay">
-                    <h3 class="collection-title">{{ collection.name }}</h3>
-                    <div class="collection-count">
-                        <i class="fas fa-box"></i>
-                        <span>{{ collection.product_count }} {% trans 'Products' %}</span>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-</section>
-{% endif %}
-<hr> {% endcomment %}
-
 {% include "home/partials/features.html" %}
 {% comment %} {% include "home/partials/newsettler.html" %} {% endcomment %}
 
@@ -116,106 +91,7 @@
             });
         });
         
-        // Newsletter form submission
-        const newsletterForm = document.querySelector('.newsletter-form');
-        if(newsletterForm) {
-            newsletterForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const input = this.querySelector('input');
-                if(input.value) {
-                    this.innerHTML = '<p style="color:white;font-size:1.2rem;">Thank you for subscribing! You will receive the latest offers soon.</p>';
-                }
-            });
-        }
-    });
-</script>
-
-<script>
-    // Banner Carousel Functionality
-    document.addEventListener('DOMContentLoaded', function() {
-        const carousel = document.querySelector('.banners-horizontal-scroll');
-        const prevBtn = document.querySelector('.banner-prev');
-        const nextBtn = document.querySelector('.banner-next');
-        const indicators = document.querySelectorAll('.banner-indicator');
-        const bannerCards = document.querySelectorAll('.banner-card-new');
         
-        let currentIndex = 0;
-        const cardWidth = 380 + 16; // 380px width + 16px gap
-        
-        // Initialize first indicator as active
-        if (indicators.length > 0) {
-            indicators[0].classList.add('active');
-        }
-        
-        // Navigation functions
-        function goToSlide(index) {
-            if (index < 0) index = indicators.length - 1;
-            if (index >= indicators.length) index = 0;
-            
-            carousel.scrollTo({
-                left: index * cardWidth,
-                behavior: 'smooth'
-            });
-            
-            currentIndex = index;
-            updateIndicators();
-        }
-        
-        function updateIndicators() {
-            indicators.forEach((indicator, i) => {
-                indicator.classList.toggle('active', i === currentIndex);
-            });
-        }
-        
-        // Event Listeners
-        prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-        nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-        
-        indicators.forEach((indicator, i) => {
-            indicator.addEventListener('click', () => goToSlide(i));
-        });
-        
-        // Auto-scroll functionality
-        let autoScrollInterval;
-        
-        function startAutoScroll() {
-            autoScrollInterval = setInterval(() => {
-                goToSlide(currentIndex + 1);
-            }, 5000);
-        }
-        
-        function stopAutoScroll() {
-            clearInterval(autoScrollInterval);
-        }
-        
-        // Start auto-scroll
-        startAutoScroll();
-        
-        // Pause auto-scroll when hovering
-        carousel.addEventListener('mouseenter', stopAutoScroll);
-        carousel.addEventListener('mouseleave', startAutoScroll);
-        
-        // Add hover effects to cards
-        bannerCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.classList.add('hover');
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.classList.remove('hover');
-            });
-        });
-        
-        // Scroll snapping detection
-        carousel.addEventListener('scroll', () => {
-            const scrollPos = carousel.scrollLeft;
-            const newIndex = Math.round(scrollPos / cardWidth);
-            
-            if (newIndex !== currentIndex) {
-                currentIndex = newIndex;
-                updateIndicators();
-            }
-        });
     });
 </script>
 

@@ -23,32 +23,23 @@ class AddressForm(forms.ModelForm):
     class Meta:
         model = Address
         fields = [
-            "full_name",
-            "phone_number",
-            "address_line",
-            "city",
-            "country",
-            "postal_code",
-            "is_default",
+            'full_name', 'phone', 'governorate', 'city', 'address_line', 'is_default', 'notes'
         ]
         widgets = {
-            "full_name": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Full Name"}
-            ),
-            "phone_number": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Phone Number"}
-            ),
-            "address_line": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Street Address"}
-            ),
-            "city": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "City"}
-            ),
-            "country": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Country"}
-            ),
-            "postal_code": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Postal Code"}
-            ),
-            "is_default": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+            'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Full Name'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Phone Number'}),
+            'governorate': forms.Select(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'City/Center'}),
+            'address_line': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Detailed Address', 'rows': 2}),
+            'is_default': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'notes': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Additional Notes (optional)', 'rows': 1}),
+        }
+        labels = {
+            'full_name': 'Full Name',
+            'phone': 'Phone Number',
+            'governorate': 'Governorate',
+            'city': 'City/Center',
+            'address_line': 'Detailed Address',
+            'is_default': 'Set as default address',
+            'notes': 'Additional Notes',
         }

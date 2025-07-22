@@ -12,6 +12,9 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from accounts.models import Profile
+from django.core.validators import RegexValidator
+from django.utils.translation import gettext as _
 
 class OrderStatus(models.TextChoices):
     PENDING = "pending", _("Pending")
@@ -32,28 +35,28 @@ class ShippingMethod(models.TextChoices):
     # EXPRESS = "express", _("Express Shipping")
 
 class Address(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses", verbose_name=_("User"))
+    EGYPT_GOVERNORATES = Profile.EGYPT_GOVERNORATES
+    egyptian_phone_validator = Profile.egyptian_phone_validator
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses")
     full_name = models.CharField(max_length=100, verbose_name=_("Full Name"))
-    phone_number = models.CharField(max_length=20, verbose_name=_("Phone Number"))
-    address_line = models.CharField(max_length=255, verbose_name=_("Address Line"))
-    city = models.CharField(max_length=100, verbose_name=_("City"))
-    country = models.CharField(max_length=100, verbose_name=_("Country"))
-    postal_code = models.CharField(max_length=10, verbose_name=_("Postal Code"))
-    is_default = models.BooleanField(default=False, verbose_name=_("Is Default"))
+    phone = models.CharField(max_length=11, validators=[egyptian_phone_validator], verbose_name=_("Phone Number"))
+    governorate = models.CharField(max_length=10, choices=EGYPT_GOVERNORATES, verbose_name=_("Governorate"))
+    city = models.CharField(max_length=100, verbose_name=_("City/Center"))
+    address_line = models.TextField(verbose_name=_("Detailed Address"))
+    is_default = models.BooleanField(default=False, verbose_name=_("Default Address"))
+    notes = models.TextField(blank=True, null=True, verbose_name=_("Additional Notes"))
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["user"],
-                condition=Q(is_default=True),
-                name="unique_default_address_per_user"
-            )
-        ]
         verbose_name = _("Address")
         verbose_name_plural = _("Addresses")
+        ordering = ["-is_default", "-updated_at"]
 
     def __str__(self):
-        return f"{self.full_name} - {self.city}, {self.country}"
+        return f"{self.full_name} - {self.governorate} - {self.city}"
+
 
 class Order(models.Model):
     id = models.UUIDField(_("ID"), primary_key=True, editable=False, default=uuid.uuid4)

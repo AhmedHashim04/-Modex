@@ -9,10 +9,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.base import ContentFile
 from django.db import transaction
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
-from django.views.generic import CreateView, DetailView, ListView, View, FormView
+from django.views.generic import CreateView, DetailView, ListView, View, FormView, UpdateView, DeleteView
 from weasyprint import HTML
 from cart.cart import Cart
 from .forms import AddressForm, OrderCreateForm
@@ -144,13 +144,71 @@ class OrderCancelView(LoginRequiredMixin, View):
         return context
 
 @method_decorator(ratelimit(key='user', rate='5/m', block=True), name='dispatch')
-class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
-    template_name = "order/address_list_create.html"
+class AddressEditView(LoginRequiredMixin, UpdateView):
+    model = Address
     form_class = AddressForm
-    success_url = reverse_lazy("order:address_list_create")
+    template_name = "order/address_list_create.html"
+
+    def get_success_url(self):
+        messages.success(self.request, "Address updated successfully.")
+        return reverse("order:address_list_create")
 
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
+
+class AddressDeleteView(LoginRequiredMixin, DeleteView):
+    model = Address
+    template_name = "order/address_confirm_delete.html"
+
+    def get_success_url(self):
+        messages.success(self.request, "Address deleted successfully.")
+        return reverse("order:address_list_create")
+
+    def get_queryset(self):
+        return Address.objects.filter(user=self.request.user)
+
+class AddressSetDefaultView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        address = get_object_or_404(Address, pk=pk, user=request.user)
+        Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+        address.is_default = True
+        address.save()
+        messages.success(request, "Default address set successfully.")
+        return redirect("order:address_list_create")
+    def get(self, request, pk):
+        return self.post(request, pk)
+
+class AddressUnsetDefaultView(LoginRequiredMixin, View):
+    def post(self, request, pk):
+        address = get_object_or_404(Address, pk=pk, user=request.user)
+        address.is_default = False
+        address.save()
+        messages.success(request, "Default address unset successfully.")
+        return redirect("order:address_list_create")
+    def get(self, request, pk):
+        return self.post(request, pk)
+
+# تعديل AddressListCreateView لإعادة التوجيه بعد الحفظ
+class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
+    template_name = "order/address_list_create.html"
+    form_class = AddressForm
+    success_url = reverse_lazy("order:create_order")
+
+    def get_queryset(self):
+        return Address.objects.filter(user=self.request.user)
+
+    def get_initial(self):
+        profile = getattr(self.request.user, 'profile', None)
+        initial = {
+            'full_name': self.request.user.get_full_name() or self.request.user.username,
+        }
+        if profile:
+            initial.update({
+                'phone': profile.phone,
+                'governorate': profile.governorate,
+                'address_line': profile.address,
+            })
+        return initial
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -158,6 +216,11 @@ class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
         if "form" not in context:
             context["form"] = self.get_form()
         return context
+
+    def get_form(self, form_class=None):
+        if self.request.method in ("POST", "PUT"):
+            return self.form_class(self.request.POST)
+        return self.form_class(initial=self.get_initial())
 
     def form_valid(self, form):
         address = form.save(commit=False)

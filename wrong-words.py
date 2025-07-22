@@ -19,7 +19,7 @@ def swap_ar_en(text):
     return ''.join(result)
 
 # تجربة
-mixed_text = "uhd. hogdi g, [hf lk hg ةشهى سثؤفهخى d,]dkd g ةشهى_ؤشقي ,g, [hd lk hg ؤشقي d,]dkd g حقخيعؤف ؤشقي "
+mixed_text = "سفغمث ,hsjolg hg قخخف ؤخمخقس g, phff"
 print("Swapped:", swap_ar_en(mixed_text))
 
 

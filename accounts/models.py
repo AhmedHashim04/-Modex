@@ -60,6 +60,7 @@ class Profile(models.Model):
         verbose_name=_("Detailed Address"),
         help_text=_("Please write your address in detail, e.g., district, building number, apartment number, street name, and any additional details to facilitate order delivery.")
     )
+    
     governorate = models.CharField(
         max_length=10,
         choices=EGYPT_GOVERNORATES,

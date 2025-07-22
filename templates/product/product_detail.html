@@ -170,12 +170,8 @@
                             <p class="mb-0">{{ product.description|default:"No description available for this product." }}</p>
                         </div>
                         <div class="product-actions mb-4">
-                            <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
-                                <div class="flex-grow-1 w-100">
                             {% include "product/partials/cart_button.html" %}
-
-                        </div>
-                        </div>
+                            
                         </div>
 
                         <div class="product-meta">
@@ -449,35 +445,5 @@
 </section>
 
 {% endif %}
-
-
-<script>
-    // Change main product image when clicking on thumbnails
-    function changeMainImage(element) {
-        const mainImage = document.getElementById('mainProductImage');
-        mainImage.src = element.src;
-    }
-    
-    // Quantity input controls
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const input = this.parentElement.querySelector('.quantity-input');
-                if (parseInt(input.value) > parseInt(input.min)) {
-                    input.value = parseInt(input.value) - 1;
-                }
-            });
-        });
-        
-        document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const input = this.parentElement.querySelector('.quantity-input');
-                if (parseInt(input.value) < parseInt(input.max)) {
-                    input.value = parseInt(input.value) + 1;
-                }
-            });
-        });
-    });
-</script>
 
 {% endblock %}

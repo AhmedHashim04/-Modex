@@ -148,13 +148,17 @@ class AddressEditView(LoginRequiredMixin, UpdateView):
     model = Address
     form_class = AddressForm
     template_name = "order/address_list_create.html"
-
     def get_success_url(self):
         messages.success(self.request, "Address updated successfully.")
         return reverse("order:address_list_create")
-
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
+    def form_valid(self, form):
+        address = form.save(commit=False)
+        if address.is_default:
+            Address.objects.filter(user=self.request.user, is_default=True).exclude(pk=address.pk).update(is_default=False)
+        address.save()
+        return super().form_valid(form)
 
 class AddressDeleteView(LoginRequiredMixin, DeleteView):
     model = Address
@@ -171,6 +175,7 @@ class AddressSetDefaultView(LoginRequiredMixin, View):
     def post(self, request, pk):
         address = get_object_or_404(Address, pk=pk, user=request.user)
         Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
+        print('updated')
         address.is_default = True
         address.save()
         messages.success(request, "Default address set successfully.")
@@ -188,7 +193,7 @@ class AddressUnsetDefaultView(LoginRequiredMixin, View):
     def get(self, request, pk):
         return self.post(request, pk)
 
-# تعديل AddressListCreateView لإعادة التوجيه بعد الحفظ
+
 class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
     template_name = "order/address_list_create.html"
     form_class = AddressForm

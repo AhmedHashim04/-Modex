@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 import os
 from pathlib import Path
+from decouple import config  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,14 +78,29 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Django default
     'allauth.account.auth_backends.AuthenticationBackend',  # Allauth
 ]
-
-
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'  # اختيارية لمنع التسجيل التقليدي
+ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'
 
-
-LOGIN_REDIRECT_URL = "/accounts/profile/edit/"
+LOGIN_REDIRECT_URL = '/' 
 LOGOUT_REDIRECT_URL = "/"
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+        'APP': {
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}
 
 
 MIDDLEWARE = [

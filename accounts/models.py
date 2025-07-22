@@ -43,6 +43,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     phone = models.CharField(
         max_length=11,
+        blank=True,
+        null=True,
         validators=[egyptian_phone_validator],
         verbose_name=_("Primary Phone Number"),
         help_text=_("Please enter an Egyptian phone number starting with 010, 011, 012, or 015.")

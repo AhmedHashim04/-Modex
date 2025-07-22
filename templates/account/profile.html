@@ -118,6 +118,9 @@
                     <a href="{% url 'order:order_list' %}" class="btn btn-outline-secondary" title="{% trans 'View your order history' %}">
                         <i class="fas fa-box-open me-2"></i>{% trans "My Orders" %}
                     </a>
+                    {% comment %} <a href="{% url 'order:address_list_create' %}" class="btn btn-outline-info">
+                        <i class="fas fa-map-marker-alt me-2"></i>{% trans "My Addresses" %}
+                    </a> {% endcomment %}
                     <a href="{% url 'accounts:edit_profile' %}" class="btn btn-outline-primary">
                         <i class="fas fa-user-edit me-2"></i>{% trans "Edit Profile" %}
                     </a>

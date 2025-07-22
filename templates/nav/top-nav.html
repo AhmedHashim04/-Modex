@@ -55,22 +55,20 @@
         </a>
 
         {% else %}
-        <div class="d-flex align-items-center gap-2"
-             {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
-            <a href="{% provider_login_url 'google' %}" class="manage-nav-link d-flex align-items-center" style="color: #4285F4;"
-               {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse; color: #4285F4;"{% endif %}>
-                {% if LANGUAGE_CODE == "ar" %}
-                <i class="fab fa-google ms-1"></i>
-                    <span class="d-none d-sm-inline">
-                        تسجيل الدخول عبر جوجل
-                    </span>
-                {% else %}
+
+        <div class="d-flex align-items-center gap-2">
+            <a href="{% provider_login_url 'google' %}"  id="google-login-btn"
+            aria-label="Login with Google" class="manage-nav-link d-flex align-items-center" style="color: #4285F4;">
                     <i class="fab fa-google me-1"></i>
                     <span class="d-none d-sm-inline">
                         Login with Google
                     </span>
-                {% endif %}
             </a>
+            <script>
+                document.getElementById('google-login-btn').addEventListener('click', function () {
+                    this.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Logging in...';
+                });
+            </script>
         </div>
         {% endif %}
         <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex align-items-center"
@@ -102,9 +100,6 @@
                     </span>
                     <i class="fas fa-shopping-cart ms-1 fs-5"></i>
                 {% else %}
-                {% comment %} <span class=" bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold ">
-                    {{ total_cart_price|floatformat:"2" }}
-                </span> {% endcomment %}
                     <i class="fas fa-shopping-cart me-1 fs-5"></i>
                     <span class="d-none d-sm-inline fw-semibold">
                         Cart

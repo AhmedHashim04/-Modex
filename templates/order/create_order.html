@@ -20,9 +20,17 @@
                 </div>
                 
                 <div class="card-body p-4 p-lg-5">
-                    <a href="{% url 'order:address_list_create' %}" class="btn btn-outline-secondary btn-sm px-1 rounded-pill shadow-sm hover-scale">
-                        <i class="fas fa-edit me-2"></i>Add Address
-                    </a>
+                    <div class="input-group mb-3">
+                        <div class="input-group-text">
+                            <a href="{% url 'order:address_list_create' %}" class="btn btn-outline-secondary btn-sm px-1 rounded-pill shadow-sm hover-scale">
+                                <i class="fas fa-edit me-2"></i>Add Address
+                            </a>
+                        </div>
+                        <div class="form-floating">
+                            {{ form.address|add_class:"form-select modern-input"|attr:"placeholder: " }}
+                            <label for="{{ form.address.id_for_label }}">Shipping Address</label>
+                        </div>
+                    </div>
                     <form method="post" class="needs-validation" novalidate>
                         {% csrf_token %}
                         
@@ -125,54 +133,32 @@
         </div>
     </div>
 </div>
-
 <style>
-    /* Order Icon */
+
     .order-icon {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.8rem;
-        margin: 0 auto;
-        border: 2px solid rgba(255, 255, 255, 0.3);
+        background: hsl(var(--primary-color));
     }
     
-    /* Order Summary */
     .order-summary {
-        background: rgba(255, 255, 255, 0.7);
-        border: 1px solid rgba(0, 0, 0, 0.05);
+        background: hsl(var(--tertiary-color));
     }
     
-    /* Modern Input Styling */
     .modern-input {
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        padding: 16px 20px;
-        transition: all 0.3s;
-        background: rgba(255, 255, 255, 0.7);
+        border-color: hsl(var(--border-color));
+        background: hsl(var(--background-color));
     }
     
     .modern-input:focus {
-        border-color: #6B73FF;
-        box-shadow: 0 0 0 0.25rem rgba(107, 115, 255, 0.25);
-        background: white;
+        border-color: hsl(var(--primary-color));
+        box-shadow: 0 0 0 0.25rem hsl(var(--shadow-colored));
     }
     
-    /* Floating Labels */
     .form-floating label {
-        padding-left: 40px;
+        color: hsl(var(--text-secondary));
     }
     
     .form-floating .fa {
-        position: absolute;
-        left: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        opacity: 0.7;
+        color: hsl(var(--text-secondary));
     }
     
     /* Hover Scale Effect */
@@ -182,7 +168,7 @@
     
     .hover-scale:hover {
         transform: translateY(-3px);
-        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1) !important;
+        box-shadow: 0 7px 14px hsl(var(--shadow-medium)) !important;
     }
     
     /* Responsive Adjustments */

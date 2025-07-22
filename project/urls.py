@@ -23,16 +23,28 @@ from django.conf.urls.i18n import i18n_patterns
 from home.views import HomeView
 from .ahmed import test_limit
 from project.admin import custom_admin_site
+from django.http import HttpResponseForbidden
+
 urlpatterns = [
     path("test-limit/", test_limit),
     path('i18n/', include('django.conf.urls.i18n')),
 ]
+def disabled_view(request):
+    return HttpResponseForbidden("This page is disabled.")
 
+
+    
 
 urlpatterns += i18n_patterns(
 
     path('', HomeView.as_view(), name='home'),  # صفحة البداية
     path('accounts/', include("accounts.urls", namespace="accounts")),
+    path("accounts/email/", disabled_view),
+    path("accounts/password/change/", disabled_view),
+    path("accounts/signup/", disabled_view),
+    path("accounts/login/", disabled_view),
+    path("accounts/password/reset/", disabled_view),
+    path("accounts/password/set/", disabled_view),
     path('accounts/', include("allauth.urls")),
     path('products/', include("product.urls", namespace="product")),
     path('order/', include("order.urls", namespace="order")),

@@ -72,29 +72,19 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.humanize',
 ]
-# ✅ تسجيل الدخول وتحويل الصفحة بعده
-LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = 'check_profile_completion'
-ACCOUNT_LOGOUT_REDIRECT_URL = '/'
 
-# ✅ إعدادات allauth الجديدة (بدون تحذيرات)
-ACCOUNT_LOGIN_METHODS = {'email'}  # مطلوبها للتسجيل عبر Google
-ACCOUNT_SIGNUP_FIELDS = ['email*']  # لا يوجد باسورد لأن الدخول عبر Google فقط
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Django default
+    'allauth.account.auth_backends.AuthenticationBackend',  # Allauth
+]
 
-# ✅ إيقاف التسجيل المحلي
-ACCOUNT_ALLOW_REGISTRATION = False
 
-# ✅ لا نحتاج باسورد ولا username
-# ACCOUNT_USERNAME_REQUIRED = False
-# ACCOUNT_EMAIL_REQUIRED = True
-# ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'  # اختيارية لمنع التسجيل التقليدي
 
-# ✅ استخدام الأدابتور الافتراضي (أو مخصص لو عايز تمنع مستخدمين جدد)
-ACCOUNT_ADAPTER = 'allauth.account.adapter.DefaultAccountAdapter'
 
-# ✅ تفعيل تسجيل الدخول تلقائيًا بعد تأكيد الإيميل (مش مهم هنا لأن التسجيل Google)
-ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+LOGIN_REDIRECT_URL = "/accounts/profile/edit/"
+LOGOUT_REDIRECT_URL = "/"
 
 
 MIDDLEWARE = [
@@ -116,8 +106,6 @@ MIDDLEWARE = [
 RATELIMIT_VIEW='home.views.RateLimitExceeded'
 ROOT_URLCONF = "project.urls"
 
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-# SESSION_COOKIE_AGE = 1
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -213,9 +201,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = "/static/"
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
@@ -225,13 +210,7 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-LOGIN_REDIRECT_URL = "/accounts/profile/edit/"
-LOGOUT_REDIRECT_URL = "/"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"

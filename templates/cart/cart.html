@@ -529,18 +529,4 @@
     }
 </style>
 
-<script>
-    function updateqty(button, action) {
-        const input = button.parentElement.querySelector('.quantity-input');
-        const currentValue = parseInt(input.value);
-        const min = parseInt(input.getAttribute('min'));
-        const max = parseInt(input.getAttribute('max'));
-        
-        if (action === 'minus' && currentValue > min) {
-            input.value = currentValue - 1;
-        } else if (action === 'plus' && currentValue < max) {
-            input.value = currentValue + 1;
-        }
-    }
-</script>
 {% endblock %}

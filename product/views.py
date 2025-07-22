@@ -275,8 +275,7 @@ class ProductDetailView(DetailView):
             .select_related('category')[:max_related]
         )
         excluded_ids.update(p.id for p in related_products)
-
-        if len(related_products) < max_related:
+        if product.category and len(related_products) < max_related:
             parent_category = product.category.parent
             if parent_category:
                 additional_products = Product.objects.filter(

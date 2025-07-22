@@ -97,24 +97,29 @@ function initializeCartForms() {
         }
     });
 }
-
 function setupQuantityButtons() {
-    document.querySelectorAll('.quantity-btn.minus').forEach(btn => {
-        btn.addEventListener('click', function () {
-            const input = this.parentElement.querySelector('.quantity-input');
-            const min = parseInt(input.min);
-            if (parseInt(input.value) > min) input.value = parseInt(input.value) - 1;
-        });
-    });
+    document.querySelectorAll('.quantity-btn').forEach(btn => {
+        // علشان نمنع تكرار event
+        if (btn.dataset.bound === "true") return;
+        btn.dataset.bound = "true";
 
-    document.querySelectorAll('.quantity-btn.plus').forEach(btn => {
         btn.addEventListener('click', function () {
             const input = this.parentElement.querySelector('.quantity-input');
-            const max = parseInt(input.max);
-            if (parseInt(input.value) < max) input.value = parseInt(input.value) + 1;
+            const min = parseInt(input.min) || 1;
+            const max = parseInt(input.max) || 100;
+            let current = parseInt(input.value) || 1;
+
+            if (this.classList.contains('plus') && current < max) {
+                input.value = current + 1;
+            }
+
+            if (this.classList.contains('minus') && current > min) {
+                input.value = current - 1;
+            }
         });
     });
 }
+
 
 window.addEventListener('scroll', function () {
     const navbar = document.querySelector('.modex-navbar');

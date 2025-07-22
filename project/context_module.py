@@ -45,7 +45,7 @@ def contexts(request):
         context["wishlist"] = wishlist
 
     context.update({
-        "categories": categories,
+        "contextCategories": categories,
         "cart_items_keys": cart_items_keys,
         "total_cart_price": cart.get_total_price_after_discount(),
         "total_cart_items": len(cart_items_keys),

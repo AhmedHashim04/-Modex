@@ -96,10 +96,15 @@
                         السلة
                         <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
                             {{ request.cart.total_quantity|default:"Modex" }}
-                        </span>
+                        </span>                   
+
+
                     </span>
                     <i class="fas fa-shopping-cart ms-1 fs-5"></i>
                 {% else %}
+                {% comment %} <span class=" bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold ">
+                    {{ total_cart_price|floatformat:"2" }}
+                </span> {% endcomment %}
                     <i class="fas fa-shopping-cart me-1 fs-5"></i>
                     <span class="d-none d-sm-inline fw-semibold">
                         Cart

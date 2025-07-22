@@ -22,6 +22,7 @@
     <section class="py-4 trendy-product-detail ">
         <div class="container">
             <div class="row g-5 align-items-start">
+                
                 <!-- Product Images -->
                 <div class="col-lg-6">
                     <div class="product-gallery bg-white rounded-4 shadow-sm p-4">
@@ -96,18 +97,34 @@
                 
                 <!-- Product Info -->
                 <div class="col-lg-6">
+                    
                     <div class="product-details bg-white rounded-4 shadow-sm p-4">
+                        
                         <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+
                             <div>
                                 <h1 class="h3 mb-2 text-primary fw-bold trendy-title">{{ product.name }}</h1>
                                 <div class="d-flex align-items-center gap-2 mb-2">
+<a href="{% if request.user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
+   class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm"
+   data-action="wishlist"
+   data-slug="{{ product.slug }}"
+   data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}"
+   title="Toggle wishlist"
+   style="width: 40px; height: 40px;">
+   <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
+</a>
+
                                     {% if product.trending %}
                                         <span class="badge bg-primary fw-semibold px-3 py-1">Trending</span>
                                     {% endif %}
+
                                     {% for tag in product.tags.all %}
                                         <span style="color:{{ tag.color }}" class="badge bg-{{tag.bg_color}} fw-semibold px-3 py-1">{{ tag.key }}</span>
                                     {% endfor %}
+
                                 </div>
+                                
                             </div>
                         </div>
                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -130,6 +147,7 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
+
                         <div class="price-section mb-4">
                             {% if product.discount > 0 %}
                                 <span class="h4 text-primary fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} EGP</span>
@@ -153,17 +171,16 @@
                         </div>
                         <div class="product-actions mb-4">
                             {% include "product/partials/cart_button.html" %}
-                            <a href="{% if request.user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}" data-slug="{{ product.slug }}" data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}" title="Toggle wishlist" style="width: 40px; height: 40px;"><i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i></a>
-
                             
                         </div>
 
                         <div class="product-meta">
+
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="d-flex align-items-center text-primary">
                                         <i class="fas fa-tag me-2"></i>
-                                        <span>Category: <span class="fw-semibold">{{ product.category.name }}</span></span>
+                                        <span>Category: {% if product.category %}<span class="fw-semibold">{{ product.category.name }}</span>{% else %}No category{% endif %}</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

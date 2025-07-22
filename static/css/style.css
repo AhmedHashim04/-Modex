@@ -416,6 +416,8 @@ html {
     box-shadow: var(--shadow-light);
 }
 
+
+
 .wishlist-btn:hover {
     background: white;
     color: hsl(var(--danger-color));

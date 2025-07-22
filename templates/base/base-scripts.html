@@ -27,46 +27,58 @@
     }
     const csrftoken = getCookie('csrftoken');
 
-    // ✅ 3. تنفيذ الطلب عند الضغط على أي زر من class="wishlist-btn"
-    document.querySelectorAll('.wishlist-btn').forEach(btn => {
+    
+    document.addEventListener('click', function(e) {
+    const btn = e.target.closest('[data-action="wishlist"]');
+    if (!btn) return;
 
-        btn.addEventListener('click', function () {
-            const slug = this.dataset.slug;
-            const icon = this.querySelector('i');
+    const slug = btn.dataset.slug;
+    const icon = btn.querySelector('i');
 
-            fetch("{% url 'accounts:toggle_wishlist' %}", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "X-CSRFToken": csrftoken,
-                },
-                body: new URLSearchParams({ slug: slug })
-            })
+    fetch("{% url 'accounts:toggle_wishlist' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "X-CSRFToken": csrftoken,
+        },
+        body: new URLSearchParams({ slug: slug })
+    })
+    .then(async response => {
+        let data;
+        try {
+            data = await response.json();
+        } catch (e) {
+            throw new Error("الرد من السيرفر غير صالح (ليس JSON)");
+        }
 
-            .then(async response => {
+        if (!response.ok) {
+            throw new Error(data.message || "حدث خطأ أثناء المعالجة.");
+        }
 
-                let data;
-                try {
-                    data = await response.json();
-                } catch (e) {
-                    throw new Error("الرد من السيرفر غير صالح (ليس JSON)");
-                }
-
-                if (!response.ok) {
-                    throw new Error(data.message || "حدث خطأ أثناء المعالجة.");
-                }
-
-                if (data.status === 'added') {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas', 'text-danger');
-                } else if (data.status === 'removed') {
-                    icon.classList.remove('fas', 'text-danger');
-                    icon.classList.add('far');
-                }
-
-            })
-
-        });
+        if (data.status === 'added') {
+            icon.classList.remove('far');
+            icon.classList.add('fas', 'text-danger');
+        } else if (data.status === 'removed') {
+            icon.classList.remove('fas', 'text-danger');
+            icon.classList.add('far');
+        }
     });
+});
 
+
+</script>
+
+<script>
+    function updateqty(button, action) {
+        const input = button.parentElement.querySelector('.quantity-input');
+        const currentValue = parseInt(input.value);
+        const min = parseInt(input.getAttribute('min'));
+        const max = parseInt(input.getAttribute('max'));
+        
+        if (action === 'minus' && currentValue > min) {
+            input.value = currentValue - 1;
+        } else if (action === 'plus' && currentValue < max) {
+            input.value = currentValue + 1;
+        }
+    }
 </script>

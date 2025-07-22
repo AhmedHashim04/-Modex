@@ -57,7 +57,8 @@ class Product(models.Model):
 
 
     def update_rating(self):
-        result = self.reviews.aggregate(average_rating=Avg("rating"))
+        
+        result = self.reviews.aggregate(average_rating=Avg("rating")) #Pyright: ignore
         self.overall_rating = round(result["average_rating"] or 0, 2)
         self.save(update_fields=["overall_rating"])
 

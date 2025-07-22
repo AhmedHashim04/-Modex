@@ -1,9 +1,9 @@
 from django.db import models
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from product.models import Product
 from django.conf import settings
 from django.db import models
-from django.utils.text import slugify
+from slugify import slugify
 from django.contrib.auth.models import User
 
 
@@ -52,11 +52,17 @@ class ProductColor(models.Model):
     image = models.ImageField(upload_to=f'products/colors/{product.name}/', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.product.name} - {self.get_color_display()}"
+        return f"{self.product.name} -"# {self.get_color_display()}"
+
 
 class Tag(models.Model):
-    name = models.CharField(verbose_name=_("Name"),max_length=100)
+    name = models.CharField(verbose_name=_("Name"), max_length=100, unique=True)
+
     class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
         indexes = [models.Index(fields=["name"])]
+        ordering = ["name"]
+
     def __str__(self):
         return self.name

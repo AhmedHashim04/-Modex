@@ -1,8 +1,8 @@
 from django.core.management.base import BaseCommand
 from product.models import Category
-from django.utils.text import slugify
-CATEGORIES = {
+from slugify import slugify
 
+CATEGORIES = {
     "هدايا حسب المناسبة": [
         ("عيد ميلاد", "احتفل مع من تحب بأجمل الهدايا المختارة بعناية لتناسب جميع الأعمار في يومهم المميز."),
         ("رمضان", "زينة رمضانية وهدايا تعكس روح الشهر الفضيل وتنشر الأجواء الروحانية."),

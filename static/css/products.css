@@ -182,9 +182,10 @@
         margin-bottom: 15px;
     }
     
+    
     .tag-badge {
-        background-color: rgba(67, 97, 238, 0.1);
-        color: var(--primary);
+        /* background-color: rgba(67, 97, 238, 0.1); */
+        background-color:hsl(var(--secondary-color) / 0.12);
         font-size: 0.75rem;
         padding: 4px 10px;
         border-radius: 50px;
@@ -196,8 +197,8 @@
     }
     
     .tag-badge:hover {
-        background-color: var(--primary);
-        color: white;
+        background-color: hsl(var(--secondary-color));
+        color: var(--tertiary-color);
     }
 
     
@@ -525,6 +526,12 @@
     padding: 0.2em 0.7em;
     border: 1px solid hsl(var(--border-color));
     font-weight: 500;
+}
+
+.product-card-modern .tag:hover {
+    background: hsl(var(--primary-color));
+    color: hsl(var(--background-color));
+
 }
 .product-card-modern .bottom-row {
     display: flex;

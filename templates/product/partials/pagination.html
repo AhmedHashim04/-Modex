@@ -26,7 +26,7 @@
                         {% else %}
                             border-0
                         {% endif %}"
-                        href="?{% querystring request.GET page=page_num %}"
+                        href="{% querystring request.GET page=page_num %}"
                         style="
                             {% if not page_obj.number == page_num %}
                                 background: var(--gradient-secondary, linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%));
@@ -44,7 +44,7 @@
         
         {% if page_obj.has_next %}
             <li class="page-item">
-                <a class="page-link glass-btn rounded-pill ms-2" href="?{% querystring request.GET page=page_obj.next_page_number %}"
+                <a class="page-link glass-btn rounded-pill ms-2" href="{% querystring request.GET page=page_obj.next_page_number %}"
                             style="
                                 background: var(--gradient-secondary, linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%));
                                 color: hsl(var(--text-primary));

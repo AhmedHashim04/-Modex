@@ -13,7 +13,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, View, FormView, UpdateView, DeleteView
-from weasyprint import HTML
+# from weasyprint import HTML
 from cart.cart import Cart
 from .forms import AddressForm, OrderCreateForm
 from .models import Address, Order, OrderItem
@@ -67,7 +67,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             )
 
         except Exception as e:
-            logger.exception("Order processing failed")
+            # logger.exception("Order processing failed")
             form.add_error(None, f"Error processing your order: {str(e)}")
             return super().form_invalid(form)
 

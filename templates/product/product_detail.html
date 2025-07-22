@@ -170,8 +170,12 @@
                             <p class="mb-0">{{ product.description|default:"No description available for this product." }}</p>
                         </div>
                         <div class="product-actions mb-4">
+                            <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
+                                <div class="flex-grow-1 w-100">
                             {% include "product/partials/cart_button.html" %}
-                            
+
+                        </div>
+                        </div>
                         </div>
 
                         <div class="product-meta">

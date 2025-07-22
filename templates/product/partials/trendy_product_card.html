@@ -66,7 +66,9 @@
                 {% if product.tags.all %}
                 <div class="tags-row">
                     {% for tag in product.tags.all %}
+                    <a style="text-decoration:none;" href="{% url 'product:product_list' %}?tag={{ tag }}">
                         <span class="tag">#{{ tag.name }}</span>
+                    </a>
                     {% endfor %}
                 </div>
                 {% endif %}

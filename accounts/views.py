@@ -9,14 +9,6 @@ from product.models import Product
 from django_ratelimit.decorators import ratelimit
 from django.core.cache import cache
 
-@login_required
-def check_profile_completion(request):
-    profile = request.user.profile
-
-    if not profile.address or not profile.phone or not profile.governorate:
-        return redirect('edit_profile')
-    else:
-        return redirect('home') 
 
 @login_required
 def profile_view(request):
@@ -55,12 +47,24 @@ def toggle_wishlist(request):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
+
+@login_required
+def remove_wishlist(request,slug):
+    product = Product.objects.get(slug=slug)
+    profile = request.user.profile
+    cache.delete(f"context_wishlist_{request.user.id}")
+    if product in profile.wishlist.all() :
+        profile.wishlist.remove(product)
+        messages.success(request, 'The product has been removed from the wishlist!')
+    return redirect("accounts:wishlist")
+
 @ratelimit(key='user', rate='40/m', method='POST', block=False)
 @login_required
-@require_POST  # يقبل فقط POST requests
+@require_POST  
 def clear_wishlist(request):
     profile = request.user.profile
     profile.wishlist.clear()
+    cache.delete(f"context_wishlist_{request.user.id}")
     messages.success(request, _('Wishlist cleared successfully!'))
     return redirect('accounts:wishlist')
 

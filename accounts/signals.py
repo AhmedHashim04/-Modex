@@ -5,6 +5,6 @@ from .models import Profile
 
 @receiver(post_save, sender=User)
 def create_or_update_profile(sender, instance, created, **kwargs):
-    if created:
+    if created and not hasattr(instance, 'profile'):
         Profile.objects.create(user=instance)
     instance.profile.save()

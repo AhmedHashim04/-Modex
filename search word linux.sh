@@ -1,1 +1,1 @@
-grep -rnw --include="*.html" "contextCart" .
+grep -rnw --include="*.html" "cookie" .

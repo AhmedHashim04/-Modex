@@ -48,20 +48,24 @@
         try {
             data = await response.json();
         } catch (e) {
-            throw new Error("الرد من السيرفر غير صالح (ليس JSON)");
-        }
+            throw new Error("The server response is not valid JSON");
 
         if (!response.ok) {
-            throw new Error(data.message || "حدث خطأ أثناء المعالجة.");
+            throw new Error(data.message || "An error occurred while processing.");
         }
 
-        if (data.status === 'added') {
-            icon.classList.remove('far');
-            icon.classList.add('fas', 'text-danger');
-        } else if (data.status === 'removed') {
-            icon.classList.remove('fas', 'text-danger');
-            icon.classList.add('far');
-        }
+        // ✅ تحديث جميع الأزرار الخاصة بنفس المنتج
+        const allButtons = document.querySelectorAll(`[data-action="wishlist"][data-slug="${slug}"]`);
+        allButtons.forEach(button => {
+            const icon = button.querySelector('i');
+            if (data.status === 'added') {
+                icon.classList.remove('far');
+                icon.classList.add('fas', 'text-danger');
+            } else if (data.status === 'removed') {
+                icon.classList.remove('fas', 'text-danger');
+                icon.classList.add('far');
+            }
+        });
     });
 });
 

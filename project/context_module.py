@@ -10,7 +10,7 @@ from accounts.models import Profile
 #هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
 #شوف اوقات ال كاش كدا مناسبة 
 def contexts(request):
-    cache.clear()
+    # cache.clear()
     context = {}
     categories = cache.get('context_categories')
     if categories is None:
@@ -33,13 +33,13 @@ def contexts(request):
         if profile is None:
             try:
                 profile = Profile.objects.get(user=request.user.id)
-                cache.set(profile_cache_key, profile, 60 * 60 * 6)  # كاش 6 ساعات
+                cache.set(profile_cache_key, profile, 60 * 60 * 6)  #  6 h
             except Profile.DoesNotExist:
                 profile = None
 
         if wishlist is None and profile is not None:
             wishlist = list(profile.wishlist.all())
-            cache.set(wishlist_cache_key, wishlist, 60 * 60 * 2)  # كاش ساعتين
+            cache.set(wishlist_cache_key, wishlist, 60 * 60 * 2)  #  2 h
 
         context["profile"] = profile
         context["wishlist"] = wishlist

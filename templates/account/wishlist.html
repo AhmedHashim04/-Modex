@@ -58,7 +58,10 @@
             {% for product in profile.wishlist.all %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card wishlist-card h-100">
-                    {% include "product/partials/wishlist_button.html" %}
+
+                    <a style="text-decoration: none;" href="{% url 'accounts:remove_wishlist' product.slug %}"  class="remove-from-wishlist" title="Remove from wishlist">
+                        <i class="fas fa-heart "></i>
+                    </a>
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
                     {% else %}

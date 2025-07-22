@@ -8,6 +8,7 @@ from django.shortcuts import  render
 from django.http import HttpResponse
 from django.utils import timezone
 from django.http import JsonResponse
+from django.db.models import Q
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
@@ -16,15 +17,34 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
         data = cache.get('home_data')
         if data is None:
+            
             data = {
 
                 'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct(),
-                
+
+
+                # 'trendy_products_section': {
+                #     'title': _("Today's Picks"),
+                #     'products': Product.objects.filter(
+                #         is_available=True
+                #     ).filter(
+                #         Q(trending=True) | 
+                #         Q(discount__gte=10) 
+                #         # Q(overall_rating__gte=4)
+                #     ).select_related('category')
+                #     .order_by('-trending', '-discount', '-overall_rating')[:12],
+                #     'layout': 'carousel'
+                #     },
+
+
                 'featured_products_section': {
                     'title': _("Featured Products"), 
                     'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:30],
                     'layout': 'carousel'  #'grid'
                 },
+
+
+
                 'daily_products_section': {
                     'title': _("Daily Products"),
                     'products': Product.objects.filter(is_available=True).order_by('?').select_related('category')[:100],
@@ -36,11 +56,17 @@ class HomeView(TemplateView):
                     'products': Category.objects.filter(parent__isnull=False, products__isnull=False).distinct()[:50],
                     'layout': 'carousel'  # 'grid'
                 },
+
                 'new_products_section': {
                     'title': _("New Arrivals"),
-                    'products': Product.objects.filter(is_available=True).order_by('-created_at').select_related('category')[:20],
+                    'products': Product.objects.filter(
+                        is_available=True,
+                        created_at__gte=timezone.now() - timezone.timedelta(days=30)
+                    ).select_related('category')
+                    .order_by('-created_at')[:20],
                     'layout': 'grid'
                 },
+                
                 'top_rated_section': {
                     'title': _("Top Rated"),
                     'products': Product.objects.filter(is_available=True, overall_rating__gte=4).order_by('-overall_rating')[:20],

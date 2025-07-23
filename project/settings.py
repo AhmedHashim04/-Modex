@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     "features",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
-    # 'debug_toolbar',
+    'debug_toolbar',
     'django_ratelimit',
     "widget_tweaks",
     "django.contrib.admin",
@@ -115,7 +115,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     'django_ratelimit.middleware.RatelimitMiddleware',
-    # 'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 
 ]
@@ -133,7 +133,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "project.context_module.contexts",
+                "project.context_module.global_context",
             ],
         },
     },

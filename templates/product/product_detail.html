@@ -105,15 +105,15 @@
                             <div>
                                 <h1 class="h3 mb-2 text-primary fw-bold trendy-title">{{ product.name }}</h1>
                                 <div class="d-flex align-items-center gap-2 mb-2">
-<a href="{% if request.user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
-   class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm"
-   data-action="wishlist"
-   data-slug="{{ product.slug }}"
-   data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}"
-   title="Toggle wishlist"
-   style="width: 40px; height: 40px;">
-   <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
-</a>
+                                    <a href="{% if user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
+                                    class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm"
+                                    data-action="wishlist"
+                                    data-slug="{{ product.slug }}"
+                                    data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}"
+                                    title="Toggle wishlist"
+                                    style="width: 40px; height: 40px;">
+                                    <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
+                                    </a>
 
                                     {% if product.trending %}
                                         <span class="badge bg-primary fw-semibold px-3 py-1">Trending</span>

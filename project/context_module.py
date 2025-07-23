@@ -9,8 +9,11 @@ from accounts.models import Profile
 
 #هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
 #شوف اوقات ال كاش كدا مناسبة 
-def contexts(request):
-    # cache.clear()
+def global_context(request):
+    print("All keys in cache:")
+    for key in cache.keys("*"):
+        print(key)
+    print("-------------------")
     context = {}
     categories = cache.get('context_categories')
     if categories is None:
@@ -32,13 +35,13 @@ def contexts(request):
 
         if profile is None:
             try:
-                profile = Profile.objects.get(user=request.user.id)
+                profile = Profile.objects.select_related('user').get(user_id=request.user.id)
                 cache.set(profile_cache_key, profile, 60 * 60 * 6)  #  6 h
             except Profile.DoesNotExist:
                 profile = None
 
         if wishlist is None and profile is not None:
-            wishlist = list(profile.wishlist.all())
+            wishlist = list(profile.wishlist.values_list('slug', flat=True))
             cache.set(wishlist_cache_key, wishlist, 60 * 60 * 2)  #  2 h
 
         context["profile"] = profile
@@ -47,7 +50,6 @@ def contexts(request):
     context.update({
         "contextCategories": categories,
         "cart_items_keys": cart_items_keys,
-        "total_cart_price": cart.get_total_price_after_discount(),
         "total_cart_items": len(cart_items_keys),
     })
 

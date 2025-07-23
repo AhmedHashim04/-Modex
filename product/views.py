@@ -1,6 +1,6 @@
 import hashlib
 from decimal import Decimal
-
+import time; start = time.time()
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
@@ -51,7 +51,6 @@ class ProductListView(ListView):
             'search': params.get('search', '').strip(),
             'tag': params.get('tag', '').strip(),
             'category': params.get('category', '').strip(),
-            # 'brand': params.get('brand', '').strip(),
             'sort_by': params.get('sort_by', 'default'),
             'min_price': params.get('min_price', ''),
             'max_price': params.get('max_price', ''),
@@ -85,13 +84,12 @@ class ProductListView(ListView):
         queryset = Product.objects.select_related("category").prefetch_related("tags").filter(is_available=True).only("name", "slug","category__name" , "price", "discount", "trending","image", "created_at", "description","overall_rating")
         filters = self.applied_filters
 
+        print("⏱️ Query Build Time:", time.time() - start)
         # Apply search filter
         if search_term := filters['search']:
             queryset = queryset.filter(
                 Q(name__icontains=search_term) |
-                Q(description__icontains=search_term) |
-                Q(category__name__icontains=search_term) |
-                Q(tags__name__icontains=search_term)
+                Q(description__icontains=search_term) 
             )
 
         # Apply category filter
@@ -199,6 +197,18 @@ class ProductListView(ListView):
             'is_paginated': page_obj.has_other_pages(),
         })
         return context
+
+
+
+
+
+
+
+
+
+
+
+
 
 @method_decorator(ratelimit(key='ip', rate='30/m', method='ALL', block=True), name='dispatch')
 @method_decorator(ratelimit(key='user', rate='2/m', method='POST', block=True), name='post')
@@ -351,6 +361,7 @@ class ProductDetailView(DetailView):
         messages.error(self.request, "Please correct the errors below.")
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
+
 
 # Clear cache when a product is add or updated
 @receiver(post_save, sender=Product)

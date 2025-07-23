@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 from project.admin import custom_admin_site
 from features.admin import ProductImageInline, ProductColorInline
+from django.core.cache import cache
 
 from .models import Category, Product, Review
 
@@ -42,6 +43,11 @@ def export_products_to_csv(modeladmin, request, queryset):
     return response
 
 
+@admin.action(description="Clear cache")
+def clear_cache(modeladmin, request, queryset):
+    cache.clear()
+    modeladmin.message_user(request, "✅ Cache cleared successfully.")
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline, ProductColorInline]
@@ -49,7 +55,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ("created_at", "is_available", "category")
     search_fields = ("name", "description", "category__name")
     ordering = ("-created_at",)
-    actions = [export_products_to_csv]
+    actions = [export_products_to_csv,clear_cache]
     exclude = ('slug',)  # اخفاء الحقل
     list_select_related = ("category",)
 

@@ -19,17 +19,15 @@ def order_created(sender, instance, created, **kwargs):
             f"Thank you for your purchase! Your order ID is {instance.id}.\n"
             f"We will notify you when the status changes.\n"
         )
-        send_mail(
-            subject,
-            message,
-            settings.DEFAULT_FROM_EMAIL,
-            [instance.user.email],
-            fail_silently=True,
-        )
+        # send_mail(
+        #     subject,
+        #     message,
+        #     settings.DEFAULT_FROM_EMAIL,
+        #     [instance.user.email],
+        #     fail_silently=True,
+        # )
 
-        print(
-            f"{subject}\n{message}\n{settings.DEFAULT_FROM_EMAIL,[instance.user.email],True,}"
-        )
+        print(f"{subject}\n{message}\n{settings.DEFAULT_FROM_EMAIL,[instance.user.email],True,}")
 
         # Log the order creation
 
@@ -53,6 +51,4 @@ def order_status_updated(sender, instance, created, **kwargs):
         #     [instance.user.email],
         #     fail_silently=True,
         # )
-        print(
-            f"{subject}\n{message}\n{settings.DEFAULT_FROM_EMAIL,[instance.user.email],True,}"
-        )
+        print(f"{subject}\n{message}\n{settings.DEFAULT_FROM_EMAIL,[instance.user.email],True,}")

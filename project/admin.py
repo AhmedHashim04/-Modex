@@ -3,6 +3,7 @@ from django.contrib.admin import AdminSite
 from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 from django.apps import apps
+
 class MyAdminSite(AdminSite):
     site_header = 'لوحة التحكم بمتجر محمد توفيق'
     site_title = 'لوحة التحكم بمتجر محمد توفيق'

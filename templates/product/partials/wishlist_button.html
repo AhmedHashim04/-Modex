@@ -1,6 +1,6 @@
 {% load socialaccount %}
 
-<a href="{% if request.user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
+<a href="{% if user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
    class="action-btn wishlist-btn btn btn-outline-danger btn-sm rounded-pill d-flex align-items-center justify-content-center flex-shrink-0"
    data-action="wishlist"
    data-slug="{{ product.slug }}"

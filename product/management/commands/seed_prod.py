@@ -6,16 +6,19 @@ from faker import Faker
 from product.models import Product, Category
 from features.models import Tag
 from django.db import transaction
+import os
 
 fake = Faker("ar_EG")  # Arabic faker
+IMAGE_DIR = "/home/ahmed/Desktop/project/src/media/image_pr"
 
 class Command(BaseCommand):
-    help = "Seed 20,000 dummy products using existing categories and tags (no images)"
+    help = "Seed 2,000 dummy products using existing categories and tags (no images)"
 
     def handle(self, *args, **options):
-        total = 20_000
+        total = 2_000
         categories = list(Category.objects.all())
         tags = list(Tag.objects.all())
+        image_files = [f for f in os.listdir(IMAGE_DIR) if f.lower().endswith((".jpg", ".jpeg", ".png"))]
 
         if not categories:
             self.stdout.write(self.style.ERROR("❌ No categories found."))

@@ -120,11 +120,11 @@
                                 </div>
                                 
                                 <!-- Quantity Update -->
-                                <div class="col-md-3">
+                                <div class="col-md-3 "style="width: 80%;">
                                     <form method="post" action="{% url 'cart:cart_update' item.product.slug %}" 
                                         class="d-flex align-items-center">
                                         {% csrf_token %}
-                                        <div class="input-group input-group-sm" style="width: 120px;">
+                                        <div class="input-group input-group-sm" style="width: 100%;">
                                             <button class="btn btn-outline-secondary quantity-minus" type="button" onclick="updateqty(this, 'minus')">
                                                 <i class="fas fa-minus"></i>
                                             </button>

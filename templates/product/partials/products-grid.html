@@ -60,7 +60,7 @@
     </div>
     {% endif %}
 
-    <div id="productsContainer" class="row {% if view_mode == 'grid' %}row-cols-1 row-cols-sm-2 row-cols-md-3 g-4{% else %}gy-4{% endif %}">
+    <div id="productsContainer" class="row {% if view_mode == 'grid' %}row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 row-cols-xxl-8 g-3{% else %}gy-4{% endif %}">
         {% for product in products %}
             <div class="{% if view_mode == 'list' %}col-12{% else %}col{% endif %}">
                 <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect {% if view_mode == 'list' %}flex-row{% endif %}">

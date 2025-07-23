@@ -41,7 +41,7 @@ LANGUAGES = [
 ]
 
 LOCALE_PATHS = [
-    BASE_DIR / 'locale',  # مجلد لحفظ ملفات الترجمة
+    BASE_DIR / 'locale',
 ]
 
 USE_I18N = True
@@ -169,6 +169,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_PATH = BASE_DIR / "logs"
 LOG_PATH.mkdir(exist_ok=True)
 
+SITE_ID = 1
+
 # LOGGING = {
 #     "version": 1,
 #     "disable_existing_loggers": False,
@@ -248,7 +250,6 @@ CACHES = {
 }
 RATELIMIT_ENABLE = True
 RATELIMIT_USE_CACHE = "default"
-VODAFONE_CASH_NUMBER = "01558763958"
 
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True

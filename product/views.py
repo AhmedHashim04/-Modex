@@ -81,16 +81,8 @@ class ProductListView(ListView):
 
     def build_queryset(self):
         """Construct the filtered and annotated queryset"""
-        queryset = Product.objects.select_related(
-            'category'#, 'brand'
-        ).prefetch_related(
-            'tags'
-        ).filter(
-            is_available=True
-        ).annotate(
-            review_count=Count('reviews')
-        ).distinct()
-
+        # queryset = Product.objects.select_related('category').prefetch_related('tags').filter(is_available=True).annotate(review_count=Count('reviews')).distinct()   
+        queryset = Product.objects.select_related("category").prefetch_related("tags").filter(is_available=True).only("name", "slug","category__name" , "price", "discount", "trending","image", "created_at", "description","overall_rating")
         filters = self.applied_filters
 
         # Apply search filter
@@ -99,7 +91,6 @@ class ProductListView(ListView):
                 Q(name__icontains=search_term) |
                 Q(description__icontains=search_term) |
                 Q(category__name__icontains=search_term) |
-                # Q(brand__name__icontains=search_term) |
                 Q(tags__name__icontains=search_term)
             )
 
@@ -113,10 +104,6 @@ class ProductListView(ListView):
         # Apply tag filter
         if tag_name := filters['tag']:
             queryset = queryset.filter(tags__name__iexact=tag_name)
-
-        # # Apply brand filter
-        # if brand_slug := filters['brand']:
-        #     queryset = queryset.filter(brand__slug=brand_slug)
 
         # Apply price range filter
         if min_price := filters['min_price']:

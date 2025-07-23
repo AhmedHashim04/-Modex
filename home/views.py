@@ -47,8 +47,9 @@ class HomeView(TemplateView):
 
                 'daily_products_section': {
                     'title': _("Daily Products"),
-                    'products': Product.objects.filter(is_available=True).order_by('?').select_related('category')[:100],
-                    'layout': 'grid'
+                    # 'products': Product.objects.filter(is_available=True).order_by('?').select_related('category')[:100],
+                    'products': Product.objects.filter(is_available=True).order_by('?').only("name", "slug", "price", "discount", "trending","image", "created_at", "description","overall_rating").prefetch_related("tags")
+                    ,'layout': 'grid'
                 },
                 
                 'sub_categories_section': {

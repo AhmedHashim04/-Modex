@@ -228,7 +228,7 @@
                         {% else %}
                             <span>Subtotal:</span>
                         {% endif %}
-                        <span>
+                        <span style="text-decoration:line-through;">
                             {% get_current_language as LANGUAGE_CODE %}
                             {% if LANGUAGE_CODE == "ar" %}
                                 {{ cart_summary.total_price|floatformat:2 }} ج.م
@@ -247,9 +247,9 @@
                         <span>
                             {% get_current_language as LANGUAGE_CODE %}
                             {% if LANGUAGE_CODE == "ar" %}
-                                {{ cart_summary.total_discount|floatformat:2 }} ج.م
+                                -{{ cart_summary.total_discount|floatformat:2 }} ج.م
                             {% else %}
-                                {{ cart_summary.total_discount|floatformat:2 }} EGP
+                                -{{ cart_summary.total_discount|floatformat:2 }} EGP
                             {% endif %}
                         </span>
                     </div>

@@ -149,6 +149,12 @@ class OrderCancelView(LoginRequiredMixin, View):
 class AddressEditView(LoginRequiredMixin, UpdateView):
     model = Address
     form_class = AddressForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["edit"] = True
+        return context
+
     template_name = "order/address_list_create.html"
     def get_success_url(self):
         messages.success(self.request, "Address updated successfully.")

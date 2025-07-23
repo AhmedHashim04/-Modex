@@ -5,8 +5,7 @@ from .models import Address, Order
 
 class OrderCreateForm(forms.ModelForm):
     address = forms.ModelChoiceField(
-        queryset=Address.objects.all(), label="Shipping Address", empty_label=None
-    )
+        queryset=Address.objects.none(), label="Shipping Address", empty_label=None)
 
     class Meta:
         model = Order

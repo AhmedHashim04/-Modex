@@ -17,6 +17,7 @@
     --tertiary-color: 48 100% 67%;  /* #FFE066 - Yellow (happy, bright) */
     --secondary-color: 200 90% 65%; /* #4FC3F7 - Sky Blue (friendly) */
     --accent-color: 141 70% 60%;    /* #4ADE80 - Green (fresh, energetic) */
+    --success-color: 142 76% 36%;    /* #4ADE80 - Green (for success) */
     --danger-color: 0 84% 60%;      /* #EF4444 - Red (for errors/warnings) */
     --background-color: 48 100% 97%; /* #FFF9E5 - Soft yellow background */
     --surface-color: 0 0% 100%;     /* #FFFFFF - Card/Surface */

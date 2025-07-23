@@ -5,104 +5,75 @@
 
 {% block content %}
 
-
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
-            <!-- Modern Glass Card with Shadow and Animation -->
-            <div class="card border-0 rounded-4 overflow-hidden bg-blur shadow-lg animate__animated animate__fadeIn">
-                <!-- Animated Gradient Header -->
-                <div class="card-header bg-gradient-animated text-white text-center py-5 position-relative">
+            <div class="card border-0 rounded-4 overflow-hidden shadow-lg animate__animated animate__fadeIn" style="background-color: hsl(var(--surface-color));">
+                
+                <!-- Header -->
+                <div class="card-header text-white text-center py-5 position-relative" style="background: var(--gradient-primary);">
                     <div class="order-icon mb-3" style="font-size:2.5rem;">
-                        <span class="icon-circle bg-white bg-opacity-25 shadow-sm">
-                            <i class="fas fa-shopping-bag text-pink"></i>
+                        <span class="icon-circle shadow-sm" style="background-color: hsla(var(--surface-color), 0.2);">
+                            <i class="fas fa-shopping-bag text-white"></i>
                         </span>
                     </div>
-                    <h2 class="mb-1 fw-bold display-5" style="letter-spacing:1px;">My Orders</h2>
-                    <p class="mb-0 opacity-75 fs-5">Your complete order history</p>
+                    <h2 class="mb-1 fw-bold display-5">My Orders</h2>
+                    <p class="mb-0 opacity-75 fs-5">Your order history</p>
                     <div class="position-absolute top-0 end-0 m-3 d-none d-md-block" style="opacity:0.12; font-size:5rem;">
                         <i class="fas fa-receipt"></i>
                     </div>
                 </div>
-                
+
                 <div class="card-body p-4 p-lg-5">
-                    <!-- Header with Clear Button -->
                     <div class="d-flex justify-content-between align-items-center mb-4">
-                        <h5 class="text-muted fw-semibold">
+                        <h5 class="fw-semibold text-secondary">
                             <i class="fas fa-history me-2 text-primary"></i>Order History
                         </h5>
-                        {% if order %}
-                        <a href="{% url 'order:clear_order_history' %}" class="btn btn-outline-danger btn-sm rounded-pill hover-scale shadow-sm px-3">
-                            <i class="fas fa-trash-alt me-2"></i>Clear History
-                        </a>
-                        {% endif %}
                     </div>
-                    
+
                     {% if orders %}
                         {% for order in orders %}
-                        <!-- Order Card with Glass Effect and Hover Animation -->
-                        <div class="card mb-4 border-0 shadow-soft hover-scale glass animate__animated animate__fadeInUp">
-                            <div class="card-header bg-white bg-opacity-75 d-flex justify-content-between align-items-center border-0">
+                        <div class="card mb-4 border border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp" style="overflow: hidden; background: hsl(var(--surface-color));">
+                            
+                            <!-- Status Bar -->
+                            {% include "order/partials/status.html" %}
+
+                            <div class="card-header d-flex justify-content-between align-items-center border-0 bg-light bg-opacity-50">
                                 <div>
-                                    <h5 class="mb-0">
-                                        <a href="{% url 'order:order_detail' order.id %}" class="text-decoration-none text-dark fw-bold hover-scale">
-                                            <span class="icon-circle bg-primary bg-opacity-10 me-2">
-                                                <i class="fas fa-receipt text-primary"></i>
+                                    <h5 class="mb-0 d-flex border-bottom pb-3 align-items-center">
+                                        <a href="{% url 'order:order_detail' order.id %}" 
+                                           class="btn btn-primary rounded-pill px-4 py-2 d-flex align-items-center fw-bold shadow-sm hover-scale"
+                                           style="background: var(--gradient-primary); color: white; border: none; font-size: 1.1rem;">
+                                            <span class="icon-circle bg-opacity-10 me-2 d-flex align-items-center justify-content-center" 
+                                                  style="background-color: hsl(var(--secondary-color)); height: 100%; height: 32px;">
+                                                <i class="fas fa-receipt text-white"></i>
                                             </span>
-                                            Order #{{ order.id }}
+                                            <span class="ms-2">Order #{{ order.id }}</span>
+
                                         </a>
                                     </h5>
                                 </div>
-                                <div class="text-end">
-                                    <small class="text-muted">
-                                        <i class="far fa-calendar-alt me-1"></i>
-                                        {{ order.created_at|date:"M d, Y H:i" }}
-                                    </small>
-                                </div>
+                                <small class="text-muted">
+                                    <i class="far fa-calendar-alt me-1"></i>
+                                    {{ order.created_at|date:"M d, Y H:i" }}
+                                </small>
                             </div>
-                            
+
                             <div class="card-body">
                                 <div class="row align-items-center">
                                     <div class="col-md-6">
-                                        <div class="d-flex align-items-center mb-2">
-                                            <strong class="me-2 text-secondary">Status:</strong>
-                                            <span class="badge rounded-pill px-3 py-2 fs-6
-                                                {% if order.status == 'pending' %}bg-warning text-dark
-                                                {% elif order.status == 'cancelled' %}bg-danger
-                                                {% else %}bg-success
-                                                {% endif %}">
-                                                <i class="fas fa-circle me-1 {% if order.status == 'pending' %}text-warning{% elif order.status == 'cancelled' %}text-danger{% else %}text-success{% endif %}"></i>
-                                                {{ order.get_status_display }}
-                                            </span>
-                                        </div>
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center border-bottom pb-3">
                                             <strong class="me-2 text-secondary">Total<small class="text-muted"> + Tax</small>:</strong>
                                             <span class="text-primary fw-bold fs-5">{{ order.total_price|floatformat:2 }} <span class="fw-normal text-muted">EGP</span></span>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                                        {% if order.status == 'pending' %}
-                                                <span class="badge bg-secondary rounded-pill px-4 py-2 fs-6 shadow-sm">
-                                                    <i class="fas fa-clock me-1"></i>Awaiting Payment
-                                                </span>
-                                        {% elif order.status == 'cancelled' %}
-                                            <span class="badge bg-danger rounded-pill px-3 py-2 shadow-sm">
-                                                <i class="fas fa-times-circle me-1"></i>Cancelled
-                                            </span>
-                                        {% elif order.status == 'failed' %}
-                                            <span class="badge bg-warning rounded-pill px-3 py-2 shadow-sm">
-                                                <i class="fas fa-exclamation-circle me-1"></i>Failed
-                                            </span>
-                                        {% else %}
-                                            <span class="badge bg-success rounded-pill px-3 py-2 shadow-sm">
-                                                <i class="fas fa-check-circle me-1"></i>Paid
-                                            </span>
-                                        {% endif %}
+                                        {% include "order/partials/status.html" %}
                                     </div>
                                 </div>
-                                
-                                <!-- Products List -->
+
+                                <!-- Products -->
                                 <div class="mt-4">
                                     <h6 class="mb-3 fw-semibold text-secondary">
                                         <i class="fas fa-box-open me-2 text-primary"></i>Products
@@ -115,7 +86,7 @@
                                                     <td class="w-50">
                                                         <div class="d-flex align-items-center">
                                                             {% if item.product.image %}
-                                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail rounded shadow-sm me-3" style="width: 56px; height: 56px; object-fit: cover; border:2px solid #f3f3f3;">
+                                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="img-thumbnail rounded shadow-sm me-3" style="width: 56px; height: 56px; object-fit: cover; border:2px solid hsl(var(--border-color));">
                                                             {% else %}
                                                             <span class="icon-circle bg-secondary bg-opacity-10 me-3" style="width:56px;height:56px;">
                                                                 <i class="fas fa-box text-secondary"></i>
@@ -127,9 +98,9 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="text-muted text-decoration-line-through original-price" style="min-width:90px;">{{ item.price|floatformat:2 }} EGP</td>
+                                                    <td class="text-muted text-decoration-line-through" style="min-width:90px;">{{ item.price|floatformat:2 }} EGP</td>
                                                     <td class="text-end text-success" style="min-width:90px;">{{ item.product.price_after_discount|floatformat:2 }} EGP</td>
-                                                    <td class="text-end fw-bold text-primary" style="min-width:100px;">{{ item.get_total_price|floatformat:2 }} EGP</td>
+                                                    <td class="text-end fw-bold text-primary" style="min-width:100px;">{{ item.total_item_price_after_discount|floatformat:2 }} EGP</td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
@@ -143,19 +114,19 @@
                         <!-- Empty State -->
                         <div class="text-center py-5 animate__animated animate__fadeIn">
                             <div class="empty-state-icon mb-4">
-                                <span class="icon-circle bg-primary bg-opacity-10" style="font-size:2.5rem;">
+                                <span class="icon-circle" style="background-color: hsla(var(--primary-color), 0.1); font-size:2.5rem;">
                                     <i class="fas fa-shopping-cart text-primary"></i>
                                 </span>
                             </div>
                             <h5 class="mb-3 fw-bold text-secondary">No Orders Yet</h5>
                             <p class="text-muted mb-4 fs-5">You haven't placed any orders yet.<br>Start shopping to see your orders here.</p>
-                            <a href="{% url 'home' %}" class="btn btn-gradient-primary rounded-pill hover-scale px-4 py-2 shadow-sm">
+                            <a href="{% url 'home' %}" class="btn rounded-pill px-4 py-2 shadow-sm" style="background: var(--gradient-primary); color: white;">
                                 <i class="fas fa-shopping-bag me-2"></i>Start Shopping
                             </a>
                         </div>
                     {% endif %}
                 </div>
-                
+
                 <!-- Footer -->
                 <div class="card-footer text-center bg-transparent py-3">
                     <a href="{% url 'home' %}" class="btn btn-outline-secondary rounded-pill hover-scale px-4 shadow-sm">

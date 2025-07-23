@@ -10,6 +10,7 @@ from django.core.files.base import ContentFile
 from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render, get_object_or_404
+from django.utils.translation import gettext as _
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, View, FormView, UpdateView, DeleteView
@@ -39,7 +40,8 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
-@method_decorator(ratelimit(key='user', rate='2/m', block=True), name='dispatch')
+
+@method_decorator(ratelimit(key='user', rate='500/m', block=True), name='dispatch') #2
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderCreateForm
@@ -62,12 +64,14 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             self._cleanup_session(cart)
             messages.success(
                 self.request,
-                "Your order has been placed successfully. "
-                "Your invoice is being generated and will be available shortly.",
+                _("Your order has been placed successfully. "
+                "Your invoice is being generated and will be available shortly."),
             )
 
         except Exception as e:
             # logger.exception("Order processing failed")
+            print('form error', e)
+
             form.add_error(None, f"Error processing your order: {str(e)}")
             return super().form_invalid(form)
 
@@ -76,14 +80,12 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def _create_order_object(self, form, cart):
         order = form.save(commit=False)
         order.user = self.request.user
-        order.shipping_cost = order.calculate_shipping_cost(weight=0)
+        order.shipping_cost = order.calculate_shipping_cost()
 
-        items_total = cart.get_total_price_after_discount()
-        tax = cart.get_tax() or Decimal("0.00")
-        discount = cart.get_total_discount() or Decimal("0.00")
+        get_total_price_after_discount_and_tax = cart.get_total_price_after_discount_and_tax()
 
         order.total_price = max(
-            (items_total + order.shipping_cost + tax - discount).quantize(
+            (get_total_price_after_discount_and_tax + order.shipping_cost ).quantize(
                 Decimal("0.01")
             ),
             Decimal("0.00"),
@@ -98,6 +100,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
                 product=item["product"],
                 quantity=item["quantity"],
                 price=item["price"],
+                discount=item["discount"],
             )
 
     # def _schedule_invoice_generation(self, order):
@@ -123,14 +126,13 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def _cleanup_session(self, cart):
         """Clean session data after successful order"""
         cart.clear()
-        # remove_coupon(self.request)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["cart"] = Cart(self.request)
         return context
 
-@method_decorator(ratelimit(key='user', rate='3/m', block=True), name='dispatch')
+@method_decorator(ratelimit(key='user', rate='300/m', block=True), name='dispatch')
 class OrderCancelView(LoginRequiredMixin, View):
     def post(self, request, pk):
         order = Order.objects.filter(pk=pk, user=request.user).first()
@@ -193,7 +195,6 @@ class AddressUnsetDefaultView(LoginRequiredMixin, View):
     def get(self, request, pk):
         return self.post(request, pk)
 
-
 class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
     template_name = "order/address_list_create.html"
     form_class = AddressForm
@@ -243,4 +244,3 @@ class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
         if form.is_valid():
             return self.form_valid(form)
         return self.form_invalid(form)
-

@@ -357,12 +357,12 @@
 .modex-subnav-link:hover,
 .modex-hover-link:hover {
     background: hsl(var(--tertiary-color), 0.25);
-    color: hsl(var(--primary-color)) !important;
+    color: hsl(var(--dark-color)) !important;
     text-decoration: none;
 }
 .active-category {
-    background: hsl(var(--primary-color)) !important;
-    color: #fff !important;
+    background: hsl(var(--secondary-color)) !important;
+    color: #000000 !important;
     font-weight: 600;
     box-shadow: var(--shadow-medium);
 }

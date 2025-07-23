@@ -73,47 +73,42 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
     invoice_pdf = models.FileField(upload_to="invoices/", null=True, blank=True, verbose_name=_("Invoice PDF"))
 
-    class Meta:
-        ordering = ["-created_at"]
-        verbose_name = _("Order")
-        verbose_name_plural = _("Orders")
-
-    def __str__(self):
-        return f"Order {self.id} - {self.user.email if self.user else 'Anonymous'}"
-
-    def get_items(self) -> models.QuerySet:
+    def get_items(self):
         return self.items.all()
 
-    def update_status(self, new_status: str):
+    def update_status(self, new_status):
         if self.status != new_status:
             self.status = new_status
             self.status_changed_at = timezone.now()
-            self.save()
 
-    def calculate_shipping_cost(self, weight: float = 1.0) -> Decimal:
+    def calculate_shipping_cost(self):
         if self.shipping_method == ShippingMethod.STANDARD:
-            return Decimal("5.00") + Decimal(weight) * Decimal("0.50")
-        elif self.shipping_method == ShippingMethod.EXPRESS:
-            return Decimal("10.00") + Decimal(weight) * Decimal("1.00")
+            if self.address.governorate == "x":
+                return Decimal("5.00") 
+            else :
+                return Decimal("0.00") 
         elif self.shipping_method == ShippingMethod.PICKUP:
             return Decimal("0.00")
         return Decimal("0.00")
+
 
     def clean(self):
         if self.total_price < 0 or self.shipping_cost < 0:
             raise ValidationError(_("Prices must be non-negative."))
 
     def save(self, *args, **kwargs):
-
         if self.shipping_cost == 0 and self.shipping_method != ShippingMethod.PICKUP:
             self.shipping_cost = self.calculate_shipping_cost()
+        self.update_status(self.status)
         super().save(*args, **kwargs)
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField(default=1, verbose_name=_("Quantity"))
     price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Price"))
+    discount = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Discount"))
 
     class Meta:
         verbose_name = _("Order Item")
@@ -121,3 +116,7 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
+    
+    @property
+    def total_item_price_after_discount(self):
+        return self.quantity * self.price * (1 - self.discount / 100)

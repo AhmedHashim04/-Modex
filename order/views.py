@@ -41,22 +41,29 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
         return Order.objects.filter(user=self.request.user)
 
 
-@method_decorator(ratelimit(key='user', rate='500/m', block=True), name='dispatch') #2
+@method_decorator(ratelimit(key='user', rate='10/m', block=True), name='dispatch') #2
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderCreateForm
     template_name = "order/create_order.html"
     success_url = reverse_lazy("order:order_list")
 
+    def form_invalid(self, form):
+        print("form_invalid called", form.errors)
+        return super().form_invalid(form)
+
     def form_valid(self, form):
+        print("form_valid")
+        
         cart = Cart(self.request)
-        if not cart:
+        if len(cart) == 0:
             form.add_error(None, "Your cart is empty.")
             return super().form_invalid(form)
 
         try:
             with transaction.atomic():
                 order = self._create_order_object(form, cart)
+
                 self._create_order_items(order, cart)
                 self.object = order
 
@@ -103,6 +110,21 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
                 discount=item["discount"],
             )
 
+
+    def get_initial(self):
+
+        profile = getattr(self.request.user, 'profile', None)
+        initial = {
+            'full_name': self.request.user.get_full_name() or self.request.user.username,
+        }
+        if profile:
+            initial.update({
+                'governorate': profile.governorate,
+                'address_line': profile.address,
+                'phone': profile.phone,
+            })
+        return initial
+
     # def _schedule_invoice_generation(self, order):
     #     """Schedule PDF generation as async task"""
     #     try:
@@ -130,7 +152,16 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["cart"] = Cart(self.request)
+        if "form" not in context:
+            context["form"] = self.get_form()
         return context
+
+    def get_form(self, form_class=None):
+
+        if self.request.method == "POST":
+            return self.form_class(self.request.POST)
+        return self.form_class(initial=self.get_initial())
+    
 
 @method_decorator(ratelimit(key='user', rate='300/m', block=True), name='dispatch')
 class OrderCancelView(LoginRequiredMixin, View):
@@ -212,11 +243,9 @@ class AddressListCreateView(LoginRequiredMixin, FormView, ListView):
     def get_initial(self):
         profile = getattr(self.request.user, 'profile', None)
         initial = {
-            'full_name': self.request.user.get_full_name() or self.request.user.username,
         }
         if profile:
             initial.update({
-                'phone': profile.phone,
                 'governorate': profile.governorate,
                 'address_line': profile.address,
             })

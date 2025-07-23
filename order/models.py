@@ -36,16 +36,12 @@ class ShippingMethod(models.TextChoices):
 
 class Address(models.Model):
     EGYPT_GOVERNORATES = Profile.EGYPT_GOVERNORATES
-    egyptian_phone_validator = Profile.egyptian_phone_validator
-
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="addresses")
-    full_name = models.CharField(max_length=100, verbose_name=_("Full Name"))
-    phone = models.CharField(max_length=11, validators=[egyptian_phone_validator], verbose_name=_("Phone Number"))
+    id = models.UUIDField(_("ID"), primary_key=True, editable=False, default=uuid.uuid4)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="addresses")
     governorate = models.CharField(max_length=10, choices=EGYPT_GOVERNORATES, verbose_name=_("Governorate"))
     city = models.CharField(max_length=100, verbose_name=_("City/Center"))
     address_line = models.TextField(verbose_name=_("Detailed Address"))
     is_default = models.BooleanField(default=False, verbose_name=_("Default Address"))
-    notes = models.TextField(blank=True, null=True, verbose_name=_("Additional Notes"))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -55,13 +51,18 @@ class Address(models.Model):
         ordering = ["-is_default", "-updated_at"]
 
     def __str__(self):
-        return f"{self.full_name} - {self.governorate} - {self.city}"
+        return f" {self.governorate} - {self.city} - {self.address_line}"
 
 
 class Order(models.Model):
+    egyptian_phone_validator = Profile.egyptian_phone_validator
+
     id = models.UUIDField(_("ID"), primary_key=True, editable=False, default=uuid.uuid4)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="orders", verbose_name=_("User"))
     address = models.ForeignKey(Address, on_delete=models.PROTECT, verbose_name=_("Shipping Address"))
+    full_name = models.CharField(max_length=100, verbose_name=_("Full Name"))
+    phone = models.CharField(max_length=11, validators=[egyptian_phone_validator], verbose_name=_("Phone Number"))
+    notes = models.TextField(blank=True, null=True, verbose_name=_("Additional Notes"))
     status = models.CharField(max_length=20, choices=OrderStatus.choices, default=OrderStatus.PENDING, verbose_name=_("Status"))
     payment_method = models.CharField(max_length=20, choices=PaymentMethod.choices, default=PaymentMethod.COD, verbose_name=_("Payment Method"))
     shipping_method = models.CharField(max_length=20, choices=ShippingMethod.choices, default=ShippingMethod.STANDARD, verbose_name=_("Shipping Method"))
@@ -80,6 +81,7 @@ class Order(models.Model):
         if self.status != new_status:
             self.status = new_status
             self.status_changed_at = timezone.now()
+            self.save()
 
     def calculate_shipping_cost(self):
         if self.shipping_method == ShippingMethod.STANDARD:
@@ -99,7 +101,6 @@ class Order(models.Model):
     def save(self, *args, **kwargs):
         if self.shipping_cost == 0 and self.shipping_method != ShippingMethod.PICKUP:
             self.shipping_cost = self.calculate_shipping_cost()
-        self.update_status(self.status)
         super().save(*args, **kwargs)
 
 

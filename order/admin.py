@@ -30,8 +30,8 @@ class OrderAdmin(admin.ModelAdmin):
         "created_at",
         "status_changed_at",
     )
-    list_filter = ("status", "payment_method", "shipping_method", "created_at")
-    search_fields = ("id", "user__username", "user__email", "confirmation_key")
+    list_filter = ("full_name", "status", "payment_method", "shipping_method", "created_at")
+    search_fields = ("full_name", "id", "user__username", "user__email", "confirmation_key")
     readonly_fields = (
         "total_price",
         "shipping_cost",
@@ -68,9 +68,11 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(Address)
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ("full_name", "user", "governorate", "city", "is_default")
+    list_display = ( "user", "governorate", "city", "is_default")
     list_filter = ("governorate", "is_default")
-    search_fields = ("full_name", "user__username", "address_line")
+    search_fields = ("user__username", "address_line")
+    
+    #update status choise
 
 custom_admin_site.register(Order)
 custom_admin_site.register(Address)

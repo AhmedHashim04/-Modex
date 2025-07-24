@@ -1,5 +1,6 @@
 {% load i18n %}
 
+
 {% if top_rated_section.products %}
 <section class="section">
     <div class="section-header">
@@ -7,17 +8,43 @@
         <p class="section-subtitle">{% trans 'Our customers top rated products' %}</p>
     </div>
 
-    <div id="productsContainer" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
-        {% for product in new_products_section.products %}
-                <div class="col">
+    <!-- Swiper Container -->
+    <div class="swiper discountsSwiper position-relative">
+        <div class="swiper-wrapper py-2">
+            {% for product in top_rated_section.products %}
+                <div class="swiper-slide">
                     <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
-                            {% include "product/partials/product_card.html" %}
+                        {% include "product/partials/product_card.html" %}
                     </div>
                 </div>
+            {% endfor %}
+        </div>
 
-        {% endfor %}
+        <!-- Arrows -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
     </div>
-
-
 </section>
 {% endif %}
+
+<!-- Init Swiper -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Swiper('.discountsSwiper', {
+      slidesPerView: 5,
+      spaceBetween: 20,
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        320: { slidesPerView: 1 },
+        576: { slidesPerView: 2 },
+        768: { slidesPerView: 3 },
+        992: { slidesPerView: 4 },
+        1200: { slidesPerView: 5 },
+        1400: { slidesPerView: 6 },
+      }
+    });
+  });
+</script>

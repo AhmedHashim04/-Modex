@@ -98,39 +98,42 @@ class HomeView(TemplateView):
         #     cache.set('home_trendy_products', trendy_products, 60 * 60 * 24)
 
         # New Products
-        new_products = cache.get('home_new_products')
-        if new_products is None:
-            new_products_qs = Product.objects.filter(
-                is_available=True,
-                created_at__gte=timezone.now() - timezone.timedelta(days=7)
-            ).only(
-                "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
-            ).prefetch_related("tags").order_by('-created_at')[:20]
+        # new_products = cache.get('home_new_products')
+        # if new_products is None:
+        #     new_products_qs = Product.objects.filter(
+        #         is_available=True,
+        #         created_at__gte=timezone.now() - timezone.timedelta(days=7)
+        #     ).only(
+        #         "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+        #     ).prefetch_related(Prefetch("tags", queryset=Tag.objects.only("id", "name"))).order_by('-created_at')[:20]
             
-            new_products = list(new_products_qs)  # مهم جدًا
-            cache.set('home_new_products', new_products, 60 * 60 * 2)
+        #     new_products = list(new_products_qs)  # مهم جدًا
+        #     cache.set('home_new_products', new_products, 60 * 60 * 2)
 
         # # Top Rated
-        # top_rated = cache.get('home_top_rated')
-        # if top_rated is None:
-        #     top_rated = Product.objects.filter(
-        #         is_available=True,
-        #         overall_rating__gte=4
-        #     ).only(
-        #         "id", "name", "slug", "price", "discount", "image", "overall_rating"
-        #     ).order_by('-overall_rating')[:20]
-        #     cache.set('home_top_rated', top_rated, 60 * 60 * 2)
+        top_rated = cache.get('home_top_rated')
+        if top_rated is None:
+            top_rated = Product.objects.filter(
+                is_available=True,
+                overall_rating__gte=4
+            ).only(
+                 "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+            ).prefetch_related(Prefetch("tags", queryset=Tag.objects.only("id", "name"))).order_by('-overall_rating')[:20]
+            top_products = list(top_rated)
+            print(top_products)
+            cache.set('home_top_rated', top_products, 60 * 60 * 2)
 
         # # Discounts
-        # discounts = cache.get('home_discounted_products')
-        # if discounts is None:
-        #     discounts = Product.objects.filter(
-        #         is_available=True,
-        #         discount__gte=15
-        #     ).only(
-        #         "id", "name", "slug", "price", "discount", "image"
-        #     ).order_by('-discount')[:20]
-        #     cache.set('home_discounted_products', discounts, 60 * 60 * 2)
+        discounts = cache.get('home_discounted_products')
+        if discounts is None:
+            discounts = Product.objects.filter(
+                is_available=True,
+                discount__gte=15
+            ).only(
+                 "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+            ).prefetch_related(Prefetch("tags", queryset=Tag.objects.only("id", "name"))).order_by('-discount')[:20]
+            discount_products = list(discounts)
+            cache.set('home_discounted_products', discount_products, 60 * 60 * 2)
 
         context.update({
             # 'main_categories': main_categories,
@@ -150,21 +153,21 @@ class HomeView(TemplateView):
             #     'products': sub_categories,
             #     'layout': 'carousel'
             # },
-            'new_products_section': {
-                'title': _("New Arrivals"),
-                'products': new_products,
-                'layout': 'grid'
-            },
-            # 'top_rated_section': {
-            #     'title': _("Top Rated"),
-            #     'products': top_rated,
+            # 'new_products_section': {
+            #     'title': _("New Arrivals"),
+            #     'products': new_products,
             #     'layout': 'grid'
             # },
-            # 'discounts_section': {
-            #     'title': _("Hot Deals"),
-            #     'products': discounts,
-            #     'layout': 'carousel'
-            # }
+            'top_rated_section': {
+                'title': _("Top Rated"),
+                'products': top_rated,
+                'layout': 'grid'
+            },
+            'discounts_section': {
+                'title': _("Hot Deals"),
+                'products': discounts,
+                'layout': 'carousel'
+            }
         })
 
         return context

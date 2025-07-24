@@ -27,6 +27,7 @@ class ShippingOption(models.Model):
 
     def __str__(self):
         return f"{self.place} - {self.price} EGP - {self.delivery_time}"
+    
 
 
 class OrderStatus(models.TextChoices):
@@ -79,7 +80,7 @@ class Order(models.Model):
     shipping_method = models.CharField(max_length=20, choices=ShippingMethod.choices, default=ShippingMethod.STANDARD, verbose_name=_("Shipping Method"))
 
     shipping_option = models.ForeignKey("ShippingOption",on_delete=models.PROTECT,related_name="orders",verbose_name=_("Shipping Option"),null=True,blank=True)
-
+    shipping_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name=_("Shipping Cost"))
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name=_("Total Price"))
     status_changed_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Status Changed At"))
     paid = models.BooleanField(verbose_name=_("Paid"), default=False)
@@ -128,3 +129,6 @@ class OrderItem(models.Model):
     @property
     def total_item_price_after_discount(self):
         return self.quantity * self.price * (1 - self.discount / 100)
+    @property
+    def price_after_discount(self):
+        return self.price * (1 - self.discount / 100)

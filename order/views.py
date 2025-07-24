@@ -88,7 +88,6 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         order.user = self.request.user
         order.shipping_cost = order.calculate_shipping_cost()
 
-        # ✅ ضمّن اختيار الشحن
         order.shipping_option = form.cleaned_data['shipping_option']
 
         get_total_price_after_discount = cart.get_total_price_after_discount()

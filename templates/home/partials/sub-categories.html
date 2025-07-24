@@ -15,7 +15,7 @@
                 </button>
                 
                 <div class="subcat-slider-track d-flex flex-nowrap align-items-stretch">
-                    {% for subcat in subCategories %}
+                    {% for subcat in sub_categories_section.sub_categories %}
                     <div class="subcat-slide d-flex flex-column align-items-center">
                         <a href="{% url 'product:product_list' %}?category={{ subcat.slug }}" 
                            class="sub-category-circle-card-img d-flex flex-column align-items-center text-center text-decoration-none position-relative">
@@ -36,7 +36,7 @@
                     {% endfor %}
                 </div>
                 
-                <button class="subcat-slider-arrow right" aria-label="التالي">
+                <button class="subcat-slider-arrow right" aria-label="Next">
                     <i class="fas fa-chevron-left"></i>
                 </button>
             </div>

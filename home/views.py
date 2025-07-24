@@ -62,55 +62,50 @@ class HomeView(TemplateView):
         # # كل ريكويست يختار 6 منتجات بشكل عشوائي من القائمة دي في الرام (بدون داتابيز)
         # daily_products = random.sample(products_list, k=min(len(products_list), 6))
 
-        # # Sub Categories
-        # sub_categories = cache.get('home_sub_categories')
-        # if sub_categories is None:
-        #     sub_categories = Category.objects.filter(
-        #         parent__isnull=False,
-        #     ).only('name', 'slug','image',"description")[:50]
-        #     cache.set('home_sub_categories', sub_categories, 60 * 60 * 12)
+        # Sub Categories
+        sub_categories = cache.get('home_sub_categories')
+        if sub_categories is None:
+            sub_categories = Category.objects.filter(
+                parent__isnull=False,
+            ).only('name', 'slug','image',"description")[:50]
+            child_categories = list(sub_categories)
+            cache.set('home_sub_categories', child_categories, 60 * 60 * 12)
 
 
-        # # Main Categories
-        # main_categories = cache.get('home_main_categories')
-        # if main_categories is None:
-        #     main_categories = Category.objects.filter(
-        #         parent__isnull=True
-        #     ).only('name', 'slug', 'image', 'description').annotate(product_count=Count('products'))
+        # Main Categories
+        main_categories = cache.get('home_main_categories')
+        if main_categories is None:
+            main_categories = Category.objects.filter(
+                parent__isnull=True
+            ).only('name', 'slug', 'image', 'description').annotate(product_count=Count('products'))
+            parent_categories = list(main_categories)
+            cache.set('home_main_categories', parent_categories, 60 * 60 * 24)
 
-        #     cache.set('home_main_categories', main_categories, 60 * 60 * 24)
-
-        # # # Trendy Products
-        # trendy_products = cache.get('home_trendy_products')
-        # if trendy_products is None:
-        #     trendy_products = list(
-        #         Product.objects.filter(
-        #             is_available=True,
-        #             trending=True
-        #         )
-        #         .only(
-        #             "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
-        #         )
-        #         .prefetch_related(
-        #             Prefetch("tags", queryset=Tag.objects.only("id", "name"))
-        #         )[:20]
-        #     )
-        #     cache.set('home_trendy_products', trendy_products, 60 * 60 * 24)
+        # Trendy Products
+        trendy_products = cache.get('home_trendy_products')
+        if trendy_products is None:
+            trendy_products = Product.objects.filter(
+                is_available=True,trending=True).only(
+                    "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+                ).prefetch_related(
+                    Prefetch("tags", queryset=Tag.objects.only("id", "name"))
+                )[:20]
+            trending_pronucts = list(trendy_products)
+            cache.set('home_trendy_products', trending_pronucts, 60 * 60 * 24)
 
         # New Products
-        # new_products = cache.get('home_new_products')
-        # if new_products is None:
-        #     new_products_qs = Product.objects.filter(
-        #         is_available=True,
-        #         created_at__gte=timezone.now() - timezone.timedelta(days=7)
-        #     ).only(
-        #         "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
-        #     ).prefetch_related(Prefetch("tags", queryset=Tag.objects.only("id", "name"))).order_by('-created_at')[:20]
-            
-        #     new_products = list(new_products_qs)  # مهم جدًا
-        #     cache.set('home_new_products', new_products, 60 * 60 * 2)
+        new_products = cache.get('home_new_products')
+        if new_products is None:
+            new_products_qs = Product.objects.filter(
+                is_available=True,
+            ).only(
+                "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+            ).order_by('-created_at')[:20]
+           
+            new_products = list(new_products_qs) 
+            cache.set('home_new_products', new_products, 60 * 60 * 24)
 
-        # # Top Rated
+        # Top Rated
         top_rated = cache.get('home_top_rated')
         if top_rated is None:
             top_rated = Product.objects.filter(
@@ -120,44 +115,43 @@ class HomeView(TemplateView):
                  "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
             ).prefetch_related(Prefetch("tags", queryset=Tag.objects.only("id", "name"))).order_by('-overall_rating')[:20]
             top_products = list(top_rated)
-            print(top_products)
             cache.set('home_top_rated', top_products, 60 * 60 * 2)
 
-        # # Discounts
+        # Discounts
         discounts = cache.get('home_discounted_products')
         if discounts is None:
             discounts = Product.objects.filter(
                 is_available=True,
                 discount__gte=15
             ).only(
-                 "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+                 "id", "name", "slug", "price", "discount", "description", "image"
             ).prefetch_related(Prefetch("tags", queryset=Tag.objects.only("id", "name"))).order_by('-discount')[:20]
             discount_products = list(discounts)
-            cache.set('home_discounted_products', discount_products, 60 * 60 * 2)
+            cache.set('home_discounted_products', discount_products, 60 * 60 * 24)
 
         context.update({
-            # 'main_categories': main_categories,
-            # 'trendy_products_section': {
-            #     'title': _("Trendy Products"),
-            #     'products': trendy_products,
-            #     'layout': 'carousel'
-            # },
-            # 'daily_products_section': {
-            #     'title': _("Daily Products"),
-            #     'products': get_daily_products(),
-            #     # 'products': daily_products,
-            #     'layout': 'grid'
-            # },
-            # 'sub_categories_section': {
-            #     'title': _("Sub Categories"),
-            #     'products': sub_categories,
-            #     'layout': 'carousel'
-            # },
-            # 'new_products_section': {
-            #     'title': _("New Arrivals"),
-            #     'products': new_products,
-            #     'layout': 'grid'
-            # },
+            'main_categories': main_categories,
+            'trendy_products_section': {
+                'title': _("Trendy Products"),
+                'products': trendy_products,
+                'layout': 'carousel'
+            },
+            'daily_products_section': {
+                'title': _("Daily Products"),
+                'products': get_daily_products(),
+                # 'products': daily_products,
+                'layout': 'grid'
+            },
+            'sub_categories_section': {
+                'title': _("Sub Categories"),
+                'sub_categories': sub_categories,
+                'layout': 'carousel'
+            },
+            'new_products_section': {
+                'title': _("New Arrivals"),
+                'products': new_products,
+                'layout': 'grid'
+            },
             'top_rated_section': {
                 'title': _("Top Rated"),
                 'products': top_rated,

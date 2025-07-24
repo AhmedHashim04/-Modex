@@ -169,7 +169,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LOG_PATH = BASE_DIR / "logs"
 LOG_PATH.mkdir(exist_ok=True)
 
-SITE_ID = 1
+SITE_ID = 2
 
 # LOGGING = {
 #     "version": 1,

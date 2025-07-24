@@ -297,7 +297,7 @@
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <div>
-                                        {% if product.discount > 0 %}
+                                        {% if product.discount %}
                                             <span class="old-price-advanced">{{ product.price|floatformat:2 }} EGP</span>
                                             <span class="price-advanced">{{ product.price_after_discount|floatformat:2 }} EGP</span>
                                         {% else %}
@@ -317,13 +317,11 @@
                                 <!-- Product Actions -->
                                 <div class="product-actions-advanced">
                                     <div>
-                                        {% if product.is_available %}
                                             <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
                                                 <div class="flex-grow-1 w-100">
                                             {% include "product/partials/cart_button.html" %}
                                                 </div>
                                             </div>
-                                        {% endif %}
 
                                         {% include "product/partials/wishlist_button.html" %}
                                     </div>

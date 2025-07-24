@@ -10,7 +10,7 @@
                         {% endif %}
                     </div>
                     {% endif %}
-                    
+
                     <!-- Product Image -->
                     <div class="product-image {% if view_mode == 'list' %}w-25{% else %}p-3{% endif %}">
                         <a href="{% url 'product:product_detail' product.slug %}">
@@ -89,14 +89,12 @@
                                 {% endif %}
                             </div>
                                     
-                            {% if product.is_available %}
                                 <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
                                     <div class="flex-grow-1 w-100">
                                         
                                         {% include "product/partials/cart_button.html" %}
                                     </div>
                                 </div>
-                            {% endif %}
                                     {% include "product/partials/wishlist_button.html" %}
                                 </div>
             

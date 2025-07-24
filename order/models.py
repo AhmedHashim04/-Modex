@@ -128,7 +128,7 @@ class OrderItem(models.Model):
     
     @property
     def total_item_price_after_discount(self):
-        return self.quantity * self.price * (1 - self.discount / 100)
+        return self.quantity * self.price * (1 - (self.discount / 100))
     @property
     def price_after_discount(self):
         return self.price * (1 - self.discount / 100)

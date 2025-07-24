@@ -85,6 +85,20 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
+    def get_initial(self):
+
+        profile = getattr(self.request.user, 'profile', None)
+        initial = {
+        }
+        if profile:
+            initial.update({
+                'full_name': self.request.user.get_full_name() or self.request.user.username,
+                'governorate': profile.governorate,
+                'phone': profile.phone,
+            })
+        return initial
+
+
     def _create_order_object(self, form, cart):
         order = form.save(commit=False)
         order.user = self.request.user
@@ -110,18 +124,6 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
                 discount=item["discount"],
             )
 
-    def get_initial(self):
-
-        profile = getattr(self.request.user, 'profile', None)
-        initial = {
-        }
-        if profile:
-            initial.update({
-                'full_name': self.request.user.get_full_name() or self.request.user.username,
-                'governorate': profile.governorate,
-                'phone': profile.phone,
-            })
-        return initial
 
     def _invoice_generation(self, order):
         pdf_content = generate_invoice_pdf(order)

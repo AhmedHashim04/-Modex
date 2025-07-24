@@ -53,66 +53,7 @@
     </div>
 
 <!-- CSS الإضافي -->
-<style>
-    .categories-section {
-        padding: 3rem 0;
-        background-color: hsl(var(--background-color));
-    }
-    .category-card {
-        transition: var(--transition);
-        border-radius: var(--border-radius);
-        overflow: hidden;
-    }
-    .category-card:hover {
-        transform: translateY(-5px);
-        box-shadow: var(--shadow-medium);
-    }
-    .category-image-container {
-        height: 180px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: hsl(var(--surface-color));
-    }
-    .category-image {
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.5s ease;
-    }
-    .category-card:hover .category-image {
-        transform: scale(1.05);
-    }
-    .category-image-placeholder {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: hsl(var(--text-secondary));
-        background-color: hsl(var(--border-color));
-    }
-    .category-nav-prev, .category-nav-next {
-        color: hsl(var(--text-primary));
-        background: rgba(255, 255, 255, 0.8);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        box-shadow: var(--shadow-light);
-    }
-    .category-nav-prev::after, .category-nav-next::after {
-        font-size: 1rem;
-    }
-    @media (max-width: 768px) {
-        .category-image-container {
-            height: 120px;
-        }
-        .category-nav-prev, .category-nav-next {
-            display: none;
-        }
-    }
-</style>
+
 
 <!-- JavaScript -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

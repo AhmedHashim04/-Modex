@@ -26,6 +26,20 @@
   --text-secondary: 220 15% 70%;
   --text-light: 260 80% 85%;
   --border-color: 220 15% 40%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-forest {
@@ -43,6 +57,20 @@
   --text-secondary: 90 20% 35%;
   --text-light: 90 40% 75%;
   --border-color: 90 20% 60%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-earth {
@@ -60,6 +88,20 @@
   --text-secondary: 45 30% 40%;
   --text-light: 40 50% 80%;
   --border-color: 45 40% 70%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-pastel {
@@ -77,6 +119,20 @@
   --text-secondary: 200 40% 50%;
   --text-light: 120 50% 85%;
   --border-color: 200 40% 80%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-retro {
@@ -93,7 +149,22 @@
   --text-nav: 20 100% 50%;
   --text-secondary: 200 100% 50%;
   --text-light: 60 100% 85%;
+  --text-dark: 0 0% 10%;
   --border-color: 200 100% 80%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-cool {
@@ -111,6 +182,20 @@
   --text-secondary: 190 40% 45%;
   --text-light: 210 60% 85%;
   --border-color: 190 40% 80%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-mango {
@@ -128,6 +213,20 @@
   --text-secondary: 50 70% 50%;
   --text-light: 35 90% 85%;
   --border-color: 45 60% 75%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-candy {
@@ -145,6 +244,20 @@
   --text-secondary: 240 60% 50%;
   --text-light: 300 100% 90%;
   --border-color: 330 60% 80%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-coal {
@@ -162,6 +275,20 @@
   --text-secondary: 0 0% 60%;
   --text-light: 0 0% 80%;
   --border-color: 0 0% 30%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 
@@ -180,6 +307,20 @@
   --text-secondary: 34 70% 50%;
   --text-light: 14 100% 90%;
   --border-color: 34 100% 85%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 /* ألوان هادئة زرقاء وخضراء */
@@ -198,7 +339,21 @@
     --text-secondary: 210 40% 40%;
     --text-light: 210 60% 85%;
     --border-color: 210 40% 80%;
- }
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ 
+}
 
  /* وردي وبيج ناعم */
 .theme-sakura { 
@@ -216,6 +371,20 @@
     --text-secondary: 0 10% 40%;
     --text-light: 340 80% 90%;
     --border-color: 340 40% 85%; 
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
 
 .theme-midnight { 
@@ -233,18 +402,6 @@
     --text-secondary: 190 80% 70%;
     --text-light: 60 100% 80%;
     --border-color: 265 100% 85%;
- }
-
-button_theme {
-  background: hsl(var(--primary-color));
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  cursor: pointer;
-}
-
-:root {
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
@@ -258,7 +415,33 @@ button_theme {
     --border-radius-lg: 2rem;
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
+ 
+}
+
+.button_theme {
+  background: hsl(var(--primary-color));
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);
+    --gradient-dark: linear-gradient(135deg, hsl(var(--dark-surface)) 0%, hsl(var(--primary-color)) 100%);
+    --gradient-danger: linear-gradient(135deg, hsl(var(--danger-color)) 0%, hsl(340, 90%, 65%) 100%);
+    --shadow-light: 0 1px 3px 0 rgba(255, 92, 168, 0.08), 0 1px 2px 0 rgba(79, 195, 247, 0.06);
+    --shadow-medium: 0 4px 6px -1px rgba(255, 92, 168, 0.10), 0 2px 4px -1px rgba(255, 224, 102, 0.08);
+    --shadow-heavy: 0 20px 25px -5px rgba(255, 92, 168, 0.12), 0 10px 10px -5px rgba(79, 195, 247, 0.10);
+    --shadow-colored: 0 10px 15px -3px hsla(var(--primary-color), 0.18);
+    --border-radius: 1.2rem;
+    --border-radius-lg: 2rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-sans: 'Baloo 2', 'Comic Sans MS', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+
 
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
@@ -780,6 +963,7 @@ html {
     text-align: center;
     margin-bottom: 3rem;
 }
+
 .section-title {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -910,43 +1094,11 @@ html {
     font-size: 1.3rem;
     margin-bottom: 0.5rem;
 }
-/* Newsletter */
-.newsletter {
-    background: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
-    color: white;
-    padding: 4rem 5%;
-    text-align: center;
-    border-radius: var(--border-radius-lg);
-    margin: 4rem auto;
-    max-width: 1400px;
-}
-.newsletter h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-.newsletter p {
-    max-width: 600px;
-    margin: 0 auto 2rem;
-    font-size: 1.1rem;
-}
-.newsletter-form {
-    display: flex;
-    max-width: 500px;
-    margin: 0 auto;
-    gap: 1rem;
-}
-.newsletter-input {
-    flex: 1;
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: var(--border-radius);
-    font-family: var(--font-sans);
-    font-size: 1rem;
-}
+
 /* Footer */
 footer {
     background: hsl(var(--dark-surface));
-    color: white;
+    color: hsl(var(--text-light));
     padding: 4rem 5% 2rem;
 }
 .footer-grid {
@@ -1326,3 +1478,457 @@ footer {
         }
     }
 
+
+        .hero-section-daily {
+        background: linear-gradient(120deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 60%, hsl(var(--accent-color)) 100%);
+        min-height: 480px;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        border-radius: 2.5rem;
+        box-shadow: 0 8px 48px 0 rgba(60, 72, 88, 0.13);
+        margin-bottom: 2.5rem;
+        animation: fadeInUp 1.2s cubic-bezier(.23,1.01,.32,1) both;
+    }
+    @keyframes fadeInUp {
+        0% { opacity: 0; transform: translateY(40px);}
+        100% { opacity: 1; transform: translateY(0);}
+    }
+    .daily-animated-circle-1,
+    .daily-animated-circle-2,
+    .daily-animated-circle-3 {
+        z-index: 0;
+        position: absolute;
+        pointer-events: none;
+    }
+    .daily-animated-circle-1 {
+        top: 0;
+        left: 0;
+        transform: translate(-40%, -40%);
+        display: none;
+    }
+    .daily-animated-circle-2 {
+        bottom: 0;
+        right: 0;
+        transform: translate(40%, 40%);
+        display: none;
+    }
+    .daily-animated-circle-3 {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.08;
+        display: none;
+    }
+    @media (min-width: 768px) {
+        .daily-animated-circle-1,
+        .daily-animated-circle-2,
+        .daily-animated-circle-3 {
+            display: block;
+        }
+    }
+    .daily-animated-circle-1-inner {
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle at 40% 40%, hsl(var(--secondary-color)) 0%, hsl(var(--tertiary-color)) 100%);
+        opacity: 0.22;
+        border-radius: 50%;
+        filter: blur(12px);
+        animation: pulseCircle1 5s infinite alternate;
+    }
+    .daily-animated-circle-2-inner {
+        width: 260px;
+        height: 260px;
+        background: radial-gradient(circle at 60% 60%, hsl(var(--primary-color)) 0%, hsl(var(--accent-color)) 100%);
+        opacity: 0.16;
+        border-radius: 50%;
+        filter: blur(18px);
+        animation: pulseCircle2 6s infinite alternate;
+    }
+    .daily-animated-circle-3-inner {
+        width: 420px;
+        height: 420px;
+        background: radial-gradient(circle at 50% 50%, #fff 0%, hsl(var(--primary-color)) 100%);
+        border-radius: 50%;
+        filter: blur(32px);
+        opacity: 0.10;
+        animation: rotateCircle 18s linear infinite;
+    }
+    @keyframes pulseCircle1 {
+        0% { transform: scale(1);}
+        100% { transform: scale(1.08);}
+    }
+    @keyframes pulseCircle2 {
+        0% { transform: scale(1);}
+        100% { transform: scale(1.12);}
+    }
+    @keyframes rotateCircle {
+        0% { transform: translate(-50%, -50%) scale(1.2) rotate(0deg);}
+        100% { transform: translate(-50%, -50%) scale(1.2) rotate(360deg);}
+    }
+    .daily-container-z1 {
+        z-index: 1;
+        position: relative;
+    }
+    .badge.bg-gradient-primary {
+        background: linear-gradient(90deg, hsl(var(--primary-color)), hsl(var(--accent-color))) !important;
+        font-size: 1.08rem;
+        letter-spacing: 1.5px;
+        color: #fff !important;
+        box-shadow: 0 2px 12px 0 rgba(60, 72, 88, 0.10);
+        padding: 0.6em 1.3em;
+        border-radius: 2em;
+        font-weight: 700;
+        text-transform: uppercase;
+        animation: badgePop 1.2s cubic-bezier(.23,1.01,.32,1) both;
+    }
+    @keyframes badgePop {
+        0% { transform: scale(0.7);}
+        80% { transform: scale(1.1);}
+        100% { transform: scale(1);}
+    }
+    .daily-title {
+        color: hsl(var(--text-primary));
+        letter-spacing: -1.5px;
+        text-shadow: 0 4px 24px hsla(var(--secondary-color),0.18);
+        font-size: 2.7rem;
+        line-height: 1.1;
+        margin-bottom: 0.7em;
+        font-family: 'Cairo', 'Tajawal', 'Rubik', sans-serif;
+        background: linear-gradient(90deg, hsl(var(--tertiary-color)), hsl(var(--accent-color)));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    .daily-lead {
+        color: hsl(var(--text-light));
+        font-size: 1.35rem;
+        font-weight: 500;
+        margin-bottom: 2em;
+        
+        text-shadow: 0 2px 12px hsla(var(--primary-color),0.10);
+        letter-spacing: 0.2px;
+    }
+    .daily-shop-btn {
+        background: linear-gradient(90deg, hsl(var(--primary-color)), hsl(var(--accent-color)));
+        color: #fff;
+        border-radius: 2em;
+        font-size: 1.18rem;
+        font-weight: 700;
+        padding: 0.9em 2.5em;
+        box-shadow: 0 4px 24px 0 rgba(60, 72, 88, 0.13);
+        transition: transform 0.18s, box-shadow 0.22s;
+        border: none;
+        letter-spacing: 1px;
+    }
+    .daily-shop-btn:hover, .daily-shop-btn:focus {
+        transform: scale(1.07) translateY(-2px);
+        box-shadow: 0 8px 32px 0 rgba(60, 72, 88, 0.18);
+        color: #fff;
+    }
+    .daily-products-carousel {
+        position: relative;
+        z-index: 2;
+        padding: 0.5rem 0;
+        min-height: 340px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        animation: fadeInUp 1.2s 0.2s cubic-bezier(.23,1.01,.32,1) both;
+    }
+    @media (max-width: 991.98px) {
+        .daily-title { font-size: 2.1rem;}
+        .daily-products-carousel { gap: 1rem;}
+    }
+    @media (max-width: 767.98px) {
+        .hero-section-daily { min-height: 320px; border-radius: 1.2rem;}
+        .daily-title { font-size: 1.5rem;}
+        .daily-lead { font-size: 1.05rem;}
+        .daily-products-carousel { gap: 0.7rem;}
+    }
+    /* Subtle floating animation for product cards */
+    .daily-products-carousel > * {
+        animation: floatCard 3.5s ease-in-out infinite alternate;
+    }
+    .daily-products-carousel > *:nth-child(2) { animation-delay: 0.5s;}
+    .daily-products-carousel > *:nth-child(3) { animation-delay: 1s;}
+    .daily-products-carousel > *:nth-child(4) { animation-delay: 1.5s;}
+    .daily-products-carousel > *:nth-child(5) { animation-delay: 2s;}
+    .daily-products-carousel > *:nth-child(6) { animation-delay: 2.5s;}
+    @keyframes floatCard {
+        0% { transform: translateY(0);}
+        100% { transform: translateY(-10px);}
+    }
+
+    /* Advanced, modern, standout product card styles */
+    .advanced-trendy-products-section {
+        position: relative;
+        overflow: hidden;
+        padding-top: 2.5rem;
+        padding-bottom: 2.5rem;
+    }
+    .advanced-trendy-products-section .section-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        position: relative;
+        z-index: 2;
+    }
+    .advanced-trendy-products-section .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: var(--gradient-primary);
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+    .advanced-trendy-products-section .section-subtitle {
+        color: hsl(var(--text-secondary));
+        font-size: 1.15rem;
+        font-weight: 500;
+        margin-top: 0.5rem;
+    }
+    .advanced-trendy-products-section .product-card-advanced {
+        background: hsla(var(--surface-color), 0.95);
+        border-radius: 1.5rem;
+        box-shadow: var(--shadow-medium);
+        transition: transform 0.25s cubic-bezier(.4,2,.6,1), box-shadow 0.25s;
+        position: relative;
+        overflow: visible;
+        border: none;
+        min-height: 420px;
+        margin: 0 10px;
+    }
+    .advanced-trendy-products-section .product-card-advanced:hover {
+        transform: translateY(-8px) scale(1.025);
+        box-shadow: var(--shadow-heavy);
+        z-index: 2;
+    }
+    .advanced-trendy-products-section .product-badges-advanced {
+        position: absolute;
+        top: 1.25rem;
+        left: 1.25rem;
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    .advanced-trendy-products-section .product-badges-advanced .badge {
+        font-size: 0.95rem;
+        font-weight: 700;
+        border-radius: 1rem;
+        padding: 0.45em 1.1em;
+        box-shadow: 0 2px 8px hsla(var(--secondary-color), 0.10);
+        letter-spacing: 0.02em;
+    }
+    .advanced-trendy-products-section .badge-advanced-new {
+        background: linear-gradient(90deg, hsl(var(--accent-color)) 0%, hsl(var(--accent-color)) 100%);
+        color: #fff;
+    }
+    .advanced-trendy-products-section .badge-advanced-discount {
+        background: var(--gradient-danger);
+        color: #fff;
+    }
+    .advanced-trendy-products-section .product-image-advanced {
+        background: linear-gradient(135deg, hsl(var(--border-color)) 0%, hsl(var(--background-color)) 100%);
+        border-radius: 1.25rem;
+        overflow: hidden;
+        min-height: 180px;
+        max-height: 220px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.25rem;
+        position: relative;
+        box-shadow: 0 2px 12px hsla(var(--secondary-color), 0.07);
+    }
+    .advanced-trendy-products-section .product-image-advanced img {
+        max-height: 180px;
+        object-fit: contain;
+        transition: transform 0.3s;
+        filter: drop-shadow(0 2px 8px hsla(var(--secondary-color), 0.08));
+    }
+    .advanced-trendy-products-section .product-card-advanced:hover .product-image-advanced img {
+        transform: scale(1.07) rotate(-2deg);
+    }
+    .advanced-trendy-products-section .card-title-advanced {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+        color: hsl(var(--text-primary));
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+    .advanced-trendy-products-section .rating-stars-advanced i {
+        font-size: 1rem;
+        margin-right: 0.05em;
+    }
+    .advanced-trendy-products-section .product-tags-advanced {
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.3rem;
+    }
+    .advanced-trendy-products-section .tag-badge-advanced {
+        background: hsl(var(--border-color));
+        color: hsl(var(--light-color));
+        font-size: 0.85rem;
+        border-radius: 0.75rem;
+        padding: 0.2em 0.8em;
+        font-weight: 600;
+    }
+    .advanced-trendy-products-section .price-advanced {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: hsl(var(--secondary-color));
+    }
+    .advanced-trendy-products-section .old-price-advanced {
+        font-size: 0.95rem;
+        color: hsl(var(--text-secondary));
+        text-decoration: line-through;
+        margin-right: 0.5em;
+    }
+    .advanced-trendy-products-section .stock-badge-advanced {
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 1rem;
+        padding: 0.3em 1em;
+        background: hsl(var(--accent-color), 0.12);
+        color: hsl(var(--accent-color));
+        border: 1px solid hsl(var(--accent-color), 0.25);
+    }
+    .advanced-trendy-products-section .stock-badge-advanced.out {
+        background: hsl(var(--danger-color), 0.10);
+        color: hsl(var(--danger-color));
+        border: 1px solid hsl(var(--danger-color), 0.18);
+    }
+    .advanced-trendy-products-section .product-actions-advanced {
+        margin-top: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    .advanced-trendy-products-section .floating-shape {
+        position: absolute;
+        z-index: 0;
+        opacity: 0.13;
+        pointer-events: none;
+        filter: blur(2px);
+    }
+    .advanced-trendy-products-section .floating-shape.shape1 {
+        top: -60px; left: -60px;
+        width: 180px; height: 180px;
+        background: radial-gradient(circle at 40% 40%, hsl(var(--secondary-color)) 0%, transparent 80%);
+        border-radius: 50%;
+    }
+    .advanced-trendy-products-section .floating-shape.shape2 {
+        bottom: -80px; right: -80px;
+        width: 220px; height: 220px;
+        background: radial-gradient(circle at 60% 60%, hsl(var(--primary-color)) 0%, transparent 80%);
+        border-radius: 50%;
+    }
+    .advanced-trendy-products-section .floating-shape.shape3 {
+        top: 30%; right: 10%;
+        width: 90px; height: 90px;
+        background: radial-gradient(circle at 50% 50%, hsl(var(--tertiary-color)) 0%, transparent 80%);
+        border-radius: 50%;
+    }
+    
+    /* Swiper styles */
+    .advanced-trendy-products-section .swiper-container {
+        padding: 20px 0;
+    }
+    .advanced-trendy-products-section .swiper-slide {
+        height: auto;
+    }
+    .advanced-trendy-products-section .swiper-button-next,
+    .advanced-trendy-products-section .swiper-button-prev {
+        background-color: hsla(var(--surface-color), 0.95);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        box-shadow: var(--shadow-medium);
+        color: hsl(var(--text-primary));
+        transition: all 0.3s ease;
+    }
+    .advanced-trendy-products-section .swiper-button-next:hover,
+    .advanced-trendy-products-section .swiper-button-prev:hover {
+        transform: scale(1.1);
+        background-color: hsl(var(--primary-color));
+        color: white;
+    }
+    .advanced-trendy-products-section .swiper-button-next::after,
+    .advanced-trendy-products-section .swiper-button-prev::after {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .advanced-trendy-products-section .swiper-pagination-bullet {
+        background: hsl(var(--text-secondary));
+        opacity: 0.5;
+    }
+    .advanced-trendy-products-section .swiper-pagination-bullet-active {
+        background: hsl(var(--primary-color));
+        opacity: 1;
+    }
+
+        .categories-section {
+        padding: 3rem 0;
+        background-color: hsl(var(--background-color));
+    }
+    .category-card {
+        transition: var(--transition);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+    }
+    .category-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-medium);
+    }
+    .category-image-container {
+        height: 180px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: hsl(var(--surface-color));
+    }
+    .category-image {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.5s ease;
+    }
+    .category-card:hover .category-image {
+        transform: scale(1.05);
+    }
+    .category-image-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: hsl(var(--text-secondary));
+        background-color: hsl(var(--border-color));
+    }
+    .category-nav-prev, .category-nav-next {
+        color: hsl(var(--text-primary));
+        background: rgba(255, 255, 255, 0.8);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        box-shadow: var(--shadow-light);
+    }
+    .category-nav-prev::after, .category-nav-next::after {
+        font-size: 1rem;
+    }
+    @media (max-width: 768px) {
+        .category-image-container {
+            height: 120px;
+        }
+        .category-nav-prev, .category-nav-next {
+            display: none;
+        }
+    }

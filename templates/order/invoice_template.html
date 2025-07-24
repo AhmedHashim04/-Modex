@@ -22,7 +22,9 @@
         <p><strong>Date:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
         <p><strong>Customer:</strong> {{ user.get_full_name }} | {{ user.email }}</p>
         <p><strong>Phone:</strong> {{ order.phone }}</p>
-        <p><strong>Shipping:</strong> {{ order.address_line }}, {{ order.governorate }}</p>
+        <p><strong>Shipping:</strong> {{ order.address.city }}, {{ order.address.governorate }}</p>
+        <p><strong>Adress_line:</strong> {{ order.address.address_line }}</p>
+        
     </div>
 
     <table>
@@ -42,7 +44,7 @@
                 <td>{{ item.quantity }}</td>
                 <td>{{ item.price }}</td>
                 <td>{{ item.discount }}</td>
-                <td>{{ item.get_subtotal }}</td>
+                <td>{{ item.total_price_after_discount }}</td>
             </tr>
             {% endfor %}
         </tbody>
@@ -55,7 +57,7 @@
 
     <div class="footer">
         <p>Thank you for your purchase!</p>
-        <p>Your Shop © {{ now|date:"Y" }}</p>
+        <p>Modex © {{ now|date:"Y" }}</p>
     </div>
 
 </body>

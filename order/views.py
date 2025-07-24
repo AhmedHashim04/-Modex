@@ -135,6 +135,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             'order': order,
             'user': order.user,
             'shipping_address': order.address,
+            'shipping_cost': order.shipping_option,
             'total': order.total_price,
         }
 

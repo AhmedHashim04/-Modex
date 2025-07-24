@@ -19,7 +19,7 @@
         <div class="info">
             <p><strong>Customer:</strong> {{ user.get_full_name }} ({{ user.email }})</p>
             <p><strong>Total:</strong> {{ total }} EGP</p>
-            <p><strong>Shipping:</strong> {{ order.address_line }}, {{ order.governorate }}</p>
+            <p><strong>Shipping:</strong> {{ order.address }}, {{ order.shipping_option }}</p>
         </div>
         <p>The invoice is attached. Please process and fulfill the order promptly.</p>
         <div class="footer">

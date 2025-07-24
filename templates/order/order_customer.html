@@ -17,7 +17,8 @@
         <p>Your order <strong>#{{ order.id }}</strong> has been received and is being processed.</p>
         <p>Total amount: <strong>{{ total }} EGP</strong></p>
         <p>We’ve attached your invoice to this email. You’ll be notified when your order ships.</p>
-        <p>Shipping to: {{ order.address_line }}, {{ order.governorate }}</p>
+        <p>Shipping to: {{ order.address.city }}, {{ order.governorate }}</p>
+        <p>Notes: {{ order.address.address_line }}</p>
         <div class="footer">
             &copy; {{ now|date:"Y" }} Your Shop. All rights reserved.
         </div>

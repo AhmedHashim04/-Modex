@@ -83,23 +83,6 @@ ACCOUNT_ADAPTER = 'project.adapters.NoNewUsersAccountAdapter'
 LOGIN_REDIRECT_URL = '/' 
 LOGOUT_REDIRECT_URL = "/"
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        'SCOPE': [
-            'profile',
-            'email',
-        ],
-        'AUTH_PARAMS': {
-            'access_type': 'online',
-        },
-        'OAUTH_PKCE_ENABLED': True,
-        'APP': {
-            'client_id': config('GOOGLE_CLIENT_ID'),
-            'secret': config('GOOGLE_CLIENT_SECRET'),
-            'key': ''
-        }
-    }
-}
 
 
 MIDDLEWARE = [
@@ -139,6 +122,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "project.wsgi.application"
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Database
@@ -163,7 +147,6 @@ DATABASES = {
     }
 }
 
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 LOG_PATH = BASE_DIR / "logs"
 LOG_PATH.mkdir(exist_ok=True)
@@ -243,7 +226,6 @@ CACHES = {
 }
 RATELIMIT_ENABLE = True
 RATELIMIT_USE_CACHE = "default"
-
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
@@ -252,8 +234,28 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ahmedha4im7@gmail.com'
-EMAIL_HOST_PASSWORD = 'qyqk kwfs crhb cvzl'  # App password هنا
-DEFAULT_FROM_EMAIL = 'Your Shop <ahmedha4im7@gmail.com>'
-STORE_OWNER_EMAIL = "ahmedha4im7@gmail.com"
-SHIPPING_EMAIL = "ahmedha4im7@gmail.com"
+
+EMAIL_HOST_USER = 'config("EMAIL_HOST_USER")'
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = 'Your Shop <%s>' % config('DEFAULT_FROM_EMAIL')
+STORE_OWNER_EMAIL = config('STORE_OWNER_EMAIL')
+SHIPPING_EMAIL = config('SHIPPING_EMAIL')
+
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        },
+        'OAUTH_PKCE_ENABLED': True,
+        'APP': {
+            'client_id': config('GOOGLE_CLIENT_ID'),
+            'secret': config('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    }
+}

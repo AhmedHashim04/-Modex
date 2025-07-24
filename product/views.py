@@ -70,6 +70,7 @@ class ProductListView(ListView):
         # Short and fixed-length hash : 12ab34cd56ef7890abc123456789def0
         query_str = urlencode(self.request.GET)
         cache_key = f"products_{hashlib.md5(query_str.encode()).hexdigest()}"
+        print(f"[CACHE DEBUG] Original query: {query_str}")
         queryset = cache.get(cache_key)
 
         if queryset is None:
@@ -361,7 +362,6 @@ class ProductDetailView(DetailView):
         messages.error(self.request, "Please correct the errors below.")
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
-
 
 # Clear cache when a product is add or updated
 @receiver(post_save, sender=Product)

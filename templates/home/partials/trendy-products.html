@@ -1,22 +1,21 @@
 {% load i18n %}
 
-{% if featured_products_section.products %}
+{% if trendy_products_section.products %}
 <style>
     /* Advanced, modern, standout product card styles */
-    .advanced-featured-products-section {
-        {% comment %} background: linear-gradient(135deg, hsl(var(--background-color)) 0%, hsl(var(--border-color)) 100%); {% endcomment %}
+    .advanced-trendy-products-section {
         position: relative;
         overflow: hidden;
         padding-top: 2.5rem;
         padding-bottom: 2.5rem;
     }
-    .advanced-featured-products-section .section-header {
+    .advanced-trendy-products-section .section-header {
         text-align: center;
         margin-bottom: 2.5rem;
         position: relative;
         z-index: 2;
     }
-    .advanced-featured-products-section .section-title {
+    .advanced-trendy-products-section .section-title {
         font-size: 2.5rem;
         font-weight: 800;
         background: var(--gradient-primary);
@@ -24,13 +23,13 @@
         -webkit-text-fill-color: transparent;
         background-clip: text;
     }
-    .advanced-featured-products-section .section-subtitle {
+    .advanced-trendy-products-section .section-subtitle {
         color: hsl(var(--text-secondary));
         font-size: 1.15rem;
         font-weight: 500;
         margin-top: 0.5rem;
     }
-    .advanced-featured-products-section .product-card-advanced {
+    .advanced-trendy-products-section .product-card-advanced {
         background: hsla(var(--surface-color), 0.95);
         border-radius: 1.5rem;
         box-shadow: var(--shadow-medium);
@@ -39,13 +38,14 @@
         overflow: visible;
         border: none;
         min-height: 420px;
+        margin: 0 10px;
     }
-    .advanced-featured-products-section .product-card-advanced:hover {
+    .advanced-trendy-products-section .product-card-advanced:hover {
         transform: translateY(-8px) scale(1.025);
         box-shadow: var(--shadow-heavy);
         z-index: 2;
     }
-    .advanced-featured-products-section .product-badges-advanced {
+    .advanced-trendy-products-section .product-badges-advanced {
         position: absolute;
         top: 1.25rem;
         left: 1.25rem;
@@ -54,7 +54,7 @@
         flex-direction: column;
         gap: 0.5rem;
     }
-    .advanced-featured-products-section .product-badges-advanced .badge {
+    .advanced-trendy-products-section .product-badges-advanced .badge {
         font-size: 0.95rem;
         font-weight: 700;
         border-radius: 1rem;
@@ -62,15 +62,15 @@
         box-shadow: 0 2px 8px hsla(var(--secondary-color), 0.10);
         letter-spacing: 0.02em;
     }
-    .advanced-featured-products-section .badge-advanced-new {
+    .advanced-trendy-products-section .badge-advanced-new {
         background: linear-gradient(90deg, hsl(var(--accent-color)) 0%, hsl(var(--accent-color)) 100%);
         color: #fff;
     }
-    .advanced-featured-products-section .badge-advanced-discount {
+    .advanced-trendy-products-section .badge-advanced-discount {
         background: var(--gradient-danger);
         color: #fff;
     }
-    .advanced-featured-products-section .product-image-advanced {
+    .advanced-trendy-products-section .product-image-advanced {
         background: linear-gradient(135deg, hsl(var(--border-color)) 0%, hsl(var(--background-color)) 100%);
         border-radius: 1.25rem;
         overflow: hidden;
@@ -83,16 +83,16 @@
         position: relative;
         box-shadow: 0 2px 12px hsla(var(--secondary-color), 0.07);
     }
-    .advanced-featured-products-section .product-image-advanced img {
+    .advanced-trendy-products-section .product-image-advanced img {
         max-height: 180px;
         object-fit: contain;
         transition: transform 0.3s;
         filter: drop-shadow(0 2px 8px hsla(var(--secondary-color), 0.08));
     }
-    .advanced-featured-products-section .product-card-advanced:hover .product-image-advanced img {
+    .advanced-trendy-products-section .product-card-advanced:hover .product-image-advanced img {
         transform: scale(1.07) rotate(-2deg);
     }
-    .advanced-featured-products-section .card-title-advanced {
+    .advanced-trendy-products-section .card-title-advanced {
         font-size: 1.15rem;
         font-weight: 700;
         margin-bottom: 0.25rem;
@@ -101,37 +101,37 @@
         white-space: nowrap;
         overflow: hidden;
     }
-    .advanced-featured-products-section .rating-stars-advanced i {
+    .advanced-trendy-products-section .rating-stars-advanced i {
         font-size: 1rem;
         margin-right: 0.05em;
     }
-    .advanced-featured-products-section .product-tags-advanced {
+    .advanced-trendy-products-section .product-tags-advanced {
         margin-top: 0.5rem;
         margin-bottom: 0.5rem;
         display: flex;
         flex-wrap: wrap;
         gap: 0.3rem;
     }
-    .advanced-featured-products-section .tag-badge-advanced {
+    .advanced-trendy-products-section .tag-badge-advanced {
         background: hsl(var(--border-color));
-        color: hsl(var(--secondary-color));
+        color: hsl(var(--light-color));
         font-size: 0.85rem;
         border-radius: 0.75rem;
         padding: 0.2em 0.8em;
         font-weight: 600;
     }
-    .advanced-featured-products-section .price-advanced {
+    .advanced-trendy-products-section .price-advanced {
         font-size: 1.15rem;
         font-weight: 800;
         color: hsl(var(--secondary-color));
     }
-    .advanced-featured-products-section .old-price-advanced {
+    .advanced-trendy-products-section .old-price-advanced {
         font-size: 0.95rem;
         color: hsl(var(--text-secondary));
         text-decoration: line-through;
         margin-right: 0.5em;
     }
-    .advanced-featured-products-section .stock-badge-advanced {
+    .advanced-trendy-products-section .stock-badge-advanced {
         font-size: 0.95rem;
         font-weight: 600;
         border-radius: 1rem;
@@ -140,73 +140,110 @@
         color: hsl(var(--accent-color));
         border: 1px solid hsl(var(--accent-color), 0.25);
     }
-    .advanced-featured-products-section .stock-badge-advanced.out {
+    .advanced-trendy-products-section .stock-badge-advanced.out {
         background: hsl(var(--danger-color), 0.10);
         color: hsl(var(--danger-color));
         border: 1px solid hsl(var(--danger-color), 0.18);
     }
-    .advanced-featured-products-section .product-actions-advanced {
+    .advanced-trendy-products-section .product-actions-advanced {
         margin-top: 1rem;
         display: flex;
         gap: 0.5rem;
         flex-wrap: wrap;
     }
-    .advanced-featured-products-section .floating-shape {
+    .advanced-trendy-products-section .floating-shape {
         position: absolute;
         z-index: 0;
         opacity: 0.13;
         pointer-events: none;
         filter: blur(2px);
     }
-    .advanced-featured-products-section .floating-shape.shape1 {
+    .advanced-trendy-products-section .floating-shape.shape1 {
         top: -60px; left: -60px;
         width: 180px; height: 180px;
         background: radial-gradient(circle at 40% 40%, hsl(var(--secondary-color)) 0%, transparent 80%);
         border-radius: 50%;
     }
-    .advanced-featured-products-section .floating-shape.shape2 {
+    .advanced-trendy-products-section .floating-shape.shape2 {
         bottom: -80px; right: -80px;
         width: 220px; height: 220px;
         background: radial-gradient(circle at 60% 60%, hsl(var(--primary-color)) 0%, transparent 80%);
         border-radius: 50%;
     }
-    .advanced-featured-products-section .floating-shape.shape3 {
+    .advanced-trendy-products-section .floating-shape.shape3 {
         top: 30%; right: 10%;
         width: 90px; height: 90px;
         background: radial-gradient(circle at 50% 50%, hsl(var(--tertiary-color)) 0%, transparent 80%);
         border-radius: 50%;
     }
+    
+    /* Swiper styles */
+    .advanced-trendy-products-section .swiper-container {
+        padding: 20px 0;
+    }
+    .advanced-trendy-products-section .swiper-slide {
+        height: auto;
+    }
+    .advanced-trendy-products-section .swiper-button-next,
+    .advanced-trendy-products-section .swiper-button-prev {
+        background-color: hsla(var(--surface-color), 0.95);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        box-shadow: var(--shadow-medium);
+        color: hsl(var(--text-primary));
+        transition: all 0.3s ease;
+    }
+    .advanced-trendy-products-section .swiper-button-next:hover,
+    .advanced-trendy-products-section .swiper-button-prev:hover {
+        transform: scale(1.1);
+        background-color: hsl(var(--primary-color));
+        color: white;
+    }
+    .advanced-trendy-products-section .swiper-button-next::after,
+    .advanced-trendy-products-section .swiper-button-prev::after {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .advanced-trendy-products-section .swiper-pagination-bullet {
+        background: hsl(var(--text-secondary));
+        opacity: 0.5;
+    }
+    .advanced-trendy-products-section .swiper-pagination-bullet-active {
+        background: hsl(var(--primary-color));
+        opacity: 1;
+    }
 </style>
 
-<section class="section advanced-featured-products-section">
+<section class="section advanced-trendy-products-section">
     <div class="floating-shape shape1"></div>
     <div class="floating-shape shape2"></div>
     <div class="floating-shape shape3"></div>
     <div class="section-header">
-        <h2 class="section-title">{{ featured_products_section.title }}</h2>
+        <h2 class="section-title">{{ trendy_products_section.title }}</h2>
         <p class="section-subtitle">{% trans 'The best carefully selected products for an enjoyable shopping experience' %}</p>
     </div>
 
-    <div  class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-7 g-4">
-        {% for fp in featured_products_section.products %}
-            <div class="col d-flex">
-                <div class="card product-card-advanced flex-fill d-flex flex-column position-relative">
-                    {% with product=fp.product %}
+    <!-- Swiper container -->
+    <div class="swiper-container trendy-products-swiper">
+        <div class="swiper-wrapper">
+            {% for product in trendy_products_section.products %}
+                <div class="swiper-slide">
+                    <div class="card product-card-advanced flex-fill d-flex flex-column position-relative h-100">
                         <!-- Product Badges -->
-                        {% if product.is_new or product.discount_percentage %}
+
                         <div class="product-badges-advanced">
-                            {% if product.is_new %}
+                            {% if product.trending %}
                                 <span class="badge badge-advanced-new shadow-sm">
                                     <i class="fas fa-bolt me-1"></i> {% trans "New" %}
                                 </span>
                             {% endif %}
-                            {% if product.discount_percentage %}
+                            {% if product.discount %}
                                 <span class="badge badge-advanced-discount shadow-sm">
-                                    <i class="fas fa-fire me-1"></i> -{{ product.discount_percentage }}%
+                                    <i class="fas fa-fire me-1"></i> -{{ product.discount }}%
                                 </span>
                             {% endif %}
                         </div>
-                        {% endif %}
 
                         <!-- Product Image -->
                         <div class="product-image-advanced">
@@ -242,16 +279,17 @@
                                             {% endif %}
                                         {% endfor %}
                                     </div>
-                                    <small class="text-muted">({{ product.review_count }})</small>
                                 </div>
                                 <p class="card-text text-muted small mb-2" style="min-height: 2.5em;">
-                                    {{ product.short_description|default:product.description|truncatewords:20 }}
+                                    {{ product.description|truncatewords:20 }}
                                 </p>
                                 <!-- Tags -->
                                 {% if product.tags.all %}
                                 <div class="product-tags-advanced">
                                     {% for tag in product.tags.all %}
-                                        <span class="tag-badge-advanced">{{ tag.name }}</span>
+                                        <a href="{% url 'product:product_list' %}?tag={{ tag }} "style ="text-decoration: none;" >
+                                            <span class="tag-badge-advanced">{{ tag.name }}</span>
+                                        </a>
                                     {% endfor %}
                                 </div>
                                 {% endif %}
@@ -266,7 +304,7 @@
                                             <span class="price-advanced">{{ product.price|floatformat:2 }} EGP</span>
                                         {% endif %}
                                     </div>
-                                    {% if product.stock > 0 %}
+                                    {% if product.is_available %}
                                         <span class="stock-badge-advanced">
                                             <i class="fas fa-check-circle me-1"></i> {% trans "In Stock" %}
                                         </span>
@@ -278,25 +316,72 @@
                                 </div>
                                 <!-- Product Actions -->
                                 <div class="product-actions-advanced">
-                <div>
-                    {% if product.is_available %}
-                        <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
-                            <div class="flex-grow-1 w-100">
-                        {% include "product/partials/cart_button.html" %}
-                            </div>
-                        </div>
-                    {% endif %}
+                                    <div>
+                                        {% if product.is_available %}
+                                            <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
+                                                <div class="flex-grow-1 w-100">
+                                            {% include "product/partials/cart_button.html" %}
+                                                </div>
+                                            </div>
+                                        {% endif %}
 
-                    {% include "product/partials/wishlist_button.html" %}
-                </div>
-
+                                        {% include "product/partials/wishlist_button.html" %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    {% endwith %}
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
+        
+        <!-- Add navigation buttons -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        
+        <!-- Add pagination -->
+        <div class="swiper-pagination"></div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Swiper
+        var swiper = new Swiper('.trendy-products-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                576: {
+                    slidesPerView: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                },
+                992: {
+                    slidesPerView: 4,
+                },
+                1200: {
+                    slidesPerView: 5,
+                },
+                1400: {
+                    slidesPerView: 6,
+                }
+            }
+        });
+    });
+</script>
 {% endif %}
+<div>

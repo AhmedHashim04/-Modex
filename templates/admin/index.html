@@ -1,0 +1,12 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+    {% if show_clear_cache %}
+        <div style="margin-bottom: 20px;">
+            <a href="{% url 'admin:clear-cache' %}" class="button button-primary">
+                Clear Cache🧹
+            </a>
+        </div>
+    {% endif %}
+    {{ block.super }}
+{% endblock %}

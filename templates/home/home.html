@@ -13,33 +13,30 @@
 
 
 <!-- Daily Products Section -->
-{% include "home/partials/daily-products.html" %}
+{% comment %} {% include "home/partials/daily-products.html" %} {% endcomment %}
 <hr>
-<div class="custom-narrow-container">
 
 <!-- New Arrivals Section -->
-{% include "home/partials/new-arrivals.html" %}
+{% comment %} {% include "home/partials/new-arrivals.html" %} {% endcomment %}
 <hr>
 {% comment %} {% include "home/partials/deals.html" %} {% endcomment %}
 
 <!-- Categories Section -->
-{% include "home/partials/main-categories.html" %}
+{% comment %} {% include "home/partials/main-categories.html" %} {% endcomment %}
 <hr>
+{% comment %} <div class="custom-narrow-container"> {% endcomment %}
 
 <!-- Featured Products Section -->
-{% include "home/partials/features-products.html" %}
+{% include "home/partials/trendy-products.html" %}
 <hr>
+{% comment %} </div> {% endcomment %}
 
 <!-- Sub Categories Section -->
-{% if sub_categories_section.products %}
-    <div class="section-header">
-        <h2 class="section-title">{% trans 'Explore Our Subcategories' %}</h2>
-        <p class="section-subtitle">{% trans 'Find a diverse selection of toys and gifts for every age and occasion' %}</p>
-    </div>
-    {% include "home/partials/sub-categories.html" with subCategories=sub_categories_section.products %}
-{% endif %}
-<hr>
 
+
+    {% comment %} {% include "home/partials/sub-categories.html" with subCategories=sub_categories_section.products %} {% endcomment %}
+<hr>
+{% comment %} 
 
 <!-- Top Rated Section -->
 {% include "home/partials/top-rated.html" %}
@@ -48,9 +45,8 @@
 <!-- Hot Deals Section -->
 {% include "home/partials/discount-products.html" %}
 <hr>
-</div>
 
-{% include "home/partials/features.html" %}
+{% include "home/partials/features.html" %} {% endcomment %}
 {% comment %} {% include "home/partials/newsettler.html" %} {% endcomment %}
 
 

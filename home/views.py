@@ -4,89 +4,134 @@ from django.views.generic import TemplateView
 from product.models import Category, Product
 from home.models import FeaturedProduct
 from django.utils.translation import gettext as _
-from django.shortcuts import  render
 from django.http import HttpResponse
 from django.utils import timezone
 from django.http import JsonResponse
-from django.db.models import Q
+from django.db.models import Q,Count,Prefetch
+from features.models import Tag
+import random
+
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data = cache.get('home_data')
-        if data is None:
-            
-            data = {
 
-                'main_categories': Category.objects.filter(parent__isnull=True, products__isnull=False).distinct(),
+        # # Main Categories
+        # main_categories = cache.get('home_main_categories')
+        # if main_categories is None:
 
+        #     main_categories = Category.objects.filter(
+        #         parent__isnull=True
+        #     ).only('name', 'slug').annotate(product_count=Count('products'), subcategory_count=Count('children'))
 
-                # 'trendy_products_section': {
-                #     'title': _("Today's Picks"),
-                #     'products': Product.objects.filter(
-                #         is_available=True
-                #     ).filter(
-                #         Q(trending=True) | 
-                #         Q(discount__gte=10) 
-                #         # Q(overall_rating__gte=4)
-                #     ).select_related('category')
-                #     .order_by('-trending', '-discount', '-overall_rating')[:12],
-                #     'layout': 'carousel'
-                #     },
+        #     cache.set('home_main_categories', main_categories, 60 * 60 * 24)
 
+        # # # Trendy Products
+        # trendy_products = cache.get('home_trendy_products')
+        # if trendy_products is None:
+        #     trendy_products = list(
+        #         Product.objects.filter(
+        #             is_available=True,
+        #             trending=True
+        #         )
+        #         .only(
+        #             "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+        #         )
+        #         .prefetch_related(
+        #             Prefetch("tags", queryset=Tag.objects.only("id", "name"))
+        #         )[:20]
+        #     )
+        #     cache.set('home_trendy_products', trendy_products, 60 * 60 * 24)
 
-                'featured_products_section': {
-                    'title': _("Featured Products"), 
-                    'products': FeaturedProduct.objects.filter(is_active=True).select_related('product').order_by('order')[:30],
-                    'layout': 'carousel'  #'grid'
-                },
+        # # Daily Products (random 100)
+        # daily_products = cache.get('home_daily_products')
+        # if daily_products is None:
+        #     products_qs = Product.objects.filter(is_available=True)\
+        #         .only("id", "name", "slug", "price", "discount", "trending", "image", "created_at", "description", "overall_rating")\
+        #         .prefetch_related("tags")
+        #     products_list = list(products_qs)
+        #     daily_products = random.sample(products_list, k=min(len(products_list), 100))
+        #     cache.set('home_daily_products', daily_products, 60 * 15)
 
+        # # Sub Categories
+        # sub_categories = cache.get('home_sub_categories')
+        # if sub_categories is None:
+        #     sub_categories = Category.objects.filter(
+        #         parent__isnull=False,
+        #         products__isnull=False
+        #     ).only('id', 'name', 'slug', 'parent').distinct()[:50]
+        #     cache.set('home_sub_categories', sub_categories, 60 * 60 * 12)
 
+        # # New Products
+        # new_products = cache.get('home_new_products')
+        # if new_products is None:
+        #     new_products = Product.objects.filter(
+        #         is_available=True,
+        #         created_at__gte=timezone.now() - timezone.timedelta(days=30)
+        #     ).only(
+        #         "id", "name", "slug", "price", "discount", "image", "created_at", "category_id"
+        #     ).select_related('category').order_by('-created_at')[:20]
+        #     cache.set('home_new_products', new_products, 60 * 60 * 2)
 
-                'daily_products_section': {
-                    'title': _("Daily Products"),
-                    # 'products': Product.objects.filter(is_available=True).order_by('?').select_related('category')[:100],
-                    'products': Product.objects.filter(is_available=True).order_by('?').only("name", "slug", "price", "discount", "trending","image", "created_at", "description","overall_rating").prefetch_related("tags")
-                    ,'layout': 'grid'
-                },
-                
-                'sub_categories_section': {
-                    'title': _("Sub Categories"), 
-                    'products': Category.objects.filter(parent__isnull=False, products__isnull=False).distinct()[:50],
-                    'layout': 'carousel'  # 'grid'
-                },
+        # # Top Rated
+        # top_rated = cache.get('home_top_rated')
+        # if top_rated is None:
+        #     top_rated = Product.objects.filter(
+        #         is_available=True,
+        #         overall_rating__gte=4
+        #     ).only(
+        #         "id", "name", "slug", "price", "discount", "image", "overall_rating"
+        #     ).order_by('-overall_rating')[:20]
+        #     cache.set('home_top_rated', top_rated, 60 * 60 * 2)
 
-                'new_products_section': {
-                    'title': _("New Arrivals"),
-                    'products': Product.objects.filter(
-                        is_available=True,
-                        created_at__gte=timezone.now() - timezone.timedelta(days=30)
-                    ).select_related('category')
-                    .order_by('-created_at')[:20],
-                    'layout': 'grid'
-                },
-                
-                'top_rated_section': {
-                    'title': _("Top Rated"),
-                    'products': Product.objects.filter(is_available=True, overall_rating__gte=4).order_by('-overall_rating')[:20],
-                    'layout': 'grid'
-                },
-                
+        # # Discounts
+        # discounts = cache.get('home_discounted_products')
+        # if discounts is None:
+        #     discounts = Product.objects.filter(
+        #         is_available=True,
+        #         discount__gte=15
+        #     ).only(
+        #         "id", "name", "slug", "price", "discount", "image"
+        #     ).order_by('-discount')[:20]
+        #     cache.set('home_discounted_products', discounts, 60 * 60 * 2)
 
-                'discounts_section': {
-                    'title': _("Hot Deals"),
-                    'products': Product.objects.filter(is_available=True, discount__gte=15).order_by('-discount')[:20],
-                    'layout': 'carousel'
-                },
-            
-            }
-            cache.set('home_data', data, 60 * 60 * 24)  # 1 day
-            
-        context['data'] = data
-        return context['data']
-    
+        context.update({
+            # 'main_categories': main_categories,
+            'trendy_products_section': {
+                'title': _("Trendy Products"),
+                'products': trendy_products,
+                'layout': 'carousel'
+            },
+            # 'daily_products_section': {
+            #     'title': _("Daily Products"),
+            #     'products': daily_products,
+            #     'layout': 'grid'
+            # },
+            # 'sub_categories_section': {
+            #     'title': _("Sub Categories"),
+            #     'products': sub_categories,
+            #     'layout': 'carousel'
+            # },
+            # 'new_products_section': {
+            #     'title': _("New Arrivals"),
+            #     'products': new_products,
+            #     'layout': 'grid'
+            # },
+            # 'top_rated_section': {
+            #     'title': _("Top Rated"),
+            #     'products': top_rated,
+            #     'layout': 'grid'
+            # },
+            # 'discounts_section': {
+            #     'title': _("Hot Deals"),
+            #     'products': discounts,
+            #     'layout': 'carousel'
+            # }
+        })
+
+        return context
 
 
 class RateLimitExceeded(HttpResponse):

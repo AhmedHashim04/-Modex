@@ -43,11 +43,6 @@ def export_products_to_csv(modeladmin, request, queryset):
     return response
 
 
-@admin.action(description="Clear cache")
-def clear_cache(modeladmin, request, queryset):
-    cache.clear()
-    modeladmin.message_user(request, "✅ Cache cleared successfully.")
-
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline, ProductColorInline]
@@ -55,8 +50,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ("created_at", "is_available", "category")
     search_fields = ("name", "description", "category__name")
     ordering = ("-created_at",)
-    actions = [export_products_to_csv,clear_cache]
-    exclude = ('slug',)  # اخفاء الحقل
+    actions = [export_products_to_csv]
+    exclude = ('slug',) 
     list_select_related = ("category",)
 
 @admin.register(Category)

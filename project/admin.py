@@ -3,6 +3,10 @@ from django.contrib.admin import AdminSite
 from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 from django.apps import apps
+from django.contrib import messages
+from django.core.cache import cache
+from django.urls import path
+from django.shortcuts import redirect
 
 class MyAdminSite(AdminSite):
     site_header = 'لوحة التحكم بمتجر محمد توفيق'
@@ -34,6 +38,27 @@ class MyAdminSite(AdminSite):
 
         return ordered_apps
 
+
+    def get_urls(self):
+        urls = super().get_urls()
+        custom_urls = [
+            path('clear-cache/', self.admin_view(self.clear_cache_view), name='clear-cache'),
+        ]
+        return custom_urls + urls
+
+    def clear_cache_view(self, request):
+        cache.clear()
+        messages.add_message(request, messages.SUCCESS, "✅ تم مسح الكاش بنجاح.")
+        return redirect('myadmin:index')
+
+    def index(self, request, extra_context=None):
+        if extra_context is None:
+            extra_context = {}
+        extra_context['show_clear_cache'] = True
+        return super().index(request, extra_context=extra_context)
+
+# instance
+admin_site = MyAdminSite(name='myadmin')
 
 
 # سجل موقعك المخصص

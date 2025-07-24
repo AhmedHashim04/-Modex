@@ -54,7 +54,6 @@ class ProductColor(models.Model):
     def __str__(self):
         return f"{self.product.name} -"# {self.get_color_display()}"
 
-
 class Tag(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=100, unique=True)
 

@@ -10,7 +10,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .utils import generate_product_slug, generate_category_slug
-
+from django.utils.functional import cached_property
 
 class Product(models.Model):
     name = models.CharField(max_length=255,unique=True, verbose_name=_("Name"), db_index=True)
@@ -45,7 +45,7 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("product:product_detail", kwargs={"slug": self.slug})
 
-    @property
+    @cached_property
     def price_after_discount(self):
         return (
             self.price
@@ -53,9 +53,6 @@ class Product(models.Model):
             / Decimal(100).quantize(Decimal(".01"))
         )
 
-    @property
-    def has_discount(self):
-        return self.discount > 0
 
 
     def update_rating(self):

@@ -97,16 +97,18 @@ class HomeView(TemplateView):
         #     )
         #     cache.set('home_trendy_products', trendy_products, 60 * 60 * 24)
 
-        # # New Products
-        # new_products = cache.get('home_new_products')
-        # if new_products is None:
-        #     new_products = Product.objects.filter(
-        #         is_available=True,
-        #         created_at__gte=timezone.now() - timezone.timedelta(days=30)
-        #     ).only(
-        #         "id", "name", "slug", "price", "discount", "image", "created_at", "category_id"
-        #     ).select_related('category').order_by('-created_at')[:20]
-        #     cache.set('home_new_products', new_products, 60 * 60 * 2)
+        # New Products
+        new_products = cache.get('home_new_products')
+        if new_products is None:
+            new_products_qs = Product.objects.filter(
+                is_available=True,
+                created_at__gte=timezone.now() - timezone.timedelta(days=7)
+            ).only(
+                "id", "name", "slug", "price", "discount", "description", "image", "overall_rating"
+            ).prefetch_related("tags").order_by('-created_at')[:20]
+            
+            new_products = list(new_products_qs)  # مهم جدًا
+            cache.set('home_new_products', new_products, 60 * 60 * 2)
 
         # # Top Rated
         # top_rated = cache.get('home_top_rated')
@@ -137,22 +139,22 @@ class HomeView(TemplateView):
             #     'products': trendy_products,
             #     'layout': 'carousel'
             # },
-            'daily_products_section': {
-                'title': _("Daily Products"),
-                'products': get_daily_products(),
-                # 'products': daily_products,
-                'layout': 'grid'
-            },
+            # 'daily_products_section': {
+            #     'title': _("Daily Products"),
+            #     'products': get_daily_products(),
+            #     # 'products': daily_products,
+            #     'layout': 'grid'
+            # },
             # 'sub_categories_section': {
             #     'title': _("Sub Categories"),
             #     'products': sub_categories,
             #     'layout': 'carousel'
             # },
-            # 'new_products_section': {
-            #     'title': _("New Arrivals"),
-            #     'products': new_products,
-            #     'layout': 'grid'
-            # },
+            'new_products_section': {
+                'title': _("New Arrivals"),
+                'products': new_products,
+                'layout': 'grid'
+            },
             # 'top_rated_section': {
             #     'title': _("Top Rated"),
             #     'products': top_rated,

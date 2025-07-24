@@ -1,12 +1,12 @@
 {% load i18n %}
                     <!-- Product Badges -->
-                    {% if product.is_new or product.discount_percentage %}
+                    {% if product.trending or product %}
                     <div class="product-badges">
-                        {% if product.is_new %}
-                        <span class="badge bg-success">{% trans "New" %}</span>
+                        {% if product.trending %}
+                        <span class="badge bg-success">{% trans "Trendy" %}</span>
                         {% endif %}
-                        {% if product.discount_percentage %}
-                        <span class="badge bg-danger">-{{ product.discount_percentage }}%</span>
+                        {% if product.discount %}
+                        <span class="badge bg-danger">-{{ product.discount }}%</span>
                         {% endif %}
                     </div>
                     {% endif %}

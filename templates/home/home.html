@@ -13,7 +13,7 @@
 
 
 <!-- Daily Products Section -->
-{% include "home/partials/daily-products.html" %}
+{% comment %} {% include "home/partials/daily-products.html" %} {% endcomment %}
 <hr>
 <!-- Trendy Products Section -->
 {% comment %} {% include "home/partials/trendy-products.html" %} {% endcomment %}
@@ -22,7 +22,7 @@
 {% comment %} {% include "home/partials/main-categories.html" %} {% endcomment %}
 <hr>
 <!-- New Arrivals Section -->
-{% comment %} {% include "home/partials/new-arrivals.html" %} {% endcomment %}
+{% include "home/partials/new-arrivals.html" %}
 <hr>
 {% comment %} {% include "home/partials/deals.html" %} {% endcomment %}
 
@@ -33,7 +33,7 @@
 <!-- Sub Categories Section -->
 
 
- {% include "home/partials/sub-categories.html" with subCategories=sub_categories_section.products %}
+ {% comment %} {% include "home/partials/sub-categories.html" with subCategories=sub_categories_section.products %} {% endcomment %}
 <hr>
 {% comment %} 
 

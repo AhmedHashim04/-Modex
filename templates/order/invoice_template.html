@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: DejaVu Sans, sans-serif; font-size: 13px; color: #333; padding: 20px; }
+        h1 { color: #007bff; text-align: center; }
+        .header, .footer { text-align: center; margin-top: 30px; }
+        .details { margin-bottom: 30px; }
+        .details p { margin: 3px 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #aaa; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        .total { margin-top: 20px; text-align: right; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>Invoice #{{ order.id }}</h1>
+
+    <div class="details">
+        <p><strong>Date:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
+        <p><strong>Customer:</strong> {{ user.get_full_name }} | {{ user.email }}</p>
+        <p><strong>Phone:</strong> {{ order.phone }}</p>
+        <p><strong>Shipping:</strong> {{ order.address_line }}, {{ order.governorate }}</p>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+                <th>Price (EGP)</th>
+                <th>Discount</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.discount }}</td>
+                <td>{{ item.get_subtotal }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="total">
+        <p>Shipping Cost: {{ order.shipping_cost }} EGP</p>
+        <p>Total: {{ order.total_price }} EGP</p>
+    </div>
+
+    <div class="footer">
+        <p>Thank you for your purchase!</p>
+        <p>Your Shop © {{ now|date:"Y" }}</p>
+    </div>
+
+</body>
+</html>

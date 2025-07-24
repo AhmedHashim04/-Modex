@@ -6,30 +6,6 @@ from django.dispatch import receiver
 from .models import Order
 
 
-@receiver(post_save, sender=Order)
-def order_created(sender, instance, created, **kwargs):
-    """
-    Send notification when a new order is created.
-    """
-    if created:
-        # Send email to user
-        subject = f"Your order {instance.id} has been placed"
-        message = (
-            f"Hi {instance.user.username},\n"
-            f"Thank you for your purchase! Your order ID is {instance.id}.\n"
-            f"We will notify you when the status changes.\n"
-        )
-        # send_mail(
-        #     subject,
-        #     message,
-        #     settings.DEFAULT_FROM_EMAIL,
-        #     [instance.user.email],
-        #     fail_silently=True,
-        # )
-
-        print(f"{subject}\n{message}\n{settings.DEFAULT_FROM_EMAIL,[instance.user.email],True,}")
-
-        # Log the order creation
 
 
 @receiver(post_save, sender=Order)

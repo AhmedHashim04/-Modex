@@ -25,101 +25,133 @@
                 </div>
                 
                 <div class="card-body p-4">
-                    <form method="post" action="{% url 'order:create_order' %}" class="needs-validation" novalidate>
-                        {% csrf_token %}
-                        
-                        <!-- Address Section -->
-                        <div class="mb-4">
-                            <h5 class="fw-bold mb-3">
-                                <i class="fas fa-map-marker-alt me-2 text-primary"></i>Shipping Information
-                            </h5>
-                            
-                            <div class="input-group mb-3">
-                                <div class="input-group-text h-78 bg-transparent border-end-0">
-                                    <i class="fas fa-home text-muted"></i>
-                                </div>
-                                <div class="form-floating mb-1 flex-grow-1 fs-5">
-                                    {{ form.address|add_class:"form-select modern-input h-100 py-2 px-3 fs-5"|attr:"placeholder: " }}
-                                    <label for="{{ form.address.id_for_label }}">Shipping Address</label>
-                                </div>
-                                <a href="{% url 'order:address_list_create' %}" class="btn btn-outline-secondary rounded-end btn-  hover-scale" title="   ">
-                                    <i class="fas fa-plus"></i>
-                                </a>
-                            </div>
-                            
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-
+<form method="post" action="{% url 'order:create_order' %}" class="needs-validation" novalidate>
+    {% csrf_token %}
     
-                                        {{ form.full_name|add_class:"form-control modern-input"|attr:"placeholder: " }}
-                                        <label for="{{ form.full_name.id_for_label }}">
-                                            Full Name
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-floating mb-3">
-                                        {{ form.phone|add_class:"form-control modern-input"|attr:"placeholder: "|attr:"pattern:[0-9]+" }}
-                                        <label for="{{ form.phone.id_for_label }}">
-                                            Phone Number
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Shipping Options -->
-                        <div class="mb-4">
-                            <h5 class="fw-bold mb-3">
-                                <i class="fas fa-truck me-2 text-primary"></i>Shipping Method
-                            </h5>
-                            <div class="shipping-options-wrapper border rounded-4 p-3 bg-light">
-                                {% for option in form.shipping_option %}
-                                    <div class="form-check mb-2">
-                                        {{ option.tag }}
-                                        <label class="form-check-label ms-2" for="{{ option.id_for_label }}">
-                                            <i class="fas fa-map-marker-alt me-1 text-secondary"></i>
-                                            {{ option.choice_label }}
-                                        </label>
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                        
-                        <!-- Payment Method -->
-                        <div class="mb-4">
-                            <h5 class="fw-bold mb-3">
-                                <i class="fas fa-credit-card me-2 text-primary"></i>Payment Method
-                            </h5>
-                            <div class="form-floating mb-3">
-                                {{ form.payment_method|add_class:"form-select modern-input"|attr:"placeholder: " }}
-                                <label for="{{ form.payment_method.id_for_label }}">Select Payment Method</label>
-                            </div>
-                        </div>
-                        
-                        <!-- Additional Notes -->
-                        <div class="mb-4">
-                            <h5 class="fw-bold mb-3">
-                                <i class="fas fa-sticky-note me-2 text-primary"></i>Additional Information
-                            </h5>
-                            <div class="form-floating mb-3">
-                                {{ form.notes|add_class:"form-control modern-input"|attr:"placeholder: "|attr:"rows:3"|attr:"style:height:auto" }}
-                                <label for="{{ form.notes.id_for_label }}">Order Notes (Optional)</label>
-                            </div>
-                        </div>
-                        
-                        <!-- Form Actions -->
-                        <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mt-4 pt-3 border-top">
-                            <button type="submit" class="btn btn-primary btn-lg flex-grow-1 rounded-pill shadow-sm hover-scale">
-                                <i class="fas fa-check-circle me-2"></i>Complete Order
-                            </button>
-                            <a href="{% url 'cart:cart_list' %}" class="btn btn-outline-secondary btn-lg flex-grow-1 rounded-pill shadow-sm hover-scale">
-                                <i class="fas fa-edit me-2"></i>Edit Cart
-                            </a>
-                        </div>
-                        {% for error in form.non_field_errors %}<div class="invalid-feedback d-block">{{ error }}</div  %}{% endfor %}
-                    </form>
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+    
+    <!-- Address Section -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-3">
+            <i class="fas fa-map-marker-alt me-2 text-primary"></i>Shipping Information
+        </h5>
+        
+        <div class="input-group mb-3">
+            <div class="input-group-text h-78 bg-transparent border-end-0">
+                <i class="fas fa-home text-muted"></i>
+            </div>
+            <div class="form-floating mb-1 flex-grow-1 fs-5">
+                {{ form.address|add_class:"form-select modern-input h-100 py-2 px-3 fs-5"|attr:"placeholder: " }}
+                <label for="{{ form.address.id_for_label }}">Shipping Address</label>
+                {% for error in form.address.errors %}
+                    <div class="text-danger small mt-1">{{ error }}</div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'order:address_list_create' %}" class="btn btn-outline-secondary rounded-end hover-scale" title="">
+                <i class="fas fa-plus"></i>
+            </a>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    {{ form.full_name|add_class:"form-control modern-input"|attr:"placeholder: " }}
+                    <label for="{{ form.full_name.id_for_label }}">Full Name</label>
+                    {% for error in form.full_name.errors %}
+                        <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    {{ form.phone|add_class:"form-control modern-input"|attr:"placeholder: "|attr:"pattern:[0-9]+" }}
+                    <label for="{{ form.phone.id_for_label }}">Phone Number</label>
+                    {% for error in form.phone.errors %}
+                        <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shipping Options -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-3">
+            <i class="fas fa-truck me-2 text-primary"></i>Shipping Placement
+        </h5>
+        <div class="shipping-options-wrapper border rounded-4 p-3 bg-light">
+            {% for option in form.shipping_option %}
+                <div class="form-check mb-2">
+                    {{ option.tag }}
+                    <label class="form-check-label ms-2" for="{{ option.id_for_label }}">
+                        <i class="fas fa-map-marker-alt me-1 text-secondary"></i>
+                        {{ option.choice_label }}
+                    </label>
+                </div>
+            {% endfor %}
+            {% for error in form.shipping_option.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Payment Method -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-3">
+            <i class="fas fa-credit-card me-2 text-primary"></i>Payment Method
+        </h5>
+        <div class="form-floating mb-3">
+            {{ form.payment_method|add_class:"form-select modern-input"|attr:"placeholder: " }}
+            <label for="{{ form.payment_method.id_for_label }}">Select Payment Method</label>
+            {% for error in form.payment_method.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Shipping Method -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-3">
+            <i class="fas fa-credit-card me-2 text-primary"></i>Shipping Method
+        </h5>
+        <div class="form-floating mb-3">
+            {{ form.shipping_method|add_class:"form-select modern-input"|attr:"placeholder: " }}
+            <label for="{{ form.shipping_method.id_for_label }}">Select Shipping Method</label>
+            {% for error in form.shipping_method.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Additional Notes -->
+    <div class="mb-4">
+        <h5 class="fw-bold mb-3">
+            <i class="fas fa-sticky-note me-2 text-primary"></i>Additional Information
+        </h5>
+        <div class="form-floating mb-3">
+            {{ form.notes|add_class:"form-control modern-input"|attr:"placeholder: "|attr:"rows:3"|attr:"style:height:auto" }}
+            <label for="{{ form.notes.id_for_label }}">Order Notes (Optional)</label>
+            {% for error in form.notes.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mt-4 pt-3 border-top">
+        <button type="submit" class="btn btn-primary btn-lg flex-grow-1 rounded-pill shadow-sm hover-scale">
+            <i class="fas fa-check-circle me-2"></i>Complete Order
+        </button>
+        <a href="{% url 'cart:cart_list' %}" class="btn btn-outline-secondary btn-lg flex-grow-1 rounded-pill shadow-sm hover-scale">
+            <i class="fas fa-edit me-2"></i>Edit Cart
+        </a>
+    </div>
+</form>
+
                 </div>
             </div>
         </div>

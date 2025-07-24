@@ -136,8 +136,8 @@
                                 <tr>
                                     <th class="text-start">Product</th>
                                     <th>Quantity</th>
-                                    <th class="text-end">Unit Price(Before Discount)</th>
-                                    <th class="text-end">Unit Price</th>
+                                    <th class="text-center">Unit Price (Before Discount)</th>
+                                    <th class="text-center">Unit Price (After Discount)</th>
                                     <th class="text-end">Total</th>
                                 </tr>
                             </thead>
@@ -155,9 +155,13 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>{{ item.quantity }}</td>
+                                    <td class="text-success fw-bold fs-5">{{ item.quantity }}</td>
+                                    {% if item.discount %}
                                     <td class="text-muted text-decoration-line-through">{{ item.price|floatformat:2 }} EGP</td>
-                                    <td class="text-end">{{ item.price_after_discount|floatformat:2 }} EGP</td>
+                                    {% else %}
+                                    <td class="text-muted ">{{ item.price|floatformat:2 }} EGP</td>
+                                    {% endif %}
+                                    <td class="text-center">{{ item.price_after_discount|floatformat:2 }} EGP</td>
                                     <td class="text-end fw-bold">{{ item.total_item_price_after_discount|floatformat:2 }} EGP</td>
                                 </tr>
                                 {% endfor %}

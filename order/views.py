@@ -2,7 +2,7 @@ import logging
 from decimal import Decimal
 from io import BytesIO
 
-from django.conf import settings
+from .utils import generate_invoice_pdf
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -14,7 +14,9 @@ from django.utils.translation import gettext as _
 from django.template.loader import render_to_string
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView, View, FormView, UpdateView, DeleteView
-# from weasyprint import HTML
+from django.core.mail import EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
 from cart.cart import Cart
 from .forms import AddressForm, OrderCreateForm
 from .models import Address, Order, OrderItem
@@ -66,7 +68,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
                 self._create_order_items(order, cart)
                 self.object = order
 
-            # self._schedule_invoice_generation(order)
+            self._invoice_generation(order)
             self._cleanup_session(cart)
             messages.success(
                 self.request,
@@ -117,11 +119,64 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
             initial.update({
                 'full_name': self.request.user.get_full_name() or self.request.user.username,
                 'governorate': profile.governorate,
-                'address_line': profile.address,
                 'phone': profile.phone,
             })
         return initial
 
+    def _invoice_generation(self, order):
+        pdf_content = generate_invoice_pdf(order)
+        if pdf_content:
+            order.invoice_pdf.save(f"invoice_{order.id}.pdf", ContentFile(pdf_content))
+            order.save()
+            self._send_emails(order)
+
+    def _send_emails(self, order):
+        context = {
+            'order': order,
+            'user': order.user,
+            'shipping_address': order.address,
+            'total': order.total_price,
+        }
+
+        # 1. 📤 للعميل
+        subject_customer = f"Thanks for your order #{order.id}"
+        message_customer = render_to_string("order/order_customer.html", context)
+        email_customer = EmailMessage(
+            subject_customer,
+            message_customer,
+            settings.DEFAULT_FROM_EMAIL,
+            [order.user.email],
+        )
+        if order.invoice_pdf:
+            email_customer.attach_file(order.invoice_pdf.path)
+        email_customer.content_subtype = "html"
+        email_customer.send()
+
+        # 2. 🛒 لصاحب المتجر
+        subject_owner = f"New Order #{order.id} placed"
+        message_owner = render_to_string("order/order_store_owner.html", context)
+        email_owner = EmailMessage(
+            subject_owner,
+            message_owner,
+            settings.DEFAULT_FROM_EMAIL,
+            [settings.STORE_OWNER_EMAIL],  
+        )
+        if order.invoice_pdf:
+            email_owner.attach_file(order.invoice_pdf.path)
+        email_owner.content_subtype = "html"
+        email_owner.send()
+
+        # # 3. 🚚 لمسؤول الشحن
+        # subject_shipping = f"Shipping Info for Order #{order.id}"
+        # message_shipping = render_to_string("order/order_shipping.html", context)
+        # email_shipping = EmailMessage(
+        #     subject_shipping,
+        #     message_shipping,
+        #     settings.DEFAULT_FROM_EMAIL,
+        #     [settings.SHIPPING_EMAIL],  
+        # )
+        # email_shipping.content_subtype = "html"
+        # email_shipping.send()
 
     def _cleanup_session(self, cart):
         """Clean session data after successful order"""
@@ -135,6 +190,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def get_form(self, form_class=None):
+        
         form_class = form_class or self.get_form_class()
         if self.request.method == "POST":
             return form_class(self.request.POST, user=self.request.user)

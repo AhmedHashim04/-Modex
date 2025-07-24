@@ -89,10 +89,10 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         order.user = self.request.user
         order.shipping_cost = order.calculate_shipping_cost()
 
-        get_total_price_after_discount_and_tax = cart.get_total_price_after_discount_and_tax()
+        get_total_price_after_discount= cart.get_total_price_after_discount()
 
         order.total_price = max(
-            (get_total_price_after_discount_and_tax + order.shipping_cost ).quantize(
+            (get_total_price_after_discount + order.shipping_cost ).quantize(
                 Decimal("0.01")
             ),
             Decimal("0.00"),

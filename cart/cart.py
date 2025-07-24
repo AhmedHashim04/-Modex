@@ -3,7 +3,6 @@ from django.conf import settings
 from django.core.cache import cache
 from django.utils.timezone import now
 from product.models import Product
-from .utils import calculate_tax
 
 class Cart:
     def __init__(self, request):
@@ -113,9 +112,6 @@ class Cart:
         else:
             cache.set(cache_key, self.cart, timeout=3600)
 
-    def get_tax(self):
-        return calculate_tax(self.get_total_price_after_discount())
-
     def get_total_price(self) -> Decimal:
         return sum(
             Decimal(item["price"]) * item["quantity"] for item in self.cart.values()
@@ -131,23 +127,15 @@ class Cart:
     def get_total_price_after_discount(self) -> Decimal:
         return self.get_total_price() - self.get_total_discount()
 
-    def get_total_price_after_discount_and_tax(self) -> Decimal:
-        return (
-            self.get_total_price_after_discount() * self.get_tax()
-        ) + self.get_total_price_after_discount()
 
     def get_cart_summary(self):
         total_price_after_discount = self.get_total_price_after_discount()
-        tax_amount = self.get_tax() * total_price_after_discount
-        total_price_after_discount_and_tax = total_price_after_discount + tax_amount
 
         return {
             "total_items": len(self),
             "total_price": self.get_total_price(),
             "total_discount": self.get_total_discount(),
             "total_price_after_discount": total_price_after_discount,
-            "tax_amount": tax_amount,
-            "total_price_after_discount_and_tax": total_price_after_discount_and_tax,
         }
 
     @staticmethod

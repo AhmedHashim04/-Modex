@@ -85,6 +85,7 @@
                 </span>
             {% endif %}
         </a>
+        <button class="button_theme" id="themeSwitcher">🌓 تبديل الثيم</button>
 
         <!-- Cart -->
         <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center position-relative cart-advanced-link" id="cart-link"
@@ -115,3 +116,29 @@
         </a>
     </div>
 </div>
+<script>
+const themes = [
+  'theme-ocean', 'theme-sakura', 'theme-midnight',
+  'theme-sunset', 'theme-night', 'theme-forest', 'theme-earth',
+  'theme-pastel', 'theme-retro', 'theme-cool',
+  'theme-mango', 'theme-candy', 'theme-coal'
+];
+  let currentIndex = 0;
+
+  // لو فيه ثيم محفوظ
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme && themes.includes(savedTheme)) {
+    document.body.classList.add(savedTheme);
+    currentIndex = themes.indexOf(savedTheme);
+  } else {
+    document.body.classList.add(themes[0]);
+  }
+
+  document.getElementById('themeSwitcher').addEventListener('click', () => {
+    document.body.classList.remove(themes[currentIndex]);
+    currentIndex = (currentIndex + 1) % themes.length;
+    const newTheme = themes[currentIndex];
+    document.body.classList.add(newTheme);
+    localStorage.setItem('theme', newTheme);
+  });
+</script>

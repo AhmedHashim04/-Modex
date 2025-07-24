@@ -11,22 +11,240 @@
 /* 215 25% 27%; اسود فاتح */
 /* 215 16% 47%; ابيض فاتح */
 
+.theme-night {
+  --primary-color: 220 30% 30%;
+  --tertiary-color: 210 20% 20%;
+  --secondary-color: 220 15% 25%;
+  --accent-color: 260 60% 50%;
+  --success-color: 160 40% 40%;
+  --danger-color: 0 60% 50%;
+  --background-color: 220 20% 10%;
+  --surface-color: 220 20% 15%;
+  --dark-surface: 0 0% 100%;
+  --text-primary: 0 0% 100%;
+  --text-nav: 260 100% 75%;
+  --text-secondary: 220 15% 70%;
+  --text-light: 260 80% 85%;
+  --border-color: 220 15% 40%;
+}
+
+.theme-forest {
+  --primary-color: 120 40% 35%;
+  --tertiary-color: 90 30% 40%;
+  --secondary-color: 60 30% 50%;
+  --accent-color: 140 60% 40%;
+  --success-color: 125 70% 30%;
+  --danger-color: 0 60% 45%;
+  --background-color: 90 30% 94%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 120 30% 15%;
+  --text-primary: 120 30% 15%;
+  --text-nav: 120 40% 40%;
+  --text-secondary: 90 20% 35%;
+  --text-light: 90 40% 75%;
+  --border-color: 90 20% 60%;
+}
+
+.theme-earth {
+  --primary-color: 30 60% 40%;
+  --tertiary-color: 20 50% 30%;
+  --secondary-color: 45 40% 50%;
+  --accent-color: 60 50% 40%;
+  --success-color: 110 40% 35%;
+  --danger-color: 0 50% 50%;
+  --background-color: 40 60% 95%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 30 30% 20%;
+  --text-primary: 30 30% 20%;
+  --text-nav: 30 60% 50%;
+  --text-secondary: 45 30% 40%;
+  --text-light: 40 50% 80%;
+  --border-color: 45 40% 70%;
+}
+
+.theme-pastel {
+  --primary-color: 280 70% 80%;
+  --tertiary-color: 200 60% 80%;
+  --secondary-color: 120 50% 80%;
+  --accent-color: 340 70% 80%;
+  --success-color: 160 50% 70%;
+  --danger-color: 0 60% 70%;
+  --background-color: 0 0% 98%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 220 20% 10%;
+  --text-primary: 220 20% 10%;
+  --text-nav: 280 70% 60%;
+  --text-secondary: 200 40% 50%;
+  --text-light: 120 50% 85%;
+  --border-color: 200 40% 80%;
+}
+
+.theme-retro {
+  --primary-color: 20 100% 60%;
+  --tertiary-color: 60 100% 50%;
+  --secondary-color: 200 100% 60%;
+  --accent-color: 340 100% 60%;
+  --success-color: 110 100% 40%;
+  --danger-color: 0 100% 60%;
+  --background-color: 52 100% 93%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 0 0% 10%;
+  --text-primary: 0 0% 10%;
+  --text-nav: 20 100% 50%;
+  --text-secondary: 200 100% 50%;
+  --text-light: 60 100% 85%;
+  --border-color: 200 100% 80%;
+}
+
+.theme-cool {
+  --primary-color: 210 100% 50%;
+  --tertiary-color: 200 80% 60%;
+  --secondary-color: 190 60% 60%;
+  --accent-color: 180 40% 50%;
+  --success-color: 160 60% 40%;
+  --danger-color: 0 70% 55%;
+  --background-color: 210 100% 97%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 210 40% 10%;
+  --text-primary: 210 40% 15%;
+  --text-nav: 210 100% 60%;
+  --text-secondary: 190 40% 45%;
+  --text-light: 210 60% 85%;
+  --border-color: 190 40% 80%;
+}
+
+.theme-mango {
+  --primary-color: 35 100% 55%;
+  --tertiary-color: 45 100% 65%;
+  --secondary-color: 50 90% 60%;
+  --accent-color: 20 80% 50%;
+  --success-color: 110 60% 40%;
+  --danger-color: 5 70% 55%;
+  --background-color: 45 100% 95%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 30 50% 20%;
+  --text-primary: 30 50% 20%;
+  --text-nav: 35 90% 60%;
+  --text-secondary: 50 70% 50%;
+  --text-light: 35 90% 85%;
+  --border-color: 45 60% 75%;
+}
+
+.theme-candy {
+  --primary-color: 330 100% 70%;
+  --tertiary-color: 300 100% 75%;
+  --secondary-color: 240 100% 80%;
+  --accent-color: 180 100% 70%;
+  --success-color: 140 80% 50%;
+  --danger-color: 0 80% 60%;
+  --background-color: 340 100% 96%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 330 50% 20%;
+  --text-primary: 330 50% 20%;
+  --text-nav: 300 80% 60%;
+  --text-secondary: 240 60% 50%;
+  --text-light: 300 100% 90%;
+  --border-color: 330 60% 80%;
+}
+
+.theme-coal {
+  --primary-color: 0 0% 15%;
+  --tertiary-color: 0 0% 10%;
+  --secondary-color: 0 0% 25%;
+  --accent-color: 180 20% 30%;
+  --success-color: 120 30% 30%;
+  --danger-color: 0 60% 40%;
+  --background-color: 0 0% 5%;
+  --surface-color: 0 0% 10%;
+  --dark-surface: 0 0% 100%;
+  --text-primary: 0 0% 90%;
+  --text-nav: 180 20% 60%;
+  --text-secondary: 0 0% 60%;
+  --text-light: 0 0% 80%;
+  --border-color: 0 0% 30%;
+}
+
+
+.theme-sunset {
+  --primary-color: 14 100% 60%;
+  --tertiary-color: 48 100% 50%;
+  --secondary-color: 34 100% 65%;
+  --accent-color: 25 90% 50%;
+  --success-color: 120 60% 40%;
+  --danger-color: 355 70% 60%;
+  --background-color: 34 100% 96%;
+  --surface-color: 0 0% 100%;
+  --dark-surface: 14 90% 20%;
+  --text-primary: 14 90% 20%;
+  --text-nav: 14 80% 60%;
+  --text-secondary: 34 70% 50%;
+  --text-light: 14 100% 90%;
+  --border-color: 34 100% 85%;
+}
+
+/* ألوان هادئة زرقاء وخضراء */
+.theme-ocean { 
+    --primary-color: 198 90% 55%;    
+    --tertiary-color: 171 80% 45%;    
+    --secondary-color: 210 60% 60%;   
+    --accent-color: 140 60% 50%;     
+    --success-color: 160 65% 40%;
+    --danger-color: 0 75% 60%;
+    --background-color: 210 60% 98%;  
+    --surface-color: 0 0% 100%;
+    --dark-surface: 220 20% 10%;
+    --text-primary: 220 20% 10%;
+    --text-nav: 210 60% 50%;
+    --text-secondary: 210 40% 40%;
+    --text-light: 210 60% 85%;
+    --border-color: 210 40% 80%;
+ }
+
+ /* وردي وبيج ناعم */
+.theme-sakura { 
+    --primary-color: 340 80% 70%;   
+    --tertiary-color: 30 90% 85%;    
+    --secondary-color: 5 30% 85%;  
+    --accent-color: 315 60% 65%;     
+    --success-color: 142 40% 45%;
+    --danger-color: 350 80% 65%;
+    --background-color: 30 100% 96%; 
+    --surface-color: 0 0% 100%;
+    --dark-surface: 340 20% 20%;
+    --text-primary: 340 20% 20%;
+    --text-nav: 340 80% 60%;
+    --text-secondary: 0 10% 40%;
+    --text-light: 340 80% 90%;
+    --border-color: 340 40% 85%; 
+}
+
+.theme-midnight { 
+    --primary-color: 265 100% 65%;    
+    --tertiary-color: 190 100% 50%;   
+    --secondary-color: 320 100% 60%;  
+    --accent-color: 60 100% 60%;      
+    --success-color: 160 70% 40%;
+    --danger-color: 0 80% 60%;
+    --background-color: 230 20% 10%;  
+    --surface-color: 240 20% 20%;
+    --dark-surface: 0 0% 100%;
+    --text-primary: 0 0% 100%;
+    --text-nav: 320 100% 80%;
+    --text-secondary: 190 80% 70%;
+    --text-light: 60 100% 80%;
+    --border-color: 265 100% 85%;
+ }
+
+button_theme {
+  background: hsl(var(--primary-color));
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}
+
 :root {
-    /* Cheerful, playful palette for gifts & kid toys */
-    --primary-color: 217 91% 60%;   /* #FF5CA8 - Pink (fun, playful) */
-    --tertiary-color: 48 100% 67%;  /* #FFE066 - Yellow (happy, bright) */
-    --secondary-color: 200 90% 65%; /* #4FC3F7 - Sky Blue (friendly) */
-    --accent-color: 141 70% 60%;    /* #4ADE80 - Green (fresh, energetic) */
-    --success-color: 142 76% 36%;    /* #4ADE80 - Green (for success) */
-    --danger-color: 0 84% 60%;      /* #EF4444 - Red (for errors/warnings) */
-    --background-color: 48 100% 97%; /* #FFF9E5 - Soft yellow background */
-    --surface-color: 0 0% 100%;     /* #FFFFFF - Card/Surface */
-    --dark-surface: 222 84% 5%;     /* #0F172A - For contrast */
-    --text-primary: 222 84% 5%;     /* #0F172A - Main text */
-    --text-nav: 340 90% 65%;        /* #FF5CA8 - Pink nav text */
-    --text-secondary: 200 90% 40%;  /* #2286A8 - Muted blue for secondary text */
-    --text-light: 48 100% 67%;      /* #FFE066 - Light yellow for highlights */
-    --border-color: 200 90% 85%;    /* #B3E5FC - Light blue border */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--tertiary-color)) 100%);
     --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-color)) 0%, hsl(var(--accent-color)) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(var(--primary-color)) 0%, hsl(var(--secondary-color)) 100%);

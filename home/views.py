@@ -18,9 +18,9 @@ def get_daily_products():
 
     if products_data is None:
         products = list(
-            Product.objects.filter()
-            # Product.objects.filter(is_available=True, trending=True)
-            .values('id', 'name', 'slug', 'price', 'discount', 'trending', 'image', 'description', 'overall_rating')
+            # Product.objects.filter()
+            Product.objects.filter(is_available=True, trending=True)
+            .values('id', 'name', 'slug', 'price', 'discount', 'trending', 'image', 'description','overall_rating')
         )
 
         product_ids = [p['id'] for p in products]
@@ -34,12 +34,12 @@ def get_daily_products():
         for product in products:
             product['tags'] = product_tags[product['id']]
 
-        cache.set('home_daily_products', products, 60 * 60)
+        cache.set('home_daily_products', products, 60 * 60 * 100)
         products_data = products
-        print(len(products_data))
 
     daily_products = random.sample(products_data, k=min(6, len(products_data)))
 
+    print(len(products_data))
     return daily_products
 
 class HomeView(TemplateView):

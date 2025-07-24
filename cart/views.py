@@ -13,7 +13,7 @@ from django.utils.translation import gettext as _
 from django_ratelimit.decorators import ratelimit
 # from django.http import HttpResponse
 
-@ratelimit(key='ip', rate='10/m', method='POST', block=True)
+@ratelimit(key='ip', rate='100/m', method='POST', block=True)
 @require_POST
 def cart_add(request, slug):
     cart = ShoppingCart(request)

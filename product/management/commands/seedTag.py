@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from features.models import Tag
+from product.models import Tag
 
 TAGS = [
     "إلكترونيات", "ملابس", "أحذية", "ساعات", "مجوهرات", "موبايلات", "أجهزة منزلية", "أثاث",

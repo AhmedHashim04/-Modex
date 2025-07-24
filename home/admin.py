@@ -1,4 +1,4 @@
-from django.contrib import admin
-from .models import FeaturedProduct
+# from django.contrib import admin
+# from .models import FeaturedProduct
 
-admin.site.register(FeaturedProduct)
+# admin.site.register(FeaturedProduct)

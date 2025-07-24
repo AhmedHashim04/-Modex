@@ -1,14 +1,12 @@
 
 from django.core.cache import cache
 from django.views.generic import TemplateView
-from product.models import Category, Product
-from home.models import FeaturedProduct
+from product.models import Category, Product,Tag
 from django.utils.translation import gettext as _
 from django.http import HttpResponse
 from django.utils import timezone
 from django.http import JsonResponse
 from django.db.models import Q,Count,Prefetch
-from features.models import Tag
 import random
 from collections import defaultdict
 

@@ -5,10 +5,9 @@ from django.contrib import admin
 from django.http import HttpResponse
 from django.utils.translation import gettext_lazy as _
 from project.admin import custom_admin_site
-from features.admin import ProductImageInline, ProductColorInline
 from django.core.cache import cache
 
-from .models import Category, Product, Review
+from .models import Category, Product, Review, ProductImage, ProductColor, Tag
 
 @admin.action(description=_("Export selected products to CSV"))
 def export_products_to_csv(modeladmin, request, queryset):
@@ -42,6 +41,16 @@ def export_products_to_csv(modeladmin, request, queryset):
         writer.writerow(data_row)
     return response
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1  # عدد الفورمات المبدئية
+
+
+class ProductColorInline(admin.TabularInline):
+    model = ProductColor
+    extra = 1
+
+
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -70,7 +79,8 @@ class ReviewAdmin(admin.ModelAdmin):
     ordering = ("-created_at",)
     autocomplete_fields = ["product", "user"]
 
-
 custom_admin_site.register(Category, CategoryAdmin)
 custom_admin_site.register(Product, ProductAdmin)
 custom_admin_site.register(Review,ReviewAdmin) 
+admin.site.register(Tag)
+custom_admin_site.register(Tag)

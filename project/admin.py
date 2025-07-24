@@ -17,7 +17,6 @@ class MyAdminSite(AdminSite):
         app_order = [
             'product',
             'order',
-            'features',
             'accounts',
             'cart',
             'home',

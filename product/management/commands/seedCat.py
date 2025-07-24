@@ -5,10 +5,8 @@ from django.core.management.base import BaseCommand
 from product.models import Category
 from slugify import slugify
 
-# 🖼️ مجلد الصور
 IMAGE_DIR = "/home/ahmed/Desktop/project/src/media/image_pr"
 
-# 📦 الداتا بتاعة الكاتيجوريز
 CATEGORIES = {
     "هدايا حسب المناسبة": [
         ("عيد ميلاد", "احتفل مع من تحب بأجمل الهدايا المختارة بعناية لتناسب جميع الأعمار في يومهم المميز."),

@@ -1,9 +1,6 @@
 from cart.cart import Cart as ShoppingCart
 from product.models import Category
 
-# from features.models import Brand
-
-
 from django.core.cache import cache
 from accounts.models import Profile
 

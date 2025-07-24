@@ -18,9 +18,8 @@ from django.utils.http import urlencode
 from django.views.generic import DetailView, ListView, TemplateView
 from django_ratelimit.decorators import ratelimit
 
-from features.models import Tag
 from .forms import ReviewForm
-from .models import Category, Product, Review
+from .models import Category, Product, Review, Tag
 
 # Constants for cache management
 CACHE_TIMEOUT_PRODUCTS = 60 * 60 * 4  # 4 minutes

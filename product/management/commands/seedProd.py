@@ -5,11 +5,9 @@ from decimal import Decimal
 from django.core.management.base import BaseCommand
 from slugify import slugify
 from faker import Faker
-from product.models import Product, Category
-from features.models import Tag
+from product.models import Product, Category, Tag, Color,  ProductImage, ProductColor 
 from django.db import transaction
 from django.core.files.base import ContentFile
-from features.models import Color,  ProductImage, ProductColor 
 
 fake = Faker("ar_EG")
 
@@ -19,7 +17,7 @@ class Command(BaseCommand):
     help = "Seed products with images and colors"
 
     def handle(self, *args, **options):
-        total = 5000  # اختبر بعدد أقل في البداية
+        total = 1000  # اختبر بعدد أقل في البداية
         categories = list(Category.objects.all())
         tags = list(Tag.objects.all())
         image_files = [f for f in os.listdir(IMAGE_DIR) if f.lower().endswith((".jpg", ".jpeg", ".png"))]

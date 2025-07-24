@@ -48,7 +48,6 @@ urlpatterns += i18n_patterns(
     path('accounts/', include("allauth.urls")),
     path('products/', include("product.urls", namespace="product")),
     path('order/', include("order.urls", namespace="order")),
-    path('feature/', include("features.urls", namespace="feature")),
     path('cart/', include("cart.urls", namespace="cart")),
     path('contact/', include("contact.urls", namespace="contact")),
     path('admin/', admin.site.urls),

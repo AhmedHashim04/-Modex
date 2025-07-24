@@ -22,7 +22,7 @@ class Product(models.Model):
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))
     discount = models.DecimalField(max_digits=5,decimal_places=2,default=0,verbose_name=_("Discount"),help_text=_("Discount percentage (0-100)"),validators=[MinValueValidator(0), MaxValueValidator(100)],)
     trending = models.BooleanField(default=False,verbose_name=_("Trending"),help_text=_("Is this product trending?"),)
-    tags = models.ManyToManyField("features.Tag", verbose_name=_("Tags"), blank=True, related_name="products")
+    tags = models.ManyToManyField("Tag", verbose_name=_("Tags"), blank=True, related_name="products")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"), db_index=True)
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
     slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
@@ -144,6 +144,67 @@ class Category(models.Model):
         if not self.slug:
             self.slug = generate_category_slug(self.name)
         super().save(*args, **kwargs)
+
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        "product.Product", on_delete=models.CASCADE, related_name="product_images"
+    )
+    image = models.ImageField(upload_to="product_images/")
+
+    def __str__(self):
+        return f"Image for {self.product.name}"
+
+class Color(models.TextChoices):
+    BEIGE = "#f5f5dc", _("Beige")
+    BLACK = "#000", _("Black")
+    BLUE = "#00f", _("Blue")
+    BROWN = "#a52a2a", _("Brown")
+    CORAL = "#ff7f50", _("Coral")
+    CYAN = "#00ffff", _("Cyan")
+    GOLD = "#ffd700", _("Gold")
+    GRAY = "#808080", _("Gray")
+    GREEN = "#0f0", _("Green")
+    INDIGO = "#4b0082", _("Indigo")
+    LAVENDER = "#e6e6fa", _("Lavender")
+    LIME = "#00ff00", _("Lime")
+    MAGENTA = "#ff00ff", _("Magenta")
+    MAROON = "#800000", _("Maroon")
+    MINT = "#98ff98", _("Mint")
+    NAVY = "#000080", _("Navy")
+    OLIVE = "#808000", _("Olive")
+    ORANGE = "#ffa500", _("Orange")
+    PINK = "#ffc0cb", _("Pink")
+    PURPLE = "#800080", _("Purple")
+    RED = "#f00", _("Red")
+    SALMON = "#fa8072", _("Salmon")
+    SILVER = "#c0c0c0", _("Silver")
+    TEAL = "#008080", _("Teal")
+    TURQUOISE = "#40e0d0", _("Turquoise")
+    VIOLET = "#ee82ee", _("Violet")
+    WHITE = "#fff", _("White")
+    YELLOW = "#ff0", _("Yellow")
+
+class ProductColor(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors')
+    color = models.CharField(max_length=20, choices=Color.choices)
+    image = models.ImageField(upload_to=f'products/colors/{product.name}/', blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.product.name} -"# {self.get_color_display()}"
+
+class Tag(models.Model):
+    name = models.CharField(verbose_name=_("Name"), max_length=100, unique=True)
+
+    class Meta:
+        verbose_name = _("Tag")
+        verbose_name_plural = _("Tags")
+        indexes = [models.Index(fields=["name"])]
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
 
 
 

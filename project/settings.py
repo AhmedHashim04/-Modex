@@ -58,7 +58,6 @@ INSTALLED_APPS = [
     "home",
     "contact",
     "product",
-    "features",
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
     'debug_toolbar',

@@ -31,11 +31,7 @@
                                     <h3 class="category-title card-title h5">{{ category.name }}</h3>
                                     <p class="category-count text-muted small">
                                         {{ category.product_count }} {% trans 'Products' %}
-                                        {% if category.children.all %}
-                                        <span class="d-block mt-1">
-                                            {{ category.children.count }} {% trans 'Subcategories' %}
-                                        </span>
-                                        {% endif %}
+
                                     </p>
                                 </a>
                             </div>

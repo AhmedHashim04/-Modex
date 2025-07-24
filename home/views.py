@@ -18,13 +18,33 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
+
+        # Daily Products (random 100)
+        daily_products = cache.get('home_daily_products')
+        if daily_products is None:
+            products_qs = Product.objects.filter(is_available=True)\
+                .only("id", "name", "slug", "price", "discount", "trending", "image", "created_at", "description", "overall_rating")\
+                .prefetch_related("tags")
+            products_list = list(products_qs)
+            daily_products = random.sample(products_list, k=min(len(products_list), 100))
+            cache.set('home_daily_products', daily_products, 60 * 15)
+
+
+        # # Sub Categories
+        # sub_categories = cache.get('home_sub_categories')
+        # if sub_categories is None:
+        #     sub_categories = Category.objects.filter(
+        #         parent__isnull=False,
+        #     ).only('name', 'slug','image',"description")[:50]
+        #     cache.set('home_sub_categories', sub_categories, 60 * 60 * 12)
+
+
         # # Main Categories
         # main_categories = cache.get('home_main_categories')
         # if main_categories is None:
-
         #     main_categories = Category.objects.filter(
         #         parent__isnull=True
-        #     ).only('name', 'slug').annotate(product_count=Count('products'), subcategory_count=Count('children'))
+        #     ).only('name', 'slug', 'image', 'description').annotate(product_count=Count('products'))
 
         #     cache.set('home_main_categories', main_categories, 60 * 60 * 24)
 
@@ -44,25 +64,6 @@ class HomeView(TemplateView):
         #         )[:20]
         #     )
         #     cache.set('home_trendy_products', trendy_products, 60 * 60 * 24)
-
-        # # Daily Products (random 100)
-        # daily_products = cache.get('home_daily_products')
-        # if daily_products is None:
-        #     products_qs = Product.objects.filter(is_available=True)\
-        #         .only("id", "name", "slug", "price", "discount", "trending", "image", "created_at", "description", "overall_rating")\
-        #         .prefetch_related("tags")
-        #     products_list = list(products_qs)
-        #     daily_products = random.sample(products_list, k=min(len(products_list), 100))
-        #     cache.set('home_daily_products', daily_products, 60 * 15)
-
-        # # Sub Categories
-        # sub_categories = cache.get('home_sub_categories')
-        # if sub_categories is None:
-        #     sub_categories = Category.objects.filter(
-        #         parent__isnull=False,
-        #         products__isnull=False
-        #     ).only('id', 'name', 'slug', 'parent').distinct()[:50]
-        #     cache.set('home_sub_categories', sub_categories, 60 * 60 * 12)
 
         # # New Products
         # new_products = cache.get('home_new_products')
@@ -99,11 +100,11 @@ class HomeView(TemplateView):
 
         context.update({
             # 'main_categories': main_categories,
-            'trendy_products_section': {
-                'title': _("Trendy Products"),
-                'products': trendy_products,
-                'layout': 'carousel'
-            },
+            # 'trendy_products_section': {
+            #     'title': _("Trendy Products"),
+            #     'products': trendy_products,
+            #     'layout': 'carousel'
+            # },
             # 'daily_products_section': {
             #     'title': _("Daily Products"),
             #     'products': daily_products,

@@ -15,26 +15,25 @@
 <!-- Daily Products Section -->
 {% comment %} {% include "home/partials/daily-products.html" %} {% endcomment %}
 <hr>
-
+<!-- Trendy Products Section -->
+{% comment %} {% include "home/partials/trendy-products.html" %} {% endcomment %}
+<hr>
+<!-- Categories Section -->
+{% include "home/partials/main-categories.html" %}
+<hr>
 <!-- New Arrivals Section -->
 {% comment %} {% include "home/partials/new-arrivals.html" %} {% endcomment %}
 <hr>
 {% comment %} {% include "home/partials/deals.html" %} {% endcomment %}
 
-<!-- Categories Section -->
-{% comment %} {% include "home/partials/main-categories.html" %} {% endcomment %}
-<hr>
 {% comment %} <div class="custom-narrow-container"> {% endcomment %}
 
-<!-- Featured Products Section -->
-{% include "home/partials/trendy-products.html" %}
-<hr>
 {% comment %} </div> {% endcomment %}
 
 <!-- Sub Categories Section -->
 
 
-    {% comment %} {% include "home/partials/sub-categories.html" with subCategories=sub_categories_section.products %} {% endcomment %}
+ {% include "home/partials/sub-categories.html" with subCategories=sub_categories_section.products %}
 <hr>
 {% comment %} 
 
@@ -54,7 +53,7 @@
 <script>
     // Simple animations and interactions
     document.addEventListener('DOMContentLoaded', function() {
-        // Add animation to featured products
+        // Add animation to trendy products
         const productCards = document.querySelectorAll('.product-card');
         productCards.forEach(card => {
             card.addEventListener('mouseenter', () => {

@@ -1,203 +1,237 @@
+
 {% extends 'base/base.html' %}
 {% load socialaccount %}
-
 {% block title %}Product Detail Trader - Your Ultimate Shopping Destination{% endblock %}
 {% load widget_tweaks %}
 {% block content %}
 
-    <!-- Breadcrumb -->
-    <section class="page-header py-4 mb-4">
-        <div class="container">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'product:product_list' %}">Products</a></li>
-                    <li class="breadcrumb-item active">{{ product.name }}</li>
-                </ol>
-            </nav>
-        </div>
-    </section>
-    
-    <!-- Product Detail -->
-    <section class="py-4 trendy-product-detail ">
-        <div class="container">
-            <div class="row g-5 align-items-start">
-                
-                <!-- Product Images -->
-                <div class="col-lg-6">
-                    <div class="product-gallery bg-white rounded-4 shadow-sm p-4">
-                        <div class="main-image mb-3 border rounded-4 overflow-hidden d-flex align-items-center justify-content-center" style="height: 420px;">
+<!-- Breadcrumb -->
+<section class="page-header py-4 mb-4">
+    <div class="container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'product:product_list' %}">Products</a></li>
+                <li class="breadcrumb-item active">{{ product.name }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<!-- Product Detail -->
+<section class="py-4 trendy-product-detail ">
+    <div class="container">
+        <div class="row g-5 align-items-start">
+            <!-- Product Images -->
+            <div class="col-lg-6">
+                <div class="product-gallery bg-white rounded-4 shadow-sm p-4">
+
+                    <!-- Main Image Display -->
+                    <div class="main-image-container mb-4">
+                        <div class="main-image-wrapper border rounded-4 overflow-hidden">
                             {% if product.image %}
-                            
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" 
-                                    class="img-fluid w-100 h-100" id="mainProductImage" style="object-fit: contain; transition: transform 0.3s;">
+                                    class="main-product-image img-fluid" id="mainProductImage">
                             {% else %}
-                                <div class="d-flex flex-column align-items-center justify-content-center bg-light w-100 h-100">
-                                    <i class="fas fa-image fa-4x text-primary mb-3"></i>
-                                    <p class="text-primary">No product image</p>
+                                <div class="no-image-placeholder">
+                                    <i class="fas fa-image fa-4x text-muted mb-3"></i>
+                                    <p class="text-muted">No product image</p>
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="thumbnail-container d-flex flex-wrap gap-2 mb-3">
+                    </div>
+
+                    <!-- Thumbnails -->
+                    {% if product.image or product.product_images.exists %}
+                        <div class="thumbnail-gallery mb-4">
                             {% if product.image %}
-                                <div class="thumbnail-item border rounded-3 overflow-hidden bg-white shadow-sm" style="width: 70px; height: 70px;">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" 
-                                        class="img-fluid h-100 w-100" style="object-fit: cover; cursor: pointer;"
+                                <div class="thumbnail-wrapper">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}"
+                                        class="thumbnail-image active"
                                         onclick="changeMainImage(this)">
-                                
-                                    </div>
+                                </div>
                             {% endif %}
                             {% for image in product.product_images.all %}
-                                <div class="thumbnail-item border rounded-3 overflow-hidden bg-white shadow-sm" style="width: 70px; height: 70px;">
-                                    <img src="{{ image.image.url }}" alt="Product image" 
-                                        class="img-fluid h-100 w-100" style="object-fit: cover; cursor: pointer;"
+                                <div class="thumbnail-wrapper">
+                                    <img src="{{ image.image.url }}" alt="Product image"
+                                        class="thumbnail-image"
                                         onclick="changeMainImage(this)">
                                 </div>
                             {% endfor %}
                         </div>
-                        {% if product.colors.all %}
-                        <div class="color-picker mb-2">
-                            <label class="fw-semibold mb-2 d-block text-primary">Available Colors:</label>
-                            <div class="d-flex flex-wrap gap-2" id="colorOptions">
+                    {% endif %}
+
+                    <!-- Color Picker -->
+                    {% if product.colors.exists %}
+                        <div class="color-picker">
+                            <label class="color-picker-label">Available Colors:</label>
+                            <div class="color-options" id="colorOptions">
                                 {% for color in product.colors.all %}
-                                    <div class="color-option position-relative" 
+                                    <div class="color-option" 
                                         title="{{ color.get_color_display }}"
-                                        data-image="{% if color.image %}{{ color.image.url }}{% endif %}"
-                                        data-color="{{ color.color }}"
-                                        style="cursor:pointer;">
-                                        <img src="{% if color.image %}{{ color.image.url }}{% else %}{% endif %}" alt="{{ color.get_color_display }}" width="48" height="48"
-                                            class="border border-2 border-light rounded-3 shadow-sm"
-                                            style="object-fit:cover; background:{{ color.color }};">
-                                        <span class="color-dot position-absolute top-0 end-0 translate-middle p-1 border border-white rounded-circle" 
-                                            style="background: {{ color.color }}; width: 16px; height: 16px; border:2px solid #fff;"></span>
+                                        data-image="{{ color.image.url }}"
+                                        data-color="{{ color.color }}">
+                                        <img src="{{ color.image.url }}"
+                                            alt="{{ color.get_color_display }}"
+                                            class="color-swatch">
+                                        <span class="color-indicator"></span>
                                     </div>
                                 {% endfor %}
                             </div>
                         </div>
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                const colorOptions = document.querySelectorAll('#colorOptions .color-option');
-                                colorOptions.forEach(option => {
-                                    option.addEventListener('click', function() {
-                                        // Remove active border from all
-                                        colorOptions.forEach(opt => opt.querySelector('img').classList.remove('border-primary'));
-                                        // Add active border to selected
-                                        this.querySelector('img').classList.add('border-primary');
-                                        // Change main image
-                                        const mainImg = document.getElementById('mainProductImage');
-                                        mainImg.src = this.dataset.image;
-                                    });
-                                });
-                            });
-                        </script>
+                    {% endif %}
 
-                        {% endif %}
-                    </div>
                 </div>
-                
-                <!-- Product Info -->
-                <div class="col-lg-6">
-                    
-                    <div class="product-details bg-white rounded-4 shadow-sm p-4">
+            </div>
+
+            <script>
+                function changeMainImage(thumbnail) {
+                    const mainImage = document.getElementById('mainProductImage');
+                    if (mainImage && thumbnail && thumbnail.src) {
+                        mainImage.src = thumbnail.src;
                         
-                        <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                        // Remove active class from all thumbnails
+                        document.querySelectorAll('.thumbnail-image').forEach(img => {
+                            img.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked thumbnail
+                        thumbnail.classList.add('active');
+                        
+                        // Add smooth transition effect
+                        mainImage.style.opacity = '0';
+                        setTimeout(() => {
+                            mainImage.style.opacity = '1';
+                        }, 150);
+                    }
+                }
 
-                            <div>
-                                <h1 class="h3 mb-2 text-primary fw-bold trendy-title">{{ product.name }}</h1>
-                                <div class="d-flex align-items-center gap-2 mb-2">
-                                    <a href="{% if user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
-                                    class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm"
-                                    data-action="wishlist"
-                                    data-slug="{{ product.slug }}"
-                                    data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}"
-                                    title="Toggle wishlist"
-                                    style="width: 40px; height: 40px;">
-                                    <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
-                                    </a>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const colorOptions = document.querySelectorAll('#colorOptions .color-option');
+                    const mainImage = document.getElementById('mainProductImage');
 
-                                    {% if product.trending %}
-                                        <span class="badge bg-primary fw-semibold px-3 py-1">Trending</span>
-                                    {% endif %}
+                    colorOptions.forEach(option => {
+                        // Set the color variable for the indicator
+                        const color = option.dataset.color;
+                        option.style.setProperty('--color', color);
+                        
+                        option.addEventListener('click', function() {
+                            // Remove active class from all color options
+                            document.querySelectorAll('.color-swatch').forEach(swatch => {
+                                swatch.classList.remove('active');
+                            });
 
-                                    {% for tag in product.tags.all %}
-                                        <span style="color:{{ tag.color }}" class="badge bg-{{tag.bg_color}} fw-semibold px-3 py-1">{{ tag.key }}</span>
-                                    {% endfor %}
+                            // Add active class to clicked color option
+                            this.querySelector('.color-swatch')?.classList.add('active');
 
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center gap-2 mb-2">
-                            <div class="rating-stars">
-                                {% for i in "12345" %}
-                                    {% if forloop.counter <= product.overall_rating %}
-                                        <i class="fas fa-star text-warning fs-5"></i>
-                                    {% else %}
-                                        <i class="far fa-star text-warning fs-5"></i>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                            {% comment %} <span class="text-muted small">({{ product_reviews.count }} reviews)</span> {% endcomment %}
-                        </div>
+                            // Change main image
+                            if (this.dataset.image && mainImage) {
+                                // Add smooth transition effect
+                                mainImage.style.opacity = '0';
+                                setTimeout(() => {
+                                    mainImage.src = this.dataset.image;
+                                    mainImage.style.opacity = '1';
+                                }, 150);
+                            }
+                        });
+                    });
+                });
+            </script>
 
-                        {% if product.tags.all %}
-                            <div class="product-tags mb-3">
-                                {% for tag in product.tags.all %}
-                                    <span class="tag-badge trendy-tag">{{ tag.name }}</span>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-
-                        <div class="price-section mb-4">
-                            {% if product.discount > 0 %}
-                                <span class="h4 text-primary fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} EGP</span>
-                                <small class="text-muted text-decoration-line-through trendy-old-price">{{ product.price|floatformat:2 }} EGP</small>
-                                <span class="badge bg-danger ms-2">-{{ product.discount }}%</span>
-                            {% else %}
-                                <span class="h4 text-primary fw-bold trendy-price">{{ product.price|floatformat:2 }} EGP</span>
-                            {% endif %}
-                        </div>
-                        <div class="availability mb-4">
-                            <span class="badge bg-{% if product.is_available %}success{% else %}danger{% endif %} px-3 py-2 fs-6">
-                                {% if product.is_available %}
-                                    <i class="fas fa-check-circle me-1"></i> In Stock
-                                {% else %}
-                                    <i class="fas fa-times-circle me-1"></i> Out of Stock
+            <!-- Product Info -->
+            <div class="col-lg-6">
+                
+                <div class="product-details bg-white rounded-4 shadow-sm p-4">
+                    
+                    <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
+                        <div>
+                            <h1 class="h3 mb-2 text-primary fw-bold trendy-title">{{ product.name }}</h1>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <a href="{% if user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
+                                class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm"
+                                data-action="wishlist"
+                                data-slug="{{ product.slug }}"
+                                data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}"
+                                title="Toggle wishlist"
+                                style="width: 40px; height: 40px;">
+                                <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
+                                </a>
+                                {% if product.trending %}
+                                    <span class="badge bg-primary fw-semibold px-3 py-1">Trending</span>
                                 {% endif %}
-                            </span>
-                        </div>
-                        <div class="product-description text-secondary mb-4">
-                            <p class="mb-0">{{ product.description|default:"No description available for this product." }}</p>
-                        </div>
-                        <div class="product-actions mb-4">
-                            {% include "product/partials/cart_button.html" %}
+                                {% for tag in product.tags.all %}
+                                    <span style="color:{{ tag.color }}" class="badge bg-{{tag.bg_color}} fw-semibold px-3 py-1">{{ tag.key }}</span>
+                                {% endfor %}
+                            </div>
                             
                         </div>
-
-                        <div class="product-meta">
-
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center text-primary">
-                                        <i class="fas fa-tag me-2"></i>
-                                        <span>Category: {% if product.category %}<span class="fw-semibold">{{ product.category.name }}</span>{% else %}No category{% endif %}</span>
-                                    </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <div class="rating-stars">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= product.overall_rating %}
+                                    <i class="fas fa-star text-warning fs-5"></i>
+                                {% else %}
+                                    <i class="far fa-star text-warning fs-5"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% comment %} <span class="text-muted small">({{ product_reviews.count }} reviews)</span> {% endcomment %}
+                    </div>
+                    {% if product.tags.all %}
+                        <div class="product-tags mb-3">
+                            {% for tag in product.tags.all %}
+                                <span class="tag-badge trendy-tag">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div class="price-section mb-4">
+                        {% if product.discount > 0 %}
+                            <span class="h4 text-primary fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} EGP</span>
+                            <small class="text-muted text-decoration-line-through trendy-old-price">{{ product.price|floatformat:2 }} EGP</small>
+                            <span class="badge bg-danger ms-2">-{{ product.discount }}%</span>
+                        {% else %}
+                            <span class="h4 text-primary fw-bold trendy-price">{{ product.price|floatformat:2 }} EGP</span>
+                        {% endif %}
+                    </div>
+                    <div class="availability mb-4">
+                        <span class="badge bg-{% if product.is_available %}success{% else %}danger{% endif %} px-3 py-2 fs-6">
+                            {% if product.is_available %}
+                                <i class="fas fa-check-circle me-1"></i> In Stock
+                            {% else %}
+                                <i class="fas fa-times-circle me-1"></i> Out of Stock
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="product-description text-secondary mb-4">
+                        <p class="mb-0">{{ product.description|default:"No description available for this product." }}</p>
+                    </div>
+                    <div class="product-actions mb-4">
+                        {% include "product/partials/cart_button.html" %}
+                        
+                    </div>
+                    <div class="product-meta">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center text-primary">
+                                    <i class="fas fa-tag me-2"></i>
+                                    <span>Category: {% if product.category %}<span class="fw-semibold">{{ product.category.name }}</span>{% else %}No category{% endif %}</span>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="d-flex align-items-center text-primary">
-                                        <i class="fas fa-barcode me-2"></i>
-                                        <span>{% if product.variant_colors.all %}Available in different colors{% else %}No colors available{% endif %}</span>
-                                    </div>
-                                </div>
-                                
                             </div>
+                            <div class="col-md-6">
+                                <div class="d-flex align-items-center text-primary">
+                                    <i class="fas fa-barcode me-2"></i>
+                                    <span>{% if product.variant_colors.all %}Available in different colors{% else %}No colors available{% endif %}</span>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
 
 <!-- Product Tabs -->
 <section class="py-5">
@@ -443,7 +477,6 @@
         </div>
     </div>
 </section>
-
 {% endif %}
 
 {% endblock %}

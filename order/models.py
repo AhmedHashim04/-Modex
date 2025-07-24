@@ -16,6 +16,19 @@ from accounts.models import Profile
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
+class ShippingOption(models.Model):
+    place = models.CharField(max_length=100, verbose_name=_("place"))
+    price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_("Shipping Price"))
+    delivery_time = models.CharField(max_length=100, verbose_name=_("Estimated Delivery Time"))
+
+    class Meta:
+        verbose_name = _("Shipping Option")
+        verbose_name_plural = _("Shipping Options")
+
+    def __str__(self):
+        return f"{self.place} - {self.price} EGP - {self.delivery_time}"
+
+
 class OrderStatus(models.TextChoices):
     PENDING = "pending", _("Pending")
     PROCESSING = "processing", _("Processing")
@@ -24,7 +37,6 @@ class OrderStatus(models.TextChoices):
     CANCELLED = "cancelled", _("Cancelled")
     RETURNED = "returned", _("Returned")
     FAILED = "failed", _("Failed")
-
 
 class PaymentMethod(models.TextChoices):
     COD = "cod", _("Cash on Delivery")
@@ -53,7 +65,6 @@ class Address(models.Model):
     def __str__(self):
         return f" {self.governorate} - {self.city} - {self.address_line}"
 
-
 class Order(models.Model):
     egyptian_phone_validator = Profile.egyptian_phone_validator
 
@@ -66,10 +77,12 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=OrderStatus.choices, default=OrderStatus.PENDING, verbose_name=_("Status"))
     payment_method = models.CharField(max_length=20, choices=PaymentMethod.choices, default=PaymentMethod.COD, verbose_name=_("Payment Method"))
     shipping_method = models.CharField(max_length=20, choices=ShippingMethod.choices, default=ShippingMethod.STANDARD, verbose_name=_("Shipping Method"))
+
+    shipping_option = models.ForeignKey("ShippingOption",on_delete=models.PROTECT,related_name="orders",verbose_name=_("Shipping Option"),null=True,blank=True)
+
     total_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00, verbose_name=_("Total Price"))
     status_changed_at = models.DateTimeField(null=True, blank=True, verbose_name=_("Status Changed At"))
     paid = models.BooleanField(verbose_name=_("Paid"), default=False)
-    shipping_cost = models.DecimalField(max_digits=8, decimal_places=2, default=0.00, verbose_name=_("Shipping Cost"))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
     invoice_pdf = models.FileField(upload_to="invoices/", null=True, blank=True, verbose_name=_("Invoice PDF"))
@@ -84,13 +97,8 @@ class Order(models.Model):
             self.save()
 
     def calculate_shipping_cost(self):
-        if self.shipping_method == ShippingMethod.STANDARD:
-            if self.address.governorate == "x":
-                return Decimal("5.00") 
-            else :
-                return Decimal("0.00") 
-        elif self.shipping_method == ShippingMethod.PICKUP:
-            return Decimal("0.00")
+        if self.shipping_option:
+            return self.shipping_option.price
         return Decimal("0.00")
 
 
@@ -102,7 +110,6 @@ class Order(models.Model):
         if self.shipping_cost == 0 and self.shipping_method != ShippingMethod.PICKUP:
             self.shipping_cost = self.calculate_shipping_cost()
         super().save(*args, **kwargs)
-
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)

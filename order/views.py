@@ -40,7 +40,6 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
-
 @method_decorator(ratelimit(key='user', rate='10/m', block=True), name='dispatch') #2
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
@@ -89,12 +88,12 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         order.user = self.request.user
         order.shipping_cost = order.calculate_shipping_cost()
 
-        get_total_price_after_discount= cart.get_total_price_after_discount()
+        # ✅ ضمّن اختيار الشحن
+        order.shipping_option = form.cleaned_data['shipping_option']
 
+        get_total_price_after_discount = cart.get_total_price_after_discount()
         order.total_price = max(
-            (get_total_price_after_discount + order.shipping_cost ).quantize(
-                Decimal("0.01")
-            ),
+            (get_total_price_after_discount + order.shipping_cost).quantize(Decimal("0.01")),
             Decimal("0.00"),
         )
         order.save()
@@ -110,40 +109,20 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
                 discount=item["discount"],
             )
 
-
     def get_initial(self):
 
         profile = getattr(self.request.user, 'profile', None)
         initial = {
-            'full_name': self.request.user.get_full_name() or self.request.user.username,
         }
         if profile:
             initial.update({
+                'full_name': self.request.user.get_full_name() or self.request.user.username,
                 'governorate': profile.governorate,
                 'address_line': profile.address,
                 'phone': profile.phone,
             })
         return initial
 
-    # def _schedule_invoice_generation(self, order):
-    #     """Schedule PDF generation as async task"""
-    #     try:
-    #         base_url = self.request.build_absolute_uri("/")
-
-    #         async_task(
-    #             "orders.tasks.generate_invoice_pdf",
-    #             order.id,
-    #             base_url,
-    #             hook="orders.tasks.invoice_generation_hook",
-    #         )
-    #         logger.info("Scheduled invoice generation for order %s", order.id)
-
-    #     except Exception as e:
-    #         logger.error(
-    #             "Failed to schedule invoice task for order %s: %s", order.id, str(e)
-    #         )
-    #         # Don't show error to user - order is still valid
-    #         # We'll have monitoring for failed tasks
 
     def _cleanup_session(self, cart):
         """Clean session data after successful order"""
@@ -157,11 +136,10 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def get_form(self, form_class=None):
-
+        form_class = form_class or self.get_form_class()
         if self.request.method == "POST":
-            return self.form_class(self.request.POST)
-        return self.form_class(initial=self.get_initial())
-    
+            return form_class(self.request.POST, user=self.request.user)
+        return form_class(user=self.request.user, initial=self.get_initial())
 
 @method_decorator(ratelimit(key='user', rate='300/m', block=True), name='dispatch')
 class OrderCancelView(LoginRequiredMixin, View):

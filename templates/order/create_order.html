@@ -20,7 +20,6 @@
                 </div>
                 
                 <div class="card-body p-4 p-lg-5">
-                    
                     <form method="post" action="{% url 'order:create_order' %}" class="needs-validation" novalidate>
                         {% csrf_token %}
                         <div class="input-group mb-3">
@@ -82,6 +81,32 @@
                                 </div>
                             </div>
                             <div class="col-12">
+                                <div class="mb-3">
+                                    <label class="form-label mb-2 fw-bold">
+                                        <i class="fas fa-shipping-fast me-2"></i>
+                                        {{ form.shipping_option.label }}
+                                    </label>
+                                    <div class="shipping-options-wrapper border rounded-4 p-3">
+                                        {% for option in form.shipping_option %}
+                                            <div class="form-check mb-2">
+                                                {{ option.tag }}
+                                                <label class="form-check-label ms-2" for="{{ option.id_for_label }}">
+                                                    <i class="fas fa-map-marker-alt me-1 text-secondary"></i>
+                                                    {{ option.choice_label }}
+                                                </label>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    {% if form.shipping_option.help_text %}
+                                        <small class="form-text text-muted ps-1">{{ form.shipping_option.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in form.shipping_option.errors %}
+                                        <div class="invalid-feedback d-block">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="col-12">
                                 <div class="form-floating mb-3">
                                     {{ form.payment_method|add_class:"form-select modern-input"|attr:"placeholder: " }}
                                     <label for="{{ form.payment_method.id_for_label }}">
@@ -109,6 +134,8 @@
                                     {% for error in form.shipping_method.errors %}
                                         <div class="invalid-feedback d-block">{{ error }}</div>
                                     {% endfor %}
+
+
                                 </div>
                             </div>
 

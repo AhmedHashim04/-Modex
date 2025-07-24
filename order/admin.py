@@ -4,8 +4,10 @@ from django.utils.html import format_html
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
 
-from .models import Order, OrderItem, OrderStatus, Address
+from .models import Order, OrderItem, OrderStatus, Address, ShippingOption
 from project.admin import custom_admin_site
+
+admin.site.register(ShippingOption)
 
 
 class OrderItemInline(admin.TabularInline):
@@ -34,7 +36,6 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ("full_name", "id", "user__username", "user__email", "confirmation_key")
     readonly_fields = (
         "total_price",
-        "shipping_cost",
         "created_at",
         "updated_at",
         "status_changed_at",

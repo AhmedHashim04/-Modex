@@ -221,7 +221,7 @@
             <!-- Hero Products Carousel/Showcase -->
             <div class="col-lg-7 col-md-6">
                 <div class="daily-products-carousel product-card">
-                    {% for product in daily_products_section.products|slice:":6" %}
+                    {% for product in daily_products_section.products %}
                 <div class="col">
                     <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect"> 
                             {% include "product/partials/trendy_product_card.html" %}

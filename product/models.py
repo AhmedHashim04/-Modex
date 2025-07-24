@@ -34,6 +34,8 @@ class Product(models.Model):
             models.Index(fields=["price"], name="price_idx"),
             models.Index(fields=["-overall_rating"], name="rating_idx"),
             models.Index(fields=["category",],name="category_idx",),
+            models.Index(fields=["is_available", "trending"], name="available_trending_idx")
+
         ]
 
     def __str__(self):

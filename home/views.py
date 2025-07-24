@@ -10,7 +10,37 @@ from django.http import JsonResponse
 from django.db.models import Q,Count,Prefetch
 from features.models import Tag
 import random
+from collections import defaultdict
 
+
+def get_daily_products():
+    products_data = cache.get('home_daily_products')
+
+    if products_data is None:
+        products = list(
+            Product.objects.filter()
+            # Product.objects.filter(is_available=True, trending=True)
+            .values('id', 'name', 'slug', 'price', 'discount', 'trending', 'image', 'description', 'overall_rating')
+        )
+
+        product_ids = [p['id'] for p in products]
+
+        tags_qs = Tag.objects.filter(products__id__in=product_ids).values('id', 'name', 'products__id')
+        product_tags = defaultdict(list)
+
+        for tag in tags_qs:
+            product_tags[tag['products__id']].append({'id': tag['id'], 'name': tag['name']})
+
+        for product in products:
+            product['tags'] = product_tags[product['id']]
+
+        cache.set('home_daily_products', products, 60 * 60)
+        products_data = products
+        print(len(products_data))
+
+    daily_products = random.sample(products_data, k=min(6, len(products_data)))
+
+    return daily_products
 
 class HomeView(TemplateView):
     template_name = 'home/home.html'
@@ -20,15 +50,17 @@ class HomeView(TemplateView):
 
 
         # Daily Products (random 100)
-        daily_products = cache.get('home_daily_products')
-        if daily_products is None:
-            products_qs = Product.objects.filter(is_available=True)\
-                .only("id", "name", "slug", "price", "discount", "trending", "image", "created_at", "description", "overall_rating")\
-                .prefetch_related("tags")
-            products_list = list(products_qs)
-            daily_products = random.sample(products_list, k=min(len(products_list), 100))
-            cache.set('home_daily_products', daily_products, 60 * 15)
+        # products_list = cache.get('home_daily_products')
 
+        # if products_list is None:
+        #     products_qs = Product.objects.filter(is_available=True, trending=True) \
+        #         .only("id", "name", "slug", "price", "discount","image", "trending", "description", "overall_rating") \
+        #         .prefetch_related(Prefetch("tags", queryset=Tag.objects.only("id", "name")))
+        #     products_list = list(products_qs)
+        #     cache.set('home_daily_products', products_list, 60 * 60)  # كاش لمدة ساعة
+
+        # # كل ريكويست يختار 6 منتجات بشكل عشوائي من القائمة دي في الرام (بدون داتابيز)
+        # daily_products = random.sample(products_list, k=min(len(products_list), 6))
 
         # # Sub Categories
         # sub_categories = cache.get('home_sub_categories')
@@ -105,11 +137,12 @@ class HomeView(TemplateView):
             #     'products': trendy_products,
             #     'layout': 'carousel'
             # },
-            # 'daily_products_section': {
-            #     'title': _("Daily Products"),
-            #     'products': daily_products,
-            #     'layout': 'grid'
-            # },
+            'daily_products_section': {
+                'title': _("Daily Products"),
+                'products': get_daily_products(),
+                # 'products': daily_products,
+                'layout': 'grid'
+            },
             # 'sub_categories_section': {
             #     'title': _("Sub Categories"),
             #     'products': sub_categories,

@@ -16,13 +16,6 @@
                         <i class="bi bi-percent"></i> -{{ product.discount }}%
                     </span>
                 {% endif %}
-                {% if not product.trending and not product.discount %}
-                    {% if product.created_at|date:"U" > now|date:"U"|add:"-604800" %}
-                        <span class="badge-new">
-                            <i class="bi bi-star"></i> {% trans "New" %}
-                        </span>
-                    {% endif %}
-                {% endif %}
             </div>
 
             <!-- Product Image -->
@@ -30,7 +23,7 @@
                 <a href="{% url 'product:product_detail' product.slug %}">
                     <div class="main-image">
                         {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            <img src="/media/{{ product.image }}" alt="{{ product.name }}">
                         {% else %}
                             <div class="no-image">
                                 <i class="fas fa-image fa-2x mb-2"></i>
@@ -55,15 +48,11 @@
                                 <i class="far fa-star text-warning"></i>
                             {% endif %}
                         {% endfor %}
-                    </div>
-                    {% if product.review_count %}
-                        <small class="text-muted">({{ product.review_count }})</small>
-                    {% endif %}
-                </div>
+                    </div>                </div>
                 <div class="desc">
-                    {{ product.short_description|default:product.description|truncatewords:18 }}
+                    {{ product.description|truncatewords:18 }}
                 </div>
-                {% if product.tags.all %}
+                {% if product.tags %}
                 <div class="tags-row">
                     {% for tag in product.tags.all %}
                     <a style="text-decoration:none;" href="{% url 'product:product_list' %}?tag={{ tag }}">

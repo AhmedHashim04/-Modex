@@ -9,3 +9,4 @@ class OrderConfig(AppConfig):
     def ready(self):
         # Import signal handlers
         import order.signals
+        import order.tasks  # دا مهم جداً

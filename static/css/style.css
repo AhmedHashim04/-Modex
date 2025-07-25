@@ -461,7 +461,7 @@ body {
     background: hsl(var(--background-color));
     overflow-x: hidden;
 }
-
+/* 
 body[dir="rtl"] {
     direction: rtl;
     text-align: right;
@@ -470,7 +470,7 @@ body[dir="rtl"] {
 body[dir="ltr"] {
     direction: ltr;
     text-align: left;
-}
+} */
 
 /* Smooth scrolling */
 html {

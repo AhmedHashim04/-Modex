@@ -178,53 +178,7 @@
     padding-bottom: 0.5rem;
     font-size: 1.25rem;
 }
-/* #manageNavCartCount {
-    font-size: 0.75rem;
-} */
-#modexCurrentTime {
-    color: hsl(var(--tertiary-color));
-}
-.manage-nav-location, .manage-nav-time {
-    color: hsl(var(--text-primary));
-    font-weight: 500;
-    background: hsla(var(--tertiary-color), 0.13);
-    border-radius: 1rem;
-    padding: 0.1rem 0.7rem;
-    margin-left: 0.2rem;
-}
-@media (max-width: 576px) {
-    .modex-manage-nav {
-        font-size: 0.98rem;
-        padding: 0.2rem 0.5rem !important;
-        flex-direction: column;
-        align-items: stretch !important;
-        gap: 0.2rem;
-    }
-    .modex-manage-nav > div {
-        justify-content: center !important;
-        width: 100%;
-    }
-    .manage-nav-link, .manage-nav-location, .manage-nav-time {
-        justify-content: center !important;
-        font-size: 1.15rem;
-        padding: 0.1rem 0.3rem;
-    }
-    .manage-nav-link span,
-    .manage-nav-location span,
-    .manage-nav-time span {
-        display: none !important;
-    }
-    .manage-nav-link i,
-    .manage-nav-location i,
-    .manage-nav-time i {
-        font-size: 1.3rem !important;
-        margin-right: 0 !important;
-    }
-    /* #manageNavCartCount {
-        left: 60% !important;
-        top: 0 !important;
-    } */
-}
+
 
 /* Subnav */
 .modex-subnav {
@@ -290,193 +244,212 @@
 
 
 
-        .modex-manage-nav-custom {
-            transition: transform 0.3s ease;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1060;
-        }
-        
-        .manage-nav-link {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .manage-nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: hsl(var(--primary-color));
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.3s ease;
-        }
-        
-        .manage-nav-link:hover::after {
-            transform: scaleX(1);
-            transform-origin: left;
-        }
-        
-        .manage-nav-link:hover {
-            background: transparent !important;
-        }
+.modex-manage-nav-custom {
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1060;
+}
 
-        /* Location and time indicators */
-        .manage-nav-location, 
-        .manage-nav-time {
-            transition: transform 0.2s ease;
-        }
-        
-        .manage-nav-location:hover, 
-        .manage-nav-time:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Cart badge animation */
-        #manageNavCartCount {
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        
-        .cart-pulse {
-            animation: pulse 1.5s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
+.manage-nav-link {
+    position: relative;
+    overflow: hidden;
+}
 
-        /* Main navbar improvements */
-        .modex-navbar {
-            z-index: 1050;
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .modex-navbar.scrolled {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-        }
-        
-        .modex-navbar-brand-hover:hover {
-            transform: translateY(-2px) scale(1.02);
-            border-radius: 0.75rem;
-        }
-        
-        .modex-navbar-brand-hover:hover .modex-navbar-logo {
-            transform: rotate(-3deg) scale(1.05);
-        }
-        
-        /* Search improvements */
-        .modex-navbar-search-input {
-            transition: box-shadow 0.3s ease;
-        }
-        
-        .modex-navbar-search-input:focus {
-            box-shadow: 0 0 0 0.25rem hsla(var(--tertiary-color), 0.25);
-            position: relative;
-            z-index: 2;
-        }
-        
-        .modex-navbar-search-btn {
-            transition: transform 0.2s ease;
-        }
-        
-        .modex-navbar-search-btn:hover {
-            transform: scale(1.03);
-        }
+.manage-nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: hsl(var(--primary-color));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+}
 
-        /* Language selector */
-        .trendy-lang-select {
-            transition: all 0.25s ease;
-        }
-        
-        .trendy-lang-select:hover {
-            transform: translateY(-2px);
-        }
+.manage-nav-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
 
-        /* Subnav improvements */
-        .modex-subnav {
-            z-index: 1040;
-            /* position: sticky; */
-            top: 0px; /* Adjust based on your layout */
-        }
-        
-        .modex-subnav-link {
-            transition: all 0.2s ease;
-        }
-        
-        .modex-subnav-link:hover {
-            transform: none;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
-        }
-        
-        .modex-subnav-link:active {
-            transform: translateY(1px);
-        }
-        
-        .active-category {
-            background: hsla(var(--tertiary-color), 0.2); 
-            font-weight: 700;
-        }
+.manage-nav-link:hover {
+    background: transparent !important;
+}
+/* Location and time indicators */
+.manage-nav-location, 
+.manage-nav-time {
+    transition: transform 0.2s ease;
+}
 
-        /* Mobile improvements */
-        @media (max-width: 576px) {
-            .modex-manage-nav-custom {
-                height: auto;
-                padding: 0.5rem !important;
-            }
-            
-            .manage-nav-link, 
-            .manage-nav-location, 
-            .manage-nav-time {
-                padding: 0.4rem 0.8rem;
-                border-radius: 50%;
-                width: 40px;
-                height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            
-            #manageNavCartCount {
-                top: -5px !important;
-                right: -5px !important;
-                left: auto !important;
-            }
-        }
+.manage-nav-location:hover, 
+.manage-nav-time:hover {
+    transform: translateY(-2px);
+}
 
-        
-        h2 {
-            color: hsl(var(--primary-color));
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 20px;
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            color: hsl(var(--primary-color));
-            margin-bottom: 15px;
-        }
+/* Cart badge animation */
+#manageNavCartCount {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.cart-pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+/* Main navbar improvements */
+.modex-navbar {
+    z-index: 1050;
+    transition: box-shadow 0.3s ease;
+}
+
+.modex-navbar.scrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+}
+
+.modex-navbar-brand-hover:hover {
+    transform: translateY(-2px) scale(1.02);
+    border-radius: 0.75rem;
+}
+
+.modex-navbar-brand-hover:hover .modex-navbar-logo {
+    transform: rotate(-3deg) scale(1.05);
+}
+
+/* Search improvements */
+.modex-navbar-search-input {
+    transition: box-shadow 0.3s ease;
+}
+
+.modex-navbar-search-input:focus {
+    box-shadow: 0 0 0 0.25rem hsla(var(--tertiary-color), 0.25);
+    position: relative;
+    z-index: 2;
+}
+
+.modex-navbar-search-btn {
+    transition: transform 0.2s ease;
+}
+
+.modex-navbar-search-btn:hover {
+    transform: scale(1.03);
+}
+/* Language selector */
+.trendy-lang-select {
+    transition: all 0.25s ease;
+}
+
+.trendy-lang-select:hover {
+    transform: translateY(-2px);
+}
+/* Subnav improvements */
+.modex-subnav {
+    z-index: 1040;
+    /* position: sticky; */
+    top: 0px; /* Adjust based on your layout */
+}
+
+.modex-subnav-link {
+    transition: all 0.2s ease;
+}
+
+.modex-subnav-link:hover {
+    transform: none;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modex-subnav-link:active {
+    transform: translateY(1px);
+}
+
+.active-category {
+    background: hsla(var(--tertiary-color), 0.2); 
+    font-weight: 700;
+}
+/* Mobile improvements */
+@media (max-width: 650px) {
+    .modex-manage-nav-custom {
+        height: auto;
+        padding: 0.5rem !important;
+    }
+
+    .manage-nav-link {
+        padding: 0.4rem 0.8rem;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    #manageNavCartCount {
+        top: -5px !important;
+        right: -5px !important;
+        left: auto !important;
+    }
+    .modex-manage-nav {
+        font-size: 0.98rem;
+        padding: 0.2rem 0.5rem !important;
+        flex-direction: column;
+        align-items: stretch !important;
+        gap: 0.2rem;
+    }
+    .modex-manage-nav > div {
+        justify-content: center !important;
+        width: 100%;
+    }
+    .manage-nav-link{
+        justify-content: center !important;
+        font-size: 1.15rem;
+        padding: 0.1rem 0.3rem;
+    }
+    .manage-nav-link span{
+        display: none !important;
+    }
+    .manage-nav-link i,
+    .manage-nav-location i,
+    .manage-nav-time i {
+        font-size: 1.3rem !important;
+        margin-right: 0 !important;
+    }
+
+}
+
+
+h2 {
+    color: hsl(var(--primary-color));
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: hsl(var(--primary-color));
+    margin-bottom: 15px;
+}

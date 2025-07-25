@@ -4,6 +4,7 @@
 
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,6 +34,6 @@
     <link rel="stylesheet" href="{% static 'css/products.css' %}">
 
     {% get_current_language_bidi as LANGUAGE_BIDI %}
-    <meta name="language-direction" content="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+    {% comment %} <meta name="language-direction" content="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"> {% endcomment %}
     <meta name="language-code" content="{{ LANGUAGE_CODE }}">
 </head>

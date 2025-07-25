@@ -19,34 +19,42 @@
         </button>
 
         <!-- Navbar Content -->
-        <div class="collapse navbar-collapse" id="modexNavbar">
-            <form class="d-flex mx-lg-4 flex-grow-1 modex-navbar-search-form" action="{% url 'product:product_list' %}" method="GET">
-                <div class="input-group input-group-lg w-100">
-                    
-                    <!-- Category Filter -->
-                    <select class="form-select modex-navbar-search-select" name="category">
-                        <option value="" {% if not selected_category %}selected{% endif %}>
-                            {% trans "All" %}
-                        </option>
-                        {% for category in contextCategories %}
-                            <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
-                                {{ category.name }}
-                            </option>
-                        {% endfor %}
-                    </select>
+        <div class="collapse navbar-collapse {% if LANGUAGE_CODE == 'ar' %}text-end{% endif %}" id="modexNavbar"
+            {% if LANGUAGE_CODE == 'ar' %}dir="ltr"{% endif %}>
 
-                    <!-- Search Input -->
-                    <input class="form-control modex-navbar-search-input" type="search"
-                           placeholder="{% trans 'Search Modex for products, brands, and more...' %}"
-                           aria-label="{% trans 'Search' %}" name="search"
-                           value="{{ selected_filter|default_if_none:'' }}">
+            <form class="d-flex {% if LANGUAGE_CODE == 'ar' %}ms-lg-4{% else %}mx-lg-4{% endif %} flex-grow-1 modex-navbar-search-form"
+             action="{% url 'product:product_list' %}"{% if LANGUAGE_CODE == 'ar' %}dir="rtl"{% endif %} method="GET">
 
-                    <!-- Search Button -->
-                    <button class="btn btn-warning modex-navbar-search-btn" type="submit">
-                        <i class="fas fa-search {% if LANGUAGE_CODE == 'ar' %}ms-1{% else %}me-1{% endif %}"></i>
-                    </button>
-                </div>
-            </form>
+        <div class="input-group input-group-lg w-100">
+    
+
+            <!-- Category Filter -->
+        <select class="form-select modex-navbar-search-select" style="{% if LANGUAGE_CODE == 'ar' %}border-radius: 0 0.5rem 0.5rem 0; border-right: 0;{% endif %}" name="category">
+            <option value="" {% if not selected_category %}selected{% endif %}>
+                    {% trans "All" %}
+                </option>
+                {% for category in contextCategories %}
+                    <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+
+            <!-- Search Input -->
+            <input class="form-control modex-navbar-search-input" type="search"
+                   placeholder="{% trans 'Search Modex for products, brands, and more...' %}"
+                   aria-label="{% trans 'Search' %}" name="search"
+                   value="{{ selected_filter|default_if_none:'' }}">
+
+            <!-- Search Button -->
+            <button class="btn btn-warning modex-navbar-search-btn" style="{% if LANGUAGE_CODE == 'ar' %}border-radius: 0.5rem 0 0 0.5rem; border-right: 0;{% endif %}" type="submit">
+                <i class="fas fa-search {% if LANGUAGE_CODE == 'ar' %}ms-1{% else %}me-1{% endif %}"></i>
+            </button>
         </div>
+    </form>
+    
+</div>
+
+
     </div>
 </nav>

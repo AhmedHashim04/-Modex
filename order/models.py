@@ -29,6 +29,8 @@ class ShippingOption(models.Model):
         return f"{self.place} - {self.price} EGP - {self.delivery_time}"
     
 
+    
+
 
 class OrderStatus(models.TextChoices):
     PENDING = "pending", _("Pending")
@@ -44,7 +46,7 @@ class PaymentMethod(models.TextChoices):
 
 class ShippingMethod(models.TextChoices):
     STANDARD = "standard", _("Standard Shipping")
-    PICKUP = "pickup", _("In-store Pickup")
+    # PICKUP = "pickup", _("In-store Pickup")
     # EXPRESS = "express", _("Express Shipping")
 
 class Address(models.Model):

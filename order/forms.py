@@ -35,8 +35,7 @@ class OrderCreateForm(forms.ModelForm):
         if user:
             self.fields["address"].queryset = Address.objects.filter(user=user)
             default_address = user.addresses.filter(is_default=True).first()
-            if default_address:
-                self.fields["shipping_option"].queryset = ShippingOption.objects.all()
+            self.fields["shipping_option"].queryset = ShippingOption.objects.all()
 
 class AddressForm(forms.ModelForm):
     class Meta:

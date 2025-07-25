@@ -1,7 +1,6 @@
 {% load i18n %}
 {% if main_categories %}
 
-    <div class="container ">
         <div class="section-header text-center mb-5">
             <h2 class="section-title display-5 fw-bold">{% trans 'Discover Our Categories' %}</h2>
             <p class="section-subtitle text-muted">{% trans 'Browse a wide variety of toys and gifts suitable for all ages and occasions' %}</p>
@@ -13,6 +12,7 @@
                     {% for category in main_categories %}
                     <div class="swiper-slide">
                         <div class="category-card card h-100 border-0 shadow-sm">
+                            <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
                             <div class="category-image-container">
                                 {% if category.image %}
                                 <img src="{{ category.image.url }}" 
@@ -26,12 +26,13 @@
                                 </div>
                                 {% endif %}
                             </div>
+                                </a>
+
                             <div class="card-body text-center">
                                 <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
                                     <h3 class="category-title card-title h5">{{ category.name }}</h3>
                                     <p class="category-count text-muted small">
                                         {{ category.product_count }} {% trans 'Products' %}
-
                                     </p>
                                 </a>
                             </div>
@@ -50,10 +51,6 @@
 
         </div>
         {% endif %}
-    </div>
-
-<!-- CSS الإضافي -->
-
 
 <!-- JavaScript -->
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>

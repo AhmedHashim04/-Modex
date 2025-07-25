@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
-{% block title %}Your Order Trader - Your Ultimate Shopping Destination{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Your Order Modex - Your Ultimate Shopping Destination" %}{% endblock %}
 
 {% block content %}
 
@@ -9,14 +10,14 @@
             <div class="card border-4 rounded-4 overflow-hidden bg-blur shadow">
                 <div class="card-header text-white text-center py-4" style="background: var(--gradient-primary); position: relative;">
                     <i class="fas fa-receipt fa-3x  mb-2"></i>
-                    <h2 class="mb-0 fw-bold text-white">Order #{{ order.id }}</h2>
+                    <h2 class="mb-0 fw-bold text-white">{% blocktrans %}Order #{{ order.id }}{% endblocktrans %}</h2>
                     {% include "order/partials/status.html" %}
-                    <p class="mb-0 opacity-75">Order Details</p>
+                    <p class="mb-0 opacity-75">{% trans "Order Details" %}</p>
                     {% if order.status == 'pending'  %}
                     <form method="post" action="{% url 'order:cancel_order' order.id %}" class="flex-fill">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill hover-scale w-10">
-                            <i class="fas fa-arrow-right me-2"></i>Cancel Order
+                            <i class="fas fa-arrow-right me-2"></i>{% trans "Cancel Order" %}
                         </button>
                     </form>
                     {% endif %}
@@ -30,7 +31,7 @@
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-calendar-alt me-3 text-primary"></i>
                                     <div>
-                                        <small class="text-muted">Order Date</small>
+                                        <small class="text-muted">{% trans "Order Date" %}</small>
                                         <div class="fw-bold">{{ order.created_at|date:"F j, Y H:i" }}</div>
                                     </div>
                                 </div>
@@ -41,7 +42,7 @@
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-calendar-check me-3 text-success"></i>
                                     <div>
-                                        <small class="text-muted">{{ order.status.title }} At</small>
+                                        <small class="text-muted">{% blocktrans %}{{ order.status.title }} At{% endblocktrans %}</small>
                                         <div class="fw-bold">{{ order.updated_at|date:"F j, Y H:i" }}</div>
                                     </div>
                                 </div>
@@ -52,7 +53,7 @@
                                 <div class="d-flex align-items-start">
                                     <i class="fas fa-map-marker-alt me-3 text-danger"></i>
                                     <div>
-                                        <small class="text-muted">Delivery Address</small>
+                                        <small class="text-muted">{% trans "Delivery Address" %}</small>
                                         <div class="fw-bold">{{ order.address.governorate }}</div>
                                         <div class="fw-bold">{{ order.address.city }}</div>
                                         <div class="fw-bold">{{ order.address.address_line }}</div>
@@ -70,7 +71,7 @@
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-truck me-3 text-warning"></i>
                                     <div>
-                                        <small class="text-muted">Shipping Method</small>
+                                        <small class="text-muted">{% trans "Shipping Method" %}</small>
                                         <div class="fw-bold">{{ order.get_shipping_method_display }}</div>
                                     </div>
                                 </div>
@@ -80,7 +81,7 @@
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-credit-card me-3 text-info"></i>
                                     <div>
-                                        <small class="text-muted">Payment Method</small>
+                                        <small class="text-muted">{% trans "Payment Method" %}</small>
                                         <div class="fw-bold">{{ order.get_payment_method_display }}</div>
                                     </div>
                                 </div>
@@ -91,7 +92,7 @@
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-tag me-3 text-secondary"></i>
                                         <div>
-                                            <small class="text-muted">Order Status</small>
+                                            <small class="text-muted">{% trans "Order Status" %}</small>
                                             <div>
                                                 {% include "order/partials/status.html" %}
                                             </div>
@@ -103,8 +104,8 @@
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-money-bill-wave me-3 text-success"></i>
                                         <div>
-                                            <small class="text-muted">Shipping Cost</small>
-                                            <div class="fw-bold">{{ order.shipping_cost }} EGP</div>
+                                            <small class="text-muted">{% trans "Shipping Cost" %}</small>
+                                            <div class="fw-bold">{{ order.shipping_cost }} {% trans "EGP" %}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -115,33 +116,33 @@
                     <div class="text-center mb-5">
                         <div class="summary-card p-4 rounded-4 shadow-sm bg-white bg-opacity-75 d-inline-block">
                             <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-                                <span class="fw-bold text-secondary fs-5">Total</span>
+                                <span class="fw-bold text-secondary fs-5">{% trans "Total" %}</span>
                                 <i class="fas fa-plus text-primary"></i>
-                                <span class="text-muted"> Shipping Cost </span>
+                                <span class="text-muted">{% trans "Shipping Cost" %}</span>
                             </div>
                             <div class="display-6 fw-bold text-primary mb-3">
-                                {{ order.total_price|floatformat:2 }} <span class="fs-5">EGP</span>
+                                {{ order.total_price|floatformat:2 }} <span class="fs-5">{% trans "EGP" %}</span>
                             </div>
                             <div>
                                 {% if order.paid %}
                                     <span class="badge bg-success rounded-pill px-4 py-2 fs-6">
-                                        <i class="fas fa-check-circle me-1"></i>Paid
+                                        <i class="fas fa-check-circle me-1"></i>{% trans "Paid" %}
                                     </span>
                                 {% endif %}
                             </div>
                         </div>
                     </div>
 
-                    <h4 class="text-primary mb-4"><i class="fas fa-box-open me-2"></i>Order Items</h4>
+                    <h4 class="text-primary mb-4"><i class="fas fa-box-open me-2"></i>{% trans "Order Items" %}</h4>
                     <div class="table-responsive">
                         <table class="table table-borderless table-hover align-middle text-center">
                             <thead class="bg-primary-light">
                                 <tr>
-                                    <th class="text-start">Product</th>
-                                    <th>Quantity</th>
-                                    <th class="text-center">Unit Price (Before Discount)</th>
-                                    <th class="text-center">Unit Price (After Discount)</th>
-                                    <th class="text-end">Total</th>
+                                    <th class="text-start">{% trans "Product" %}</th>
+                                    <th>{% trans "Quantity" %}</th>
+                                    <th class="text-center">{% trans "Unit Price (Before Discount)" %}</th>
+                                    <th class="text-center">{% trans "Unit Price (After Discount)" %}</th>
+                                    <th class="text-end">{% trans "Total" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -160,12 +161,12 @@
                                     </td>
                                     <td class="text-success fw-bold fs-5">{{ item.quantity }}</td>
                                     {% if item.discount %}
-                                    <td class="text-muted text-decoration-line-through">{{ item.price|floatformat:2 }} EGP</td>
+                                    <td class="text-muted text-decoration-line-through">{{ item.price|floatformat:2 }} {% trans "EGP" %}</td>
                                     {% else %}
-                                    <td class="text-muted ">{{ item.price|floatformat:2 }} EGP</td>
+                                    <td class="text-muted ">{{ item.price|floatformat:2 }} {% trans "EGP" %}</td>
                                     {% endif %}
-                                    <td class="text-center">{{ item.price_after_discount|floatformat:2 }} EGP</td>
-                                    <td class="text-end fw-bold">{{ item.total_item_price_after_discount|floatformat:2 }} EGP</td>
+                                    <td class="text-center">{{ item.price_after_discount|floatformat:2 }} {% trans "EGP" %}</td>
+                                    <td class="text-end fw-bold">{{ item.total_item_price_after_discount|floatformat:2 }} {% trans "EGP" %}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -175,7 +176,7 @@
                     <div class="d-flex flex-column flex-md-row-reverse align-items-stretch gap-3 mt-4">
 
                         <a href="{% url 'order:order_list' %}" class="btn btn-outline-secondary btn-lg rounded-pill hover-scale w-100">
-                            <i class="fas fa-arrow-left me-2"></i>Back to Orders
+                            <i class="fas fa-arrow-left me-2"></i>{% trans "Back to Orders" %}
                         </a>
                     </div>
 

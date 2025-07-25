@@ -1,7 +1,9 @@
 {% extends 'base/base.html' %}
 {% load static %}
 {% load widget_tweaks %}
-{% block title %}Your Orders Trader - Your Ultimate Shopping Destination{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans "Your Orders Modex - Your Ultimate Shopping Destination" %}{% endblock %}
 
 {% block content %}
 
@@ -9,7 +11,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <div class="card border-0 rounded-4 overflow-hidden shadow-lg animate__animated animate__fadeIn" style="background-color: hsl(var(--surface-color));">
-                
+
                 <!-- Header -->
                 <div class="card-header text-white text-center py-5 position-relative" style="background: var(--gradient-primary);">
                     <div class="order-icon mb-3" style="font-size:2.5rem;">
@@ -17,8 +19,8 @@
                             <i class="fas fa-shopping-bag text-white"></i>
                         </span>
                     </div>
-                    <h2 class="mb-1 fw-bold text-white display-5">My Orders</h2>
-                    <p class="mb-0 opacity-75 fs-5">Your order history</p>
+                    <h2 class="mb-1 fw-bold text-white display-5">{% trans "My Orders" %}</h2>
+                    <p class="mb-0 opacity-75 fs-5">{% trans "Your order history" %}</p>
                     <div class="position-absolute top-0 end-0 m-3 d-none d-md-block" style="opacity:0.12; font-size:5rem;">
                         <i class="fas fa-receipt"></i>
                     </div>
@@ -27,15 +29,14 @@
                 <div class="card-body p-4 p-lg-5">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h5 class="fw-semibold text-secondary">
-                            <i class="fas fa-history me-2 text-primary"></i>Order History
+                            <i class="fas fa-history me-2 text-primary"></i>{% trans "Order History" %}
                         </h5>
                     </div>
 
                     {% if orders %}
                         {% for order in orders %}
                         <div class="card mb-4 border border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp" style="overflow: hidden; background: hsl(var(--surface-color));">
-                            
-                            <!-- Status Bar -->
+
                             {% include "order/partials/status.html" %}
 
                             <div class="card-header d-flex justify-content-between align-items-center border-0 bg-light bg-opacity-50">
@@ -48,8 +49,7 @@
                                                   style="background-color: hsl(var(--secondary-color)); height: 100%; height: 32px;">
                                                 <i class="fas fa-receipt text-white"></i>
                                             </span>
-                                            <span class="ms-2">Order #{{ order.id }}</span>
-
+                                            <span class="ms-2">{% blocktrans %}Order #{{ order.id }}{% endblocktrans %}</span>
                                         </a>
                                     </h5>
                                 </div>
@@ -63,8 +63,8 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-6">
                                         <div class="d-flex align-items-center border-bottom pb-3">
-                                            <strong class="me-2 text-secondary">Total<small class="text-muted"> </small>:</strong>
-                                            <span class="text-primary fw-bold fs-5">{{ order.total_price|floatformat:2 }} <span class="fw-normal text-muted">EGP</span></span>
+                                            <strong class="me-2 text-secondary">{% trans "Total" %}:</strong>
+                                            <span class="text-primary fw-bold fs-5">{{ order.total_price|floatformat:2 }} <span class="fw-normal text-muted">{% trans "EGP" %}</span></span>
                                         </div>
                                     </div>
 
@@ -76,22 +76,21 @@
                                 <!-- Products -->
                                 <div class="mt-4">
                                     <h6 class="mb-3 fw-semibold text-secondary">
-                                        <i class="fas fa-box-open me-2 text-primary"></i>Products
+                                        <i class="fas fa-box-open me-2 text-primary"></i>{% trans "Products" %}
                                     </h6>
                                     <div class="table-responsive">
                                         <table class="table table-borderless align-middle">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-start">Product</th>
-                                                    <th class="text-start">Before Discount</th>
-                                                    <th class="text-end">After Discount</th>
-                                                    <th class="text-end">Total</th>
+                                                    <th class="text-start">{% trans "Product" %}</th>
+                                                    <th class="text-start">{% trans "Before Discount" %}</th>
+                                                    <th class="text-end">{% trans "After Discount" %}</th>
+                                                    <th class="text-end">{% trans "Total" %}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {% for item in order.items.all %}
                                                 <tr class="product-row hover-scale">
-                                                        
                                                     <td class="w-50">
                                                         <div class="d-flex align-items-center">
                                                             {% if item.product.image %}
@@ -103,13 +102,13 @@
                                                             {% endif %}
                                                             <div>
                                                                 <div class="fw-bold fs-6">{{ item.product.name }}</div>
-                                                                <small class="text-muted">Qty: {{ item.quantity }}</small>
+                                                                <small class="text-muted">{% blocktrans %}Qty: {{ item.quantity }}{% endblocktrans %}</small>
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="text-muted {% if item.product.discount %} text-decoration-line-through{% endif %}" style="min-width:90px;">{{ item.price|floatformat:2 }} EGP</td>
-                                                    <td class="text-end text-success" style="min-width:90px;">{{ item.product.price_after_discount|floatformat:2 }} EGP</td>
-                                                    <td class="text-end fw-bold text-primary" style="min-width:100px;">{{ item.total_item_price_after_discount|floatformat:2 }} EGP</td>
+                                                    <td class="text-muted {% if item.product.discount %} text-decoration-line-through{% endif %}" style="min-width:90px;">{{ item.price|floatformat:2 }} {% trans "EGP" %}</td>
+                                                    <td class="text-end text-success" style="min-width:90px;">{{ item.product.price_after_discount|floatformat:2 }} {% trans "EGP" %}</td>
+                                                    <td class="text-end fw-bold text-primary" style="min-width:100px;">{{ item.total_item_price_after_discount|floatformat:2 }} {% trans "EGP" %}</td>
                                                 </tr>
                                                 {% endfor %}
                                             </tbody>
@@ -127,10 +126,12 @@
                                     <i class="fas fa-shopping-cart text-primary"></i>
                                 </span>
                             </div>
-                            <h5 class="mb-3 fw-bold text-secondary">No Orders Yet</h5>
-                            <p class="text-muted mb-4 fs-5">You haven't placed any orders yet.<br>Start shopping to see your orders here.</p>
+                            <h5 class="mb-3 fw-bold text-secondary">{% trans "No Orders Yet" %}</h5>
+                            <p class="text-muted mb-4 fs-5">
+                                {% blocktrans %}You haven't placed any orders yet.<br>Start shopping to see your orders here.{% endblocktrans %}
+                            </p>
                             <a href="{% url 'home' %}" class="btn rounded-pill px-4 py-2 shadow-sm" style="background: var(--gradient-primary); color: white;">
-                                <i class="fas fa-shopping-bag me-2"></i>Start Shopping
+                                <i class="fas fa-shopping-bag me-2"></i>{% trans "Start Shopping" %}
                             </a>
                         </div>
                     {% endif %}
@@ -139,7 +140,7 @@
                 <!-- Footer -->
                 <div class="card-footer text-center bg-transparent py-3">
                     <a href="{% url 'home' %}" class="btn btn-outline-secondary rounded-pill hover-scale px-4 shadow-sm">
-                        <i class="fas fa-arrow-left me-2"></i>Back to Home
+                        <i class="fas fa-arrow-left me-2"></i>{% trans "Back to Home" %}
                     </a>
                 </div>
             </div>

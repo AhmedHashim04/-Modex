@@ -1,23 +1,33 @@
 {% extends "base/base.html" %}
-{% block title %}Delete Address{% endblock %}
+{% load i18n %}
+
+{% block title %}{% trans "Delete Address" %}{% endblock %}
+
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <h3 class="mb-4">Delete Address</h3>
-                    <p>Are you sure you want to delete this address?</p>
+                    <h3 class="mb-4">{% trans "Delete Address" %}</h3>
+                    <p>{% trans "Are you sure you want to delete this address?" %}</p>
                     <form method="post">{% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Yes, Delete</button>
-                        <a href="{% url 'order:address_list_create' %}" class="btn btn-secondary ms-2">Cancel</a>
+                        <button type="submit" class="btn btn-danger">
+                            {% trans "Yes, Delete" %}
+                        </button>
+                        <a href="{% url 'order:address_list_create' %}" class="btn btn-secondary ms-2">
+                            {% trans "Cancel" %}
+                        </a>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
-{% endblock %} 
+{% endblock %}
+    
+<br>
+<br>
 <br>
 <br>
 <br>

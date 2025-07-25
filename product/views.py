@@ -30,7 +30,7 @@ class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
     template_name = 'product/product_list.html'
-    paginate_by = 12
+    paginate_by = 24
     sort_options = {
         'default': '-created_at',
         'price_asc': 'price',
@@ -40,7 +40,7 @@ class ProductListView(ListView):
         'rating_desc': '-overall_rating',
         'popularity': '-review_count',
     }
-    items_per_page_options = [12, 24, 48]
+    items_per_page_options = [24, 48, 96]
 
     @cached_property
     def applied_filters(self):
@@ -118,7 +118,7 @@ class ProductListView(ListView):
             except (ValueError, TypeError):
                 pass
 
-        # Apply sorting
+        # Apply sorting 
         sort_field = self.sort_options.get(
             filters['sort_by'], 
             self.sort_options['default']
@@ -181,19 +181,17 @@ class ProductListView(ListView):
 
             'selected_filter': filters['search'],
             'selected_category': filters['category'],
-            # 'selected_brand': filters['brand'],
             'selected_tag': filters['tag'],
+            
             'sort_by': filters['sort_by'],
-            'min_price_filter': filters['min_price'] or min_price_val,
-            'max_price_filter': filters['max_price'] or max_price_val,
+            'min_price': filters['min_price'] or min_price_val,
+            'max_price': filters['max_price'] or max_price_val,
             'view_mode': filters['view_mode'],
 
-            'sort_options': self.sort_options,
             'global_min_price': min_price_val,
             'global_max_price': max_price_val,
 
             'items_per_page': paginate_by,
-            'items_per_page_options': self.items_per_page_options,
             'is_paginated': page_obj.has_other_pages(),
         })
         return context

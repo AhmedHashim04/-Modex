@@ -1,37 +1,52 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-    <!-- B. Main navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark modex-navbar">
-        <div class="container-fluid px-4">
+<!-- B. Main navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark modex-navbar">
+    <div class="container-fluid px-4">
 
-            <!-- Logo -->
-            <a class="navbar-brand d-flex align-items-center modex-navbar-brand modex-navbar-brand-hover" href="{% url 'home' %}">
-                <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Modex Logo" width="40" class="me-2 modex-navbar-logo">
-                <span class="modex-navbar-brand-text">Modex</span>
-            </a>
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center modex-navbar-brand modex-navbar-brand-hover" href="{% url 'home' %}">
+            <img src="https://cdn-icons-png.flaticon.com/512/1170/1170576.png" alt="Modex Logo" width="40"
+                 class="{% if LANGUAGE_CODE == 'ar' %}ms-2{% else %}me-2{% endif %} modex-navbar-logo">
+            <span class="modex-navbar-brand-text">Modex</span>
+        </a>
 
-            <!-- Toggler -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modexNavbar" aria-controls="modexNavbar" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modexNavbar"
+                aria-controls="modexNavbar" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <!-- Navbar Content -->
-            <div class="collapse navbar-collapse" id="modexNavbar">
-                <form class="d-flex mx-lg-4 flex-grow-1 modex-navbar-search-form" action="{% url 'product:product_list' %}" method="GET">
-                    <div class="input-group input-group-lg w-100">
-                        <select class="form-select modex-navbar-search-select" name="category">
-                            <option value="" {% if not selected_category %}selected{% endif %}>All</option>
-                            {% for category in contextCategories %}
-                                <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>{{ category.name }}</option>
-                            {% endfor %}
-                        </select>
-                        <input class="form-control modex-navbar-search-input" type="search" placeholder="Search Modex for products, brands, and more..." aria-label="Search" name="search" value="{{ selected_filter|default_if_none:'' }}">
-                        <button class="btn btn-warning modex-navbar-search-btn" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="modexNavbar">
+            <form class="d-flex mx-lg-4 flex-grow-1 modex-navbar-search-form" action="{% url 'product:product_list' %}" method="GET">
+                <div class="input-group input-group-lg w-100">
                     
-            </div>
+                    <!-- Category Filter -->
+                    <select class="form-select modex-navbar-search-select" name="category">
+                        <option value="" {% if not selected_category %}selected{% endif %}>
+                            {% trans "All" %}
+                        </option>
+                        {% for category in contextCategories %}
+                            <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+
+                    <!-- Search Input -->
+                    <input class="form-control modex-navbar-search-input" type="search"
+                           placeholder="{% trans 'Search Modex for products, brands, and more...' %}"
+                           aria-label="{% trans 'Search' %}" name="search"
+                           value="{{ selected_filter|default_if_none:'' }}">
+
+                    <!-- Search Button -->
+                    <button class="btn btn-warning modex-navbar-search-btn" type="submit">
+                        <i class="fas fa-search {% if LANGUAGE_CODE == 'ar' %}ms-1{% else %}me-1{% endif %}"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-    </nav>
+    </div>
+</nav>

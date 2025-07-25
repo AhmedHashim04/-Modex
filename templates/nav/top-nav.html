@@ -1,144 +1,122 @@
 {% load i18n %}
-
 {% load socialaccount %}
 {% get_current_language as LANGUAGE_CODE %}
+
 <!-- A. Top navigation bar -->
-<div class="modex-manage-nav modex-manage-nav-custom d-flex align-items-center justify-content-between px-2 px-md-3 py-1 flex-wrap"
-     {% if LANGUAGE_CODE == "ar" %}dir="rtl"{% endif %}>
-    <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap"
-         {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
+<div class="modex-manage-nav modex-manage-nav-custom d-flex align-items-center justify-content-between px-2 px-md-3 py-1 flex-wrap" dir="ltr">
+    <div class="d-flex align-items-center gap-2 gap-md-3 flex-wrap">
         <!-- Account -->
         {% if user.is_authenticated %}
-        <a href="{% url 'accounts:profile' %}" class="manage-nav-link d-flex align-items-center"
-           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
-            {% if LANGUAGE_CODE == "ar" %}
-                <span class="d-none d-sm-inline">
-                    {{ user.username }}
-                </span>
-                <i class="fas fa-user-circle ms-1"></i>
-            {% else %}
+            <a href="{% url 'accounts:profile' %}" class="manage-nav-link d-flex align-items-center">
                 <i class="fas fa-user-circle me-1"></i>
                 <span class="d-none d-sm-inline">
                     {{ user.username }}
                 </span>
-            {% endif %}
-        </a>
-        <!-- Wishlist -->
-        <a href="{% url 'accounts:wishlist' %}" class="manage-nav-link d-flex align-items-center"
-           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
-            {% if LANGUAGE_CODE == "ar" %}
-                <span class="d-none d-sm-inline">
-                    المفضلة
-                </span>
-                <i class="fas fa-heart ms-1"></i>
-            {% else %}
+            </a>
+
+            <a href="{% url 'accounts:wishlist' %}" class="manage-nav-link d-flex align-items-center">
                 <i class="fas fa-heart me-1"></i>
                 <span class="d-none d-sm-inline">
-                    Wishlist
+                    {% trans "Wishlist" %}
                 </span>
-            {% endif %}
-            {% comment %} <span class="badge bg-danger ms-1" id="wishlist-count" >{{ wishlist|length }}</span> {% endcomment %}
-        </a>
-        <a href="{% url 'order:order_list' %}" class="manage-nav-link d-flex align-items-center"
-           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
-            {% if LANGUAGE_CODE == "ar" %}
-                <span class="d-none d-sm-inline">
-                    قائمة الطلبات
-                </span>
-                <i class="fas fa-receipt ms-1"></i>
-            {% else %}
+            </a>
+
+            <a href="{% url 'order:order_list' %}" class="manage-nav-link d-flex align-items-center">
                 <i class="fas fa-receipt me-1"></i>
                 <span class="d-none d-sm-inline">
-                    Orders
+                    {% trans "Orders" %}
                 </span>
-            {% endif %}
-        </a>
-
+            </a>
+            
         {% else %}
-
         <div class="d-flex align-items-center gap-2">
             <a href="{% provider_login_url 'google' %}"  id="google-login-btn"
-            aria-label="Login with Google" class="manage-nav-link d-flex align-items-center" style="color: #4285F4;">
-                    <i class="fab fa-google me-1"></i>
-                    <span class="d-none d-sm-inline">
-                        Login with Google
-                    </span>
+                aria-label="{% trans 'Login with Google' %}" class="manage-nav-link d-flex align-items-center" style="color: #4285F4;">
+                <i class="fab fa-google me-1"></i>
+                <span class="d-none d-sm-inline">{% trans "Login with Google" %}</span>
             </a>
             <script>
                 document.getElementById('google-login-btn').addEventListener('click', function () {
-                    this.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Logging in...';
+                    this.innerHTML = '<span class="spinner-border spinner-border-sm"></span> {% trans "Logging in..." %}';
                 });
             </script>
         </div>
         {% endif %}
-        <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex align-items-center"
-           {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
-            {% if LANGUAGE_CODE == "ar" %}
-                <span class="d-none d-sm-inline">
-                    المتجر
-                </span>
-                <i class="fas fa-store ms-1"></i>
-            {% else %}
-                <i class="fas fa-store me-1"></i>
-                <span class="d-none d-sm-inline">
-                    Shop
-                </span>
-            {% endif %}
+
+        <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex align-items-center">
+            <i class="fas fa-store me-1"></i>
+            <span class="d-none d-sm-inline">
+                {% trans "Shop" %}
+            </span>
         </a>
-        <button class="button_theme" id="themeSwitcher">🌓 تبديل الثيم</button>
 
         <!-- Cart -->
-        <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center position-relative cart-advanced-link" id="cart-link"
-                {% if LANGUAGE_CODE == "ar" %}style="flex-direction: row-reverse;"{% endif %}>
-                {% if LANGUAGE_CODE == "ar" %}
-                    <span class="d-none d-sm-inline fw-semibold">
-                        السلة
-                        <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
-                            {{ total_cart_items }}
-                        </span>                   
-
-
-                    </span>
-                    <i class="fas fa-shopping-cart ms-1 fs-5"></i>
-                {% else %}
-                    <i class="fas fa-shopping-cart me-1 fs-5"></i>
-                    <span class="d-none d-sm-inline fw-semibold">
-                        Cart
-                        <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
-                            {% if LANGUAGE_CODE == "ar" %}
-                                {{ total_cart_items }}
-                            {% else %}
-                                {{ total_cart_items }}
-                            {% endif %}
-                        </span>
-                    </span>
-            {% endif %}
+        <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center position-relative cart-advanced-link" id="cart-link">
+            <i class="fas fa-shopping-cart me-1 fs-5"></i>
+            <span class="d-none d-sm-inline fw-semibold">
+                {% trans "Cart" %}
+                <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
+                    {{ total_cart_items }}
+                </span>
+            </span>
         </a>
     </div>
+
+    <!-- Language Toggle -->
+    <form action="{% url 'set_language' %}" method="post">
+        {% csrf_token %}
+        <input name="next" type="hidden" value="{{ request.get_full_path }}">
+        <input type="hidden" name="language" value="{% if LANGUAGE_CODE == 'en' %}ar{% else %}en{% endif %}">
+        <button type="submit" class="btn btn-primary">
+            {% if LANGUAGE_CODE == 'en' %}
+                {% trans "العربية" %}
+            {% else %}
+                {% trans "English" %}
+            {% endif %}
+        </button>
+    </form>
 </div>
+
 <script>
-const themes = [
-  'theme-ocean', 'theme-sakura', 'theme-midnight',
-  'theme-sunset', 'theme-night', 'theme-forest', 'theme-earth',
-  'theme-pastel', 'theme-retro', 'theme-cool',
-  'theme-mango', 'theme-candy', 'theme-coal'
-];
-  let currentIndex = 0;
+    const themes = [
+    'theme-ocean', 'theme-sakura', 'theme-midnight',
+    'theme-sunset', 'theme-night', 'theme-forest', 'theme-earth',
+    'theme-pastel', 'theme-retro', 'theme-cool',
+    'theme-mango', 'theme-candy', 'theme-coal'
+    ];
 
-  // لو فيه ثيم محفوظ
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme && themes.includes(savedTheme)) {
-    document.body.classList.add(savedTheme);
-    currentIndex = themes.indexOf(savedTheme);
-  } else {
-    document.body.classList.add(themes[0]);
-  }
+    let currentIndex = 0;
 
-  document.getElementById('themeSwitcher').addEventListener('click', () => {
-    document.body.classList.remove(themes[currentIndex]);
-    currentIndex = (currentIndex + 1) % themes.length;
-    const newTheme = themes[currentIndex];
-    document.body.classList.add(newTheme);
-    localStorage.setItem('theme', newTheme);
-  });
+    // لو فيه ثيم محفوظ
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme && themes.includes(savedTheme)) {
+        document.body.classList.add(savedTheme);
+        currentIndex = themes.indexOf(savedTheme);
+    } else {
+        document.body.classList.add(themes[0]);
+    }
+
+    document.getElementById('themeSwitcher').addEventListener('click', () => {
+        document.body.classList.remove(themes[currentIndex]);
+        currentIndex = (currentIndex + 1) % themes.length;
+        const newTheme = themes[currentIndex];
+        document.body.classList.add(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+</script>
+
+<script>
+document.getElementById('lang-toggle-form').addEventListener('submit', function (e) {
+    const currentLang = "{{ LANGUAGE_CODE }}";
+    const targetLang = currentLang === 'ar' ? 'en' : 'ar';
+
+    // remove language code from start (like /en/ or /ar/)
+    const regex = /^\/(en|ar)\//;
+    let path = window.location.pathname.replace(regex, '');
+
+    let newPath = '/' + targetLang + '/' + path;
+
+    document.getElementById('lang-next').value = newPath;
+    document.getElementById('lang-input').value = targetLang;
+});
 </script>

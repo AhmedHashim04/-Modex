@@ -291,7 +291,6 @@
 
 }
 
-
 .theme-sunset {
   --primary-color: 14 100% 60%;
   --tertiary-color: 48 100% 50%;
@@ -323,7 +322,6 @@
 
 }
 
-/* ألوان هادئة زرقاء وخضراء */
 .theme-ocean { 
     --primary-color: 198 90% 55%;    
     --tertiary-color: 171 80% 45%;    
@@ -355,7 +353,6 @@
  
 }
 
- /* وردي وبيج ناعم */
 .theme-sakura { 
     --primary-color: 340 80% 70%;   
     --tertiary-color: 30 90% 85%;    

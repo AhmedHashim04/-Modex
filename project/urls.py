@@ -25,27 +25,20 @@ from .ahmed import test_limit
 from project.admin import custom_admin_site
 from django.http import HttpResponseForbidden
 
-urlpatterns = [
-    path("test-limit/", test_limit),
-    path('i18n/', include('django.conf.urls.i18n')),
-]
 def disabled_view(request):
     return HttpResponseForbidden("This page is disabled.")
 
-
-    
+urlpatterns = [
+    path('i18n/', include('django.conf.urls.i18n')),
+]
 
 urlpatterns += i18n_patterns(
 
-    path('', HomeView.as_view(), name='home'),  # صفحة البداية
-    path('accounts/', include("accounts.urls", namespace="accounts")),
-    path("accounts/email/", disabled_view),
-    path("accounts/password/change/", disabled_view),
-    path("accounts/signup/", disabled_view),
-    path("accounts/login/", disabled_view),
-    path("accounts/password/reset/", disabled_view),
-    path("accounts/password/set/", disabled_view),
+    path('', HomeView.as_view(), name='home'), 
+    path('my-account/', include("accounts.urls", namespace="accounts")),
     path('accounts/', include("allauth.urls")),
+    path("accounts/email/", disabled_view),path("accounts/password/change/", disabled_view),path("accounts/signup/", disabled_view),path("accounts/login/", disabled_view),path("accounts/password/reset/", disabled_view),
+    path("accounts/password/set/", disabled_view),
     path('products/', include("product.urls", namespace="product")),
     path('order/', include("order.urls", namespace="order")),
     path('cart/', include("cart.urls", namespace="cart")),
@@ -54,7 +47,7 @@ urlpatterns += i18n_patterns(
     path('mohamed/', custom_admin_site.urls),
     path('terms/', TermsOfServiceView.as_view(), name='terms_of_service'),
     path("privacy/", PrivacyPolicy.as_view(), name="privacy_policy"),
-    prefix_default_language=False,
+    prefix_default_language=True,
 )
 if settings.DEBUG:
     import debug_toolbar

@@ -1,8 +1,9 @@
 
 {% extends 'base/base.html' %}
 {% load socialaccount %}
-{% block title %}Product Detail Modex - Your Ultimate Shopping Destination{% endblock %}
+{% block title %}{% trans "Product Detail Modex - Your Ultimate Shopping Destination" %}{% endblock %}
 {% load widget_tweaks %}
+{% load i18n %}
 {% block content %}
 
 <!-- Breadcrumb -->
@@ -10,8 +11,8 @@
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-                <li class="breadcrumb-item"><a href="{% url 'product:product_list' %}">Products</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'product:product_list' %}">{% trans "Products" %}</a></li>
                 <li class="breadcrumb-item active">{{ product.name }}</li>
             </ol>
         </nav>
@@ -19,9 +20,10 @@
 </section>
 
 <!-- Product Detail -->
-<section class="py-4 trendy-product-detail ">
+<section class="py-4 trendy-product-detail">
     <div class="container">
         <div class="row g-5 align-items-start">
+
             <!-- Product Images -->
             <div class="col-lg-6">
                 <div class="product-gallery bg-white rounded-4 shadow-sm p-4">
@@ -33,9 +35,9 @@
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" 
                                     class="main-product-image img-fluid" id="mainProductImage">
                             {% else %}
-                                <div class="no-image-placeholder">
+                                <div class="no-image-placeholder text-center">
                                     <i class="fas fa-image fa-4x text-muted mb-3"></i>
-                                    <p class="text-muted">No product image</p>
+                                    <p class="text-muted">{% trans "No product image" %}</p>
                                 </div>
                             {% endif %}
                         </div>
@@ -53,7 +55,7 @@
                             {% endif %}
                             {% for image in product.product_images.all %}
                                 <div class="thumbnail-wrapper">
-                                    <img src="{{ image.image.url }}" alt="Product image"
+                                    <img src="{{ image.image.url }}" alt="{% trans 'Product image' %}"
                                         class="thumbnail-image"
                                         onclick="changeMainImage(this)">
                                 </div>
@@ -64,7 +66,7 @@
                     <!-- Color Picker -->
                     {% if product.colors.exists %}
                         <div class="color-picker">
-                            <label class="color-picker-label">Available Colors:</label>
+                            <label class="color-picker-label">{% trans "Available Colors:" %}</label>
                             <div class="color-options" id="colorOptions">
                                 {% for color in product.colors.all %}
                                     <div class="color-option" 
@@ -80,67 +82,11 @@
                             </div>
                         </div>
                     {% endif %}
-
                 </div>
             </div>
 
-            <script>
-                function changeMainImage(thumbnail) {
-                    const mainImage = document.getElementById('mainProductImage');
-                    if (mainImage && thumbnail && thumbnail.src) {
-                        mainImage.src = thumbnail.src;
-                        
-                        // Remove active class from all thumbnails
-                        document.querySelectorAll('.thumbnail-image').forEach(img => {
-                            img.classList.remove('active');
-                        });
-                        
-                        // Add active class to clicked thumbnail
-                        thumbnail.classList.add('active');
-                        
-                        // Add smooth transition effect
-                        mainImage.style.opacity = '0';
-                        setTimeout(() => {
-                            mainImage.style.opacity = '1';
-                        }, 150);
-                    }
-                }
-
-                document.addEventListener('DOMContentLoaded', function() {
-                    const colorOptions = document.querySelectorAll('#colorOptions .color-option');
-                    const mainImage = document.getElementById('mainProductImage');
-
-                    colorOptions.forEach(option => {
-                        // Set the color variable for the indicator
-                        const color = option.dataset.color;
-                        option.style.setProperty('--color', color);
-                        
-                        option.addEventListener('click', function() {
-                            // Remove active class from all color options
-                            document.querySelectorAll('.color-swatch').forEach(swatch => {
-                                swatch.classList.remove('active');
-                            });
-
-                            // Add active class to clicked color option
-                            this.querySelector('.color-swatch')?.classList.add('active');
-
-                            // Change main image
-                            if (this.dataset.image && mainImage) {
-                                // Add smooth transition effect
-                                mainImage.style.opacity = '0';
-                                setTimeout(() => {
-                                    mainImage.src = this.dataset.image;
-                                    mainImage.style.opacity = '1';
-                                }, 150);
-                            }
-                        });
-                    });
-                });
-            </script>
-
             <!-- Product Info -->
             <div class="col-lg-6">
-                
                 <div class="product-details bg-white rounded-4 shadow-sm p-4">
                     
                     <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
@@ -152,18 +98,17 @@
                                 data-action="wishlist"
                                 data-slug="{{ product.slug }}"
                                 data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}"
-                                title="Toggle wishlist"
+                                title="{% trans 'Toggle wishlist' %}"
                                 style="width: 40px; height: 40px;">
                                 <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
                                 </a>
                                 {% if product.trending %}
-                                    <span class="badge bg-danger fw-semibold px-3 py-1">Trending</span>
+                                    <span class="badge bg-danger fw-semibold px-3 py-1">{% trans "Trending" %}</span>
                                 {% endif %}
-
                             </div>
-                            
                         </div>
                     </div>
+
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <div class="rating-stars">
                             {% for i in "12345" %}
@@ -174,8 +119,8 @@
                                 {% endif %}
                             {% endfor %}
                         </div>
-                        {% comment %} <span class="text-muted small">({{ product_reviews.count }} reviews)</span> {% endcomment %}
                     </div>
+
                     {% if product.tags.all %}
                         <div class="product-tags mb-3">
                             {% for tag in product.tags.all %}
@@ -183,6 +128,7 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+
                     <div class="price-section mb-4">
                         {% if product.discount > 0 %}
                             <span class="h4 fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} EGP</span>
@@ -192,41 +138,60 @@
                             <span class="h4 fw-bold trendy-price">{{ product.price|floatformat:2 }} EGP</span>
                         {% endif %}
                     </div>
+
                     <div class="availability mb-4">
                         <span class="badge bg-{% if product.is_available %}success{% else %}danger{% endif %} px-3 py-2 fs-6">
                             {% if product.is_available %}
-                                <i class="fas fa-check-circle me-1"></i> In Stock
+                                <i class="fas fa-check-circle me-1"></i> {% trans "In Stock" %}
                             {% else %}
-                                <i class="fas fa-times-circle me-1"></i> Out of Stock
+                                <i class="fas fa-times-circle me-1"></i> {% trans "Out of Stock" %}
                             {% endif %}
                         </span>
                     </div>
+
                     <div class="product-description mb-4">
-                        <p class="mb-0">{{ product.description|default:"No description available for this product." }}</p>
+                        <p class="mb-0">
+                            {{ product.description|default:_("No description available for this product.") }}
+                        </p>
                     </div>
+
                     <div class="product-actions mb-4">
                         {% include "product/partials/cart_button.html" %}
-                        
                     </div>
+
                     <div class="product-meta">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-tag me-2"></i>
-                                    <span>Category: {% if product.category %}<span class="fw-semibold">{{ product.category.name }}</span>{% else %}No category{% endif %}</span>
+                                    <span>
+                                        {% trans "Category" %}:
+                                        {% if product.category %}
+                                            <span class="fw-semibold">{{ product.category.name }}</span>
+                                        {% else %}
+                                            {% trans "No category" %}
+                                        {% endif %}
+                                    </span>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-palette me-2"></i>
-                                    <span>{% if product.colors.all %}Available in different colors{% else %}No colors available{% endif %}</span>
+                                    <span>
+                                        {% if product.colors.all %}
+                                            {% trans "Available in different colors" %}
+                                        {% else %}
+                                            {% trans "No colors available" %}
+                                        {% endif %}
+                                    </span>
                                 </div>
                             </div>
-                            
                         </div>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 </section>
@@ -240,25 +205,25 @@
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active trendy-tab-btn" id="description-tab" data-bs-toggle="tab"
                                 data-bs-target="#description" type="button" role="tab" aria-controls="description" aria-selected="true">
-                            <i class="fas fa-info-circle me-1"></i> Description
+                            <i class="fas fa-info-circle me-1"></i> {% trans "Description" %}
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link trendy-tab-btn" id="reviews-tab" data-bs-toggle="tab"
                                 data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">
-                            <i class="fas fa-star me-1"></i> Reviews <span class="badge bg-primary ms-1"></span>
+                            <i class="fas fa-star me-1"></i> {% trans "Reviews" %} <span class="badge bg-primary ms-1"></span>
                         </button>
                     </li>
                 </ul>
 
-                
                 <div class="tab-content bg-white p-4 border-start border-end border-bottom rounded-bottom">
                     <!-- Description Tab -->
                     <div class="tab-pane fade show active" id="description" role="tabpanel">
                         <div class="product-description text-secondary">
-                            {{ product.description|default:"No description available."|linebreaks }}
+                            {{ product.description|default:_("No description available.")|linebreaks }}
                         </div>
                     </div>
+
                     <!-- Reviews Tab -->
                     <div class="tab-pane fade" id="reviews" role="tabpanel">
                         <div class="row">
@@ -268,7 +233,6 @@
                                         <h3 class="mb-2">{{ product.overall_rating|floatformat:1 }}/5</h3>
                                         <div class="rating-stars mb-3">
                                             {% for i in "12345" %}
-                                            
                                                 {% if forloop.counter <= product.overall_rating %}
                                                     <i class="fas fa-star text-warning fs-4"></i>
                                                 {% else %}
@@ -276,14 +240,15 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </div>
-                                        <h5 class="text-primary">Based on {{ product_reviews.count }} reviews</h5>
+                                        <h5 class="text-primary">{% blocktrans %}Based on {{ product_reviews.count }} reviews{% endblocktrans %}</h5>
                                     </div>
                                 </div>
+
                                 <!-- Filter by rating -->
                                 <div class="mb-4 text-center">
                                     <form method="get" action="#reviews" class="d-inline-block">
-                                        <div class="btn-group" role="group" aria-label="Filter by rating">
-                                            <a href="?{% if request.GET.page %}page={{ request.GET.page }}&{% endif %}#reviews" class="btn btn-outline-primary btn-sm {% if not rating_filter %}active{% endif %}">All</a>
+                                        <div class="btn-group" role="group" aria-label="{% trans 'Filter by rating' %}">
+                                            <a href="?{% if request.GET.page %}page={{ request.GET.page }}&{% endif %}#reviews" class="btn btn-outline-primary btn-sm {% if not rating_filter %}active{% endif %}">{% trans "All" %}</a>
                                             {% for i in "54321" %}
                                                 <a href="?rating={{ i }}#reviews" class="btn btn-outline-primary btn-sm {% if rating_filter == i %}active{% endif %}">
                                                     {{ i }} <i class="fas fa-star text-warning"></i>
@@ -292,40 +257,41 @@
                                         </div>
                                     </form>
                                 </div>
+
                                 <!-- Review Form -->
                                 {% if user.is_authenticated %}
                                     <div class="card border-0 shadow-sm">
                                         <div class="card-body">
-                                            <h5 class="card-title">Write a Review</h5>
+                                            <h5 class="card-title">{% trans "Write a Review" %}</h5>
                                             <form method="post" class="needs-validation" novalidate>
                                                 {% csrf_token %}
                                                 <div class="mb-3">
-                                                    <label class="form-label">Your Rating</label>
+                                                    <label class="form-label">{% trans "Your Rating" %}</label>
                                                     <div class="rating-input">
                                                         {% for i in "54321" %}
                                                             <input type="radio" id="star{{ i }}" name="rating" value="{{ i }}" 
                                                                    {% if review_form.rating.value == i %}checked{% endif %} required>
-                                                            <label for="star{{ i }}" title="{{ i }} stars">
+                                                            <label for="star{{ i }}" title="{% blocktrans %}{{ i }} stars{% endblocktrans %}">
                                                                 <i class="fas fa-star"></i>
                                                             </label>
                                                         {% endfor %}
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    {{ review_form.content|add_class:"form-control"|attr:"rows:4"|attr:"placeholder:Share your thoughts about this product..." }}
+                                                    {{ review_form.content|add_class:"form-control"|attr:"rows:4"|attr:"placeholder:_('Share your thoughts about this product...')" }}
                                                 </div>
-                                                <button type="submit" class="btn btn-primary w-100">Submit Review</button>
+                                                <button type="submit" class="btn btn-primary w-100">{% trans "Submit Review" %}</button>
                                             </form>
                                         </div>
                                     </div>
                                 {% else %}
-                                <br>
+                                    <br>
                                     <div class="alert alert-info">
-                                        Please <a href="{% provider_login_url 'google' %}">login</a> to submit a review.
+                                        {% trans "Please" %} <a href="{% provider_login_url 'google' %}">{% trans "login" %}</a> {% trans "to submit a review." %}
                                     </div>
                                 {% endif %}
                             </div>
-                            
+
                             <div class="col-md-7">
                                 {% if page_obj %}
                                     <div class="review-list">
@@ -346,14 +312,14 @@
                                                     </div>
                                                     <small class="text-primary">{{ review.created_at|date:"M d, Y" }}</small>
                                                 </div>
-                                                <p class="mb-0 text-secondary" >{{ review.content }}</p>
+                                                <p class="mb-0 text-secondary">{{ review.content }}</p>
                                             </div>
                                         {% endfor %}
                                     </div>
-                                    
+
                                     <!-- Pagination -->
                                     {% if page_obj.has_other_pages %}
-                                        <nav aria-label="Reviews pagination">
+                                        <nav aria-label="{% trans 'Reviews pagination' %}">
                                             <ul class="pagination justify-content-center">
                                                 {% if page_obj.has_previous %}
                                                     <li class="page-item">
@@ -366,7 +332,7 @@
                                                         <span class="page-link">&laquo;</span>
                                                     </li>
                                                 {% endif %}
-                                                
+
                                                 {% for num in page_obj.paginator.page_range %}
                                                     {% if page_obj.number == num %}
                                                         <li class="page-item active">
@@ -380,7 +346,7 @@
                                                         </li>
                                                     {% endif %}
                                                 {% endfor %}
-                                                
+
                                                 {% if page_obj.has_next %}
                                                     <li class="page-item">
                                                         <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.rating %}&rating={{ request.GET.rating }}{% endif %}#reviews">
@@ -398,8 +364,8 @@
                                 {% else %}
                                     <div class="text-center py-5">
                                         <i class="fas fa-comment-slash fa-3x text-primary mb-3"></i>
-                                        <h5 class="text-primary">No reviews yet</h5>
-                                        <p class="text-primary">Be the first to review this product!</p>
+                                        <h5 class="text-primary">{% trans "No reviews yet" %}</h5>
+                                        <p class="text-primary">{% trans "Be the first to review this product!" %}</p>
                                     </div>
                                 {% endif %}
                             </div>
@@ -410,31 +376,55 @@
         </div>
     </div>
 </section>
-
-<!-- Related Products -->
-{% if related_products %}
-<section class="py-5">
+<!-- Recently Viewed -->
+{% if recently_viewed %}
+<section class="py-5 bg-light">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="mb-0 text-primary ">You may also like</h3>
-            <a href="{% url 'product:product_list' %}?category={{ product.category.slug }}" class="btn btn-outline-primary btn-sm">
-                View all in {{ product.category.name }}
-            </a>
-        </div>
+        <h3 class="mb-4 text-primary">{% trans "Recently Viewed" %}</h3>
         <div class="row g-4">
-            {% for product in related_products %}
-                <div class="col-md-3 col-6">
-                    <div class="card product-card h-100 border-0 shadow-sm position-relative">
-
-                        {% include "product/partials/product_card.html" %}
+            {% for rv in recently_viewed %}
+                <div class="col-md-2 col-4">
+                    <div class="card border-0 shadow-sm h-100 position-relative trendy-card">
+                        <a href="{{ rv.get_absolute_url }}" class="d-block overflow-hidden rounded-top">
+                            {% if rv.image %}
+                                <img src="{{ rv.image.url }}" class="card-img-top" alt="{{ rv.name }}" 
+                                     style="height: 120px; object-fit: cover; transition: transform 0.3s;">
+                            {% else %}
+                                <div class="no-image d-flex align-items-center justify-content-center bg-light" 
+                                     style="height: 120px;">
+                                    <i class="fas fa-image fa-2x text-primary"></i>
+                                </div>
+                            {% endif %}
+                        </a>
+                        <div class="card-body p-2 text-center">
+                            <h6 class="card-title mb-1">
+                                <a href="{{ rv.get_absolute_url }}" class="text-dark text-decoration-none">{{ rv.name|truncatechars:30 }}</a>
+                            </h6>
+                            {% if product.discount > 0 %}
+                                <p class="card-text text-primary fw-bold mb-0 small">
+                                    {{ rv.price_after_discount|floatformat:2 }} {% trans "EGP" %}
+                                </p>
+                                <small class="text-muted text-decoration-line-through trendy-old-price">
+                                    {{ rv.price|floatformat:2 }} {% trans "EGP" %}
+                                </small>
+                                <span class="badge bg-danger ms-2">
+                                    -{{ rv.discount }}%
+                                </span>
+                            {% else %}
+                                <span class="h4 text-primary fw-bold trendy-price">
+                                    {{ rv.price|floatformat:2 }} {% trans "EGP" %}
+                                </span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-
     </div>
 </section>
 {% endif %}
+
+
 
 <!-- Recently Viewed -->
 {% if recently_viewed %}

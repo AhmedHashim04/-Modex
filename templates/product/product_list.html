@@ -1,13 +1,14 @@
-
 {% extends 'base/base.html' %}
 {% load i18n %}
-{% block title %}{% trans "Products Trader - Your Ultimate Shopping Destination" %}{% endblock %}
+{% block title %}{% trans "Products 'Modex' - Your Ultimate Shopping Destination" %}{% endblock %}
 
 {% block content %}
+
 
 <section class="page-header py-5 shadow-sm" style="background: var(--gradient-dark);">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
+            <!-- Breadcrumb -->
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0 bg-transparent text-light">
                     <li class="breadcrumb-item">
@@ -25,6 +26,8 @@
                     </li>
                 </ol>
             </nav>
+
+            <!-- Filter Badge and Button -->
             <div class="d-flex align-items-center">
                 <span class="badge bg-primary rounded-pill me-3">
                     {{ products.paginator.count }} {% trans "Products" %}
@@ -43,33 +46,29 @@
     <div class="row">
         <!-- Sidebar (Desktop) -->
         <aside class="sidebar col-lg-3 d-none d-lg-block mt-4">
-
-            <!-- Filters Card -->
             {% include "product/partials/filters-card.html" %}
         </aside>
 
         <!-- Products Grid -->
         {% include "product/partials/products-grid.html" %}
-        {% if is_paginated %}{% include "product/partials/pagination.html" %}{% endif %}
-
+        {% if is_paginated %}
+            {% include "product/partials/pagination.html" %}
+        {% endif %}
     </div>
 </div>
 
 {% include "product/partials/mobile-filters.html" %}
 
-</div>
-
 <script>
     // View mode functions
-function setViewMode(mode) {
-    document.getElementById('viewModeInput').value = mode;
-    document.getElementById('filtersForm').submit();
+    function setViewMode(mode) {
+        document.getElementById('viewModeInput').value = mode;
+        document.getElementById('filtersForm').submit();
     }
 
     function setMobileViewMode(mode) {
-    document.getElementById('mobileViewModeInput').value = mode;
+        document.getElementById('mobileViewModeInput').value = mode;
     }
-
 </script>
 
 {% endblock %}

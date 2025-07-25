@@ -11,10 +11,10 @@
             <div class="profile-card">
                 <div class="profile-header">
                     <div class="profile-icon">
-                        <i class="fas fa-user-circle"></i>
+                        <i class="fas fa-user-circle text-dark"></i>
                     </div>
-                    <h2 class="mb-1 fw-bold">{{ profile.user.get_full_name|default:_('My Profile') }}</h2>
-                    <div class="small opacity-75">{{ profile.user.email }}</div>
+                    <h2 class="mb-1 fw-bold text-dark">{{ profile.user.get_full_name|default:_('My Profile') }}</h2>
+                    <div class="small text-muted">{{ profile.user.email }}</div>
                 </div>
                 <ul class="profile-list">
                     <li>

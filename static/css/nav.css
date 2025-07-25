@@ -1,25 +1,3 @@
-
-/* Top nav location and time hover/active */
-.manage-nav-location,
-.manage-nav-time {
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-.manage-nav-location:hover {
-    background: hsla(var(--tertiary-color), 0.35) !important;
-    color: hsl(var(--danger-color)) !important;
-}
-.manage-nav-location {
-    background: hsla(var(--tertiary-color), 0.13);
-}
-.manage-nav-time:hover {
-    background: hsla(var(--tertiary-color), 0.35) !important;
-    color: hsl(var(--secondary-color)) !important;
-}
-.manage-nav-time {
-    background: hsla(var(--tertiary-color), 0.13);
-}
-
 /* Navbar brand hover/transition */
 .modex-navbar-brand.modex-navbar-brand-hover {
     transition: box-shadow 0.3s, transform 0.3s;
@@ -184,6 +162,7 @@
 .modex-subnav {
     background: hsl(var(--tertiary-color));
     min-height: 40px;
+    max-width: 100vw;
 }
 .modex-subnav .nav-link {
     color: hsl(var(--dark-color));

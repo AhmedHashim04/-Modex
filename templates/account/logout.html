@@ -1,15 +1,15 @@
 {% extends "base/base.html" %}
+{% load i18n %}
 
 {% block content %}
 <div class="container my-5">
     <div class="card shadow p-4 text-center">
-        <h2 class="mb-4">Are you sure you want to log out?</h2>
+        <h2 class="mb-4">{% trans "Are you sure you want to log out?" %}</h2>
         <form method="post" action="{% url 'account_logout' %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Log out</button>
-            <a href="{% url 'home' %}" class="btn btn-secondary ml-2">Cancel</a>
+            <button type="submit" class="btn btn-danger">{% trans "Log out" %}</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary ml-2">{% trans "Cancel" %}</a>
         </form>
     </div>
 </div>
 {% endblock %}
-

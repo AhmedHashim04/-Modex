@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _lazy
 from django.utils.translation import gettext as _
 from django.core.validators import RegexValidator
 
@@ -45,19 +46,19 @@ class Profile(models.Model):
         blank=True,
         validators=[egyptian_phone_validator],
         verbose_name=_("Primary Phone Number"),
-        help_text=_("Please enter an Egyptian phone number starting with 010, 011, 012, or 015.")
+        help_text=_lazy("Please enter an Egyptian phone number starting with 010, 011, 012, or 015.")
     )
     alternate_phone = models.CharField(
         max_length=11,
         blank=True,
         validators=[egyptian_phone_validator],
         verbose_name=_("Alternate Phone Number (optional)"),
-        help_text=_("You can enter another Egyptian phone number for contact (optional).")
+        help_text=_lazy("You can enter another Egyptian phone number for contact (optional).")
     )
     address = models.TextField(
         blank=True,
         verbose_name=_("Detailed Address"),
-        help_text=_("Please write your address in detail, e.g., district, building number, apartment number, street name, and any additional details to facilitate order delivery.")
+        help_text=_lazy("Please write your address in detail, e.g., district, building number, apartment number, street name, and any additional details to facilitate order delivery.")
     )
     
     governorate = models.CharField(

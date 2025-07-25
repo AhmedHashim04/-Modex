@@ -8,10 +8,8 @@ from product.models import Product
 from .cart import Cart as ShoppingCart
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-# from django.middleware.csrf import get_token
 from django.utils.translation import gettext as _
 from django_ratelimit.decorators import ratelimit
-# from django.http import HttpResponse
 
 @ratelimit(key='ip', rate='100/m', method='POST', block=True)
 @require_POST
@@ -82,11 +80,11 @@ def cart_update(request, slug):
         return redirect(referer_url)
 
     if not (product.is_available):
-        messages.warning(request, f"{product.name} is currently unavailable")
+        messages.warning(request, _(f"{product.name} is currently unavailable"))
         return redirect(referer_url)
 
     cart.add(product=product, quantity=quantity)
-    messages.success(request, f"{product.name} updated in cart successfully")
+    messages.success(request, _(f"{product.name} updated in cart successfully"))
     return redirect(referer_url)
 
 @ratelimit(key='ip', rate='10/m', method='POST', block=True)
@@ -124,12 +122,6 @@ def cart_remove(request, slug):
             'cart_count': cart_count
         })
     return redirect(referer_url)
-
-@ratelimit(key='ip', rate='60/m', method='GET', block=False)
-def cart_count(request):
-    cart = ShoppingCart(request)
-    count = len(cart.cart)
-    return JsonResponse({'count': count})
 
 @require_POST
 def cart_clear(request):

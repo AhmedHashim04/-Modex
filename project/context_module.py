@@ -50,4 +50,5 @@ def global_context(request):
         "total_cart_items": len(cart_items_keys),
     })
 
+    print(context['total_cart_items'])
     return context

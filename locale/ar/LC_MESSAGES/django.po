@@ -1,562 +1,872 @@
-# ملف ترجمة عربي لموقع تجارة إلكترونية
-# حقوق النشر (C) السنة مالك حقوق النشر للحزمة
-# هذا الملف موزع تحت نفس رخصة الحزمة.
-# أول مؤلف <البريد@الإلكتروني.كوم>، السنة.
-#
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-19 00:05+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Arabic <ar@li.org>\n"
-"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"X-Generator: POEditor.com\n"
+"Project-Id-Version: Modex\n"
+"Language: ar\n"
 
-#: accounts/views.py:53
-msgid "Removed from wishlist."
-msgstr "تمت إزالة المنتج من قائمة الرغبات."
+#: accounts/apps.py:7
+#, fuzzy
+msgid "Accounts"
+msgstr "الحسابات"
 
-#: accounts/views.py:56
-msgid "Added to wishlist."
-msgstr "تمت إضافة المنتج إلى قائمة الرغبات."
-
-#: accounts/views.py:65
-msgid "Wishlist cleared successfully!"
-msgstr "تم مسح قائمة الرغبات بنجاح!"
-
-#: all_project models.py:119 features/models.py:46
-msgid "Beige"
-msgstr "بيج"
-
-#: all_project models.py:120 features/models.py:47
-msgid "Black"
-msgstr "أسود"
-
-#: all_project models.py:121 features/models.py:48
-msgid "Blue"
-msgstr "أزرق"
-
-#: all_project models.py:122 features/models.py:49
-msgid "Brown"
-msgstr "بني"
-
-#: all_project models.py:123 features/models.py:50
-msgid "Coral"
-msgstr "مرجاني"
-
-#: all_project models.py:124 features/models.py:51
-msgid "Cyan"
-msgstr "سماوي"
-
-#: all_project models.py:125 features/models.py:52
-msgid "Gold"
-msgstr "ذهبي"
-
-#: all_project models.py:126 features/models.py:53
-msgid "Gray"
-msgstr "رمادي"
-
-#: all_project models.py:127 features/models.py:54
-msgid "Green"
-msgstr "أخضر"
-
-#: all_project models.py:128 features/models.py:55
-msgid "Indigo"
-msgstr "نيلي"
-
-#: all_project models.py:129 features/models.py:56
-msgid "Lavender"
-msgstr "لافندر"
-
-#: all_project models.py:130 features/models.py:57
-msgid "Lime"
-msgstr "ليموني"
-
-#: all_project models.py:131 features/models.py:58
-msgid "Magenta"
-msgstr "أرجواني"
-
-#: all_project models.py:132 features/models.py:59
-msgid "Maroon"
-msgstr "خمري"
-
-#: all_project models.py:133 features/models.py:60
-msgid "Mint"
-msgstr "نعناعي"
-
-#: all_project models.py:134 features/models.py:61
-msgid "Navy"
-msgstr "كحلي"
-
-#: all_project models.py:135 features/models.py:62
-msgid "Olive"
-msgstr "زيتي"
-
-#: all_project models.py:136 features/models.py:63
-msgid "Orange"
-msgstr "برتقالي"
-
-#: all_project models.py:137 features/models.py:64
-msgid "Pink"
-msgstr "وردي"
-
-#: all_project models.py:138 features/models.py:65
-msgid "Purple"
-msgstr "بنفسجي"
-
-#: all_project models.py:139 features/models.py:66
-msgid "Red"
-msgstr "أحمر"
-
-#: all_project models.py:140 features/models.py:67
-msgid "Salmon"
-msgstr "سلموني"
-
-#: all_project models.py:141 features/models.py:68
-msgid "Silver"
-msgstr "فضي"
-
-#: all_project models.py:142 features/models.py:69
-msgid "Teal"
-msgstr "تركوازي"
-
-#: all_project models.py:143 features/models.py:70
-msgid "Turquoise"
-msgstr "فيروزي"
-
-#: all_project models.py:144 features/models.py:71
-msgid "Violet"
-msgstr "بنفسجي فاتح"
-
-#: all_project models.py:145 features/models.py:72
-msgid "White"
-msgstr "أبيض"
-
-#: all_project models.py:146 features/models.py:73
-msgid "Yellow"
-msgstr "أصفر"
-
-#: all_project models.py:159 features/models.py:84 product/models.py:18 product/models.py:135
-msgid "Name"
-msgstr "الاسم"
-
-#: all_project models.py:161 features/models.py:86
-msgid "Color"
-msgstr "اللون"
-
-#: all_project models.py:161 features/models.py:86
-msgid "Text color for tag (e.g. #fff or 'red')"
-msgstr "لون نص الوسم (مثال: #fff أو 'أحمر')"
-
-#: all_project models.py:163 features/models.py:88
-msgid "Background Color"
-msgstr "لون الخلفية"
-
-#: all_project models.py:163 features/models.py:88
-msgid "Background color for tag (e.g. #000 or 'blue')"
-msgstr "لون خلفية الوسم (مثال: #000 أو 'أزرق')"
-
-#: all_project models.py:171 order/models.py:17
-msgid "Pending"
-msgstr "قيد الانتظار"
-
-#: all_project models.py:172 order/models.py:18
-msgid "Processing"
-msgstr "قيد المعالجة"
-
-#: all_project models.py:173 order/models.py:19
-msgid "Shipped"
-msgstr "تم الشحن"
-
-#: all_project models.py:174 order/models.py:20
-msgid "Delivered"
-msgstr "تم التوصيل"
-
-#: all_project models.py:175 order/models.py:21
-msgid "Cancelled"
-msgstr "تم الإلغاء"
-
-#: all_project models.py:176 order/models.py:22
-msgid "Returned"
-msgstr "تم الإرجاع"
-
-#: all_project models.py:177 order/models.py:23
-msgid "Failed"
-msgstr "فشل"
-
-#: all_project models.py:181 order/models.py:27
-msgid "Cash on Delivery"
-msgstr "الدفع عند الاستلام"
-
-#: all_project models.py:185 order/models.py:30
-msgid "Standard Shipping"
-msgstr "شحن عادي"
-
-#: all_project models.py:186 order/models.py:31
-msgid "In-store Pickup"
-msgstr "استلام من المتجر"
-
-#: all_project models.py:191 models.py:217 order/admin.py:51 order/models.py:35 order/models.py:60 product/models.py:107
-msgid "User"
-msgstr "المستخدم"
-
-#: all_project models.py:192 order/models.py:36
-msgid "Full Name"
-msgstr "الاسم الكامل"
-
-#: all_project models.py:193 order/models.py:37
-msgid "Phone Number"
-msgstr "رقم الهاتف"
-
-#: all_project models.py:194 order/models.py:38
-msgid "Address Line"
-msgstr "العنوان"
-
-#: all_project models.py:195 order/models.py:39
-msgid "City"
-msgstr "المدينة"
-
-#: all_project models.py:196 order/models.py:40
-msgid "Country"
-msgstr "الدولة"
-
-#: all_project models.py:197 order/models.py:41
-msgid "Postal Code"
-msgstr "الرمز البريدي"
-
-#: all_project models.py:198 order/models.py:42
-msgid "Is Default"
-msgstr "افتراضي"
-
-#: all_project models.py:208 order/models.py:52
+#: accounts/forms.py:12 order/models.py:62 templates/account/profile.html:29
+#, fuzzy
 msgid "Address"
 msgstr "العنوان"
 
-#: all_project models.py:209 order/models.py:53
-msgid "Addresses"
-msgstr "العناوين"
+#: accounts/forms.py:13 templates/account/profile.html:21
+msgid "Primary Phone"
+msgstr "الهاتف الأساسي"
 
-#: all_project models.py:216 order/models.py:59
-msgid "ID"
-msgstr "المعرف"
+#: accounts/forms.py:14 templates/account/profile.html:25
+msgid "Alternate Phone"
+msgstr "هاتف بديل"
 
-#: all_project models.py:218 order/models.py:61
-msgid "Shipping Address"
-msgstr "عنوان الشحن"
+#: accounts/forms.py:15 accounts/models.py:67 order/forms.py:82
+#: order/models.py:54 templates/account/profile.html:33
+msgid "Governorate"
+msgstr "محافظة"
 
-#: all_project models.py:219 order/models.py:62
-msgid "Status"
-msgstr "الحالة"
+#: accounts/models.py:8
+msgid "Cairo"
+msgstr "القاهرة"
 
-#: all_project models.py:220 order/models.py:63
-msgid "Payment Method"
-msgstr "طريقة الدفع"
+#: accounts/models.py:9
+msgid "Giza"
+msgstr "الجيزة"
 
-#: all_project models.py:221 order/models.py:64
-msgid "Shipping Method"
-msgstr "طريقة الشحن"
+#: accounts/models.py:10
+msgid "Alexandria"
+msgstr "الإسكندرية"
 
-#: all_project models.py:222 order/admin.py:19 order/models.py:65
-msgid "Total Price"
-msgstr "إجمالي السعر"
+#: accounts/models.py:11
+msgid "Aswan"
+msgstr "أسوان"
 
-#: all_project models.py:223 order/models.py:66
-msgid "Status Changed At"
-msgstr "تاريخ تغيير الحالة"
+#: accounts/models.py:12
+msgid "Assiut"
+msgstr "أسيوط"
 
-#: all_project models.py:224 order/models.py:67
-msgid "Paid"
-msgstr "مدفوع"
+#: accounts/models.py:13
+msgid "Beni Suef"
+msgstr "بني سويف"
 
-#: all_project models.py:225 order/models.py:68
-msgid "Shipping Cost"
-msgstr "تكلفة الشحن"
+#: accounts/models.py:14
+msgid "Beheira"
+msgstr "البحيرة"
 
-#: all_project models.py:226 order/models.py:69 product/models.py:35 product/models.py:119
-msgid "Created At"
-msgstr "تاريخ الإنشاء"
+#: accounts/models.py:15
+msgid "Ismailia"
+msgstr "الإسماعيلية"
 
-#: all_project models.py:227 order/models.py:70 product/models.py:36 product/models.py:121
-msgid "Updated At"
-msgstr "تاريخ التحديث"
+#: accounts/models.py:16
+msgid "Minya"
+msgstr "المنيا"
 
-#: all_project models.py:228 order/models.py:71
-msgid "Invoice PDF"
-msgstr "فاتورة PDF"
+#: accounts/models.py:17
+msgid "Monufia"
+msgstr "المنوفية"
 
-#: all_project models.py:232 home/models.py:14 home/models.py:30 order/models.py:75
-msgid "Order"
-msgstr "طلب"
+#: accounts/models.py:18
+msgid "Matrouh"
+msgstr "مطروح"
 
-#: all_project models.py:233 order/models.py:76
-msgid "Orders"
-msgstr "الطلبات"
+#: accounts/models.py:19
+msgid "Kafr El Sheikh"
+msgstr "كفر الشيخ"
 
-#: all_project models.py:258 order/models.py:101
-msgid "Prices must be non-negative."
-msgstr "يجب أن تكون الأسعار غير سالبة."
+#: accounts/models.py:20
+msgid "Dakahlia"
+msgstr "الدقهلية"
 
-#: all_project models.py:270 order/models.py:112
-msgid "Quantity"
-msgstr "الكمية"
+#: accounts/models.py:21
+msgid "Sohag"
+msgstr "سوهاج"
 
-#: all_project models.py:271 order/models.py:113 product/models.py:22
-msgid "Price"
-msgstr "السعر"
+#: accounts/models.py:22
+msgid "Sharqia"
+msgstr "الشرقية"
 
-#: all_project models.py:274 order/models.py:116
-msgid "Order Item"
-msgstr "عنصر الطلب"
+#: accounts/models.py:23
+msgid "Port Said"
+msgstr "بورسعيد"
 
-#: all_project models.py:275 order/models.py:117
-msgid "Order Items"
-msgstr "عناصر الطلب"
+#: accounts/models.py:24
+msgid "Damietta"
+msgstr "دمياط"
 
-#: home/models.py:10 home/models.py:26
-msgid "offer"
-msgstr "عرض"
+#: accounts/models.py:25
+msgid "Fayoum"
+msgstr "الفيوم"
 
-#: home/models.py:13 home/models.py:29
-msgid "Is Active"
-msgstr "نشط"
+#: accounts/models.py:26
+msgid "Gharbia"
+msgstr "الغربية"
 
-#: home/views.py:26
-msgid "Featured Products"
-msgstr "منتجات مميزة"
+#: accounts/models.py:27
+msgid "Qalyubia"
+msgstr "القليوبية"
 
-#: home/views.py:31
+#: accounts/models.py:28
+msgid "Luxor"
+msgstr "الأقصر"
+
+#: accounts/models.py:29
+msgid "New Valley"
+msgstr "الوادي الجديد"
+
+#: accounts/models.py:30
+msgid "Suez"
+msgstr "السويس"
+
+#: accounts/models.py:31
+msgid "North Sinai"
+msgstr "شمال سيناء"
+
+#: accounts/models.py:32
+msgid "South Sinai"
+msgstr "جنوب سيناء"
+
+#: accounts/models.py:33
+msgid "Qena"
+msgstr "قنا"
+
+#: accounts/models.py:34
+#, fuzzy
+msgid "Red Sea"
+msgstr "إعادة تعيين البحث"
+
+#: accounts/models.py:39
+msgid "Phone number must start with 010, 011, 012, or 015 and be 11 digits."
+msgstr "يجب أن يبدأ رقم الهاتف بـ 010، أو 011، أو 012، أو 015 ويتكون من 11 رقمًا."
+
+#: accounts/models.py:47
+#, fuzzy
+msgid "Primary Phone Number"
+msgstr "رقم الهاتف"
+
+#: accounts/models.py:48
+msgid "Please enter an Egyptian phone number starting with 010, 011, 012, or 015."
+msgstr "الرجاء إدخال رقم هاتف مصري يبدأ بـ 010، 011، 012، أو 015."
+
+#: accounts/models.py:54
+msgid "Alternate Phone Number (optional)"
+msgstr "رقم الهاتف البديل (اختياري)"
+
+#: accounts/models.py:55
+msgid "You can enter another Egyptian phone number for contact (optional)."
+msgstr "يمكنك إدخال رقم هاتف مصري آخر للتواصل (اختياري)."
+
+#: accounts/models.py:59 order/forms.py:74 order/forms.py:84 order/models.py:56
+#, fuzzy
+msgid "Detailed Address"
+msgstr "البريد الإلكتروني"
+
+#: accounts/models.py:60
+msgid "Please write your address in detail, e.g., district, building number, apartment number, street name, and any additional details to facilitate order delivery."
+msgstr "يرجى كتابة عنوانك بالتفصيل، على سبيل المثال، المنطقة، رقم المبنى، رقم الشقة، اسم الشارع، وأية تفاصيل إضافية لتسهيل تسليم الطلب."
+
+#: accounts/models.py:69 templates/account/profile.html:37
+#, fuzzy
+msgid "Wishlist"
+msgstr "تبديل قائمة الرغبات"
+
+#: accounts/models.py:72
+msgid "Profile"
+msgstr "حساب تعريفي"
+
+#: accounts/models.py:73
+msgid "Profiles"
+msgstr "الملفات الشخصية"
+
+#: accounts/views.py:25
+#, fuzzy
+msgid "Profile updated successfully."
+msgstr "تم مسح قائمة الرغبات بنجاح!"
+
+#: accounts/views.py:58
+msgid "The product has been removed from the wishlist!"
+msgstr "لقد تمت إزالة المنتج من قائمة الرغبات!"
+
+#: accounts/views.py:68
+msgid "Wishlist cleared successfully!"
+msgstr "تم مسح قائمة الرغبات بنجاح!"
+
+#: cart/apps.py:7
+msgid "Cart"
+msgstr "عربة التسوق"
+
+#: cart/views.py:29
+msgid "Invalid quantity specified"
+msgstr "تم تحديد كمية غير صالحة"
+
+#: cart/views.py:34
+msgid "%(name)s is currently unavailable"
+msgstr "%(name)s غير متوفر حاليًا"
+
+#: cart/views.py:39
+#, fuzzy
+msgid "%(name)s added to cart successfully"
+msgstr "تمت إضافة المنتج إلى السلة بنجاح!"
+
+#: cart/views.py:83
+msgid "{product.name} is currently unavailable"
+msgstr "{product.name} غير متوفر حاليًا"
+
+#: cart/views.py:87
+#, fuzzy
+msgid "{product.name} updated in cart successfully"
+msgstr "تمت إضافة المنتج إلى السلة بنجاح!"
+
+#: cart/views.py:102
+#, fuzzy
+msgid "%(name)s removed from cart successfully"
+msgstr "تمت إضافة المنتج إلى السلة بنجاح!"
+
+#: contact/apps.py:6
+msgid "Contact"
+msgstr "تواصل معنا"
+
+#: contact/forms.py:9 product/models.py:16 product/models.py:203
+msgid "Name"
+msgstr "الاسم"
+
+#: contact/forms.py:13
+msgid "Name should only contain letters and spaces"
+msgstr "يجب أن يحتوي الاسم على أحرف ومسافات فقط"
+
+#: contact/forms.py:19
+msgid "Email"
+msgstr "بريد إلكتروني"
+
+#: contact/forms.py:23
+#, fuzzy
+msgid "Invalid email address"
+msgstr "البريد الإلكتروني"
+
+#: contact/forms.py:30 contact/forms.py:33
+msgid "Subject"
+msgstr " موضوع التواصل"
+
+#: contact/forms.py:39
+msgid "Message"
+msgstr "رسالة"
+
+#: contact/forms.py:42
+msgid "Your message"
+msgstr "رسالتك"
+
+#: home/apps.py:7 templates/product/product_list.html:14
+msgid "Home"
+msgstr "الرئيسية"
+
+#: home/views.py:132
 msgid "Daily Products"
 msgstr "منتجات اليوم"
 
-#: home/views.py:37
+#: home/views.py:139
+#, fuzzy
+msgid "Trendy Products"
+msgstr "منتجات مميزة"
+
+#: home/views.py:144
 msgid "Sub Categories"
 msgstr "تصنيفات فرعية"
 
-#: home/views.py:42
+#: home/views.py:149
 msgid "New Arrivals"
 msgstr "وصل حديثاً"
 
-#: home/views.py:47
+#: home/views.py:154
 msgid "Top Rated"
 msgstr "الأعلى تقييماً"
 
-#: home/views.py:54
+#: home/views.py:159
 msgid "Hot Deals"
 msgstr "عروض ساخنة"
 
-#: order/admin.py:57
-#, python-format
+#: home/views.py:182
+msgid "Rate limit exceeded. Please try again later."
+msgstr "تم تجاوز الحد الأقصى للسعة. يُرجى المحاولة لاحقا."
+
+#: order/admin.py:22 order/models.py:89
+msgid "Total Price"
+msgstr "إجمالي السعر"
+
+#: order/admin.py:52 order/models.py:78 product/models.py:90
+msgid "User"
+msgstr "المستخدم"
+
+#: order/admin.py:58
 msgid "%d order(s) marked as shipped."
 msgstr "تم تعليم %d طلب كتم شحنه."
 
-#: order/admin.py:59
+#: order/admin.py:60
 msgid "Mark selected orders as shipped"
 msgstr "تعيين الطلبات المحددة كمشحونة"
 
-#: order/admin.py:65
-#, python-format
+#: order/admin.py:66
 msgid "%d order(s) marked as cancelled."
 msgstr "تم تعليم %d طلب كمُلغى."
 
-#: order/admin.py:67
+#: order/admin.py:68
 msgid "Mark selected orders as cancelled"
 msgstr "تعيين الطلبات المحددة كمُلغاة"
 
-#: product/admin.py:13
-msgid "Export selected products to CSV"
-msgstr "تصدير المنتجات المحددة إلى ملف CSV"
+#: order/apps.py:7 order/models.py:97
+msgid "Order"
+msgstr "طلب"
 
-#: product/admin.py:49
-msgid "Collection Product"
-msgstr "منتج مجموعة"
+#: order/forms.py:8 order/models.py:79
+msgid "Shipping Address"
+msgstr "عنوان الشحن"
 
-#: product/admin.py:50
-msgid "Collection Products"
-msgstr "منتجات المجموعات"
+#: order/forms.py:16 order/models.py:19 order/models.py:87
+#, fuzzy
+msgid "Shipping Option"
+msgstr "طريقة الشحن"
 
-#: product/models.py:19 product/models.py:152 templates/product/partials/filters-card.html:26
-msgid "Category"
-msgstr "التصنيف"
+#: order/forms.py:33 order/forms.py:46 order/models.py:80
+msgid "Full Name"
+msgstr "الاسم الكامل"
 
-#: product/models.py:21 product/models.py:145
-msgid "Description"
-msgstr "الوصف"
+#: order/forms.py:37 order/forms.py:47 order/models.py:81
+msgid "Phone Number"
+msgstr "رقم الهاتف"
 
-#: product/models.py:24
-msgid "Product Image"
-msgstr "صورة المنتج"
+#: order/forms.py:41
+msgid "You can write notes here like 123-street or any address details"
+msgstr "يمكنك كتابة ملاحظات هنا مثل شارع 123 أو أي تفاصيل عنوان"
 
-#: product/models.py:26
-msgid "Stock"
-msgstr "المخزون"
+#: order/forms.py:48 order/models.py:82
+msgid "Additional Notes"
+msgstr "ملاحظات إضافية"
 
-#: product/models.py:27
-msgid "Overall Rating"
-msgstr "التقييم الكلي"
+#: order/forms.py:70 order/forms.py:83 order/models.py:55
+msgid "City/Center"
+msgstr "المدينة/المركز"
 
-#: product/models.py:29
-msgid "Is Available"
-msgstr "متوفر"
+#: order/forms.py:85
+msgid "Set as default address"
+msgstr "تعيين كعنوان افتراضي يستخدم في طلباتك القادمة لتسهيل كتابة البيانات"
 
-#: product/models.py:30
+#: order/models.py:14
+msgid "Place"
+msgstr "مكان الشحن"
+
+#: order/models.py:15
+#, fuzzy
+msgid "Shipping Price"
+msgstr "عنوان الشحن"
+
+#: order/models.py:16
+#, fuzzy
+msgid "Estimated Delivery Time"
+msgstr "توصيل سريع"
+
+#: order/models.py:20
+#, fuzzy
+msgid "Shipping Options"
+msgstr "تكلفة الشحن"
+
+#: order/models.py:23
+msgid "{place} - {price} EGP - {delivery_time}"
+msgstr "{المكان} - {السعر} جنيه مصري - {وقت التسليم}"
+
+#: order/models.py:34
+msgid "Pending"
+msgstr "قيد الانتظار"
+
+#: order/models.py:35
+msgid "Processing"
+msgstr "قيد المعالجة"
+
+#: order/models.py:36
+msgid "Shipped"
+msgstr "تم الشحن"
+
+#: order/models.py:37
+msgid "Delivered"
+msgstr "تم التوصيل"
+
+#: order/models.py:38
+msgid "Cancelled"
+msgstr "تم الإلغاء"
+
+#: order/models.py:39
+msgid "Returned"
+msgstr "تم الإرجاع"
+
+#: order/models.py:40
+msgid "Failed"
+msgstr "فشل"
+
+#: order/models.py:43
+msgid "Cash on Delivery"
+msgstr "الدفع عند الاستلام"
+
+#: order/models.py:46
+msgid "Standard Shipping"
+msgstr "شحن عادي"
+
+#: order/models.py:52 order/models.py:77
+msgid "ID"
+msgstr "المعرف"
+
+#: order/models.py:57
+#, fuzzy
+msgid "Default Address"
+msgstr "البريد الإلكتروني"
+
+#: order/models.py:63
+msgid "Addresses"
+msgstr "العناوين"
+
+#: order/models.py:68
+msgid "{governorate} - {city} - {address}"
+msgstr "{المحافظة} - {المدينة} - {العنوان}"
+
+#: order/models.py:83
+msgid "Status"
+msgstr "الحالة"
+
+#: order/models.py:84
+msgid "Payment Method"
+msgstr "طريقة الدفع"
+
+#: order/models.py:85
+msgid "Shipping Method"
+msgstr "طريقة الشحن"
+
+#: order/models.py:88
+msgid "Shipping Cost"
+msgstr "تكلفة الشحن"
+
+#: order/models.py:90
+msgid "Status Changed At"
+msgstr "تاريخ تغيير الحالة"
+
+#: order/models.py:91
+msgid "Paid"
+msgstr "مدفوع"
+
+#: order/models.py:92 product/models.py:26 product/models.py:102
+msgid "Created At"
+msgstr "تاريخ الإنشاء"
+
+#: order/models.py:93 product/models.py:27 product/models.py:104
+msgid "Updated At"
+msgstr "تاريخ التحديث"
+
+#: order/models.py:94
+msgid "Invoice PDF"
+msgstr "فاتورة PDF"
+
+#: order/models.py:98
+msgid "Orders"
+msgstr "الطلبات"
+
+#: order/models.py:122
+msgid "Prices must be non-negative."
+msgstr "يجب أن تكون الأسعار غير سالبة."
+
+#: order/models.py:132
+msgid "Quantity"
+msgstr "الكمية"
+
+#: order/models.py:133 product/models.py:19
+msgid "Price"
+msgstr "السعر"
+
+#: order/models.py:134 product/models.py:23
 msgid "Discount"
 msgstr "خصم"
 
-#: product/models.py:30
-msgid "Discount percentage (0-100)"
-msgstr "نسبة الخصم (0-100)"
+#: order/models.py:137
+msgid "Order Item"
+msgstr "عنصر الطلب"
 
-#: product/models.py:31
-msgid "Trending"
-msgstr "رائج"
+#: order/models.py:138
+msgid "Order Items"
+msgstr "عناصر الطلب"
 
-#: product/models.py:31
-msgid "Is this product trending?"
-msgstr "هل هذا المنتج رائج؟"
+#: order/signals.py:15
+msgid "Your order %(id)s status updated"
+msgstr "تم تحديث حالة طلبك %(id)s"
 
-#: product/models.py:33
-msgid "Weight"
-msgstr "الوزن"
+#: order/signals.py:17
+msgid "Hi %(username)s,\n"
+"Your order status is now: %(status)s.\n"
+""
+msgstr "مرحباً %(اسم المستخدم)s، حالة طلبك الآن: %(الحالة)s.\n"
+""
 
-#: product/models.py:34
-msgid "Tags"
-msgstr "الوسوم"
+#: order/views.py:72
+msgid "Your order has been placed successfully. Your invoice is being generated and will be available shortly."
+msgstr "تم تقديم طلبك بنجاح. جاري إنشاء فاتورتك وستكون متاحة قريبًا."
 
-#: product/models.py:39 product/models.py:101
+#: order/views.py:78
+msgid "Error processing your order: %(error)s"
+msgstr "خطأ في معالجة طلبك: %(error)s"
+
+#: order/views.py:221
+#, fuzzy
+msgid "Address updated successfully."
+msgstr "تم مسح قائمة الرغبات بنجاح!"
+
+#: order/views.py:237
+#, fuzzy
+msgid "Address deleted successfully."
+msgstr "تم مسح قائمة الرغبات بنجاح!"
+
+#: order/views.py:250
+#, fuzzy
+msgid "Default address set successfully."
+msgstr "تمت إضافة المنتج إلى السلة بنجاح!"
+
+#: order/views.py:260
+#, fuzzy
+msgid "Default address unset successfully."
+msgstr "تمت إضافة المنتج إلى السلة بنجاح!"
+
+#: product/admin.py:12
+msgid "Export selected products to CSV"
+msgstr "تصدير المنتجات المحددة إلى ملف CSV"
+
+#: product/apps.py:7 product/models.py:31 product/models.py:84
+#: product/models.py:150 product/models.py:192
 msgid "Product"
 msgstr "منتج"
 
-#: product/models.py:40 templates/home/partials/main-categories.html:22 templates/product/product_list.html:17 templates/product/product_list.html:30
-msgid "Products"
-msgstr "منتجات"
-
-#: product/models.py:111 product/models.py:124
-msgid "Review"
-msgstr "مراجعة"
-
-#: product/models.py:112
-msgid "Write your feedback here"
-msgstr "اكتب رأيك هنا"
-
-#: product/models.py:115
+#: product/forms.py:18 product/models.py:98
 msgid "Rating"
 msgstr "التقييم"
 
-#: product/models.py:125
+#: product/forms.py:24
+#, fuzzy
+msgid "Write your review here..."
+msgstr "اكتب رأيك هنا"
+
+#: product/forms.py:26 product/models.py:94 product/models.py:107
+msgid "Review"
+msgstr "مراجعة"
+
+#: product/forms.py:38
+msgid "Review content cannot be empty."
+msgstr "لا يمكن أن يكون محتوى المراجعة فارغًا."
+
+#: product/models.py:17 product/models.py:135 templates/cart/cart.html:107
+#: templates/product/partials/filters-card.html:26
+msgid "Category"
+msgstr "التصنيف"
+
+#: product/models.py:18 product/models.py:125
+msgid "Description"
+msgstr "الوصف"
+
+#: product/models.py:20
+msgid "Product Image"
+msgstr "صورة المنتج"
+
+#: product/models.py:21
+msgid "Overall Rating"
+msgstr "التقييم الكلي"
+
+#: product/models.py:22
+msgid "Is Available"
+msgstr "متوفر"
+
+#: product/models.py:23
+msgid "Discount percentage (0-100)"
+msgstr "نسبة الخصم (0-100)"
+
+#: product/models.py:24
+msgid "Trending"
+msgstr "رائج"
+
+#: product/models.py:24
+msgid "Is this product trending?"
+msgstr "هل هذا المنتج رائج؟"
+
+#: product/models.py:25 product/models.py:207
+msgid "Tags"
+msgstr "الوسوم"
+
+#: product/models.py:32 templates/home/partials/main-categories.html:35
+#: templates/product/product_list.html:17
+#: templates/product/product_list.html:30
+msgid "Products"
+msgstr "منتجات"
+
+#: product/models.py:43
+#, fuzzy
+msgid "Available"
+msgstr "متوفر"
+
+#: product/models.py:43
+#, fuzzy
+msgid "Not available"
+msgstr "متوفر"
+
+#: product/models.py:95
+msgid "Write your feedback here"
+msgstr "اكتب رأيك هنا"
+
+#: product/models.py:108
 msgid "Reviews"
 msgstr "المراجعات"
 
-#: product/models.py:140
+#: product/models.py:118
+#, fuzzy
+msgid "Name Category"
+msgstr "التصنيف الرئيسي"
+
+#: product/models.py:120
 msgid "Parent Category"
 msgstr "التصنيف الرئيسي"
 
-#: product/models.py:147
+#: product/models.py:127 product/models.py:152
 msgid "Image"
 msgstr "صورة"
 
-#: product/models.py:153
+#: product/models.py:131
+msgid "Slug"
+msgstr "سبيكة"
+
+#: product/models.py:136
 msgid "Categories"
 msgstr "التصنيفات"
 
-#: templates/account/login.html:6
-msgid "Login with Google - Modex"
-msgstr "تسجيل الدخول باستخدام جوجل - مودكس"
+#: product/models.py:158
+msgid "Beige"
+msgstr "بيج"
 
-#: templates/account/login.html:18
-msgid "Welcome to Modex!"
-msgstr "مرحباً بك في مودكس!"
+#: product/models.py:159
+msgid "Black"
+msgstr "أسود"
 
-#: templates/account/login.html:22
-msgid "Login using your Google account to continue"
-msgstr "سجّل الدخول باستخدام حسابك في جوجل للمتابعة"
+#: product/models.py:160
+msgid "Blue"
+msgstr "أزرق"
 
-#: templates/account/login.html:37
-msgid "Continue with Google"
-msgstr "المتابعة باستخدام جوجل"
+#: product/models.py:161
+msgid "Brown"
+msgstr "بني"
 
-#: templates/account/login.html:41
-msgid "By logging in, you agree to our"
-msgstr "بتسجيل الدخول، أنت توافق على"
+#: product/models.py:162
+msgid "Coral"
+msgstr "مرجاني"
 
-#: templates/account/login.html:42
-msgid "Terms of Service"
-msgstr "شروط الخدمة"
+#: product/models.py:163
+msgid "Cyan"
+msgstr "سماوي"
 
-#: templates/account/password_reset.html:54
-msgid "Reset Password"
-msgstr "إعادة تعيين كلمة المرور"
+#: product/models.py:164
+msgid "Gold"
+msgstr "ذهبي"
 
-#: templates/account/password_reset.html:74
-msgid "Email Address"
-msgstr "البريد الإلكتروني"
+#: product/models.py:165
+msgid "Gray"
+msgstr "رمادي"
 
-#: templates/account/password_reset.html:78
-msgid "Send Reset Link"
-msgstr "إرسال رابط إعادة التعيين"
+#: product/models.py:166
+msgid "Green"
+msgstr "أخضر"
 
-#: templates/account/password_reset.html:83
-msgid "Back to Login"
+#: product/models.py:167
+msgid "Indigo"
+msgstr "نيلي"
+
+#: product/models.py:168
+msgid "Lavender"
+msgstr "لافندر"
+
+#: product/models.py:169
+msgid "Lime"
+msgstr "ليموني"
+
+#: product/models.py:170
+msgid "Magenta"
+msgstr "أرجواني"
+
+#: product/models.py:171
+msgid "Maroon"
+msgstr "خمري"
+
+#: product/models.py:172
+msgid "Mint"
+msgstr "نعناعي"
+
+#: product/models.py:173
+msgid "Navy"
+msgstr "كحلي"
+
+#: product/models.py:174
+msgid "Olive"
+msgstr "زيتي"
+
+#: product/models.py:175
+msgid "Orange"
+msgstr "برتقالي"
+
+#: product/models.py:176
+msgid "Pink"
+msgstr "وردي"
+
+#: product/models.py:177
+msgid "Purple"
+msgstr "بنفسجي"
+
+#: product/models.py:178
+msgid "Red"
+msgstr "أحمر"
+
+#: product/models.py:179
+msgid "Salmon"
+msgstr "سلموني"
+
+#: product/models.py:180
+msgid "Silver"
+msgstr "فضي"
+
+#: product/models.py:181
+msgid "Teal"
+msgstr "تركوازي"
+
+#: product/models.py:182
+msgid "Turquoise"
+msgstr "فيروزي"
+
+#: product/models.py:183
+msgid "Violet"
+msgstr "بنفسجي فاتح"
+
+#: product/models.py:184
+msgid "White"
+msgstr "أبيض"
+
+#: product/models.py:185
+msgid "Yellow"
+msgstr "أصفر"
+
+#: product/models.py:197
+msgid "{product} - Color: {color}"
+msgstr "{المنتج} - اللون: {اللون}"
+
+#: product/models.py:206 templates/product/partials/filters-card.html:40
+msgid "Tag"
+msgstr "وسم"
+
+#: product/views.py:347
+msgid "You've already reviewed this product!"
+msgstr "لقد قمت بمراجعة هذا المنتج بالفعل!"
+
+#: product/views.py:357
+msgid "Please correct the errors below."
+msgstr "يرجى تصحيح الأخطاء أدناه."
+
+#: templates/account/edit_profile.html:5 templates/account/profile.html:4
+#: templates/account/profile.html:16
+msgid "My Profile"
+msgstr "ملفي الشخصي"
+
+#: templates/account/edit_profile.html:14 templates/account/profile.html:54
+msgid "Edit Profile"
+msgstr "تعديل الملف الشخصي"
+
+#: templates/account/edit_profile.html:15
+msgid "Please update your information accurately"
+msgstr "يرجى تحديث معلوماتك بدقة"
+
+#: templates/account/edit_profile.html:71
+msgid "Save changes"
+msgstr "حفظ التغييرات"
+
+#: templates/account/edit_profile.html:79
+#, fuzzy
+msgid "Back to Home"
 msgstr "العودة لتسجيل الدخول"
 
-#: templates/home/home.html:35
-msgid "Explore Our Subcategories"
-msgstr "استكشف التصنيفات الفرعية لدينا"
+#: templates/account/profile.html:22 templates/account/profile.html:26
+#: templates/account/profile.html:30 templates/account/profile.html:34
+msgid "Not set"
+msgstr "غير محدد"
 
-#: templates/home/home.html:36
-msgid "Find a diverse selection of toys and gifts for every age and occasion"
-msgstr "اكتشف مجموعة متنوعة من الألعاب والهدايا لكل الأعمار والمناسبات"
+#: templates/account/profile.html:40
+msgid "items"
+msgstr "أغراض"
 
-#: templates/home/partials/daily-products.html:227
+#: templates/account/profile.html:46
+msgid "View your order history"
+msgstr "عرض سجل طلباتك"
+
+#: templates/account/profile.html:47
+#, fuzzy
+msgid "My Orders"
+msgstr "الطلبات"
+
+#: templates/account/profile.html:57
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+#: templates/base/base-head.html:12
+#, fuzzy
+msgid "Modex - Your Ultimate Shopping Destination"
+msgstr "تاجر المنتجات - وجهتك المثالية للتسوق"
+
+#: templates/cart/cart.html:50
+msgid "Clear Cart"
+msgstr "تنظيف السلة"
+
+#: templates/cart/cart.html:113 templates/cart/cart.html:115
+#: templates/cart/cart.html:118 templates/cart/cart.html:120
+#: templates/home/partials/new-arrivals.html:71
+#: templates/home/partials/new-arrivals.html:74
+#: templates/home/partials/new-arrivals.html:76
+#: templates/product/partials/product_card.html:74
+#: templates/product/partials/product_card.html:77
+#: templates/product/partials/product_card.html:79
+msgid "EGP"
+msgstr "ج.م"
+
+#: templates/cart/cart.html:283
+msgid "Proceed to Checkout"
+msgstr "إرسال الطلب"
+
+#: templates/home/partials/daily-products.html:23
 msgid "Today's Picks"
 msgstr "اختيارات اليوم"
 
-#: templates/home/partials/daily-products.html:234
-msgid ""
-"🔥 Discover the most trending products, handpicked for you every day! 🔥"
+#: templates/home/partials/daily-products.html:30
+#, fuzzy
+msgid "🔥Discover the latest trending products handpicked for you every day! 🔥"
 msgstr "🔥 اكتشف أكثر المنتجات رواجاً المختارة لك يومياً! 🔥"
 
-#: templates/home/partials/daily-products.html:237
-msgid "Shop Now"
+#: templates/home/partials/daily-products.html:33
+#, fuzzy
+msgid "Shop now"
 msgstr "تسوق الآن"
 
-#: templates/home/partials/daily-products.html:248
-msgid "Hot"
-msgstr "مميز"
+#: templates/home/partials/deals.html:164
+#, fuzzy
+msgid "Today's Hot Deals"
+msgstr "عروض ساخنة"
 
-#: templates/home/partials/discount-products.html:8
+#: templates/home/partials/deals.html:168
+msgid "Discover our handpicked selection of trending products with exclusive discounts!"
+msgstr "اكتشف مجموعتنا المختارة بعناية من المنتجات الرائجة مع خصومات حصرية!"
+
+#: templates/home/partials/deals.html:171
+#, fuzzy
+msgid "Shop All Deals"
+msgstr "عروض ساخنة"
+
+#: templates/home/partials/discount-products.html:7
 msgid "Take advantage of the best deals and special offers"
 msgstr "استفد من أفضل العروض والخصومات الخاصة"
-
-#: templates/home/partials/features-products.html:188
-msgid ""
-"The best carefully selected products for an enjoyable shopping experience"
-msgstr "أفضل المنتجات المختارة بعناية لتجربة تسوق ممتعة"
-
-#: templates/home/partials/features-products.html:201
-#: templates/home/partials/main-banner.html:177
-#: templates/product/partials/product_card.html:6
-msgid "New"
-msgstr "جديد"
-
-#: templates/home/partials/features-products.html:221
-#: templates/product/partials/product_card.html:24
-msgid "No product image"
-msgstr "لا توجد صورة للمنتج"
-
-#: templates/home/partials/features-products.html:272
-#: templates/product/partials/product_card.html:80
-msgid "In Stock"
-msgstr "متوفر في المخزون"
-
-#: templates/home/partials/features-products.html:276
-#: templates/product/partials/product_card.html:84
-msgid "Out of Stock"
-msgstr "غير متوفر"
 
 #: templates/home/partials/features.html:11
 msgid "Fast Delivery"
@@ -590,66 +900,61 @@ msgstr "دعم فني"
 msgid "Technical support is available 24/7"
 msgstr "الدعم الفني متوفر 24/7"
 
-#: templates/home/partials/main-banner.html:136
-msgid "Curated Collections"
-msgstr "مجموعات مختارة"
-
-#: templates/home/partials/main-banner.html:137
-msgid "Just For You"
-msgstr "خصيصاً لك"
-
-#: templates/home/partials/main-banner.html:140
-msgid "Discover limited edition pieces handpicked by our stylists"
-msgstr "اكتشف قطعاً محدودة الإصدار مختارة بعناية من خبرائنا"
-
-#: templates/home/partials/main-banner.html:196
-msgid "Explore Collection"
-msgstr "استكشف المجموعة"
-
-#: templates/home/partials/main-banner.html:218
-msgid "View All Collections"
-msgstr "عرض جميع المجموعات"
-
-#: templates/home/partials/main-categories.html:6
+#: templates/home/partials/main-categories.html:5
 msgid "Discover Our Categories"
 msgstr "اكتشف تصنيفاتنا"
 
-#: templates/home/partials/main-categories.html:7
-msgid ""
-"Browse a wide variety of toys and gifts suitable for all ages and occasions"
+#: templates/home/partials/main-categories.html:6
+msgid "Browse a wide variety of toys and gifts suitable for all ages and occasions"
 msgstr "تصفح مجموعة واسعة من الألعاب والهدايا المناسبة لكل الأعمار والمناسبات"
 
-#: templates/home/partials/new-arrivals.html:7
+#: templates/home/partials/new-arrivals.html:8
 msgid "Discover the latest products that have arrived at our store"
 msgstr "اكتشف أحدث المنتجات التي وصلت إلى متجرنا"
 
-#: templates/home/partials/top-rated.html:7
+#: templates/home/partials/new-arrivals.html:31
+#: templates/home/partials/trendy-products.html:45
+#: templates/product/partials/product_card.html:24
+msgid "No product image"
+msgstr "لا توجد صورة للمنتج"
+
+#: templates/home/partials/new-arrivals.html:81
+#: templates/home/partials/trendy-products.html:97
+#: templates/product/partials/product_card.html:84
+#: templates/product/partials/trendy_product_card.html:81
+msgid "In Stock"
+msgstr "متوفر في المخزون"
+
+#: templates/home/partials/new-arrivals.html:85
+#: templates/home/partials/trendy-products.html:101
+#: templates/product/partials/product_card.html:88
+msgid "Out of Stock"
+msgstr "غير متوفر"
+
+#: templates/home/partials/sub-categories.html:4
+msgid "Explore Our Subcategories"
+msgstr "استكشف التصنيفات الفرعية لدينا"
+
+#: templates/home/partials/sub-categories.html:6
+msgid "Find a diverse selection of toys and gifts for every age and occasion"
+msgstr "اكتشف مجموعة متنوعة من الألعاب والهدايا لكل الأعمار والمناسبات"
+
+#: templates/home/partials/top-rated.html:8
 msgid "Our customers top rated products"
 msgstr "المنتجات الأعلى تقييماً من عملائنا"
 
-#: templates/product/partials/cart_button.html:10
-msgid "Add"
-msgstr "إضافة"
+#: templates/home/partials/trendy-products.html:12
+msgid "The best carefully selected products for an enjoyable shopping experience"
+msgstr "أفضل المنتجات المختارة بعناية لتجربة تسوق ممتعة"
 
-#: templates/product/partials/cart_button.html:17
+#: templates/home/partials/trendy-products.html:26
+msgid "New"
+msgstr "جديد"
+
+#: templates/product/partials/cart_button.html:37
+#: templates/product/partials/new_cart_button.html:34
 msgid "Remove"
 msgstr "إزالة"
-
-#: templates/product/partials/cart_button.html:65
-msgid "Product added to cart successfully!"
-msgstr "تمت إضافة المنتج إلى السلة بنجاح!"
-
-#: templates/product/partials/cart_button.html:66
-msgid "Product removed from cart."
-msgstr "تمت إزالة المنتج من السلة."
-
-#: templates/product/partials/cart_button.html:69
-msgid "An error occurred."
-msgstr "حدث خطأ."
-
-#: templates/product/partials/cart_button.html:70
-msgid "A network error occurred."
-msgstr "حدث خطأ في الشبكة."
 
 #: templates/product/partials/filters-card.html:6
 #: templates/product/product_list.html:34
@@ -667,10 +972,6 @@ msgstr "ابحث عن المنتجات..."
 #: templates/product/partials/filters-card.html:29
 msgid "All Categories"
 msgstr "كل التصنيفات"
-
-#: templates/product/partials/filters-card.html:40
-msgid "Tag"
-msgstr "وسم"
 
 #: templates/product/partials/filters-card.html:43
 msgid "All Tags"
@@ -732,11 +1033,11 @@ msgstr "عرض شبكي"
 msgid "List View"
 msgstr "عرض قائمة"
 
-#: templates/product/partials/filters-card.html:119
+#: templates/product/partials/filters-card.html:120
 msgid "Apply Filters"
 msgstr "تطبيق الفلاتر"
 
-#: templates/product/partials/filters-card.html:122
+#: templates/product/partials/filters-card.html:123
 msgid "Reset"
 msgstr "إعادة تعيين"
 
@@ -752,83 +1053,99 @@ msgstr "السابق"
 msgid "Next"
 msgstr "التالي"
 
-#: templates/product/partials/product_card.html:70
-#: templates/product/partials/product_card.html:73
-#: templates/product/partials/product_card.html:75
-msgid "EGP"
-msgstr "ج.م"
+#: templates/product/partials/product_card.html:6
+#, fuzzy
+msgid "Trendy"
+msgstr "رائج"
 
-#: templates/product/partials/products-grid.html:9
+#: templates/product/partials/products-grid.html:8
 msgid "Active filters:"
 msgstr "الفلاتر المفعلة:"
 
-#: templates/product/partials/products-grid.html:12
-#, python-format
+#: templates/product/partials/products-grid.html:11
 msgid "Search: \"%(search_query)s\""
 msgstr "بحث: \"%(search_query)s\""
 
-#: templates/product/partials/products-grid.html:20
-#, python-format
+#: templates/product/partials/products-grid.html:19
 msgid "Category: %(selected_category)s"
 msgstr "التصنيف: %(selected_category)s"
 
-#: templates/product/partials/products-grid.html:28
-#, python-format
-msgid "Brand: %(selected_brand)s"
+#: templates/product/partials/products-grid.html:27
+#, fuzzy
+msgid "Tag: %(selected_tag)s"
 msgstr "العلامة التجارية: %(selected_brand)s"
 
-#: templates/product/partials/products-grid.html:36
-#, python-format
+#: templates/product/partials/products-grid.html:35
 msgid "Min: %(min_price)s"
 msgstr "الحد الأدنى: %(min_price)s"
 
-#: templates/product/partials/products-grid.html:44
-#, python-format
+#: templates/product/partials/products-grid.html:43
 msgid "Max: %(max_price)s"
 msgstr "الحد الأعلى: %(max_price)s"
 
-#: templates/product/partials/products-grid.html:52
-#, python-format
+#: templates/product/partials/products-grid.html:51
 msgid "Sorted by: %(sort_by|title)s"
 msgstr "ترتيب حسب: %(sort_by|title)s"
 
-#: templates/product/partials/products-grid.html:76
+#: templates/product/partials/products-grid.html:75
 msgid "No products found"
 msgstr "لم يتم العثور على منتجات"
 
-#: templates/product/partials/products-grid.html:77
+#: templates/product/partials/products-grid.html:76
 msgid "Try adjusting your search criteria or filters."
 msgstr "حاول تعديل معايير البحث أو الفلاتر."
 
-#: templates/product/partials/products-grid.html:79
+#: templates/product/partials/products-grid.html:78
 msgid "Reset Search"
 msgstr "إعادة تعيين البحث"
 
-#: templates/product/partials/wishlist_button.html:7
-msgid "Toggle wishlist"
-msgstr "تبديل قائمة الرغبات"
+#: templates/product/partials/trendy_product_card.html:11
+msgid "Hot"
+msgstr "مميز"
 
-#: templates/product/partials/wishlist_button.html:9
-msgid "Remove from wishlist"
-msgstr "إزالة من قائمة الرغبات"
-
-#: templates/product/partials/wishlist_button.html:9
-msgid "Add to wishlist"
-msgstr "إضافة إلى قائمة الرغبات"
+#: templates/product/partials/trendy_product_card.html:30
+#, fuzzy
+msgid "No image"
+msgstr "لا توجد صورة للمنتج"
 
 #: templates/product/product_list.html:4
 msgid "Products Trader - Your Ultimate Shopping Destination"
 msgstr "تاجر المنتجات - وجهتك المثالية للتسوق"
 
-#: templates/product/product_list.html:14
-msgid "Home"
-msgstr "الرئيسية"
-
 #: templates/product/product_list.html:21
-#, python-format
 msgid "Search: \"%(query)s\""
 msgstr "بحث: \"%(query)s\""
 
 #: templates/product/product_list.html:23
 msgid "All Products"
 msgstr "كل المنتجات"
+
+#: templates/socialaccount/login.html:6
+msgid "Login with Google - Modex"
+msgstr "تسجيل الدخول باستخدام جوجل - مودكس"
+
+#: templates/socialaccount/login.html:18
+msgid "Welcome to Modex!"
+msgstr "مرحباً بك في مودكس!"
+
+#: templates/socialaccount/login.html:22
+msgid "Login using your Google account to continue"
+msgstr "سجّل الدخول باستخدام حسابك في جوجل للمتابعة"
+
+#: templates/socialaccount/login.html:24
+#, fuzzy
+msgid "Log in with Google"
+msgstr "تسجيل الدخول باستخدام جوجل - مودكس"
+
+#: templates/socialaccount/login.html:28 templates/socialaccount/login.html:57
+msgid "Continue with Google"
+msgstr "المتابعة باستخدام جوجل"
+
+#: templates/socialaccount/login.html:62
+msgid "By logging in, you agree to our"
+msgstr "بتسجيل الدخول، أنت توافق على"
+
+#: templates/socialaccount/login.html:63
+msgid "Terms of Service"
+msgstr "شروط الخدمة"
+

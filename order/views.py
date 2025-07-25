@@ -75,9 +75,7 @@ class OrderCreateView(LoginRequiredMixin, CreateView):
 
         except Exception as e:
             # logger.exception("Order processing failed")
-            print('form error', e)
-
-            form.add_error(None, f"Error processing your order: {str(e)}")
+            form.add_error(None, _("Error processing your order: %(error)s") % {'error': str(e)})
             return super().form_invalid(form)
 
         return super().form_valid(form)
@@ -220,7 +218,7 @@ class AddressEditView(LoginRequiredMixin, UpdateView):
 
     template_name = "order/address_list_create.html"
     def get_success_url(self):
-        messages.success(self.request, "Address updated successfully.")
+        messages.success(self.request, _("Address updated successfully."))
         return reverse("order:address_list_create")
     def get_queryset(self):
         return Address.objects.filter(user=self.request.user)
@@ -236,7 +234,7 @@ class AddressDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "order/address_confirm_delete.html"
 
     def get_success_url(self):
-        messages.success(self.request, "Address deleted successfully.")
+        messages.success(self.request, _("Address deleted successfully."))
         return reverse("order:address_list_create")
 
     def get_queryset(self):
@@ -249,7 +247,7 @@ class AddressSetDefaultView(LoginRequiredMixin, View):
         print('updated')
         address.is_default = True
         address.save()
-        messages.success(request, "Default address set successfully.")
+        messages.success(request, _("Default address set successfully."))
         return redirect("order:address_list_create")
     def get(self, request, pk):
         return self.post(request, pk)
@@ -259,7 +257,7 @@ class AddressUnsetDefaultView(LoginRequiredMixin, View):
         address = get_object_or_404(Address, pk=pk, user=request.user)
         address.is_default = False
         address.save()
-        messages.success(request, "Default address unset successfully.")
+        messages.success(request, _("Default address unset successfully."))
         return redirect("order:address_list_create")
     def get(self, request, pk):
         return self.post(request, pk)

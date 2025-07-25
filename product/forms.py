@@ -1,6 +1,7 @@
 from django import forms
-
+from django.utils.translation import gettext_lazy as _
 from .models import Review
+
 
 class ReviewForm(forms.ModelForm):
     RATING_CHOICES = [
@@ -14,11 +15,15 @@ class ReviewForm(forms.ModelForm):
     rating = forms.ChoiceField(
         choices=RATING_CHOICES,
         widget=forms.Select,
-        label="Rating",
+        label=_("Rating"),
     )
+
     content = forms.CharField(
-        widget=forms.Textarea(attrs={"rows": 4, "placeholder": "Write your review here..."}),
-        label="Review",
+        widget=forms.Textarea(attrs={
+            "rows": 4,
+            "placeholder": _("Write your review here...")
+        }),
+        label=_("Review"),
         required=True,
         max_length=1000,
     )
@@ -30,5 +35,5 @@ class ReviewForm(forms.ModelForm):
     def clean_content(self):
         content = self.cleaned_data.get("content", "").strip()
         if not content:
-            raise forms.ValidationError("Review content cannot be empty.")
+            raise forms.ValidationError(_("Review content cannot be empty."))
         return content

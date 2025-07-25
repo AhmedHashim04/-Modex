@@ -128,17 +128,17 @@ class HomeView(TemplateView):
             cache.set('home_discounted_products', discount_products, 60 * 60 * 24)
 
         context.update({
-            'main_categories': main_categories,
-            'trendy_products_section': {
-                'title': _("Trendy Products"),
-                'products': trendy_products,
-                'layout': 'carousel'
-            },
             'daily_products_section': {
                 'title': _("Daily Products"),
                 'products': get_daily_products(),
                 # 'products': daily_products,
                 'layout': 'grid'
+            },
+            'main_categories': main_categories,
+            'trendy_products_section': {
+                'title': _("Trendy Products"),
+                'products': trendy_products,
+                'layout': 'carousel'
             },
             'sub_categories_section': {
                 'title': _("Sub Categories"),

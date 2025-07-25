@@ -14,7 +14,7 @@ from django.core.cache import cache
 def profile_view(request):
     return render(request, 'account/profile.html', {'profile': request.user.profile})
 
-@ratelimit(key='user', rate='10/m', method='POST', block=False)
+@ratelimit(key='user', rate='6/m', method='POST', block=False)
 @login_required
 def edit_profile(request):
     profile = request.user.profile
@@ -39,10 +39,10 @@ def toggle_wishlist(request):
         cache.delete(f"context_wishlist_{request.user.id}")
         if product in profile.wishlist.all():
             profile.wishlist.remove(product)
-            return JsonResponse({'status': 'removed', 'message': _('Removed from wishlist.')})
+            return JsonResponse({'status': 'removed'})
         else:
             profile.wishlist.add(product)
-            return JsonResponse({'status': 'added', 'message': _('Added to wishlist.')})
+            return JsonResponse({'status': 'added'})
 
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
@@ -55,10 +55,10 @@ def remove_wishlist(request,slug):
     cache.delete(f"context_wishlist_{request.user.id}")
     if product in profile.wishlist.all() :
         profile.wishlist.remove(product)
-        messages.success(request, 'The product has been removed from the wishlist!')
+        messages.success(request, _('The product has been removed from the wishlist!'))
     return redirect("accounts:wishlist")
 
-@ratelimit(key='user', rate='40/m', method='POST', block=False)
+@ratelimit(key='user', rate='10/m', method='POST', block=False)
 @login_required
 @require_POST  
 def clear_wishlist(request):

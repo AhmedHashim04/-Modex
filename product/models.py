@@ -38,9 +38,11 @@ class Product(models.Model):
 
         ]
 
+
     def __str__(self):
-        if self.is_available :return (f"{self.name} - {self.price} EGP - Available ")
-        else :return (f"{self.name} - {self.price} EGP - Not available")
+        status = _("Available") if self.is_available else _("Not available")
+        return f"{self.name} - {self.price} EGP - {status}"
+
 
     def get_absolute_url(self):
         return reverse("product:product_detail", kwargs={"slug": self.slug})
@@ -53,10 +55,7 @@ class Product(models.Model):
             / Decimal(100).quantize(Decimal(".01"))
         )
 
-
-
     def update_rating(self):
-        
         result = self.reviews.aggregate(average_rating=Avg("rating")) #Pyright: ignore
         self.overall_rating = round(result["average_rating"] or 0, 2)
         self.save(update_fields=["overall_rating"])
@@ -73,8 +72,7 @@ class Product(models.Model):
             with transaction.atomic():
                 super().save(*args, **kwargs)
 
-        # Clear the cache once after save is confirmed
-        cache.set("products_", {}, 60 * 5)
+        # cache.set("products_", {}, 60 * 5)
 
 class Review(models.Model):
     RATING_CHOICES = [(i, str(i)) for i in range(1, 6)]
@@ -149,9 +147,9 @@ class Category(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(
-        "product.Product", on_delete=models.CASCADE, related_name="product_images"
+        "product.Product", on_delete=models.CASCADE,verbose_name=_("Product"), related_name="product_images"
     )
-    image = models.ImageField(upload_to="product_images/")
+    image = models.ImageField(upload_to="product_images/", verbose_name=_("Image"))
 
     def __str__(self):
         return f"Image for {self.product.name}"
@@ -186,13 +184,20 @@ class Color(models.TextChoices):
     WHITE = "#fff", _("White")
     YELLOW = "#ff0", _("Yellow")
 
+def color_image_upload_path(instance, filename):
+    return f"products/colors/{instance.product.id}/{filename}"
+
+
 class ProductColor(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='colors')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE,verbose_name=_("Product"),related_name='colors')
     color = models.CharField(max_length=20, choices=Color.choices)
-    image = models.ImageField(upload_to=f'products/colors/{product.name}/', blank=True, null=True)
+    image = models.ImageField(upload_to=color_image_upload_path, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.product.name} -"# {self.get_color_display()}"
+        return _("{product} - Color: {color}").format(
+            product=self.product.name,
+            color=self.get_color_display()
+        )
 
 class Tag(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=100, unique=True)

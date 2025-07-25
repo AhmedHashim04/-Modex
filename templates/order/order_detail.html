@@ -53,7 +53,10 @@
                                     <i class="fas fa-map-marker-alt me-3 text-danger"></i>
                                     <div>
                                         <small class="text-muted">Delivery Address</small>
-                                        <div class="fw-bold">{{ order.address }}</div>
+                                        <div class="fw-bold">{{ order.address.governorate }}</div>
+                                        <div class="fw-bold">{{ order.address.city }}</div>
+                                        <div class="fw-bold">{{ order.address.address_line }}</div>
+                                        <hr>
                                         <div class="fw-bold">{{ order.phone }}</div>
                                         <div class="fw-bold">{{ order.full_name }}</div>
                                         <div class="fw-bold">{{ order.notes }}</div>

@@ -43,7 +43,6 @@ class Profile(models.Model):
     phone = models.CharField(
         max_length=11,
         blank=True,
-        null=True,
         validators=[egyptian_phone_validator],
         verbose_name=_("Primary Phone Number"),
         help_text=_("Please enter an Egyptian phone number starting with 010, 011, 012, or 015.")
@@ -51,7 +50,6 @@ class Profile(models.Model):
     alternate_phone = models.CharField(
         max_length=11,
         blank=True,
-        null=True,
         validators=[egyptian_phone_validator],
         verbose_name=_("Alternate Phone Number (optional)"),
         help_text=_("You can enter another Egyptian phone number for contact (optional).")
@@ -63,12 +61,12 @@ class Profile(models.Model):
     )
     
     governorate = models.CharField(
-        max_length=10,
+        max_length=15,
         choices=EGYPT_GOVERNORATES,
         blank=True,
         verbose_name=_("Governorate")
     )
-    wishlist = models.ManyToManyField('product.Product', blank=True, related_name='wishlists')
+    wishlist = models.ManyToManyField('product.Product', blank=True,verbose_name=_("Wishlist") , related_name='wishlists')
 
     class Meta:
         verbose_name = _("Profile")

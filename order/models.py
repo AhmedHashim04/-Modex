@@ -1,23 +1,17 @@
 import uuid
-from decimal import Decimal
-from django.contrib.auth.models import User
-from django.db import models
-from django.utils import timezone
+
 from django.utils.translation import gettext_lazy as _
 from product.models import Product
 from decimal import Decimal
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import Q
 from django.utils import timezone
-from django.utils.translation import gettext_lazy as _
 from accounts.models import Profile
-from django.core.validators import RegexValidator
 from django.utils.translation import gettext as _
 
 class ShippingOption(models.Model):
-    place = models.CharField(max_length=100, verbose_name=_("place"))
+    place = models.CharField(max_length=100, verbose_name=_("Place"))
     price = models.DecimalField(max_digits=8, decimal_places=2, verbose_name=_("Shipping Price"))
     delivery_time = models.CharField(max_length=100, verbose_name=_("Estimated Delivery Time"))
 
@@ -26,7 +20,11 @@ class ShippingOption(models.Model):
         verbose_name_plural = _("Shipping Options")
 
     def __str__(self):
-        return f"{self.place} - {self.price} EGP - {self.delivery_time}"
+        return _("{place} - {price} EGP - {delivery_time}").format(
+            place=self.place,
+            price=self.price,
+            delivery_time=self.delivery_time
+        )
     
 
     
@@ -66,7 +64,12 @@ class Address(models.Model):
         ordering = ["-is_default", "-updated_at"]
 
     def __str__(self):
-        return f" {self.governorate} - {self.city} - {self.address_line}"
+
+        return _("{governorate} - {city} - {address}").format(
+            governorate=self.governorate,
+            city=self.city,
+            address=self.address_line
+        )
 
 class Order(models.Model):
     egyptian_phone_validator = Profile.egyptian_phone_validator

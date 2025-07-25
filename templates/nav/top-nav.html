@@ -94,7 +94,7 @@
                     <span class="d-none d-sm-inline fw-semibold">
                         السلة
                         <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
-                            {{ cart.total_quantity|default:"Modex" }}
+                            {{ total_cart_items }}
                         </span>                   
 
 
@@ -106,9 +106,9 @@
                         Cart
                         <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
                             {% if LANGUAGE_CODE == "ar" %}
-                                {{ cart.total_quantity|default:"Modex" }}
+                                {{ total_cart_items }}
                             {% else %}
-                                {{ cart.total_quantity|default:"Modex" }}
+                                {{ total_cart_items }}
                             {% endif %}
                         </span>
                     </span>

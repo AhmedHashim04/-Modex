@@ -2,7 +2,6 @@ import hashlib
 from decimal import Decimal
 import time; start = time.time()
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.db import IntegrityError, transaction
@@ -10,14 +9,14 @@ from django.db.models import Count, Max, Min, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
 from django.utils.decorators import method_decorator
 from django.utils.functional import cached_property
 from django.utils.http import urlencode
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView
 from django_ratelimit.decorators import ratelimit
 
+from django.utils.translation import gettext as _
 from .forms import ReviewForm
 from .models import Category, Product, Review, Tag
 
@@ -345,7 +344,7 @@ class ProductDetailView(DetailView):
                 messages.success(self.request, message)
                 
         except IntegrityError:
-            messages.warning(self.request, "You've already reviewed this product!")
+            messages.warning(self.request,_("You've already reviewed this product!"))
         
         # Update recently viewed
         self.update_recently_viewed(self.object)
@@ -355,11 +354,10 @@ class ProductDetailView(DetailView):
 
     def form_invalid(self, form):
         """Handle invalid form submission"""
-        messages.error(self.request, "Please correct the errors below.")
+        messages.error(self.request,  _("Please correct the errors below."))
         context = self.get_context_data(form=form)
         return self.render_to_response(context)
 
-# Clear cache when a product is add or updated
 @receiver(post_save, sender=Product)
 def clear_product_cache(sender, **kwargs):
     cache.delete_pattern("products_*")

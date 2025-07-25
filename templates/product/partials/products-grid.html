@@ -1,8 +1,7 @@
 {% load i18n %}
 <section class="col-lg-9">
     <!-- Active Filters -->
-    
-    {% if search_query or selected_category or selected_brand or min_price or max_price or sort_by %}
+    {% if search_query or selected_category or selected_tag or min_price or max_price or sort_by %}
     <div class="card mb-4 border-0 glass-card shadow-sm">
         <div class="card-body py-2">
             <div class="d-flex flex-wrap align-items-center gap-2">
@@ -23,10 +22,10 @@
                     </a>
                 </span>
                 {% endif %}
-                {% if selected_brand %}
+                {% if selected_tag %}
                 <span class="badge bg-light text-dark glass-badge">
-                    {% blocktrans %}Brand: {{ selected_brand }}{% endblocktrans %}
-                    <a href="?{% querystring request.GET brand='' %}" class="text-danger ms-1">
+                    {% blocktrans %}Tag: {{ selected_tag }}{% endblocktrans %}
+                    <a href="?{% querystring request.GET tag='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>

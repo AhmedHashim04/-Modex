@@ -11,32 +11,36 @@
                 <div class="swiper-wrapper">
                     {% for category in main_categories %}
                     <div class="swiper-slide">
-                        <div class="category-card card h-100 border-0 shadow-sm">
-                            <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
-                            <div class="category-image-container">
-                                {% if category.image %}
-                                <img src="{{ category.image.url }}" 
-                                     alt="{{ category.name }}" 
-                                     class="category-image card-img-top" 
-                                     loading="lazy"
-                                     onerror="this.src=''">
-                                {% else %}
-                                <div class="category-image-placeholder">
-                                    <i class="fas fa-box-open fa-3x text-primary"></i>
-                                </div>
-                                {% endif %}
-                            </div>
-                                </a>
+<div class="category-card card h-100 border-0 shadow-sm">
+    <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
+        <div class="category-image-container">
+            {% if category.image %}
+                <img src="{{ category.image.url }}" 
+                     alt="{{ category.name }}" 
+                     class="category-image card-img-top" 
+                     loading="lazy"
+                     onerror="this.src=''">
+            {% else %}
+                <div class="category-image-placeholder">
+                    <i class="fas fa-box-open fa-2x"></i>
+                </div>
+            {% endif %}
+        </div>
+    </a>
 
-                            <div class="card-body text-center">
-                                <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
-                                    <h3 class="category-title card-title h5">{{ category.name }}</h3>
-                                    <p class="category-count text-muted small">
-                                        {{ category.product_count }} {% trans 'Products' %}
-                                    </p>
-                                </a>
-                            </div>
-                        </div>
+    <div class="card-body text-center">
+        <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
+            <h3 class="category-title card-title">{{ category.name }}</h3>
+            <p class="category-count">
+                {{ category.product_count }} {% trans 'Products' %}
+            </p>
+            <p class="category-ription">
+                {{ category.description|truncatewords:20 }}
+            </p>
+        </a>
+    </div>
+</div>
+
                     </div>
                     {% endfor %}
                 </div>

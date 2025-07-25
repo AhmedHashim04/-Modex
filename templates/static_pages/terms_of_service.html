@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+{% block title %}Terms of Service{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Terms of Service</h1>
+
+    <p>Welcome to our website. By accessing or using our services, you agree to comply with the following Terms of Service. Please read them carefully before placing any order or using the site.</p>
+
+    <h3 class="mt-4">1. Website Use</h3>
+    <p>You may use this website only for lawful purposes. You must not use it in a way that infringes on the rights of others or restricts their use of the site.</p>
+
+    <h3 class="mt-4">2. Accounts</h3>
+    <p>We reserve the right to suspend or delete any account that violates our policies or engages in abusive or fraudulent behavior.</p>
+
+    <h3 class="mt-4">3. Products & Pricing</h3>
+    <p>We strive to provide accurate information about our products. However, we reserve the right to change prices, descriptions, or availability at any time without prior notice.</p>
+
+    <h3 class="mt-4">4. Orders & Payment</h3>
+    <p>All orders are paid upon delivery (Cash on Delivery). Order confirmation does not constitute acceptance. We may cancel or refuse any order for any reason.</p>
+
+    <h3 class="mt-4">5. Shipping & Delivery</h3>
+    <p>We are not responsible for delays caused by shipping companies or events beyond our control. Estimated delivery times are provided for guidance and are not guaranteed.</p>
+
+    <h3 class="mt-4">6. Returns & Exchanges</h3>
+    <p>Returns are accepted within 14 days of delivery, provided the item is unused and in its original condition. Return shipping costs are the customer’s responsibility unless the error is ours.</p>
+
+    <h3 class="mt-4">7. Intellectual Property</h3>
+    <p>All content on this website, including images, text, designs, and logos, is owned by us. You may not copy, distribute, or use any part of the site without our written permission.</p>
+
+    <h3 class="mt-4">8. Disclaimer</h3>
+    <p>We are not liable for any loss or damage resulting from your use of the site or reliance on any content provided.</p>
+
+    <h3 class="mt-4">9. Changes to Terms</h3>
+    <p>We may update these Terms of Service at any time. Continued use of the site after changes implies your acceptance of the updated terms.</p>
+
+    <h3 class="mt-4">10. Contact Us</h3>
+    <p>If you have any questions regarding these Terms of Service, please contact us at <a href="mailto:support@example.com">support@example.com</a>.</p>
+
+    <p class="text-muted mt-5">Last updated: {{ today|default:"July 25, 2025" }}</p>
+</div>
+{% endblock %}

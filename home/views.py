@@ -165,6 +165,14 @@ class HomeView(TemplateView):
         return context
 
 
+class TermsOfServiceView(TemplateView):
+    template_name = "static_pages/terms_of_service.html"
+    
+class PrivacyPolicy(TemplateView):
+    template_name="static_pages/privacy_policy.html"
+
+
+
 class RateLimitExceeded(HttpResponse):
     """
     HTTP 429 Too Many Requests response.
@@ -190,3 +198,4 @@ class RateLimitExceeded(HttpResponse):
                 self["Retry-After"] = str(int(retry_after))
             elif isinstance(retry_after, timezone.datetime):
                 self["Retry-After"] = retry_after.strftime("%a, %d %b %Y %H:%M:%S GMT")
+

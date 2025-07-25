@@ -1,3 +1,5 @@
+{% load socialaccount %}
+
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
@@ -29,14 +31,15 @@
                             <i class="fas fa-chevron-left"></i> Store
                         </a>
                     </li>
-                    <li>
-                        {% comment %} <a href="{% url 'offers:offers_list' %}">
+                    {% comment %}<li>
+                         <a href="{% url 'offers:offers_list' %}">
                             <i class="fas fa-chevron-left"></i> Offers
-                        </a> {% endcomment %}
-                    </li>
+                        </a> 
+                    </li>{% endcomment %}
+                    
                     <li>
                         <a href="{% url 'accounts:wishlist' %}">
-                            <i class="fas fa-chevron-left"></i> Favorites
+                            <i class="fas fa-chevron-left"></i> Wishlist
                         </a>
                     </li>
                     <li>
@@ -44,6 +47,28 @@
                             <i class="fas fa-chevron-left"></i> Shopping Cart
                         </a>
                     </li>
+                    <li>
+                        <a href="{% if user.is_authenticated %}{% url 'accounts:profile' %}{% else %}{% provider_login_url 'google' %}{% endif %}">
+                            <i class="fas fa-chevron-left"></i> Account
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'contact:contact' %}">
+                            <i class="fas fa-chevron-left"></i> Contact Us
+                        </a>
+                    </li>
+
+                <li>
+                    <a href="{% url 'privacy_policy' %}">
+                        <i class="fas fa-lock"></i> Privacy Policy
+                    </a>
+                </li>
+                
+                <li>
+                    <a href="{% url 'terms_of_service' %}">
+                        <i class="fas fa-file-contract"></i> Terms of Service
+                    </a>
+                </li>
                 </ul>
             </div>
             

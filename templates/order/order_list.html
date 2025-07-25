@@ -63,7 +63,7 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-6">
                                         <div class="d-flex align-items-center border-bottom pb-3">
-                                            <strong class="me-2 text-secondary">Total<small class="text-muted"> + Tax</small>:</strong>
+                                            <strong class="me-2 text-secondary">Total<small class="text-muted"> </small>:</strong>
                                             <span class="text-primary fw-bold fs-5">{{ order.total_price|floatformat:2 }} <span class="fw-normal text-muted">EGP</span></span>
                                         </div>
                                     </div>
@@ -80,9 +80,18 @@
                                     </h6>
                                     <div class="table-responsive">
                                         <table class="table table-borderless align-middle">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-start">Product</th>
+                                                    <th class="text-start">Before Discount</th>
+                                                    <th class="text-end">After Discount</th>
+                                                    <th class="text-end">Total</th>
+                                                </tr>
+                                            </thead>
                                             <tbody>
                                                 {% for item in order.items.all %}
                                                 <tr class="product-row hover-scale">
+                                                        
                                                     <td class="w-50">
                                                         <div class="d-flex align-items-center">
                                                             {% if item.product.image %}
@@ -98,7 +107,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td class="text-muted text-decoration-line-through" style="min-width:90px;">{{ item.price|floatformat:2 }} EGP</td>
+                                                    <td class="text-muted {% if item.product.discount %} text-decoration-line-through{% endif %}" style="min-width:90px;">{{ item.price|floatformat:2 }} EGP</td>
                                                     <td class="text-end text-success" style="min-width:90px;">{{ item.product.price_after_discount|floatformat:2 }} EGP</td>
                                                     <td class="text-end fw-bold text-primary" style="min-width:100px;">{{ item.total_item_price_after_discount|floatformat:2 }} EGP</td>
                                                 </tr>

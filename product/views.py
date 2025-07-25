@@ -209,7 +209,6 @@ class ProductListView(ListView):
 
 
 
-
 @method_decorator(ratelimit(key='ip', rate='30/m', method='ALL', block=True), name='dispatch')
 @method_decorator(ratelimit(key='user', rate='2/m', method='POST', block=True), name='post')
 class ProductDetailView(DetailView):

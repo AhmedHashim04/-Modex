@@ -90,6 +90,15 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
     invoice_pdf = models.FileField(upload_to="invoices/", null=True, blank=True, verbose_name=_("Invoice PDF"))
 
+    class Meta:
+        verbose_name = _("Order")
+        verbose_name_plural = _("Orders")
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"Order #{self.id}"
+    
+    
     def get_items(self):
         return self.items.all()
 
@@ -129,8 +138,8 @@ class OrderItem(models.Model):
         return f"{self.quantity} x {self.product.name} in Order {self.order.id}"
     
     @property
-    def total_item_price_after_discount(self):
-        return self.quantity * self.price * (1 - self.discount / 100)
-    @property
     def price_after_discount(self):
-        return self.price * (1 - self.discount / 100)
+        return (self.price - self.discount).quantize(Decimal('0.01'))
+    @property
+    def total_item_price_after_discount(self):
+        return (self.price_after_discount * self.quantity).quantize(Decimal('0.01'))

@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.conf.urls.i18n import i18n_patterns
-from home.views import HomeView
+from home.views import HomeView, TermsOfServiceView, PrivacyPolicy
 from .ahmed import test_limit
 from project.admin import custom_admin_site
 from django.http import HttpResponseForbidden
@@ -52,7 +52,8 @@ urlpatterns += i18n_patterns(
     path('contact/', include("contact.urls", namespace="contact")),
     path('admin/', admin.site.urls),
     path('mohamed/', custom_admin_site.urls),
-
+    path('terms/', TermsOfServiceView.as_view(), name='terms_of_service'),
+    path("privacy/", PrivacyPolicy.as_view(), name="privacy_policy"),
     prefix_default_language=False,
 )
 if settings.DEBUG:

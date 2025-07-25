@@ -619,6 +619,7 @@
 .trendy-quantity-group {
     border-radius: var(--border-radius);
     overflow: hidden;
+    width: 80%;
     background: hsl(var(--background-color));
     border: 1px solid hsl(var(--border-color));
 }

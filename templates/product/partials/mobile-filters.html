@@ -29,6 +29,20 @@
                     {% endfor %}
                 </select>
             </div>
+
+            <div>
+                <label for="mobileTag" class="form-label text-danger">Tag</label>
+                <select name="tag" id="mobileTag" class="form-select rounded-pill glass-input">
+                    <option value="">All Tags</option>
+                    {% for tag in tags %}
+                        <option value="{{ tag }}" {% if selected_tag == tag %}selected{% endif %}>
+                            {{ tag.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+
             <div class="row">
                 <div class="col">
                     <label for="mobileMinPrice" class="form-label text-danger">Min Price</label>

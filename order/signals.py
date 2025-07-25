@@ -20,11 +20,10 @@ def order_status_updated(sender, instance, created, **kwargs):
             f"Hi {instance.user.username},\n"
             f"Your order status is now: {instance.status}.\n"
         )
-        # send_mail(
-        #     subject,
-        #     message,
-        #     settings.DEFAULT_FROM_EMAIL,
-        #     [instance.user.email],
-        #     fail_silently=True,
-        # )
-        print(f"{subject}\n{message}\n{settings.DEFAULT_FROM_EMAIL,[instance.user.email],True,}")
+        send_mail(
+            subject,
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [instance.user.email],
+            fail_silently=True,
+        )

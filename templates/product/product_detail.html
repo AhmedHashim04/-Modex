@@ -145,10 +145,10 @@
                     
                     <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
                         <div>
-                            <h1 class="h3 mb-2 text-primary fw-bold trendy-title">{{ product.name }}</h1>
+                            <h1 class="h3 mb-2 fw-bold trendy-title">{{ product.name }}</h1>
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 <a href="{% if user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
-                                class="btn btn-light border-0 text-primary fs-5 p-2 rounded-circle shadow-sm"
+                                class="btn btn-light border-0 text-danger fs-5 p-2 rounded-circle shadow-sm"
                                 data-action="wishlist"
                                 data-slug="{{ product.slug }}"
                                 data-in-wishlist="{% if product in wishlist %}true{% else %}false{% endif %}"
@@ -157,11 +157,9 @@
                                 <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
                                 </a>
                                 {% if product.trending %}
-                                    <span class="badge bg-primary fw-semibold px-3 py-1">Trending</span>
+                                    <span class="badge bg-danger fw-semibold px-3 py-1">Trending</span>
                                 {% endif %}
-                                {% for tag in product.tags.all %}
-                                    <span style="color:{{ tag.color }}" class="badge bg-{{tag.bg_color}} fw-semibold px-3 py-1">{{ tag.key }}</span>
-                                {% endfor %}
+
                             </div>
                             
                         </div>
@@ -187,11 +185,11 @@
                     {% endif %}
                     <div class="price-section mb-4">
                         {% if product.discount > 0 %}
-                            <span class="h4 text-primary fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} EGP</span>
+                            <span class="h4 fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} EGP</span>
                             <small class="text-muted text-decoration-line-through trendy-old-price">{{ product.price|floatformat:2 }} EGP</small>
                             <span class="badge bg-danger ms-2">-{{ product.discount }}%</span>
                         {% else %}
-                            <span class="h4 text-primary fw-bold trendy-price">{{ product.price|floatformat:2 }} EGP</span>
+                            <span class="h4 fw-bold trendy-price">{{ product.price|floatformat:2 }} EGP</span>
                         {% endif %}
                     </div>
                     <div class="availability mb-4">
@@ -203,7 +201,7 @@
                             {% endif %}
                         </span>
                     </div>
-                    <div class="product-description text-secondary mb-4">
+                    <div class="product-description mb-4">
                         <p class="mb-0">{{ product.description|default:"No description available for this product." }}</p>
                     </div>
                     <div class="product-actions mb-4">
@@ -213,15 +211,15 @@
                     <div class="product-meta">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center text-primary">
+                                <div class="d-flex align-items-center">
                                     <i class="fas fa-tag me-2"></i>
                                     <span>Category: {% if product.category %}<span class="fw-semibold">{{ product.category.name }}</span>{% else %}No category{% endif %}</span>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="d-flex align-items-center text-primary">
-                                    <i class="fas fa-barcode me-2"></i>
-                                    <span>{% if product.variant_colors.all %}Available in different colors{% else %}No colors available{% endif %}</span>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-palette me-2"></i>
+                                    <span>{% if product.colors.all %}Available in different colors{% else %}No colors available{% endif %}</span>
                                 </div>
                             </div>
                             

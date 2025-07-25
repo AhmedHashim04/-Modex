@@ -18,6 +18,7 @@ class ShippingOption(models.Model):
     class Meta:
         verbose_name = _("Shipping Option")
         verbose_name_plural = _("Shipping Options")
+        
 
     def __str__(self):
         return _("{place} - {price} EGP - {delivery_time}").format(

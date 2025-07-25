@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% load widget_tweaks %}
-{% block title %}Your Wishlist Trader - Your Ultimate Shopping Destination{% endblock %}
+{% load widget_tweaks i18n %}
+{% block title %}{% trans "Your Wishlist Modex - Your Ultimate Shopping Destination" %}{% endblock %}
 
 {% block content %}
 
@@ -11,9 +11,9 @@
             <div class="col-lg-8">
                 <div class="wishlist-header">
                     <h1 class="display-5 fw-bold mb-3">
-                        <i class="fas fa-heart text-danger me-3"></i>My Wishlist
+                        <i class="fas fa-heart text-danger me-3"></i>{% trans "My Wishlist" %}
                     </h1>
-                    <p class="lead">Keep track of your favorite products and never miss out on the items you love.</p>
+                    <p class="lead">{% trans "Keep track of your favorite products and never miss out on the items you love." %}</p>
                 </div>
             </div>
             <div class="col-lg-4">
@@ -24,7 +24,7 @@
                         </div>
                         <div class="stat-content">
                             <h3>{{ profile.wishlist.count }}</h3>
-                            <p>Items in Wishlist</p>
+                            <p>{% trans "Items in Wishlist" %}</p>
                         </div>
                     </div>
                 </div>
@@ -39,17 +39,14 @@
         <div class="wishlist-controls mb-4">
             <div class="row align-items-center">
                 <div class="col-md-6">
-
-                                        
                     <div class="wishlist-actions">
                         <button id="clear-wishlist-btn" onclick="document.getElementById('clear-wishlist-form').submit();" class="btn btn-outline-primary me-2">
-                            <i class="fas fa-trash me-1"></i>Clear All
+                            <i class="fas fa-trash me-1"></i>{% trans "Clear All" %}
                         </button>
                         <form id="clear-wishlist-form" method="POST" action="{% url 'accounts:clear_wishlist' %}" style="display:none;">
                             {% csrf_token %}
                         </form>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -58,15 +55,14 @@
             {% for product in profile.wishlist.all %}
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
                 <div class="card wishlist-card h-100">
-
-                    <a style="text-decoration: none;" href="{% url 'accounts:remove_wishlist' product.slug %}"  class="remove-from-wishlist" title="Remove from wishlist">
+                    <a style="text-decoration: none;" href="{% url 'accounts:remove_wishlist' product.slug %}" class="remove-from-wishlist" title="{% trans 'Remove from wishlist' %}">
                         <i class="fas fa-heart "></i>
                     </a>
                     {% if product.image %}
                         <img src="{{ product.image.url }}" alt="{{ product.name }}" class="card-img-top">
                     {% else %}
                         <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height: 200px;">
-                            <span class="text-muted">No Image</span>
+                            <span class="text-muted">{% trans "No Image" %}</span>
                         </div>
                     {% endif %}
                     <div class="card-body d-flex flex-column">
@@ -90,26 +86,26 @@
                         </p>
                         {% endif %}
                         <div class="mt-auto">
-                        <div class="product-actions d-flex align-items-center gap-2 flex-nowrap">
-                            {% if product.slug not in cart_items_keys or not user.is_authenticated %}
-                            <form method="POST" action="{% url 'cart:cart_add' product.slug %}" class="d-flex align-items-center flex-nowrap w-100">
-                                {% csrf_token %}
-                                <div class="quantity-control d-flex align-items-center flex-shrink-0" style="width: 90px; min-width: 90px;">
-                                    <input type="number" name="quantity" class="quantity-input form-control form-control-sm mx-1 text-center" value="1" min="1" max="{{ product.stock }}" style="width: 90px;" required>
-                                </div>
-                                <button type="submit" class="action-btn cart-btn btn btn-primary btn-sm px-3 py-2 rounded-pill ms-3 flex-grow-1 d-flex align-items-center justify-content-center" style="min-width: 44px;">
-                                    <i class="fas fa-shopping-cart me-2"></i>
-                                </button>
-                            </form>
-                        {% else %}
-                            <form method="POST" action="{% url 'cart:cart_remove' product.slug %}" class="d-inline-block flex-grow-1">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center" style="min-width: 44px;">
-                                    <i class="fas fa-trash-alt me-2"></i>Remove
-                                </button>
-                            </form>
-                        {% endif %}
-                </div>
+                            <div class="product-actions d-flex align-items-center gap-2 flex-nowrap">
+                                {% if product.slug not in cart_items_keys or not user.is_authenticated %}
+                                <form method="POST" action="{% url 'cart:cart_add' product.slug %}" class="d-flex align-items-center flex-nowrap w-100">
+                                    {% csrf_token %}
+                                    <div class="quantity-control d-flex align-items-center flex-shrink-0" style="width: 90px; min-width: 90px;">
+                                        <input type="number" name="quantity" class="quantity-input form-control form-control-sm mx-1 text-center" value="1" min="1" max="{{ product.stock }}" style="width: 90px;" required>
+                                    </div>
+                                    <button type="submit" class="action-btn cart-btn btn btn-primary btn-sm px-3 py-2 rounded-pill ms-3 flex-grow-1 d-flex align-items-center justify-content-center" style="min-width: 44px;">
+                                        <i class="fas fa-shopping-cart me-2"></i>
+                                    </button>
+                                </form>
+                                {% else %}
+                                <form method="POST" action="{% url 'cart:cart_remove' product.slug %}" class="d-inline-block flex-grow-1">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center" style="min-width: 44px;">
+                                        <i class="fas fa-trash-alt me-2"></i>{% trans "Remove" %}
+                                    </button>
+                                </form>
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,10 +117,10 @@
             <div class="empty-icon mb-4">
                 <i class="far fa-heart fa-5x text-muted"></i>
             </div>
-            <h3 class="mb-3">Your wishlist is empty</h3>
-            <p class="text-muted mb-4">Start adding your favorite products to create your perfect wishlist.</p>
+            <h3 class="mb-3">{% trans "Your wishlist is empty" %}</h3>
+            <p class="text-muted mb-4">{% trans "Start adding your favorite products to create your perfect wishlist." %}</p>
             <a href="{% url 'product:product_list' %}" class="btn btn-primary btn-lg">
-                <i class="fas fa-shopping-bag me-2"></i>Continue Shopping
+                <i class="fas fa-shopping-bag me-2"></i>{% trans "Continue Shopping" %}
             </a>
         </div>
         {% endif %}

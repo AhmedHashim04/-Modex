@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 {% load socialaccount %}
 {% load i18n %}
-
+{% get_current_language as LANGUAGE_CODE %}
 {% block content %}
 
 <section class="page-header bg-gradient-animated py-5">
@@ -9,39 +9,10 @@
         <div class="row align-items-center">
             <div class="col-md-6">
                 <h1 class="h2 mb-3 text-white">
-                    {% get_current_language as LANGUAGE_CODE %}
-                    {% if LANGUAGE_CODE == "ar" %}
-                        سلة التسوق الخاصة بك
-                    {% else %}
-                        Your Shopping Cart
-                    {% endif %}
+                    {% trans "Your Shopping Cart" %}
                 </h1>
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb breadcrumb-light mb-0">
-                        <li class="breadcrumb-item">
-                            <a href="{% url 'home' %}" class="text-white-50">
-                                {% get_current_language as LANGUAGE_CODE %}
-                                {% if LANGUAGE_CODE == "ar" %}
-                                    الرئيسية 
-                                {% else %}
-                                    Home
-                                {% endif %}
-                            </a>
-                        </li>
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == "ar" %}/
-                        <li >
-                            السلة  
-                            {% else %}
-                            <li class="breadcrumb-item active text-white">
-                                Cart
-                            {% endif %}
-                        </li>
-                    </ol>
-
-                </nav>
-                
             </div>
+
             <div class="col-md-6 text-md-end">
                 {% if cart %}
                 <form method="post" action="{% url 'cart:cart_clear' %}" class="d-inline-block">
@@ -58,20 +29,14 @@
 
 <!-- Cart Content -->
 <div class="container py-5">
-    <div class="row">
-        
+    <div class="row">      
         <!-- Cart Items -->
         <div class="col-lg-8 mb-4 mb-lg-0">
             <div class="card border-0 rounded-4 shadow-soft overflow-hidden">
                 <div class="card-header bg-primary-light">
                     <h5 class="mb-0">
-                        <i class="fas fa-shopping-cart me-2"></i>
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == "ar" %}
-                            عناصر السلة
-                        {% else %}
-                            Your Items
-                        {% endif %}
+                        <i class="fas fa-shopping-cart me-2"></i> 
+                        {% trans "Your Items" %}
                     </h5>
                 </div>
                 
@@ -79,96 +44,105 @@
                     {% if cart %}
                     <div id="cartItemsContainer">
                         {% for item in cart %}
-                        <div class="cart-item p-3 border-bottom hover-highlight">
-                            <div class="row align-items-center">
+                        <div class="cart-item p-3 mb-3 rounded border hover-shadow">
+                            <div class="row align-items-center g-3">
+
                                 <!-- Product Image -->
-                                <div class="col-md-2">
-                                    <div class="product-thumbnail">
+                                <div class="col-4 col-md-2">
+                                    <div class="product-thumbnail border rounded overflow-hidden bg-light">
                                         {% if item.product.image %}
-                                        <img src="{{ item.product.image.url|default:'https://via.placeholder.com/400' }}" 
-                                            alt="{{ item.product.name }}" 
-                                            class="img-fluid rounded-3">
-                                        {% else %}
-                                        <img src="https://via.placeholder.com/10" 
-                                            alt="{{ item.product.name }}" 
-                                            class="img-fluid rounded-3">
+                                        <img src="{{ item.product.image.url|default:'https://via.placeholder.com/400' }}"
+                                            alt="{{ item.product.name }}"
+                                            class="img-fluid w-100">
                                         {% endif %}
                                     </div>
                                 </div>
-                                
+
                                 <!-- Product Info -->
-                                <div class="col-md-4">
+                                <div class="col-8 col-md-4">
                                     <h6 class="mb-1">
-                                        <a href="{% url 'product:product_detail' item.product.slug %}" 
-                                            class="text-decoration-none text-dark hover-primary">
+                                        <a href="{% url 'product:product_detail' item.product.slug %}"
+                                        class="text-decoration-none text-dark hover-primary">
                                             {{ item.product.name }}
                                         </a>
                                     </h6>
-                                    <small class="text-muted">{% trans "Category" %}: {{ item.product.category.name }}</small>
+                                    <small class="text-muted d-block">
+                                        {% trans "Category" %}: {{ item.product.category.name }}
+                                    </small>
                                 </div>
-                                
+
                                 <!-- Price -->
-                                <div class="col-md-2">
+                                <div class="col-md-2 text-md-center">
                                     {% if item.discount > 0 %}
-                                    <span class="original-price">{{ item.price|floatformat:2 }} {% trans "EGP" %}</span>
-                                    <div>
-                                        <span class="discount-price">-{{ item.discount|floatformat:2 }} {% trans "EGP" %}</span>
+                                    <div class="text-muted text-decoration-line-through small">
+                                        {{ item.price|floatformat:2 }} {% trans "EGP" %}
                                     </div>
-                                    {% else %}
-                                    <span class="discount-price">{{ item.price|floatformat:2 }} {% trans "EGP" %}</span>
-                                    {% endif %}    
-                                    <span class="fw-bold text-primary">{{ item.price_after_discount|floatformat:2 }} {% trans "EGP" %}</span>
+                                    <div class="text-danger small">
+                                        -{{ item.discount|floatformat:2 }} {% trans "EGP" %}
+                                    </div>
+                                    {% endif %}
+                                    <div class="fw-bold text-primary">
+                                        {{ item.price_after_discount|floatformat:2 }} {% trans "EGP" %}
+                                    </div>
                                 </div>
-                                
+
                                 <!-- Quantity Update -->
-                                <div class="col-md-3 "style="width: 80%;">
-                                    <form method="post" action="{% url 'cart:cart_update' item.product.slug %}" 
-                                        class="d-flex align-items-center">
+                                <div class="col-md-3">
+                                    <form method="post" action="{% url 'cart:cart_update' item.product.slug %}" class="d-flex align-items-center">
                                         {% csrf_token %}
-                                        <div class="input-group input-group-sm" style="width: 100%;">
-                                            <button class="btn btn-outline-secondary quantity-minus" type="button" onclick="updateqty(this, 'minus')">
+                                        <div class="input-group input-group-sm flex-grow-1" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+                                        {% if LANGUAGE_CODE == 'ar' %}
+                                            <!-- زر الإنقاص أولاً في العربي -->
+                                            <button type="button" class="btn btn-outline-secondary" onclick="updateqty(this, 'minus')">
                                                 <i class="fas fa-minus"></i>
                                             </button>
-                                            <input type="number" name="quantity" value="{{ item.quantity }}" 
-                                                min="1" max="100" 
+                                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="100"
                                                 class="form-control text-center quantity-input">
-                                            <button class="btn btn-outline-secondary quantity-plus" type="button" onclick="updateqty(this, 'plus')">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="updateqty(this, 'plus')">
                                                 <i class="fas fa-plus"></i>
                                             </button>
+                                        {% else %}
+                                            <!-- زر الزيادة أولاً في الإنجليزي -->
+                                            <button type="button" class="btn btn-outline-secondary" onclick="updateqty(this, 'plus')">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="100"
+                                                class="form-control text-center quantity-input">
+                                            <button type="button" class="btn btn-outline-secondary" onclick="updateqty(this, 'minus')">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                        {% endif %}
+
                                         </div>
-                                        <button type="submit" class="btn btn-sm btn-outline-primary ms-2">
-                                            Update
+                                        <button type="submit" class="btn btn-sm btn-outline-primary me-2 ms-2">
+                                            {% trans "Update" %}
                                         </button>
                                     </form>
                                 </div>
-                                
+
                                 <!-- Remove Item -->
                                 <div class="col-md-1 text-end">
-                                    <form method="post" action="{% url 'cart:cart_remove' item.product.slug %}" 
-                                        class="d-inline-block">
+                                    <form method="post" action="{% url 'cart:cart_remove' item.product.slug %}" class="d-inline-block">
                                         {% csrf_token %}
-                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm rounded-circle" title="{% trans 'Remove' %}">
                                             <i class="fas fa-times"></i>
                                         </button>
                                     </form>
                                 </div>
                             </div>
-                            
+
                             <!-- Subtotal -->
                             <div class="row mt-2">
                                 <div class="col-12 text-end">
                                     <small class="text-muted">
-                                        {% get_current_language as LANGUAGE_CODE %}
-                                        {% if LANGUAGE_CODE == "ar" %}
-                                            المجموع الفرعي: <span class="fw-bold">{{ item.total_price|floatformat:2 }} ج.م</span>
-                                        {% else %}
-                                            Subtotal: <span class="fw-bold">{{ item.total_price|floatformat:2 }} EGP</span>
-                                        {% endif %}
+                                        {% trans "Subtotal" %}: 
+                                        <span class="fw-bold">{{ item.total_price|floatformat:2 }} {% trans "EGP" %}</span>
                                     </small>
                                 </div>
                             </div>
                         </div>
                         {% endfor %}
+
                     </div>
                     {% else %}
                     <!-- Empty Cart State -->
@@ -177,28 +151,14 @@
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <h5 class="mb-3">
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == "ar" %}
-                                سلة التسوق فارغة
-                            {% else %}
-                                Your Cart is Empty
-                            {% endif %}
+                            {% trans "Your Cart is Empty" %}
                         </h5>
                         <p class="text-muted mb-4">
-                            {% if LANGUAGE_CODE == "ar" %}
-                                يبدو أنك لم تضف أي منتجات إلى سلة التسوق بعد.
-                            {% else %}
-                                Looks like you haven't added any items to your cart yet.
-                            {% endif %}
+                            {% trans "Looks like you haven't added any items to your cart yet." %}
                         </p>
                         <a href="{% url 'product:product_list' %}" class="btn btn-primary rounded-pill hover-scale px-4">
                             <i class="fas fa-shopping-bag me-2"></i>
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == "ar" %}
-                                ابدأ التسوق
-                            {% else %}
-                                Start Shopping
-                            {% endif %}
+                            {% trans "Start Shopping" %}
                         </a>
                     </div>
                     {% endif %}
@@ -212,97 +172,46 @@
                 <div class="card-header bg-primary-light">
                     <h5 class="mb-0">
                         <i class="fas fa-receipt me-2"></i>
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == "ar" %}
-                            ملخص الطلب
-                        {% else %}
-                            Order Summary
-                        {% endif %}
+                        {% trans "Order Summary" %}
                     </h5>
                 </div>
-                
+
                 <div class="card-body">
                     <div class="summary-item d-flex justify-content-between mb-2">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == "ar" %}
-                            <span>المجموع الفرعي:</span>
-                        {% else %}
-                            <span>Subtotal:</span>
-                        {% endif %}
+                        <span>{% trans "Subtotal" %}:</span>
                         <span style="text-decoration:line-through;">
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == "ar" %}
-                                {{ cart_summary.total_price|floatformat:2 }} ج.م
-                            {% else %}
-                                {{ cart_summary.total_price|floatformat:2 }} EGP
-                            {% endif %}
+                            {{ cart_summary.total_price|floatformat:2 }} {% trans "EGP" %}
                         </span>
                     </div>
                     <div class="summary-item d-flex justify-content-between mb-2">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == "ar" %}
-                            <span>خصم المجموع الفرعي:</span>
-                        {% else %}
-                            <span>Subtotal Discount:</span>
-                        {% endif %}
-                        <span>
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == "ar" %}
-                                -{{ cart_summary.total_discount|floatformat:2 }} ج.م
-                            {% else %}
-                                -{{ cart_summary.total_discount|floatformat:2 }} EGP
-                            {% endif %}
-                        </span>
+                        <span>{% trans "Subtotal Discount" %}:</span>
+                        <span>-{{ cart_summary.total_discount|floatformat:2 }} {% trans "EGP" %}</span>
                     </div>
-                    
+
                     <hr class="my-3">
-                    
+
                     <div class="summary-total d-flex justify-content-between fw-bold h5 mb-4">
-                        {% get_current_language as LANGUAGE_CODE %}
-                        {% if LANGUAGE_CODE == "ar" %}
-                            <span>الإجمالي:</span>
-                        {% else %}
-                            <span>Total:</span>
-                        {% endif %}
+                        <span>{% trans "Total" %}:</span>
                         <span class="text-primary">
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == "ar" %}
-                                {{ cart_summary.total_price_after_discount|floatformat:2 }} ج.م
-                            {% else %}
-                                {{ cart_summary.total_price_after_discount|floatformat:2 }} EGP
-                            {% endif %}
+                            {{ cart_summary.total_price_after_discount|floatformat:2 }} {% trans "EGP" %}
                         </span>
                     </div>
-                    
-                    {% if request.user.is_authenticated %}
-                        {% endif %}
+
                     <div class="d-grid gap-2">
                         {% if user.is_authenticated %}
-                        <a href="{% url 'order:create_order' %}" 
-                            class="btn btn-primary btn-lg rounded-pill hover-scale {% if not cart %}disabled{% endif %}">
-                            <i class="fas fa-credit-card me-2"></i>{% trans "Proceed to Checkout" %}
+                        <a href="{% url 'order:create_order' %}" class="btn btn-primary btn-lg rounded-pill hover-scale {% if not cart %}disabled{% endif %}">
+                            <i class="fas fa-credit-card me-2"></i>
+                            {% trans "Proceed to Checkout" %}
                         </a>
                         {% else %}
-                        <a href="{% provider_login_url 'google' %}" 
-                            class="btn btn-primary btn-lg rounded-pill hover-scale">
+                        <a href="{% provider_login_url 'google' %}" class="btn btn-primary btn-lg rounded-pill hover-scale">
                             <i class="fas fa-sign-in-alt me-2"></i>
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == "ar" %}
-                                تسجيل الدخول لإتمام الشراء
-                            {% else %}
-                                Login to Checkout
-                            {% endif %}
+                            {% trans "Login to Checkout" %}
                         </a>
                         {% endif %}
-                        <a href="{% url 'product:product_list' %}" 
-                            class="btn btn-outline-secondary rounded-pill hover-scale">
+                        <a href="{% url 'product:product_list' %}" class="btn btn-outline-secondary rounded-pill hover-scale">
                             <i class="fas fa-shopping-bag me-2"></i>
-                            {% get_current_language as LANGUAGE_CODE %}
-                            {% if LANGUAGE_CODE == "ar" %}
-                                متابعة التسوق
-                            {% else %}
-                                Continue Shopping
-                            {% endif %}
+                            {% trans "Continue Shopping" %}
                         </a>
                     </div>
                 </div>

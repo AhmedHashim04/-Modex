@@ -2,7 +2,7 @@
 
 {% load widget_tweaks %}
 {% load static %}
-
+{% load i18n %}
 {% block title %}Contact Us - Your Ultimate Shopping Destination{% endblock %}
 {% block content %}
 
@@ -34,8 +34,8 @@
         <div class="col-lg-7">
             <div class="card border-0 shadow-lg animate__animated animate__fadeInLeft">
                 <div class="card-header bg-white py-4 border-0">
-                    <h2 class="h3 mb-1 text-gradient-primary">Send us a message</h2>
-                    <p class="text-muted mb-0">We typically respond within 24 hours</p>
+                    <h2 class="h3 mb-1 text-gradient-primary">{{ form.title.label }}</h2>
+                    <p class="text-muted mb-0">{{ form.title.help_text }}</p>
                 </div>
                 <div class="card-body p-4 p-lg-5">
                     <form method="post" class="needs-validation" novalidate id="contactForm">
@@ -48,8 +48,8 @@
                                         <span class="input-group-text bg-transparent border-end-0">
                                             <i class="fas fa-user text-primary"></i>
                                         </span>
-                                        {% render_field form.name class+="form-control modern-input" placeholder=" " %}
-                                        <label for="{{ form.name.id_for_label }}" class="floating-label">Your Full Name</label>
+                                        {% render_field form.name class+="form-control modern-input" placeholder=form.name.label %}
+                                        <label for="{{ form.name.id_for_label }}" class="floating-label">{{ form.name.label }}</label>
                                     </div>
                                     {% if form.name.errors %}
                                         <div class="invalid-feedback d-block animated fadeIn">
@@ -57,7 +57,7 @@
                                         </div>
                                     {% else %}
                                         <div class="invalid-feedback animated fadeIn">
-                                            <i class="fas fa-exclamation-circle me-2"></i>Please provide your name
+                                            <i class="fas fa-exclamation-circle me-2"></i>{{ form.name.help_text }}
                                         </div>
                                     {% endif %}
                                 </div>
@@ -70,8 +70,8 @@
                                         <span class="input-group-text bg-transparent border-end-0">
                                             <i class="fas fa-envelope text-primary"></i>
                                         </span>
-                                        {% render_field form.from_email class+="form-control modern-input" placeholder=" " %}
-                                        <label for="{{ form.from_email.id_for_label }}" class="floating-label">Email Address</label>
+                                        {% render_field form.from_email class+="form-control modern-input" placeholder=form.from_email.label %}
+                                        <label for="{{ form.from_email.id_for_label }}" class="floating-label">{{ form.from_email.label }}</label>
                                     </div>
                                     {% if form.from_email.errors %}
                                         <div class="invalid-feedback d-block animated fadeIn">
@@ -79,7 +79,7 @@
                                         </div>
                                     {% else %}
                                         <div class="invalid-feedback animated fadeIn">
-                                            <i class="fas fa-exclamation-circle me-2"></i>Please provide a valid email
+                                            <i class="fas fa-exclamation-circle me-2"></i>{{ form.from_email.help_text }}
                                         </div>
                                     {% endif %}
                                 </div>
@@ -92,8 +92,8 @@
                                         <span class="input-group-text bg-transparent border-end-0">
                                             <i class="fas fa-tag text-primary"></i>
                                         </span>
-                                        {% render_field form.title class+="form-control modern-input" placeholder=" " %}
-                                        <label for="{{ form.title.id_for_label }}" class="floating-label">Subject</label>
+                                        {% render_field form.title class+="form-control modern-input" placeholder=form.title.label %}
+                                        <label for="{{ form.title.id_for_label }}" class="floating-label">{{ form.title.label }}</label>
                                     </div>
                                     {% if form.title.errors %}
                                         <div class="invalid-feedback d-block animated fadeIn">
@@ -101,7 +101,7 @@
                                         </div>
                                     {% else %}
                                         <div class="invalid-feedback animated fadeIn">
-                                            <i class="fas fa-exclamation-circle me-2"></i>Please provide a subject
+                                            <i class="fas fa-exclamation-circle me-2"></i>{{ form.title.help_text }}
                                         </div>
                                     {% endif %}
                                 </div>
@@ -111,8 +111,8 @@
                             <div class="col-12">
                                 <div class="form-group floating-label-group">
                                     <div class="input-group">
-                                        {% render_field form.message class+="form-control modern-input" placeholder=" " %}
-                                        <label for="{{ form.message.id_for_label }}" class="floating-label">Your Message</label>
+                                        {% render_field form.message class+="form-control modern-input" placeholder=form.message.label %}
+                                        <label for="{{ form.message.id_for_label }}" class="floating-label">{{ form.message.label }}</label>
                                     </div>
                                     <div class="d-flex justify-content-between mt-2">
                                         {% if form.message.errors %}
@@ -121,11 +121,11 @@
                                             </div>
                                         {% else %}
                                             <div class="invalid-feedback animated fadeIn">
-                                                <i class="fas fa-exclamation-circle me-2"></i>Please enter your message
+                                                <i class="fas fa-exclamation-circle me-2"></i>{{ form.message.help_text }}
                                             </div>
                                         {% endif %}
                                         <div class="form-text text-end">
-                                            <span id="messageCounter">0</span>/500 characters
+                                            <span id="messageCounter">0</span>/{{ form.message.max_length }} characters
                                         </div>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
                             <div class="col-12 mt-3">
                                 <button type="submit" class="btn btn-primary btn-lg w-100 py-3 shadow-primary">
                                     <span class="submit-text">
-                                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                                        <i class="fas fa-paper-plane me-2"></i>{{ form.title.label }}
                                     </span>
                                     <span class="spinner-border spinner-border-sm d-none" role="status"></span>
                                 </button>
@@ -153,13 +153,15 @@
                 <div class="card border-0 shadow-sm mb-4 animate__animated animate__fadeInRight animate__delay-1s">
                     <div class="card-header bg-white py-3 d-flex align-items-center">
                         <i class="fas fa-map-marker-alt text-primary me-2 fs-4"></i>
-                        <h3 class="h5 mb-0">Our Location</h3>
+                        <h3 class="h5 mb-0">{% trans "Our Location" %}</h3>
                     </div>
                     <div class="card-body">
                         <address class="mb-0">
-                            <p class="mb-3"><i class="fas fa-building me-2 text-muted"></i>123 Commerce Street<br>
-                            <i class="fas fa-city me-2 text-muted"></i>Business District<br>
-                            <i class="fas fa-globe-americas me-2 text-muted"></i>New York, NY 10001</p>
+                            <p class="mb-3">
+                                <i class="fas fa-building me-2 text-muted"></i>{% trans "123 Commerce Street" %}<br>
+                                <i class="fas fa-city me-2 text-muted"></i>{% trans "Business District" %}<br>
+                                <i class="fas fa-globe-americas me-2 text-muted"></i>{% trans "New York, NY 10001" %}
+                            </p>
                             <div class="ratio ratio-16x9 mb-3 rounded-3 overflow-hidden border">
                                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215256018144!2d-73.9878449241641!3d40.74844097138959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDQ0JzU0LjQiTiA3M8KwNTknMTMuNiJX!5e0!3m2!1sen!2sus!4v1620000000000!5m2!1sen!2sus" 
                                         style="border:0;" allowfullscreen="" loading="lazy"></iframe>
@@ -172,7 +174,7 @@
                 <div class="card border-0 shadow-sm mb-4 animate__animated animate__fadeInRight animate__delay-2s">
                     <div class="card-header bg-white py-3 d-flex align-items-center">
                         <i class="fas fa-headset text-primary me-2 fs-4"></i>
-                        <h3 class="h5 mb-0">Contact Details</h3>
+                        <h3 class="h5 mb-0">{% trans "Contact Details" %}</h3>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mb-0">
@@ -181,7 +183,7 @@
                                     <i class="fas fa-phone-alt"></i>
                                 </div>
                                 <div>
-                                    <h6 class="mb-1">Phone</h6>
+                                    <h6 class="mb-1">{% trans "Phone" %}</h6>
                                     <a href="tel:+15551234567" class="text-muted">+1 (555) 123-4567</a>
                                 </div>
                             </li>
@@ -190,7 +192,7 @@
                                     <i class="fas fa-envelope"></i>
                                 </div>
                                 <div>
-                                    <h6 class="mb-1">Email</h6>
+                                    <h6 class="mb-1">{% trans "Email" %}</h6>
                                     <a href="mailto:support@shopease.com" class="text-muted">support@shopease.com</a>
                                 </div>
                             </li>
@@ -199,11 +201,11 @@
                                     <i class="fas fa-clock"></i>
                                 </div>
                                 <div>
-                                    <h6 class="mb-1">Business Hours</h6>
+                                    <h6 class="mb-1">{% trans "Business Hours" %}</h6>
                                     <p class="text-muted mb-0">
-                                        Mon-Fri: 9AM - 6PM<br>
-                                        Sat: 10AM - 4PM<br>
-                                        Sun: Closed
+                                        {% trans "Mon-Fri: 9AM - 6PM" %}<br>
+                                        {% trans "Sat: 10AM - 4PM" %}<br>
+                                        {% trans "Sun: Closed" %}
                                     </p>
                                 </div>
                             </li>
@@ -215,26 +217,26 @@
                 <div class="card border-0 shadow-sm animate__animated animate__fadeInRight animate__delay-3s">
                     <div class="card-header bg-white py-3 d-flex align-items-center">
                         <i class="fas fa-share-alt text-primary me-2 fs-4"></i>
-                        <h3 class="h5 mb-0">Follow Us</h3>
+                        <h3 class="h5 mb-0">{% trans "Follow Us" %}</h3>
                     </div>
                     <div class="card-body">
                         <div class="d-flex flex-wrap gap-3 justify-content-center">
-                            <a href="#" class="btn btn-icon btn-primary btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="Facebook">
+                            <a href="#" class="btn btn-icon btn-primary btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="{% trans 'Facebook' %}">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
-                            <a href="#" class="btn btn-icon btn-info btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="Twitter">
+                            <a href="#" class="btn btn-icon btn-info btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="{% trans 'Twitter' %}">
                                 <i class="fab fa-twitter"></i>
                             </a>
-                            <a href="#" class="btn btn-icon btn-danger btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="Instagram">
+                            <a href="#" class="btn btn-icon btn-danger btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="{% trans 'Instagram' %}">
                                 <i class="fab fa-instagram"></i>
                             </a>
-                            <a href="#" class="btn btn-icon btn-primary btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="LinkedIn">
+                            <a href="#" class="btn btn-icon btn-primary btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="{% trans 'LinkedIn' %}">
                                 <i class="fab fa-linkedin-in"></i>
                             </a>
-                            <a href="#" class="btn btn-icon btn-dark btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="TikTok">
+                            <a href="#" class="btn btn-icon btn-dark btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="{% trans 'TikTok' %}">
                                 <i class="fab fa-tiktok"></i>
                             </a>
-                            <a href="#" class="btn btn-icon btn-success btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="WhatsApp">
+                            <a href="#" class="btn btn-icon btn-success btn-lg rounded-circle shadow-sm" data-bs-toggle="tooltip" title="{% trans 'WhatsApp' %}">
                                 <i class="fab fa-whatsapp"></i>
                             </a>
                         </div>
@@ -269,8 +271,6 @@
 </div>
 {% endblock %}
 
-{% block extra_css %}
-{% endblock %}
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

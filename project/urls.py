@@ -30,16 +30,14 @@ def disabled_view(request):
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
-    path('', include('django_prometheus.urls')),
 ]
 
 urlpatterns += i18n_patterns(
 
+    path("accounts/email/", disabled_view),path("accounts/password/change/", disabled_view),path("accounts/signup/", disabled_view),path("accounts/login/", disabled_view),path("accounts/password/reset/", disabled_view),path("accounts/password/set/", disabled_view),
     path('', HomeView.as_view(), name='home'), 
     path('my-account/', include("accounts.urls", namespace="accounts")),
     path('accounts/', include("allauth.urls")),
-    path("accounts/email/", disabled_view),path("accounts/password/change/", disabled_view),path("accounts/signup/", disabled_view),path("accounts/login/", disabled_view),path("accounts/password/reset/", disabled_view),
-    path("accounts/password/set/", disabled_view),
     path('products/', include("product.urls", namespace="product")),
     path('order/', include("order.urls", namespace="order")),
     path('cart/', include("cart.urls", namespace="cart")),

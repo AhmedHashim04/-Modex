@@ -11,7 +11,7 @@ def read_cache():
         print(key)
     print("*******************")
 
-read_cache()
+# read_cache()
 
 
 #هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
@@ -56,5 +56,4 @@ def global_context(request):
         "total_cart_items": len(cart_items_keys),
     })
 
-    print(context['total_cart_items'])
     return context

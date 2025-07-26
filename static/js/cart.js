@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     initializeCartForms();
     setupQuantityButtons();
-    fetchCartCountSafe();
 });
 
 document.addEventListener('cartUpdated', function (e) {
@@ -139,19 +138,6 @@ document.querySelectorAll('.modex-subnav-link').forEach(link => {
     });
 });
 
-async function fetchCartCount() {
-    try {
-        const response = await fetch('/cart/count/', {
-            headers: { 'X-Requested-With': 'XMLHttpRequest' }
-        });
-        if (!response.ok) throw new Error(`Status ${response.status}`);
-        const data = await response.json();
-        updateCartCounter(data.count || 0);
-    } catch (error) {
-        console.warn("⚠️ Failed to load cart count:", error.message);
-    }
-}
-
 function fetchCartCountSafe(attempts = 5) {
     const cartCounter = document.querySelector('.cart-counter');
     if (!cartCounter) {
@@ -162,7 +148,6 @@ function fetchCartCountSafe(attempts = 5) {
             return;
         }
     }
-    fetchCartCount();
 }
 
 function updateCartCounter(count, animate = true) {

@@ -244,7 +244,6 @@ class AddressSetDefaultView(LoginRequiredMixin, View):
     def post(self, request, pk):
         address = get_object_or_404(Address, pk=pk, user=request.user)
         Address.objects.filter(user=request.user, is_default=True).update(is_default=False)
-        print('updated')
         address.is_default = True
         address.save()
         messages.success(request, _("Default address set successfully."))

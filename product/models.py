@@ -163,12 +163,32 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = generate_category_slug(self.name)
+
+        # نحتاج نعرف هل الصورة تم تعديلها
+        image_needs_processing = self.image and not self.image.name.endswith(".webp")
+
+        if image_needs_processing:
+            # حول الصورة لـ WEBP
+            img = Image.open(self.image)
+            img = img.convert("RGB")
+            img.thumbnail((800, 800))
+
+            buffer = BytesIO()
+            img.save(buffer, format="WEBP", optimize=True, quality=75)
+
+            # تغيير الامتداد
+            name_without_ext = os.path.splitext(self.image.name)[0]
+            final_name = f"{name_without_ext}.webp"
+
+            # حفظ الصورة الجديدة بدون استدعاء .save() مرة تانية
+            self.image.save(final_name, ContentFile(buffer.getvalue()), save=False)
+
+        # حفظ نهائي مرة واحدة فقط
         super().save(*args, **kwargs)
-
-
 
 class ProductImage(models.Model):
     product = models.ForeignKey(
@@ -291,16 +311,5 @@ class Tag(models.Model):
 @receiver(post_save, sender=Review)
 @receiver(post_delete, sender=Review)
 def update_product_rating(sender, instance, **kwargs):
-    """
-    Signal receiver that updates the product's rating whenever a review is saved or deleted.
 
-    This function listens to the `post_save` and `post_delete` signals of the `Review` model.
-    It recalculates and updates the overall rating of the associated product by calling the
-    `update_rating` method on the product instance.
-
-    Args:
-        sender (Model): The model class that sent the signal.
-        instance (Review): The instance of the review that triggered the signal.
-        **kwargs: Additional keyword arguments passed by the signal.
-    """
     instance.product.update_rating()

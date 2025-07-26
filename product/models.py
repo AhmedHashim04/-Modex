@@ -11,17 +11,27 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .utils import generate_product_slug, generate_category_slug
 from django.utils.functional import cached_property
+from PIL import Image
+from io import BytesIO
+from django.core.files.base import ContentFile
+import os
 
 class Product(models.Model):
-    name = models.CharField(max_length=255,unique=True, verbose_name=_("Name"))
-    category = models.ForeignKey("Category",on_delete=models.SET_NULL,verbose_name=_("Category"),blank=True,null=True,related_name="products")
+    name = models.CharField(max_length=255, unique=True, verbose_name=_("Name"))
+    category = models.ForeignKey("Category", on_delete=models.SET_NULL, verbose_name=_("Category"),
+                                 blank=True, null=True, related_name="products")
     description = models.TextField(max_length=1000, verbose_name=_("Description"))
-    price = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Price"),validators=[MinValueValidator(0)])
+    price = models.DecimalField(max_digits=20, decimal_places=2, verbose_name=_("Price"),
+                                 validators=[MinValueValidator(0)])
     image = models.ImageField(upload_to="products/", verbose_name=_("Product Image"), blank=True, null=True)
     overall_rating = models.FloatField(default=0.0, verbose_name=_("Overall Rating"))
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))
-    discount = models.DecimalField(max_digits=5,decimal_places=2,default=0,verbose_name=_("Discount"),help_text=_("Discount percentage (0-100)"),validators=[MinValueValidator(0), MaxValueValidator(100)],)
-    trending = models.BooleanField(default=False,verbose_name=_("Trending"),help_text=_("Is this product trending?"),)
+    discount = models.DecimalField(max_digits=5, decimal_places=2, default=0,
+                                   verbose_name=_("Discount"),
+                                   help_text=_("Discount percentage (0-100)"),
+                                   validators=[MinValueValidator(0), MaxValueValidator(100)])
+    trending = models.BooleanField(default=False, verbose_name=_("Trending"),
+                                   help_text=_("Is this product trending?"))
     tags = models.ManyToManyField("Tag", verbose_name=_("Tags"), blank=True, related_name="products")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
@@ -36,14 +46,11 @@ class Product(models.Model):
             models.Index(fields=["is_available", "trending"], name="available_trending_idx"),
             models.Index(fields=["created_at"]),
             models.Index(fields=["discount"]),
-
         ]
-
 
     def __str__(self):
         status = _("Available") if self.is_available else _("Not available")
         return f"{self.name} - {self.price} EGP - {status}"
-
 
     def get_absolute_url(self):
         return reverse("product:product_detail", kwargs={"slug": self.slug})
@@ -57,7 +64,7 @@ class Product(models.Model):
         )
 
     def update_rating(self):
-        result = self.reviews.aggregate(average_rating=Avg("rating")) #Pyright: ignore
+        result = self.reviews.aggregate(average_rating=Avg("rating"))  # Pyright: ignore
         self.overall_rating = round(result["average_rating"] or 0, 2)
         self.save(update_fields=["overall_rating"])
 
@@ -65,6 +72,24 @@ class Product(models.Model):
         if not self.pk and not self.slug:
             self.slug = generate_product_slug(self.name)
 
+        # Step 1: لو في صورة، اضغطها في نسخة مؤقتة
+        if self.image:
+            ext = os.path.splitext(self.image.name)[1].lower()
+            if ext != ".webp":  # ✅ لو مش مضغوطة بالفعل
+                img = Image.open(self.image)
+                img = img.convert("RGB")
+                img.thumbnail((800, 800))  # Resize
+
+                buffer = BytesIO()
+                img.save(buffer, format="WEBP", optimize=True, quality=75)
+
+                # غيّر الامتداد إلى webp
+                name_without_ext = self.image.name.rsplit(".", 1)[0]
+                final_name = f"{name_without_ext}.webp"
+
+                self.image.save(final_name, ContentFile(buffer.getvalue()), save=False)
+
+        # Step 2: الحفظ داخل transaction
         try:
             with transaction.atomic():
                 super().save(*args, **kwargs)
@@ -72,7 +97,6 @@ class Product(models.Model):
             self.slug = generate_product_slug(f"{self.name}-{timezone.now().timestamp()}")
             with transaction.atomic():
                 super().save(*args, **kwargs)
-
         # cache.set("products_", {}, 60 * 5)
 
 class Review(models.Model):
@@ -154,36 +178,62 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.product.name}"
+    
+    def save(self, *args, **kwargs):
+
+        # Step 1: لو في صورة، اضغطها في نسخة مؤقتة
+        if self.image:
+            ext = os.path.splitext(self.image.name)[1].lower()
+            if ext != ".webp":  # ✅ لو مش مضغوطة بالفعل
+                img = Image.open(self.image)
+                img = img.convert("RGB")
+                img.thumbnail((800, 800))  # Resize
+
+                buffer = BytesIO()
+                img.save(buffer, format="WEBP", optimize=True, quality=75)
+
+                # غيّر الامتداد إلى webp
+                name_without_ext = self.image.name.rsplit(".", 1)[0]
+                final_name = f"{name_without_ext}.webp"
+
+                self.image.save(final_name, ContentFile(buffer.getvalue()), save=False)
+
+
+            with transaction.atomic():
+                super().save(*args, **kwargs)
+
+        # cache.set("products_", {}, 60 * 5)
+
 
 class Color(models.TextChoices):
-    BEIGE = "#f5f5dc", _("Beige")
-    BLACK = "#000", _("Black")
-    BLUE = "#00f", _("Blue")
+    RED = "#f00", _("Red")
     BROWN = "#a52a2a", _("Brown")
-    CORAL = "#ff7f50", _("Coral")
     CYAN = "#00ffff", _("Cyan")
     GOLD = "#ffd700", _("Gold")
-    GRAY = "#808080", _("Gray")
-    GREEN = "#0f0", _("Green")
+    BEIGE = "#f5f5dc", _("Beige")
+    CORAL = "#ff7f50", _("Coral")
     INDIGO = "#4b0082", _("Indigo")
+    NAVY = "#000080", _("Navy")
+    BLACK = "#000", _("Black")
+    BLUE = "#00f", _("Blue")
+    GREEN = "#0f0", _("Green")
+    YELLOW = "#ff0", _("Yellow")
+    PINK = "#ffc0cb", _("Pink")
+    WHITE = "#fff", _("White")
     LAVENDER = "#e6e6fa", _("Lavender")
+    GRAY = "#808080", _("Gray")
     LIME = "#00ff00", _("Lime")
     MAGENTA = "#ff00ff", _("Magenta")
     MAROON = "#800000", _("Maroon")
     MINT = "#98ff98", _("Mint")
-    NAVY = "#000080", _("Navy")
     OLIVE = "#808000", _("Olive")
     ORANGE = "#ffa500", _("Orange")
-    PINK = "#ffc0cb", _("Pink")
     PURPLE = "#800080", _("Purple")
-    RED = "#f00", _("Red")
     SALMON = "#fa8072", _("Salmon")
     SILVER = "#c0c0c0", _("Silver")
     TEAL = "#008080", _("Teal")
     TURQUOISE = "#40e0d0", _("Turquoise")
     VIOLET = "#ee82ee", _("Violet")
-    WHITE = "#fff", _("White")
-    YELLOW = "#ff0", _("Yellow")
 
 def color_image_upload_path(instance, filename):
     return f"products/colors/{instance.product.id}/{filename}"
@@ -199,6 +249,30 @@ class ProductColor(models.Model):
             product=self.product.name,
             color=self.get_color_display()
         )
+    
+    def save(self, *args, **kwargs):
+
+        # Step 1: لو في صورة، اضغطها في نسخة مؤقتة
+        if self.image:
+            ext = os.path.splitext(self.image.name)[1].lower()
+            if ext != ".webp":  # ✅ لو مش مضغوطة بالفعل
+                img = Image.open(self.image)
+                img = img.convert("RGB")
+                img.thumbnail((800, 800))  # Resize
+
+                buffer = BytesIO()
+                img.save(buffer, format="WEBP", optimize=True, quality=75)
+
+                # غيّر الامتداد إلى webp
+                name_without_ext = self.image.name.rsplit(".", 1)[0]
+                final_name = f"{name_without_ext}.webp"
+
+                self.image.save(final_name, ContentFile(buffer.getvalue()), save=False)
+
+
+            with transaction.atomic():
+                super().save(*args, **kwargs)
+
 
 class Tag(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=100, unique=True)

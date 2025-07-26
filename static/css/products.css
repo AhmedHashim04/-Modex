@@ -766,7 +766,7 @@
     width: 100%;
     max-width: 500px;
     aspect-ratio: 1 / 1;
-    background: hsl(var(--background-color));
+    background: hsl(var(--primary-color) / 0.1);;
     border-radius: 0.75rem;
     overflow: hidden;
     display: flex;
@@ -779,7 +779,7 @@
     max-height: 100%;
     object-fit: contain;
     transition: transform 0.3s ease;
-    background: white;
+    background: hsl(var(--primary-color) / 0.1);;
     cursor: zoom-in;
 }
 .main-product-image:hover {
@@ -802,7 +802,7 @@
     border-radius: 0.5rem;
     overflow: hidden;
     cursor: pointer;
-    background: white;
+    background: hsl(var(--primary-color) / 0.1);
     transition: all 0.2s ease;
 }
 
@@ -862,7 +862,7 @@
     height: 0.75rem;
     border: 2px solid white;
     border-radius: 50%;
-    background-color: var(--color);
+    background-color: hsl(var(--primary-color) / 0.1);;
     display: none;
 }
 

@@ -55,7 +55,7 @@ class ProductColorInline(admin.TabularInline):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline, ProductColorInline]
-    list_display = ("name", "price","category","is_available", "created_at")
+    list_display = ("name", "price","category","is_available", "created_at","overall_rating")
     list_filter = ("created_at", "is_available", "category")
     search_fields = ("name", "description", "category__name")
     ordering = ("-created_at",)

@@ -1,0 +1,87 @@
+{% load i18n %}
+
+<div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect d-flex flex-column">
+    <!-- Product Badges -->
+    <div class="position-absolute top-0 start-0 p-2 z-1">
+        {% if product.trending %}
+            <span class="badge bg-success me-1">{% trans "Trendy" %}</span>
+        {% endif %}
+        {% if product.discount %}
+            <span class="badge bg-danger">-{{ product.discount }}%</span>
+        {% endif %}
+    </div>
+
+    <!-- Product Image -->
+    <div class="product-image p-3">
+        <a href="{% url 'product:product_detail' product.slug %}">
+            <div class="main-image mb-3 border rounded-4 overflow-hidden d-flex align-items-center justify-content-center" style="height: 200px;">
+                <img src="/media/{{ product.image }}" alt="{{ product.name }}" class="img-fluid h-100 w-100" style="object-fit: contain; transition: transform 0.3s;">
+            </div>
+        </a>
+    </div>
+
+    <!-- Product Body -->
+    <div class="card-body d-flex flex-column">
+        <!-- Title -->
+        <h6 class="card-title mb-1 text-truncate">
+            <a href="{% url 'product:product_detail' product.slug %}" class="text-dark text-decoration-none">
+                {{ product.name }}
+            </a>
+        </h6>
+
+        <!-- Rating -->
+        <div class="d-flex align-items-center mb-2 small">
+            <div class="rating-stars me-1">
+                {% for i in "12345" %}
+                    {% if forloop.counter <= product.overall_rating %}
+                        <i class="fas fa-star text-warning"></i>
+                    {% else %}
+                        <i class="far fa-star text-warning"></i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Description -->
+        <p class="text-muted small mb-2">
+            {{ product.description|truncatewords:20 }}
+        </p>
+
+        <!-- Tags -->
+        {% if product.tags %}
+            <div class="product-tags mb-2">
+                {% for tag in product.tags.all %}
+                    <a href="{% url 'product:product_list' %}?tag={{ tag }}" class="badge bg-secondary-subtle text-dark me-1 mb-1">
+                        {{ tag.name }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Spacer pushes bottom section down -->
+        <div class="mt-auto w-100">
+            <!-- Price & Availability -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="price">
+                    {% if product.discount > 0 %}
+                        <small class="text-muted text-decoration-line-through d-block">
+                            {{ product.price|floatformat:2 }} {% trans "EGP" %}
+                        </small>
+                        <span class="fw-bold text-primary">{{ product.price_after_discount|floatformat:2 }} {% trans "EGP" %}</span>
+                    {% else %}
+                        <span class="fw-bold text-primary">{{ product.price|floatformat:2 }} {% trans "EGP" %}</span>
+                    {% endif %}
+                </div>
+                <span class="badge bg-success bg-opacity-10 text-success small">
+                    <i class="fas fa-check-circle me-1"></i> {% trans "In Stock" %}
+                </span>
+            </div>
+
+            <!-- Buttons -->
+            <div class="d-flex align-items-center gap-2 w-100">
+                {% include "home/cards/cart_btn.html" %}
+                {% include "product/partials/wishlist_button.html" %}
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,7 +15,7 @@
     <a href="{% url 'product:product_list' %}?category={{ category.slug }}" class="text-decoration-none">
         <div class="category-image-container">
             {% if category.image %}
-                <img src="{{ category.image.url }}" 
+                <img src="/media/{{ category.image }}" 
                      alt="{{ category.name }}" 
                      class="category-image card-img-top" 
                      loading="lazy"
@@ -57,7 +57,7 @@
         {% endif %}
 
 <!-- JavaScript -->
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="/media/https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const swiper = new Swiper('.categories-carousel', {

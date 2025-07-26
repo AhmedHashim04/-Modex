@@ -1,50 +1,79 @@
+
+
 {% load i18n %}
 
 
 {% if top_rated_section.products %}
-<section class="section">
+<section class="section advanced-trendy-products-section">
+    <div class="floating-shape shape1"></div>
+    <div class="floating-shape shape2"></div>
+    <div class="floating-shape shape3"></div>
+
     <div class="section-header">
         <h2 class="section-title">{{ top_rated_section.title }}</h2>
         <p class="section-subtitle">{% trans 'Our customers top rated products' %}</p>
     </div>
 
-    <!-- Swiper Container -->
-    <div class="swiper discountsSwiper position-relative">
-        <div class="swiper-wrapper py-2">
+    <!-- Swiper container -->
+    <div class="swiper-container new-products-swiper">
+        <div class="swiper-wrapper">
             {% for product in top_rated_section.products %}
                 <div class="swiper-slide">
-                    <div class="card h-100 shadow-sm border-0 glass-card product-card hover-effect">
-                        {% include "product/partials/product_card.html" %}
+                    <div class="card product-card-advanced flex-fill d-flex flex-column position-relative h-100">
+                    {% include "home/cards/product_card_home.html" %}
                     </div>
                 </div>
+
             {% endfor %}
         </div>
+    </div>
 
-        <!-- Arrows -->
+        <!-- Add navigation buttons -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
-    </div>
-</section>
-{% endif %}
 
-<!-- Init Swiper -->
+        <!-- Add pagination -->
+        <div class="swiper-pagination"></div>
+</section>
+
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    new Swiper('.discountsSwiper', {
-      slidesPerView: 5,
-      spaceBetween: 20,
-      navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
-      },
-      breakpoints: {
-        320: { slidesPerView: 1 },
-        576: { slidesPerView: 2 },
-        768: { slidesPerView: 3 },
-        992: { slidesPerView: 4 },
-        1200: { slidesPerView: 5 },
-        1400: { slidesPerView: 6 },
-      }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize Swiper
+        var swiper = new Swiper('.new-products-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            autoplay: {
+                delay: 3000,
+                disableOnInteraction: false,
+            },
+            loop: true,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                576: {
+                    slidesPerView: 2,
+                },
+                768: {
+                    slidesPerView: 3,
+                },
+                992: {
+                    slidesPerView: 4,
+                },
+                1200: {
+                    slidesPerView: 5,
+                },
+                1400: {
+                    slidesPerView: 6,
+                }
+            }
+        });
     });
-  });
 </script>
+{% endif %}
+<div>

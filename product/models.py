@@ -13,19 +13,19 @@ from .utils import generate_product_slug, generate_category_slug
 from django.utils.functional import cached_property
 
 class Product(models.Model):
-    name = models.CharField(max_length=255,unique=True, verbose_name=_("Name"), db_index=True)
+    name = models.CharField(max_length=255,unique=True, verbose_name=_("Name"))
     category = models.ForeignKey("Category",on_delete=models.PROTECT,verbose_name=_("Category"),blank=True,null=True,related_name="products",)
     description = models.TextField(max_length=1000, verbose_name=_("Description"))
     price = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Price"),validators=[MinValueValidator(0)],)
     image = models.ImageField(upload_to="products/", verbose_name=_("Product Image"), blank=True, null=True)
-    overall_rating = models.FloatField(default=0.0, verbose_name=_("Overall Rating"), editable=False)
+    overall_rating = models.FloatField(default=0.0, verbose_name=_("Overall Rating"))
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))
     discount = models.DecimalField(max_digits=5,decimal_places=2,default=0,verbose_name=_("Discount"),help_text=_("Discount percentage (0-100)"),validators=[MinValueValidator(0), MaxValueValidator(100)],)
     trending = models.BooleanField(default=False,verbose_name=_("Trending"),help_text=_("Is this product trending?"),)
     tags = models.ManyToManyField("Tag", verbose_name=_("Tags"), blank=True, related_name="products")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"), db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Created At"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
-    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255, db_index=True)
+    slug = models.SlugField(unique=True, blank=True, null=True, max_length=255)
 
     class Meta:
         verbose_name = _("Product")
@@ -33,8 +33,9 @@ class Product(models.Model):
         indexes = [
             models.Index(fields=["price"], name="price_idx"),
             models.Index(fields=["-overall_rating"], name="rating_idx"),
-            models.Index(fields=["category",],name="category_idx",),
-            models.Index(fields=["is_available", "trending"], name="available_trending_idx")
+            models.Index(fields=["is_available", "trending"], name="available_trending_idx"),
+            models.Index(fields=["created_at"]),
+            models.Index(fields=["discount"]),
 
         ]
 
@@ -99,7 +100,7 @@ class Review(models.Model):
     )
 
     created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name=_("Created At"), db_index=True
+        auto_now_add=True, verbose_name=_("Created At")
     )
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Updated At"))
 

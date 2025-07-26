@@ -1,6 +1,6 @@
 {% load i18n %}
                     <!-- Product Badges -->
-                    {% if product.trending or product %}
+                    {% if product.trending or product.discount %}
                     <div class="product-badges">
                         {% if product.trending %}
                         <span class="badge bg-success">{% trans "Trendy" %}</span>
@@ -49,7 +49,7 @@
                                 {% comment %} <small class="text-muted">({{ product.review_count }})</small> {% endcomment %}
                             </div>
                             <p class="card-text text-muted small mb-2">
-                                {{ product.short_description|default:product.description|truncatewords:20 }}
+                                {{ product.description|truncatewords:20 }}
                             </p>
                             
                             <!-- Tags -->

@@ -38,7 +38,7 @@
                             <a href="{% url 'product:product_detail' product.slug %}">
                                 <div class="main-image w-100 h-100 d-flex align-items-center justify-content-center" style="min-height: 180px;">
                                     {% if product.image %}
-                                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid w-100" style="max-height: 180px;">
+                                        <img src="/media/{{ product.image }}" alt="{{ product.name }}" class="img-fluid w-100" style="max-height: 180px;">
                                     {% else %}
                                         <div class="d-flex flex-column align-items-center justify-content-center bg-light w-100 h-100" style="min-height: 180px;">
                                             <i class="fas fa-image fa-3x text-primary mb-2"></i>

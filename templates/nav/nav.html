@@ -33,9 +33,9 @@
             <option value="" {% if not selected_category %}selected{% endif %}>
                     {% trans "All" %}
                 </option>
-                {% for category in contextCategories %}
-                    <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>
-                        {{ category.name }}
+                {% for name,slug in contextCategories %}
+                    <option value="{{ slug }}" {% if selected_category == name %}selected{% endif %}>
+                        {{ name }}
                     </option>
                 {% endfor %}
             </select>

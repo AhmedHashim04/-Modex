@@ -4,17 +4,20 @@ from product.models import Category
 from django.core.cache import cache
 from accounts.models import Profile
 
-#هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
-#شوف اوقات ال كاش كدا مناسبة 
-def global_context(request):
+def read_cache():
+    print("========***********")
     print("All keys in cache:")
     for key in cache.keys("*"):
         print(key)
-    print("-------------------")
+    print("*******************")
+
+#هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
+#شوف اوقات ال كاش كدا مناسبة 
+def global_context(request):
     context = {}
     categories = cache.get('context_categories')
     if categories is None:
-        categories = list(Category.objects.filter(parent=None)[:10])
+        categories = list(Category.objects.filter(parent=None).values_list('name', 'slug')[:10])
         cache.set('context_categories', categories, 60 * 60 * 24)  # كاش يوم
 
     cart = ShoppingCart(request)

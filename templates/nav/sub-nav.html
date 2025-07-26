@@ -8,10 +8,10 @@
 
         <div class="collapse navbar-collapse" id="modexSubnav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
-                {% for category in contextCategories %}
+                {% for name,slug in contextCategories %}
                     <li class="nav-item">
-                        <a class="nav-link modex-subnav-link {% if selected_category == category.slug %}active-category{% endif %}" href="{% url 'product:product_list' %}?category={{ category.slug }}">
-                            {{ category.name }}
+                        <a class="nav-link modex-subnav-link {% if selected_category == slug %}active-category{% endif %}" href="{% url 'product:product_list' %}?category={{ slug }}">
+                            {{ name }}
                         </a>
                     </li>
                     {% endfor %}

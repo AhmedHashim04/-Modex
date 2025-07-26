@@ -2,7 +2,6 @@
 
 <div data-product-slug="{{ product.slug }}" data-source="cart_button">
     {% if product.slug not in cart_items_keys %}
-        {% if product.is_available %}
             <form method="POST"
                   action="{% url 'cart:cart_add' product.slug %}"
                   class="d-flex flex-column flex-sm-row align-items-stretch w-100 gap-2 product-cart-form"
@@ -24,9 +23,7 @@
                     <i class="fas fa-shopping-cart me-2"></i> 
                 </button>
             </form>
-        {% endif %}
     {% else %}
-        {% if product.is_available %}
             <form method="POST"
                   action="{% url 'cart:cart_remove' product.slug %}"
                   class="d-flex flex-column flex-sm-row align-items-stretch w-100 gap-2 product-cart-form"
@@ -37,6 +34,5 @@
                     <i class="fas fa-trash-alt me-2"></i> {% trans "Remove" %}
                 </button>
             </form>
-        {% endif %}
     {% endif %}
 </div>

@@ -1,36 +1,84 @@
                                         {% if order.status == 'pending' %}
-                                            <span class="badge rounded-pill px-4 py-2 fs-6 shadow-sm" style="background: var(--gradient-secondary); color: hsl(var(--dark-surface));">
-                                                <i class="fas fa-clock me-1"></i>Pending
-                                            </span>
-                                        {% elif order.status == 'processing' %}
-                                            <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--primary-color));">
-                                                <i class="fas fa-spinner me-1"></i>Processing
-                                            </span>
-                                            {% elif order.status == 'shipped' %}
-                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--secondary-color));">
-                                                    <i class="fas fa-truck me-1"></i>Shipped
+                                            {% if request.LANGUAGE_CODE == 'ar' %}
+                                                <span class="badge rounded-pill px-4 py-2 fs-6 shadow-sm" style="background: var(--gradient-secondary); color: hsl(var(--dark-surface));">
+                                                    <i class="fas fa-clock me-1"></i>قيد الانتظار
                                                 </span>
+                                            {% else %}
+                                                <span class="badge rounded-pill px-4 py-2 fs-6 shadow-sm" style="background: var(--gradient-secondary); color: hsl(var(--dark-surface));">
+                                                    <i class="fas fa-clock me-1"></i>Pending
+                                                </span>
+                                            {% endif %}
+                                        {% elif order.status == 'processing' %}
+                                            {% if request.LANGUAGE_CODE == 'ar' %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--primary-color));">
+                                                    <i class="fas fa-spinner me-1"></i>قيد المعالجة
+                                                </span>
+                                            {% else %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--primary-color));">
+                                                    <i class="fas fa-spinner me-1"></i>Processing
+                                                </span>
+                                            {% endif %}
+                                            {% elif order.status == 'shipped' %}
+                                                {% if request.LANGUAGE_CODE == 'ar' %}
+                                                    <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--secondary-color));">
+                                                        <i class="fas fa-truck me-1"></i>تم الشحن
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--secondary-color));">
+                                                        <i class="fas fa-truck me-1"></i>Shipped
+                                                    </span>
+                                                {% endif %}
                                         {% elif order.status == 'delivered' %}
-                                        <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--success-color));">
-                                            <i class="fas fa-check me-1"></i>Delivered
-                                            {% if order.paid %}
+                                            {% if request.LANGUAGE_CODE == 'ar' %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--success-color));">
+                                                    <i class="fas fa-check me-1"></i>تم التوصيل
+                                                    {% if order.paid %}
+                                                        <span class="badge bg-success px-2 py-0 fs-8">
+                                                            و
+                                                            <i class="fas fa-check-circle me-1"></i>تم الدفع
+                                                        </span>
+                                                    {% endif %}
+                                                </span>
+                                            {% else %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--success-color));">
+                                                    <i class="fas fa-check me-1"></i>Delivered
+                                                    {% if order.paid %}
                                                         <span class="badge bg-success px-2 py-0 fs-8">
                                                             and
                                                             <i class="fas fa-check-circle me-1"></i>Paid
                                                         </span>
-                                                {% endif %}
-                                            </span>
-
+                                                    {% endif %}
+                                                </span>
+                                            {% endif %}
                                         {% elif order.status == 'cancelled' %}
-                                            <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--danger-color));">
-                                                <i class="fas fa-times-circle me-1"></i>Cancelled
-                                            </span>
+                                            {% if request.LANGUAGE_CODE == 'ar' %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--danger-color));">
+                                                    <i class="fas fa-times-circle me-1"></i>ملغي
+                                                </span>
+                                            {% else %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--danger-color));">
+                                                    <i class="fas fa-times-circle me-1"></i>Cancelled
+                                                </span>
+                                            {% endif %}
                                         {% elif order.status == 'failed' %}
-                                            <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--danger-color)); border: 3px solid hsl(var(--primary-color));">
-                                                <i class="fas fa-exclamation-circle me-1  "></i>Failed
-                                            </span>
+                                            {% if request.LANGUAGE_CODE == 'ar' %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--danger-color)); border: 3px solid hsl(var(--primary-color));">
+                                                    <i class="fas fa-exclamation-circle me-1  "></i>فاشل
+                                                </span>
+                                            {% else %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--danger-color)); border: 3px solid hsl(var(--primary-color));">
+                                                    <i class="fas fa-exclamation-circle me-1  "></i>Failed
+                                                </span>
+                                            {% endif %}
                                         {% elif order.status == 'returned' %}
-                                            <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--tertiary-color));">
-                                                <i class="fas fa-exclamation-circle me-1"></i>Returned
-                                            </span>
+                                            {% if request.LANGUAGE_CODE == 'ar' %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--tertiary-color));">
+                                                    <i class="fas fa-exclamation-circle me-1"></i>مرتجع
+                                                </span>
+                                            {% else %}
+                                                <span class="badge rounded-pill px-3 py-2 shadow-sm" style="background-color: hsl(var(--tertiary-color));">
+                                                    <i class="fas fa-exclamation-circle me-1"></i>Returned
+                                                </span>
+                                            {% endif %}
                                         {% endif %}
+

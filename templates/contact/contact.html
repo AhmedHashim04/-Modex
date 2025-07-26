@@ -5,24 +5,20 @@
 {% load i18n %}
 {% block title %}Contact Us - Your Ultimate Shopping Destination{% endblock %}
 {% block content %}
-
+{% get_current_language as LANGUAGE_CODE %}
 
 <!-- Enhanced Page Header -->
 <section class="page-header bg-gradient-primary-to-secondary py-5">
-    <div class="container btn-primary">
+    <div class="container">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="display-4 fw-bold text-white mb-3 animate__animated animate__fadeInDown">Let's Connect</h1>
-                <p class="lead text-white-80 mb-0 animate__animated animate__fadeIn animate__delay-1s">We're here to help and answer any questions you might have.</p>
-            </div>
-            <div class="col-md-4 animate__animated animate__fadeIn animate__delay-2s">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb justify-content-md-end">
-                        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-white">Home</a></li>
-                        <li class="breadcrumb-item active text-white-50" aria-current="page">Contact</li>
-                    </ol>
-                </nav>
-            </div>
+                {% if LANGUAGE_CODE == 'ar' %}
+                    <h1 class="display-4 fw-bold text-white mb-3 animate__animated animate__fadeInDown">دعونا نتواصل</h1>
+                    <p class="lead text-white-80 mb-0 animate__animated animate__fadeIn animate__delay-1s">نحن هنا للمساعدة والإجابة على أي أسئلة قد تكون لديكم.</p>
+                {% else %}
+                    <h1 class="display-4 fw-bold text-white mb-3 animate__animated animate__fadeInDown">Let's Connect</h1>
+                    <p class="lead text-white-80 mb-0 animate__animated animate__fadeIn animate__delay-1s">We're here to help and answer any questions you might have.</p>
+                {% endif %}
         </div>
     </div>
 </section>
@@ -204,8 +200,8 @@
                                     <h6 class="mb-1">{% trans "Business Hours" %}</h6>
                                     <p class="text-muted mb-0">
                                         {% trans "Mon-Fri: 9AM - 6PM" %}<br>
-                                        {% trans "Sat: 10AM - 4PM" %}<br>
-                                        {% trans "Sun: Closed" %}
+                                        {% comment %} {% trans "Sat: 10AM - 4PM" %}<br>
+                                        {% trans "Sun: Closed" %} {% endcomment %}
                                     </p>
                                 </div>
                             </li>

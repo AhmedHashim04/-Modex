@@ -27,7 +27,13 @@
                     {{ daily_products_section.title }}
                 </h1>
                 <p class="lead mb-4 daily-lead">
-                    {% trans '🔥Discover the latest trending products handpicked for you every day! 🔥' %}
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% if LANGUAGE_CODE == 'ar' %}
+
+                       اكتشف أحدث المنتجات الشهيرة والمصممة خصيصا لك كل يوم!
+                    {% else %}
+                       Discover the latest trending products handpicked for you every day!
+                    {% endif %}
                 </p>
                 <a href="{% url 'product:product_list' %}" class="btn btn-lg px-5 py-3 fw-semibold shadow-lg daily-shop-btn">
                     <i class="bi bi-bag-heart me-2"></i> {% trans 'Shop now' %}

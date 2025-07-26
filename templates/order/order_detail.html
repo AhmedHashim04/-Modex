@@ -10,9 +10,9 @@
             <div class="card border-4 rounded-4 overflow-hidden bg-blur shadow">
                 <div class="card-header text-white text-center py-4" style="background: var(--gradient-primary); position: relative;">
                     <i class="fas fa-receipt fa-3x  mb-2"></i>
-                    <h2 class="mb-0 fw-bold text-white">{% blocktrans %}Order #{{ order.id }}{% endblocktrans %}</h2>
+                    <h2 class="mb-0 fw-bold text-white">Order #{{ order.id }}</h2>
                     {% include "order/partials/status.html" %}
-                    <p class="mb-0 opacity-75">{% trans "Order Details" %}</p>
+                    <hr>
                     {% if order.status == 'pending'  %}
                     <form method="post" action="{% url 'order:cancel_order' order.id %}" class="flex-fill">
                         {% csrf_token %}
@@ -31,7 +31,6 @@
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-calendar-alt me-3 text-primary"></i>
                                     <div>
-                                        <small class="text-muted">{% trans "Order Date" %}</small>
                                         <div class="fw-bold">{{ order.created_at|date:"F j, Y H:i" }}</div>
                                     </div>
                                 </div>
@@ -53,7 +52,11 @@
                                 <div class="d-flex align-items-start">
                                     <i class="fas fa-map-marker-alt me-3 text-danger"></i>
                                     <div>
-                                        <small class="text-muted">{% trans "Delivery Address" %}</small>
+                                        {% if request.LANGUAGE_CODE == 'ar' %}
+                                            <small class="text-muted">بيانات  التوصيل</small>
+                                        {% else %}
+                                            <small class="text-muted">Delivery Address</small>
+                                        {% endif %}
                                         <div class="fw-bold">{{ order.address.governorate }}</div>
                                         <div class="fw-bold">{{ order.address.city }}</div>
                                         <div class="fw-bold">{{ order.address.address_line }}</div>
@@ -92,7 +95,11 @@
                                     <div class="d-flex align-items-center">
                                         <i class="fas fa-tag me-3 text-secondary"></i>
                                         <div>
-                                            <small class="text-muted">{% trans "Order Status" %}</small>
+                                            {% if request.LANGUAGE_CODE == 'ar' %}
+                                                <small class="text-muted">حالة الطلب الان</small>
+                                            {% else %}
+                                                <small class="text-muted">Order Status now</small>
+                                            {% endif %}
                                             <div>
                                                 {% include "order/partials/status.html" %}
                                             </div>
@@ -116,8 +123,13 @@
                     <div class="text-center mb-5">
                         <div class="summary-card p-4 rounded-4 shadow-sm bg-white bg-opacity-75 d-inline-block">
                             <div class="d-flex align-items-center justify-content-center gap-2 mb-2">
-                                <span class="fw-bold text-secondary fs-5">{% trans "Total" %}</span>
+                                {% if request.LANGUAGE_CODE == 'ar' %}
+                                <span class="fw-bold text-secondary fs-5">الاجمالي</span>
                                 <i class="fas fa-plus text-primary"></i>
+                                {% else %}
+                                    <span class="fw-bold text-secondary fs-5">{% trans "Total" %}</span>
+                                    <i class="fas fa-plus text-primary"></i>
+                                {% endif %}
                                 <span class="text-muted">{% trans "Shipping Cost" %}</span>
                             </div>
                             <div class="display-6 fw-bold text-primary mb-3">
@@ -138,11 +150,11 @@
                         <table class="table table-borderless table-hover align-middle text-center">
                             <thead class="bg-primary-light">
                                 <tr>
-                                    <th class="text-start">{% trans "Product" %}</th>
+                                    <th class="text-start"></th>
                                     <th>{% trans "Quantity" %}</th>
                                     <th class="text-center">{% trans "Unit Price (Before Discount)" %}</th>
                                     <th class="text-center">{% trans "Unit Price (After Discount)" %}</th>
-                                    <th class="text-end">{% trans "Total" %}</th>
+                                    <th class="text-end">{% if request.LANGUAGE_CODE == 'ar' %}الاجمالي{% else %}{% trans "Total" %}{% endif %}</th>
                                 </tr>
                             </thead>
                             <tbody>

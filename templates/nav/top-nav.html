@@ -48,16 +48,23 @@
         <a href="{% url 'product:product_list' %}" class="manage-nav-link d-flex-start align-items-center">
             <i class="fas fa-store me-1"></i>
             <span class="d-none d-sm-inline">
-                {% trans "Shop" %}
-            </span>
+                {% if LANGUAGE_CODE == 'ar' %}
+                <span class="d-none d-sm-inline">
+                    المتجر
+                </span>
+                {% else %}
+                <span class="d-none d-sm-inline">
+                    Shop
+                </span>
+                {% endif %}
         </a>
 
         <!-- Cart -->
-        <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center flex-nowrap position-relative cart-advanced-link" id="cart-link">
+        <a href="{% url 'cart:cart_list' %}" id="cart-nav-link" class="manage-nav-link d-flex align-items-center flex-nowrap position-relative  cart-advanced-link" id="cart-link">
             <i class="fas fa-shopping-cart me-1 fs-5"></i>
             <span class="d-none d-sm-inline fw-semibold">
                 {% trans "Cart" %}
-                <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6 fw-semibold cart-counter">
+                <span class="badge bg-warning text-dark rounded-pill ms-1 fs-6  fw-semibold cart-counter">
                     {{ total_cart_items }}
                 </span>
             </span>
@@ -66,7 +73,7 @@
 
         <div class="d-flex align-items-end gap-2">
         <!-- Language Toggle -->
-        <form action="{% url 'set_language' %}" method="post">
+        {% comment %} <form action="{% url 'set_language' %}" method="post">
             {% csrf_token %}
             <input name="next" type="hidden" value="{{ request.get_full_path }}">
             <input type="hidden" name="language" value="{% if LANGUAGE_CODE == 'en' %}ar{% else %}en{% endif %}">
@@ -87,6 +94,12 @@
             </button>
         </form>
         
+        <button id="themeSwitcher" class="btn-primary btn-sm rounded-pill d-flex align-items-center">
+            <i class="fa-solid fa-palette fs-5 me-1"></i>
+            <span class="d-none d-sm-inline">
+                {% trans "Change theme" %}
+            </span>
+        </button> {% endcomment %}
     </div>
 </div>
 

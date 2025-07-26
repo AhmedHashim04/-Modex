@@ -18,9 +18,14 @@
                         <span class="icon-circle shadow-sm" style="background-color: hsla(var(--surface-color), 0.2);">
                             <i class="fas fa-shopping-bag text-white"></i>
                         </span>
-                    </div>
-                    <h2 class="mb-1 fw-bold text-white display-5">{% trans "My Orders" %}</h2>
-                    <p class="mb-0 opacity-75 fs-5">{% trans "Your order history" %}</p>
+                    </div>{% get_current_language as LANGUAGE_CODE %}
+                    {% if LANGUAGE_CODE == 'ar' %}
+                        <h2 class="mb-1 fw-bold text-white display-5">طلباتي</h2>
+                        <p class="mb-0 opacity-75 fs-5">سجل طلباتك</p>
+                    {% else %}
+                        <h2 class="mb-1 fw-bold text-white display-5">{% trans "My Orders" %}</h2>
+                        <p class="mb-0 opacity-75 fs-5">{% trans "Your order history" %}</p>
+                    {% endif %}
                     <div class="position-absolute top-0 end-0 m-3 d-none d-md-block" style="opacity:0.12; font-size:5rem;">
                         <i class="fas fa-receipt"></i>
                     </div>
@@ -29,7 +34,7 @@
                 <div class="card-body p-4 p-lg-5">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h5 class="fw-semibold text-secondary">
-                            <i class="fas fa-history me-2 text-primary"></i>{% trans "Order History" %}
+                            <i class="fas fa-history me-2 text-primary"></i>{% if LANGUAGE_CODE == 'ar' %}طلباتي{% else %}{% trans "My Orders" %}{% endif %}
                         </h5>
                     </div>
 
@@ -49,7 +54,7 @@
                                                   style="background-color: hsl(var(--secondary-color)); height: 100%; height: 32px;">
                                                 <i class="fas fa-receipt text-white"></i>
                                             </span>
-                                            <span class="ms-2">{% blocktrans %}Order #{{ order.id }}{% endblocktrans %}</span>
+                                            <span class="ms-2">Order #{{ order.id }}</span>
                                         </a>
                                     </h5>
                                 </div>
@@ -63,7 +68,10 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-6">
                                         <div class="d-flex align-items-center border-bottom pb-3">
-                                            <strong class="me-2 text-secondary">{% trans "Total" %}:</strong>
+                                            
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                            
+                                            <strong class="me-2 text-secondary">{% if LANGUAGE_CODE == 'en' %}Total{% else %}الاجمالي {% endif %}:</strong>
                                             <span class="text-primary fw-bold fs-5">{{ order.total_price|floatformat:2 }} <span class="fw-normal text-muted">{% trans "EGP" %}</span></span>
                                         </div>
                                     </div>
@@ -82,10 +90,15 @@
                                         <table class="table table-borderless align-middle">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-start">{% trans "Product" %}</th>
-                                                    <th class="text-start">{% trans "Before Discount" %}</th>
-                                                    <th class="text-end">{% trans "After Discount" %}</th>
-                                                    <th class="text-end">{% trans "Total" %}</th>
+                                                    {% get_current_language as LANGUAGE_CODE %}
+                                                    {% if LANGUAGE_CODE == 'ar' %}
+  
+                                                    {% else %}
+                                                        <th class="text-start">Product</th>
+                                                        <th class="text-end">Before Discount</th>
+                                                        <th class="text-end">After Discount</th>
+                                                        <th class="text-end">Total</th>
+                                                    {% endif %}
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -101,8 +114,8 @@
                                                             </span>
                                                             {% endif %}
                                                             <div>
-                                                                <div class="fw-bold fs-6">{{ item.product.name }}</div>
-                                                                <small class="text-muted">{% blocktrans %}Qty: {{ item.quantity }}{% endblocktrans %}</small>
+                                                                <div class="fw-bold fs-6 me-1">{{ item.product.name }}</div>
+                                                                <small class="text-muted me-1">Qty: {{ item.quantity }}</small>
                                                             </div>
                                                         </div>
                                                     </td>

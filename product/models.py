@@ -14,9 +14,9 @@ from django.utils.functional import cached_property
 
 class Product(models.Model):
     name = models.CharField(max_length=255,unique=True, verbose_name=_("Name"))
-    category = models.ForeignKey("Category",on_delete=models.PROTECT,verbose_name=_("Category"),blank=True,null=True,related_name="products",)
+    category = models.ForeignKey("Category",on_delete=models.SET_NULL,verbose_name=_("Category"),blank=True,null=True,related_name="products")
     description = models.TextField(max_length=1000, verbose_name=_("Description"))
-    price = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Price"),validators=[MinValueValidator(0)],)
+    price = models.DecimalField(max_digits=20,decimal_places=2,verbose_name=_("Price"),validators=[MinValueValidator(0)])
     image = models.ImageField(upload_to="products/", verbose_name=_("Product Image"), blank=True, null=True)
     overall_rating = models.FloatField(default=0.0, verbose_name=_("Overall Rating"))
     is_available = models.BooleanField(default=True, verbose_name=_("Is Available"))

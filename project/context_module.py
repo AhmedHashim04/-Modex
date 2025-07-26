@@ -11,6 +11,9 @@ def read_cache():
         print(key)
     print("*******************")
 
+read_cache()
+
+
 #هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
 #شوف اوقات ال كاش كدا مناسبة 
 def global_context(request):

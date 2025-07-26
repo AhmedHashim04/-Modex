@@ -30,6 +30,7 @@ def disabled_view(request):
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
+    path('', include('django_prometheus.urls')),
 ]
 
 urlpatterns += i18n_patterns(
@@ -47,6 +48,7 @@ urlpatterns += i18n_patterns(
     path('mohamed/', custom_admin_site.urls),
     path('terms/', TermsOfServiceView.as_view(), name='terms_of_service'),
     path("privacy/", PrivacyPolicy.as_view(), name="privacy_policy"),
+
     prefix_default_language=True,
 )
 if settings.DEBUG:

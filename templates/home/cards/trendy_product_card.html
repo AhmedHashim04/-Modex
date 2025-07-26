@@ -1,6 +1,6 @@
-    {% load i18n %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
 
-    
     <div class="col d-flex">
         <div class="product-card-modern w-100 h-100 position-relative">
 
@@ -81,7 +81,6 @@
                             <i class="fas fa-check-circle"></i> {% trans "In Stock" %}
                         </span>
                 </div>
-                
                 <div>
                                 <div class="d-flex align-items-center gap-2 flex-nowrap w-100">
                                     <div class="flex-grow-1 w-100">

@@ -1,5 +1,7 @@
 {% load i18n %}
 
+{% get_current_language as LANGUAGE_CODE %}
+
 {% if trendy_products_section.products %}
 
 
@@ -92,15 +94,10 @@
                                             <span class="price-advanced">{{ product.price|floatformat:2 }} EGP</span>
                                         {% endif %}
                                     </div>
-                                    {% if product.is_available %}
                                         <span class="stock-badge-advanced">
                                             <i class="fas fa-check-circle me-1"></i> {% trans "In Stock" %}
                                         </span>
-                                    {% else %}
-                                        <span class="stock-badge-advanced out">
-                                            <i class="fas fa-times-circle me-1"></i> {% trans "Out of Stock" %}
-                                        </span>
-                                    {% endif %}
+
                                 </div>
                                 <!-- Product Actions -->
                                 <div class="product-actions-advanced">

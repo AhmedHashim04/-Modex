@@ -19,8 +19,8 @@ DEBUG = True
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
-
-ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '127.0.0.1']
+# 'yourdomain.com', 'www.yourdomain.com', '127.0.0.1'
+ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     "cart.apps.CartConfig",
     "order.apps.OrderConfig",
     'debug_toolbar',
+    'django_prometheus',
+
     'django_ratelimit',
     "widget_tweaks",
     "django.contrib.admin",
@@ -46,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     'django.contrib.sites',
     'django.contrib.humanize',
+
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -62,6 +65,7 @@ LOGOUT_REDIRECT_URL = "/"
 
 
 MIDDLEWARE = [
+    
     'project.rate_limit_logging.RatelimitLoggingMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -74,9 +78,13 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
     'django_ratelimit.middleware.RatelimitMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-
-
+    'django_prometheus.middleware.PrometheusAfterMiddleware',
 ]
+
+CACHE_METRICS = {
+    'EXPORT': 'prometheus',  # يدعم أيضًا 'stdout' أو 'datadog'
+}
+
 RATELIMIT_VIEW='home.views.RateLimitExceeded'
 ROOT_URLCONF = "project.urls"
 

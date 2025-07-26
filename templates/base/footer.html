@@ -83,8 +83,8 @@
             <div class="footer-col">
                 <h3 class="footer-title">{% trans "Categories" %}</h3>
                 <ul class="footer-links">
-                    {% for category in contextCategories|slice:":5" %}
-                    <li><a href="{% url 'product:product_list' %}?category={{ category.slug }}"><i class="fas fa-chevron-left"></i> {{ category.name }}</a></li>
+                    {% for name,slug in contextCategories|slice:":5" %}
+                    <li><a href="{% url 'product:product_list' %}?category={{ slug }}"><i class="fas fa-chevron-left"></i> {{ name }}</a></li>
                     {% endfor %}
                 </ul>
             </div>

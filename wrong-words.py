@@ -1,7 +1,7 @@
 # Arabic to English mapping (based on keyboard layout)
 mapping = {
     'ض': 'q', 'ص': 'w', 'ث': 'e', 'ق': 'r', 'ف': 't', 'غ': 'y', 'ع': 'u', 'ه': 'i','ج': '[', 'خ': 'o','د': ']', 'ح': 'p',
-    'ش': 'a', 'س': 's', 'ي': 'd', 'ب': 'f', 'ل': 'g', 'ا': 'h', 'ت': 'j', 'ن': 'k', 'م': 'l',
+    'ش': 'a', 'س': 's', 'ي': 'd', 'ب': 'f', 'ل': 'g', 'ا': 'h', 'ت': 'j', 'ن': 'k', 'م': 'l','ك': ';',
     'ئ': 'z', 'ء': 'x', 'ؤ': 'c', 'ر': 'v', 'لا': 'b', 'ى': 'n', 'ة': 'm', 'و': ',', 'ز': '.', 'ظ': '/',
 }
 
@@ -19,7 +19,7 @@ def swap_ar_en(text):
     return ''.join(result)
 
 # تجربة
-mixed_text = "سفغمث ,hsjolg hg قخخف ؤخمخقس g, phff"
+mixed_text = "ll;k hsjo]l hgw,v hgjhkdm ,hghg,hk td ;,kjdkv jhkd uhg[kf ?"
 print("Swapped:", swap_ar_en(mixed_text))
 
 

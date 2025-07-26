@@ -2,6 +2,7 @@ from django.urls import path
 from .views import profile_view, edit_profile, clear_wishlist, view_wishlist, toggle_wishlist, remove_wishlist
 
 app_name = 'accounts'
+
 urlpatterns = [
     path('profile/', profile_view, name='profile'),
     path('profile/wishlist/', view_wishlist, name='wishlist'),

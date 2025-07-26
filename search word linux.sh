@@ -1,1 +1,2 @@
-grep -rnw --include="*.html" "cart_count_api" .
+grep -rnw --include="*.html" -e "compareProducts\(" .
+

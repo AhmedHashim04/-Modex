@@ -152,7 +152,6 @@ class CartView(ListView):
         )
         return context
 
-
 class CartContextMixin:
     def get_cart(self):
         try:
@@ -172,7 +171,6 @@ class CartContextMixin:
         context["cart"] = self.get_cart()
         context["cart_summary"] = self.get_cart_summary()
         return context
-
 
 class CartView(CartContextMixin, TemplateView):
     template_name = "cart/cart.html"

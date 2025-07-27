@@ -224,7 +224,6 @@ class ProductImage(models.Model):
 
         # cache.set("products_", {}, 60 * 5)
 
-
 class Color(models.TextChoices):
     RED = "#f00", _("Red")
     BROWN = "#a52a2a", _("Brown")
@@ -257,7 +256,6 @@ class Color(models.TextChoices):
 
 def color_image_upload_path(instance, filename):
     return f"products/colors/{instance.product.id}/{filename}"
-
 
 class ProductColor(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE,verbose_name=_("Product"),related_name='colors')
@@ -293,7 +291,6 @@ class ProductColor(models.Model):
             with transaction.atomic():
                 super().save(*args, **kwargs)
 
-
 class Tag(models.Model):
     name = models.CharField(verbose_name=_("Name"), max_length=100, unique=True)
 
@@ -305,8 +302,6 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 @receiver(post_save, sender=Review)
 @receiver(post_delete, sender=Review)

@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from product.models import Category
 from slugify import slugify
 
-IMAGE_DIR = "/home/ahmed/Desktop/project/src/media/image_pr"
+IMAGE_DIR = "/home/ahmed/Desktop/project/src/media/base_images"
 
 CATEGORIES = {
     "هدايا حسب المناسبة": [

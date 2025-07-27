@@ -31,8 +31,7 @@ db.sqlite3
 # Static files
 staticfiles/
 
-# Local environment variables
-.env
+
 
 # IDEs and editors
 .vscode/
@@ -50,6 +49,7 @@ Thumbs.db
 *.pyc
 __pycache__/
 db.sqlite3
+db copy.sqlite3
 media/
 staticfiles/
 .env

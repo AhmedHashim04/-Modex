@@ -11,13 +11,13 @@ from django.core.files.base import ContentFile
 
 fake = Faker("ar_EG")
 
-IMAGE_DIR = "/home/ahmed/Desktop/project/src/media/image_pr"
+IMAGE_DIR = "/home/ahmed/Desktop/project/src/media/base_images"
 
 class Command(BaseCommand):
     help = "Seed products with images and colors"
 
     def handle(self, *args, **options):
-        total = 1000  # اختبر بعدد أقل في البداية
+        total = 1000  
         categories = list(Category.objects.all())
         tags = list(Tag.objects.all())
         image_files = [f for f in os.listdir(IMAGE_DIR) if f.lower().endswith((".jpg", ".jpeg", ".png"))]

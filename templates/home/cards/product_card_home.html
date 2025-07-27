@@ -51,9 +51,9 @@
 
         <!-- Tags -->
         {% if product.tags %}
-            <div class="product-tags mb-2">
+                <div class="tags-row">
                 {% for tag in product.tags.all %}
-                    <a href="{% url 'product:product_list' %}?tag={{ tag }}" class="badge bg-secondary-subtle text-dark me-1 mb-1">
+                    <a style="text-decoration:none;" href="{% url 'product:product_list' %}?tag={{ tag }}" class="badge bg-secondary-subtle text-dark me-1 mb-1">
                         {{ tag.name }}
                     </a>
                 {% endfor %}

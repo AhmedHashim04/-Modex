@@ -19,36 +19,48 @@ CACHE_1_DAY = CACHE_1_HOUR * 24
 CACHE_1_WEEK = CACHE_1_DAY * 7
 CACHE_1_MONTH = CACHE_1_DAY * 30
 
-
-@cached_property
-def available_products():
-    return Product.objects.filter(
-            is_available=True
-        )
-
+CACHE_TIMES = {
+    'daily_products': CACHE_1_DAY,
+    'main_categories': CACHE_1_WEEK,
+    'sub_categories': CACHE_1_WEEK,
+    'trendy_products': CACHE_1_DAY,
+    'new_products': CACHE_1_DAY,
+    'top_rated': CACHE_1_DAY,
+    'discounted_products': CACHE_1_DAY,
+}
 
 class HomeView(TemplateView):
+
     template_name = 'home/home.html'
 
     @staticmethod
-    def available_products():
+    def get_all_available_products():
         return Product.objects.filter(is_available=True)
 
-    @staticmethod
-    def get_daily_products():
+    @cached_property
+    def cached_products(self):
+        return self.get_all_available_products()
+
+    def limited_product_query(self, queryset):
+        return queryset.only(
+            'id', 'name', 'slug', 'price', 'discount', 'image',
+            'trending', 'overall_rating', 'description'
+        ).prefetch_related('tags')
+
+    def get_daily_products(self):
         products_data = cache.get('home:daily_products')
         if products_data is None:
-            products = list(
-                HomeView.available_products()
-                .filter(trending=True)
-                .values('id', 'name', 'slug', 'price', 'discount', 'image','overall_rating','description')[:100]
-            )
-            cache.set('home:daily_products', products, CACHE_1_DAY)
+
+            daily_products_qs = self.get_all_available_products().filter(trending=True)
+            products = list(self.limited_product_query(daily_products_qs)[:100])
+            cache.set('home:daily_products', products, CACHE_TIMES['daily_products'])
             products_data = products
 
         return random.sample(products_data, min(6, len(products_data)))
 
     def get_context_data(self, **kwargs):
+        products_qs = self.cached_products
+
         context = super().get_context_data(**kwargs)
 
         # Sub Categories
@@ -56,9 +68,9 @@ class HomeView(TemplateView):
         if sub_categories is None:
             sub_categories = list(
                 Category.objects.filter(parent__isnull=False)
-                .values('name', 'slug', 'image')[:50]
+                .values('name', 'slug', 'image')
             )
-            cache.set('home:sub_categories', sub_categories, CACHE_1_WEEK)
+            cache.set('home:sub_categories', sub_categories, CACHE_TIMES['sub_categories'])
 
         # Main Categories
         main_categories = cache.get('home:main_categories')
@@ -66,51 +78,37 @@ class HomeView(TemplateView):
             main_categories = list(
                 Category.objects.filter(parent__isnull=True)
                 .annotate(product_count=Count('products'))
-                .values('name', 'slug', 'image', 'product_count','description')[:20]
+                .values('name', 'slug', 'image', 'product_count','description')
             )
-            cache.set('home:main_categories', main_categories, CACHE_1_DAY)
+            cache.set('home:main_categories', main_categories, CACHE_TIMES['main_categories'])
 
         # Trendy Products
         trendy_products = cache.get('home:trendy_products')
         if trendy_products is None:
-            trendy_products = list(
-                HomeView.available_products()
-                .filter(trending=True)
-                .values('id', 'name', 'slug', 'price', 'discount', 'image','overall_rating','description')[:20]
-            )
-            cache.set('home:trendy_products', trendy_products, CACHE_1_DAY)
+            trendy_products = list(self.limited_product_query(products_qs).filter(trending=True)[:15])
+            cache.set('home:trendy_products', trendy_products, CACHE_TIMES['trendy_products'])
 
         # New Products
         new_products = cache.get('home:new_products')
         if new_products is None:
-            new_products = list(
-                HomeView.available_products()
-                .order_by('-created_at')
-                .values('id', 'name', 'slug', 'price', 'discount', 'image','overall_rating','description')[:20]
-            )
-            cache.set('home:new_products', new_products, CACHE_1_DAY)
+            new_products = list(self.limited_product_query(products_qs).order_by('-created_at')[:15])
+            cache.set('home:new_products', new_products,  CACHE_TIMES['new_products'])
 
         # Top Rated
         top_rated = cache.get('home:top_rated')
         if top_rated is None:
             top_rated = list(
-                HomeView.available_products()
-                .filter(overall_rating__gte=4)
-                .order_by('-overall_rating')
-                .values('id', 'name', 'slug', 'price', 'discount', 'image','overall_rating','description')[:20]
+                self.limited_product_query(products_qs).filter(overall_rating__gte=4).order_by('-overall_rating')[:15]
             )
-            cache.set('home:top_rated', top_rated, CACHE_1_HOUR * 2)
+            cache.set('home:top_rated', top_rated, CACHE_TIMES['top_rated'])
 
         # Discounted Products
         discounts = cache.get('home:discounted_products')
         if discounts is None:
             discounts = list(
-                HomeView.available_products()
-                .filter(discount__gte=15)
-                .order_by('-discount')
-                .values('id', 'name', 'slug', 'price', 'discount', 'image','overall_rating','description')[:20]
+                self.limited_product_query(products_qs).filter(discount__gte=15).order_by('-discount')[:15]
             )
-            cache.set('home:discounted_products', discounts, CACHE_1_DAY)
+            cache.set('home:discounted_products', discounts, CACHE_TIMES['discounted_products'])
 
         context.update({
             'daily_products_section': {
@@ -147,7 +145,7 @@ class HomeView(TemplateView):
         })
 
         return context
-    
+
 
 class TermsOfServiceView(TemplateView):
     template_name = "static_pages/terms_of_service.html"

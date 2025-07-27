@@ -16,7 +16,10 @@ CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 
 
 
-
+MIDDLEWARE += [
+    'project.middleware.FullCPUMeasureMiddleware',
+    'project.middleware.CPUMeasureMiddleware',
+]
 INTERNAL_IPS = [
     '127.0.0.1',
 ]

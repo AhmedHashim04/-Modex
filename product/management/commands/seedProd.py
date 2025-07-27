@@ -17,7 +17,7 @@ class Command(BaseCommand):
     help = "Seed products with images and colors"
 
     def handle(self, *args, **options):
-        total = 1000  
+        total = 5000  
         categories = list(Category.objects.all())
         tags = list(Tag.objects.all())
         image_files = [f for f in os.listdir(IMAGE_DIR) if f.lower().endswith((".jpg", ".jpeg", ".png"))]

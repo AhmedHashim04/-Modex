@@ -11,14 +11,13 @@ def read_cache():
         print(key)
     print("*******************")
 
-# read_cache()
+read_cache()
 
 
 #هيتعرض في كل صفحة عايزه يعمل اقل قدر من ال query
 #شوف اوقات ال كاش كدا مناسبة 
 def global_context(request):
     context = {}
-    #  request.session['compareProducts']
 
     categories = cache.get('context_categories')
     if categories is None:

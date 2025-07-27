@@ -15,7 +15,7 @@
                 </label>
                 <div class="input-group">
                     <span class="input-group-text bg-transparent">  <i class="fas fa-search"></i></span>
-                    <input type="text" name="search" id="search" value="{{ search_query }}" 
+                    <input type="text" name="search" id="search" value="{{ selected_filter }}" 
                            class="form-control" placeholder="{% trans 'Search products...' %}">
                 </div>
             </div>
@@ -58,14 +58,14 @@
                     <div class="col">
                         <div class="input-group">
                             <span class="input-group-text bg-transparent btn-outline-primary ">{% trans "Min" %}</span>
-                            <input type="number" name="min_price" id="min_price" value="{{ min_price }}" 
+                            <input type="number" name="min_price" id="min_price" value="{{ min_price|floatformat:0 }}" 
                                    step="0.1" class="form-control " placeholder="0.00">
                         </div>
                     </div>
                     <div class="col">
                         <div class="input-group">
                             <span class="input-group-text bg-transparent btn-outline-primary">{% trans "Max" %}</span>
-                            <input type="number" name="max_price" id="max_price" value="{{ max_price }}" 
+                            <input type="number" name="max_price" id="max_price" value="{{ max_price|floatformat:0 }}" 
                                    step="0.1" class="form-control " placeholder="9999.00">
                         </div>
                     </div>
@@ -84,7 +84,6 @@
                     <option value="name_asc" {% if sort_by == 'name_asc' %}selected{% endif %}>{% trans "Name: A to Z" %}</option>
                     <option value="name_desc" {% if sort_by == 'name_desc' %}selected{% endif %}>{% trans "Name: Z to A" %}</option>
                     <option value="rating_desc" {% if sort_by == 'rating_desc' %}selected{% endif %}>{% trans "Rating: High to Low" %}</option>
-                    <option value="popularity" {% if sort_by == 'popularity' %}selected{% endif %}>{% trans "Popularity" %}</option>
                 </select>
             </div>
 
@@ -106,10 +105,9 @@
                         </button>
                     </div>
                     <select class="btn-outline-primary text-secondary form-select items-per-page glass-select ms-2" style="width: 4rem" name="items_per_page">
-                        
-                        <option value="24" {% if items_per_page == 24 %}selected{% endif %}>24</option>
-                        <option value="48" {% if items_per_page == 48 %}selected{% endif %}>48</option>
-                        <option value="96" {% if items_per_page == 96 %}selected{% endif %}>96</option>
+                        <option value="24" {% if items_per_page == 24 %}selected{% endif %}>24/{% trans "page" %}</option>
+                        <option value="48" {% if items_per_page == 48 %}selected{% endif %}>48/{% trans "page" %}</option>
+                        <option value="96" {% if items_per_page == 96 %}selected{% endif %}>96/{% trans "page" %}</option>
                     </select>
                 </div>
             </div>

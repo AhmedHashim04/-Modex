@@ -1,15 +1,15 @@
 {% load i18n %}
 <section class="col-lg-9">
     <!-- Active Filters -->
-    {% if search_query or selected_category or selected_tag or min_price or max_price or sort_by %}
+    {% if selected_filter or selected_category or selected_tag or min_price or max_price or sort_by %}
     <div class="card mb-4 border-0 glass-card shadow-sm">
         <div class="card-body py-2">
             <div class="d-flex flex-wrap align-items-center gap-2">
                 <small class="text-muted me-2">{% trans "Active filters:" %}</small>
-                {% if search_query %}
+                {% if selected_filter %}
                 <span class="badge bg-light text-dark glass-badge">
-                    {% blocktrans %}Search: "{{ search_query }}"{% endblocktrans %}
-                    <a href="?{% querystring request.GET search='' %}" class="text-danger ms-1">
+                    {% blocktrans %}Search: "{{ selected_filter }}"{% endblocktrans %}
+                    <a href="{% querystring request.GET search='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>
@@ -17,7 +17,7 @@
                 {% if selected_category %}
                 <span class="badge bg-light text-dark glass-badge">
                     {% blocktrans %}Category: {{ selected_category }}{% endblocktrans %}
-                    <a href="?{% querystring request.GET category='' %}" class="text-danger ms-1">
+                    <a href="{% querystring request.GET category='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>
@@ -25,31 +25,31 @@
                 {% if selected_tag %}
                 <span class="badge bg-light text-dark glass-badge">
                     {% blocktrans %}Tag: {{ selected_tag }}{% endblocktrans %}
-                    <a href="?{% querystring request.GET tag='' %}" class="text-danger ms-1">
+                    <a href="{% querystring request.GET tag='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>
                 {% endif %}
                 {% if min_price %}
                 <span class="badge bg-light text-dark glass-badge">
-                    {% blocktrans %}Min: {{ min_price }}{% endblocktrans %}
-                    <a href="?{% querystring request.GET min_price='' %}" class="text-danger ms-1">
+                  {% trans "Min" %} : {{ min_price|floatformat:2 }}
+                    <a href="{% querystring request.GET min_price='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>
                 {% endif %}
                 {% if max_price %}
                 <span class="badge bg-light text-dark glass-badge">
-                    {% blocktrans %}Max: {{ max_price }}{% endblocktrans %}
-                    <a href="?{% querystring request.GET max_price='' %}" class="text-danger ms-1">
+                  {% trans "Max" %} : {{ max_price|floatformat:2 }}
+                    <a href="{% querystring request.GET max_price='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>
                 {% endif %}
                 {% if sort_by %}
                 <span class="badge bg-light text-dark glass-badge">
-                    {% blocktrans %}Sorted by: {{ sort_by|title }}{% endblocktrans %}
-                    <a href="?{% querystring request.GET sort_by='' %}" class="text-danger ms-1">
+                   {% trans "Sorted by" %}  : {{ sort_by|title }}
+                    <a href="{% querystring request.GET sort_by='' %}" class="text-danger ms-1">
                         <i class="fas fa-times"></i>
                     </a>
                 </span>

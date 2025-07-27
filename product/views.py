@@ -15,14 +15,14 @@ from django.utils.functional import cached_property
 from django.utils.http import urlencode
 from django.views.generic import DetailView, ListView
 from django_ratelimit.decorators import ratelimit
-
+from django.views.decorators.cache import cache_page
 from django.utils.translation import gettext as _
 from .forms import ReviewForm
 from .models import Category, Product, Review, Tag
 
 # Constants for cache management
-CACHE_TIMEOUT_PRODUCTS = 60 * 60 * 4  # 4 minutes
-CACHE_TIMEOUT_PRICE_RANGE = 60 * 60 * 24  # 24 hours
+CACHE_TIMEOUT_PRODUCTS = 60 * 60 * 4  # 4 hours
+CACHE_TIMEOUT_PRICE_RANGE = 60 * 60 * 24 * 7  # 7 days
 
 @method_decorator(ratelimit(key='ip', rate='30/m', block=True), name='dispatch')
 class ProductListView(ListView):
@@ -37,9 +37,10 @@ class ProductListView(ListView):
         'name_asc': 'name',
         'name_desc': '-name',
         'rating_desc': '-overall_rating',
-        'popularity': '-review_count',
     }
     items_per_page_options = [24, 48, 96]
+
+
 
     @cached_property
     def applied_filters(self):
@@ -62,10 +63,10 @@ class ProductListView(ListView):
         if filters.get('search') or filters.get('min_price') or filters.get('max_price'):
             return self.build_queryset()
         
-
-        query_str = urlencode(self.request.GET)
-        cache_key = f"products_{hashlib.md5(query_str.encode()).hexdigest()}"
-        print(f"[CACHE DEBUG] Original query: {query_str}")
+        query_dict = self.request.GET.dict()  # يحوّل QueryDict إلى dict عادي
+        sorted_items = sorted(query_dict.items())  # ترتيب البارامترات أبجديًا
+        sorted_query_str = urlencode(sorted_items)  # تحويلها لسلسلة URL
+        cache_key = f"products_{hashlib.md5(sorted_query_str.encode()).hexdigest()}"
         queryset = cache.get(cache_key)
 
         if queryset is None:
@@ -79,7 +80,6 @@ class ProductListView(ListView):
         queryset = Product.objects.select_related("category").prefetch_related("tags").filter(is_available=True).only("name", "slug","category__name" , "price", "discount", "trending","image", "created_at", "description","overall_rating")
         filters = self.applied_filters
 
-        print("⏱️ Query Build Time:", time.time() - start)
         # Apply search filter
         if search_term := filters['search']:
             queryset = queryset.filter(
@@ -145,11 +145,11 @@ class ProductListView(ListView):
         context = super().get_context_data(**kwargs)
         filters = self.applied_filters
         price_range = self.get_global_price_range()
-        
+
         # Handle empty price range
         min_price_val = price_range['min_price'] or Decimal('0')
         max_price_val = price_range['max_price'] or Decimal('0')
-        
+
         # Get validated pagination values
         paginate_by = self.get_paginate_by()
         page_obj = context['page_obj']
@@ -158,6 +158,7 @@ class ProductListView(ListView):
         # Ensure paginator and page_obj are present
         if not paginator or not page_obj:
             queryset = context.get('products') or self.get_queryset()
+
             paginator = Paginator(queryset, paginate_by)
             page_number = self.request.GET.get('page')
             page_obj = paginator.get_page(page_number)
@@ -175,6 +176,7 @@ class ProductListView(ListView):
             # after a search or filter/sort action, ensuring the UI reflects the user's choices.
 
             'selected_filter': filters['search'],
+            
             'selected_category': filters['category'],
             'selected_tag': filters['tag'],
             

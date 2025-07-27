@@ -27,12 +27,13 @@
                 </ol>
             </nav>
 
+
             <!-- Filter Badge and Button -->
             <div class="d-flex align-items-center">
                 <span class="badge bg-primary rounded-pill me-3">
                     {{ products.paginator.count }} {% trans "Products" %}
                 </span>
-                <button class="btn btn-sm glass-btn" data-bs-toggle="offcanvas" 
+                <button class="btn btn-sm glass-btn d-lg-none" data-bs-toggle="offcanvas" 
                         data-bs-target="#filtersOffcanvas" aria-controls="filtersOffcanvas">
                     <i class="fas fa-filter me-1"></i> {% trans "Filters" %}
                 </button>

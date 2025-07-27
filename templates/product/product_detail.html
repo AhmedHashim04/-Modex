@@ -96,8 +96,12 @@
         <div class="product-details bg-white rounded-4 shadow-sm p-4">
           <div class="d-flex justify-content-between align-items-start mb-3 flex-wrap gap-2">
             <div>
-              <h1 class="h3 mb-2 fw-bold trendy-title">{{ product.name }}</h1>
-              <div class="d-flex align-items-center gap-2 mb-2">
+              <h1 class="h3 mb-2 fw-bold trendy-title">
+                {% if product.trending %}
+                  <span class="text-primary bg-light fw-semibold px-1 py-0 rounded-pill shadow-sm">{% trans "Trending" %}</span>
+                
+                :  {% endif %} 
+                {{ product.name }}
                 <a href="{% if user.is_authenticated %}javascript:void(0);{% else %}{% provider_login_url 'google' %}{% endif %}"
                    class="btn btn-light border-0 text-danger fs-5 p-2 rounded-circle shadow-sm"
                    data-action="wishlist"
@@ -107,10 +111,8 @@
                    style="width: 40px; height: 40px;">
                   <i class="{% if product in wishlist %}fas text-danger{% else %}far{% endif %} fa-heart"></i>
                 </a>
-                {% if product.trending %}
-                <span class="badge bg-danger fw-semibold px-3 py-1">{% trans "Trending" %}</span>
-                {% endif %}
-              </div>
+              </h1>
+
             </div>
           </div>
 
@@ -129,7 +131,9 @@
           {% if product.tags.all %}
           <div class="product-tags mb-3">
             {% for tag in product.tags.all %}
-              <span class="tag-badge trendy-tag">{{ tag.name }}</span>
+            <a href="{% url 'product:product_list' %}?tag={{ tag }}">
+                <button type="button" class="btn btn-light btn-sm trendy-tag">{{ tag.name }}</button>
+            </a>
             {% endfor %}
           </div>
           {% endif %}
@@ -156,7 +160,7 @@
 
           <div class="product-description mb-4">
             <p class="mb-0">
-              {{ product.description|default:_("No description available for this product.") }}
+              {{ product.description|truncatechars:80 }}
             </p>
           </div>
 

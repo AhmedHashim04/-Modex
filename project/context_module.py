@@ -18,6 +18,8 @@ def read_cache():
 #شوف اوقات ال كاش كدا مناسبة 
 def global_context(request):
     context = {}
+    #  request.session['compareProducts']
+
     categories = cache.get('context_categories')
     if categories is None:
         categories = list(Category.objects.filter(parent=None).values_list('name', 'slug')[:10])

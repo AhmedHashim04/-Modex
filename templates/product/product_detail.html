@@ -167,12 +167,12 @@
           <div class="product-meta">
             <div class="row g-3">
               <div class="col-md-6">
-                <div class="d-flex align-items-center">
-                  <i class="fas fa-tag me-2"></i>
+                <div class="d-flex align-items-center bg-light  rounded-3 px-3 py-2">
+                  <i class="text-secondary fas fa-tag me-2"></i>
                   <span>
                     {% trans "Category" %}:
                     {% if product.category %}
-                      <span class="fw-semibold">{{ product.category.name }}</span>
+                      <span class="text-secondary fw-semibold">{{ product.category.name }}</span>
                     {% else %}
                       {% trans "No category" %}
                     {% endif %}
@@ -180,8 +180,8 @@
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="d-flex align-items-center">
-                  <i class="fas fa-palette me-2"></i>
+                <div class="d-flex align-items-center bg-light  rounded-3 px-3 py-2">
+                  <i class="text-secondary fas fa-palette me-2"></i>
                   <span>
                     {% if product.colors.all %}
                       {% trans "Available in different colors" %}

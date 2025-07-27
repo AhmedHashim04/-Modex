@@ -57,15 +57,12 @@ class ProductListView(ListView):
         }
 
     def get_queryset(self):
-        """Dynamically construct queryset based on applied filters"""
-
         # 1. Avoid caching for highly dynamic filters like min/max/search
         filters = self.applied_filters
         if filters.get('search') or filters.get('min_price') or filters.get('max_price'):
             return self.build_queryset()
         
-        # hash the query string to be lightweight in Redis cache
-        # Short and fixed-length hash : 12ab34cd56ef7890abc123456789def0
+
         query_str = urlencode(self.request.GET)
         cache_key = f"products_{hashlib.md5(query_str.encode()).hexdigest()}"
         print(f"[CACHE DEBUG] Original query: {query_str}")
@@ -79,7 +76,6 @@ class ProductListView(ListView):
 
     def build_queryset(self):
         """Construct the filtered and annotated queryset"""
-        # queryset = Product.objects.select_related('category').prefetch_related('tags').filter(is_available=True).annotate(review_count=Count('reviews')).distinct()   
         queryset = Product.objects.select_related("category").prefetch_related("tags").filter(is_available=True).only("name", "slug","category__name" , "price", "discount", "trending","image", "created_at", "description","overall_rating")
         filters = self.applied_filters
 
@@ -207,7 +203,7 @@ class ProductListView(ListView):
 
 
 @method_decorator(ratelimit(key='ip', rate='30/m', method='ALL', block=True), name='dispatch')
-@method_decorator(ratelimit(key='user', rate='2/m', method='POST', block=True), name='post')
+@method_decorator(ratelimit(key='user', rate='5/m', method='POST', block=True), name='post')
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/product_detail.html'
@@ -216,13 +212,12 @@ class ProductDetailView(DetailView):
     slug_url_kwarg = "slug"
     form_class = ReviewForm
     paginate_reviews_by = 5
-    max_related_products = 4
+    max_related_products = 3
     max_recently_viewed = 6
 
     def get_object(self):
         """Optimize product retrieval with related data"""
         return get_object_or_404(
-            # Product.objects.select_related('category', 'brand')
             Product.objects.select_related('category')
                             .prefetch_related('tags', 'reviews__user'),
             slug=self.kwargs['slug']
@@ -235,6 +230,7 @@ class ProductDetailView(DetailView):
         context.update(self.get_reviews_context(product))
         context.update(self.get_related_products_context(product))
         context['review_form'] = ReviewForm()
+        self.update_recently_viewed(self.object)
         return context
 
     def get_reviews_context(self, product):
@@ -285,30 +281,30 @@ class ProductDetailView(DetailView):
     def get_recently_viewed_products(self, product):
         """Retrieve recently viewed products from session"""
         session_key = 'recently_viewed'
-        viewed_ids = self.request.session.get(session_key, [])
-        
+        viewed_slugs = self.request.session.get(session_key, [])
+        print(viewed_slugs)
         # Remove current product and limit
-        if product.id in viewed_ids:
-            viewed_ids.remove(product.id)
-        viewed_ids = viewed_ids[:self.max_recently_viewed]
+        if product.slug in viewed_slugs:
+            viewed_slugs.remove(product.slug)
+        viewed_slugs = viewed_slugs[:self.max_recently_viewed]
         
         return Product.objects.filter(
-            id__in=viewed_ids
-        ).select_related('category').exclude(id=product.id)
+            slug__in=viewed_slugs
+        ).select_related('category').exclude(slug=product.slug)
 
     def update_recently_viewed(self, product):
         """Update session with recently viewed products"""
         session_key = 'recently_viewed'
-        viewed_ids = self.request.session.get(session_key, [])
+        viewed_slugs = self.request.session.get(session_key, [])
         
         # Remove duplicates and add to beginning
-        if product.id in viewed_ids:
-            viewed_ids.remove(product.id)
-        viewed_ids.insert(0, product.id)
+        if product.slug in viewed_slugs:
+            viewed_slugs.remove(product.slug)
+        viewed_slugs.insert(0, product.slug)
         
         # Apply limit
-        viewed_ids = viewed_ids[:self.max_recently_viewed]
-        self.request.session[session_key] = viewed_ids
+        viewed_slugs = viewed_slugs[:self.max_recently_viewed]
+        self.request.session[session_key] = viewed_slugs
         self.request.session.modified = True
     
     def post(self, request, *args, **kwargs):
@@ -346,8 +342,7 @@ class ProductDetailView(DetailView):
         except IntegrityError:
             messages.warning(self.request,_("You've already reviewed this product!"))
         
-        # Update recently viewed
-        self.update_recently_viewed(self.object)
+
         
         # Redirect to prevent duplicate submissions
         return HttpResponseRedirect(self.object.get_absolute_url())

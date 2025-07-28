@@ -71,35 +71,35 @@
         </a>
     </div>
 
-        <div class="d-flex align-items-end gap-2">
+    <div class="d-flex align-items-end gap-2">
         <!-- Language Toggle -->
-        {% comment %} <form action="{% url 'set_language' %}" method="post">
-            {% csrf_token %}
-            <input name="next" type="hidden" value="{{ request.get_full_path }}">
-            <input type="hidden" name="language" value="{% if LANGUAGE_CODE == 'en' %}ar{% else %}en{% endif %}">
-            
-            <button type="submit" class="btn-primary btn-sm rounded-pill d-flex align-items-center">
-                {% if LANGUAGE_CODE == 'en' %}
-                <i class="fa-solid fa-globe me-1 fs-5"></i>
-                    <span class="d-none d-sm-inline">
-                        العربية
-                    </span>
-                {% else %}
-                <span class="d-none d-sm-inline">
-                English
-                </span>
-                <i class="fa-solid fa-globe me-1 fs-5"></i>
-
-                {% endif %}
-            </button>
-        </form>
+        <form action="{% url 'set_language' %}" method="post">
+           {% csrf_token %}
+           <input name="next" type="hidden" value="{{ request.get_full_path }}">
+           <input type="hidden" name="language" value="{% if LANGUAGE_CODE == 'en' %}ar{% else %}en{% endif %}">
+           
+           <button type="submit" class="btn-primary btn-sm rounded-pill d-flex align-items-center">
+               {% if LANGUAGE_CODE == 'en' %}
+               <i class="fa-solid fa-globe me-1 fs-5"></i>
+                   <span class="d-none d-sm-inline">
+                       العربية
+                   </span>
+               {% else %}
+               <span class="d-none d-sm-inline">
+               English
+               </span>
+               <i class="fa-solid fa-globe me-1 fs-5"></i>
+    
+               {% endif %}
+           </button>
+       </form>
         
         <button id="themeSwitcher" class="btn-primary btn-sm rounded-pill d-flex align-items-center">
             <i class="fa-solid fa-palette fs-5 me-1"></i>
             <span class="d-none d-sm-inline">
                 {% trans "Change theme" %}
             </span>
-        </button> {% endcomment %}
+        </button>{% comment %} {% endcomment %}
     </div>
 </div>
 

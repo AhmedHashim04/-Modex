@@ -7,7 +7,7 @@
 {% block content %}
 
 <!-- Breadcrumb -->
-<section class="page-header py-4 mb-4">
+<section dir="ltr" class="page-header py-4 mb-4">
     <div class="container">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb mb-0">
@@ -138,18 +138,18 @@
           </div>
           {% endif %}
 
-          <div class="price-section mb-4">
+          <div  class="price-section mb-4">
             {% if product.discount > 0 %}
-              <span class="h4 fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} EGP</span>
-              <small class="text-muted text-decoration-line-through trendy-old-price">{{ product.price|floatformat:2 }} EGP</small>
-              <span class="badge bg-danger ms-2">-{{ product.discount }}%</span>
+              <span class="h4 fw-bold trendy-price me-2">{{ product.price_after_discount|floatformat:2 }} {% trans "EGP" %}</span>
+              <small class="text-muted text-decoration-line-through trendy-old-price">{{ product.price|floatformat:2 }} {% trans "EGP" %}</small>
+              <span class="tag-badge bg-danger text-light ms-2">-{{ product.discount }}%</span>
             {% else %}
-              <span class="h4 fw-bold trendy-price">{{ product.price|floatformat:2 }} EGP</span>
+              <span class="h4 fw-bold trendy-price">{{ product.price|floatformat:2 }} {% trans "EGP" %}</span>
             {% endif %}
           </div>
 
           <div class="availability mb-4">
-            <span class="badge bg-{% if product.is_available %}success{% else %}danger{% endif %} px-3 py-2 fs-6">
+            <span class="tag-badge bg-{% if product.is_available %}var(--primary-color-){% else %}danger{% endif %} px-3 py-2 fs-6">
               {% if product.is_available %}
                 <i class="fas fa-check-circle me-1"></i> {% trans "In Stock" %}
               {% else %}
@@ -171,7 +171,7 @@
           <div class="product-meta">
             <div class="row g-3">
               <div class="col-md-6">
-                <div class="d-flex align-items-center bg-light  rounded-3 px-3 py-2">
+                <div dir="ltr" class="d-flex align-items-center bg-light  rounded-3 px-3 py-2">
                   <i class="text-secondary fas fa-tag me-2"></i>
                   <span>
                     {% trans "Category" %}:
@@ -431,9 +431,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <section class="py-5">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h3 class="mb-0 text-primary ">You may also like</h3>
+            <h3 class="mb-0 text-primary ">{% trans "You may also like" %}</h3>
             <a href="{% url 'product:product_list' %}?category={{ product.category.slug }}" class="btn btn-outline-primary btn-sm">
-                View all in {{ product.category.name }}
+                {% trans "View all in " %}{{ product.category.name }}
             </a>
         </div>
         <div class="row g-4">
@@ -455,7 +455,7 @@ document.addEventListener('DOMContentLoaded', function() {
 {% if recently_viewed %}
     <section class="py-5 bg-light">
         <div class="container">
-            <h3 class="mb-4 text-primary">Recently Viewed</h3>
+            <h3 class="mb-4 text-primary">{% trans "Recently Viewed" %}</h3>
             <div class="row g-4">
                 {% for rv in recently_viewed %}
                     <div class="col-md-2 col-4">
@@ -476,11 +476,11 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <a href="{{ rv.get_absolute_url }}" class="text-dark text-decoration-none">{{ rv.name|truncatechars:30 }}</a>
                                 </h6>
                                     {% if product.discount > 0 %}
-                                        <p class="card-text text-primary fw-bold mb-0 small">{{ rv.price_after_discount|floatformat:2 }} EGP</p>
-                                        <small class="text-muted text-decoration-line-through trendy-old-price">{{ rv.price|floatformat:2 }} EGP</small>
+                                        <p class="card-text text-primary fw-bold mb-0 small">{{ rv.price_after_discount|floatformat:2 }} {% trans "EGP" %}</p>
+                                        <small class="text-muted text-decoration-line-through trendy-old-price">{{ rv.price|floatformat:2 }} {% trans "EGP" %}</small>
                                         <span class="badge bg-danger ms-2">-{{ rv.discount }}%</span>
                                     {% else %}
-                                        <span class="h4 text-primary fw-bold trendy-price">{{ rv.price|floatformat:2 }} EGP</span>
+                                        <span class="h4 text-primary fw-bold trendy-price">{{ rv.price|floatformat:2 }} {% trans "EGP" %}</span>
                                     {% endif %}
                                 
                             </div>

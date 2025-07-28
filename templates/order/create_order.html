@@ -7,7 +7,7 @@
 {% block title %}{% trans "Create Order Modex - Your Ultimate Shopping Destination" %}{% endblock %}
 
 {% block content %}
-<div class="container-fluid py-5">
+<div dir="{% if request.LANGUAGE_CODE == "ar" %}ltr{% endif %}" class="container-fluid py-5">
     <div class="row justify-content-center">
         <div class="col-12 d-lg-none text-center mb-4">
             <h2 class="fw-bold text-primary">
@@ -34,37 +34,36 @@
         </div>
     {% endif %}
 
+    <!-- معلومات الشحن -->
     <div class="mb-4">
         <h5 class="fw-bold mb-3">
             <i class="fas fa-map-marker-alt me-2 text-primary"></i>{% trans "Shipping Information" %}
         </h5>
 
-        <div class="input-group mb-3">
-            <div class="input-group-text h-78 bg-transparent border-end-0">
-                <i class="fas fa-home text-muted"></i>
-            </div>
-            <div class="form-floating mb-1 flex-grow-1 fs-5">
-                {{ form.address|add_class:"form-select modern-input h-100 py-2 px-3 fs-5"|attr:"placeholder: " }}
-                <label for="{{ form.address.id_for_label }}">{% trans "Shipping Address" %}</label>
-                {% for error in form.address.errors %}
-                    <div class="text-danger small mt-1">{{ error }}</div>
-                {% endfor %}
-            </div>
-            <a href="{% url 'order:address_list_create' %}" class="btn btn-outline-secondary rounded-end hover-scale" title="">
-                <i class="fas fa-plus"></i>
+        <div class="input-group mb-3 d-flex">
+            <a href="{% url 'order:address_list_create' %}" class="btn btn-outline-primary btn-sm px-3 py-3 align-self-center" title="{% trans 'Add Your Address' %}">
+                <i class="fas fa-plus me-1"></i>{% trans "Add New Address" %}
             </a>
-        </div>
-
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div class="form-floating mb-3">
-                    {{ form.full_name|add_class:"form-control modern-input"|attr:"placeholder: " }}
-                    <label for="{{ form.full_name.id_for_label }}">{% trans "Full Name" %}</label>
-                    {% for error in form.full_name.errors %}
+            {% if form.address.field.choices %}
+                <div class="form-floating mb-1 flex-grow-1 fs-5">
+                    {{ form.address|add_class:"form-select modern-input h-100 py-2 px-3 fs-5"|attr:"placeholder: " }}
+                    <label for="{{ form.address.id_for_label }}">{% trans "Shipping Address" %}</label>
+                    {% for error in form.address.errors %}
                         <div class="text-danger small mt-1">{{ error }}</div>
                     {% endfor %}
                 </div>
-            </div>
+            {% endif %}
+        </div>
+
+        <div class="form-floating mb-3">
+            {{ form.full_name|add_class:"form-control modern-input"|attr:"placeholder: " }}
+            <label for="{{ form.full_name.id_for_label }}">{% trans "Full Name" %}</label>
+            {% for error in form.full_name.errors %}
+                <div class="text-danger small mt-1">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="row g-3">
             <div class="col-md-6">
                 <div class="form-floating mb-3">
                     {{ form.phone|add_class:"form-control modern-input"|attr:"placeholder: "|attr:"pattern:[0-9]+" }}
@@ -74,69 +73,103 @@
                     {% endfor %}
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="form-floating mb-3">
+                    {{ form.alternative_phone|add_class:"form-control modern-input"|attr:"placeholder: "|attr:"pattern:[0-9]+" }}
+                    <label for="{{ form.alternative_phone.id_for_label }}">{% trans "Alternative Phone Number (Optional)" %}</label>
+                    {% for error in form.alternative_phone.errors %}
+                        <div class="text-danger small mt-1">{{ error }}</div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
-
-<div class="mb-4">
-    <h5 class="fw-bold mb-3">
-        <i class="fas fa-truck me-2 text-primary"></i>{% trans "Shipping Options" %}
-    </h5>
-    <div class="shipping-options-container border rounded-4 p-0 overflow-hidden">
-        <div class="shipping-options-header bg-primary text-white p-3 d-none d-md-flex">
-            <div class="header-destination flex-grow-1">{% trans "Destination" %}</div>
-            <div class="header-cost" style="width: 120px;">{% trans "Cost" %}</div>
-            <div class="header-time" style="width: 150px;">{% trans "Delivery Time" %}</div>
-        </div>
-
-        <div class="shipping-options-body">
-            {% for option in form.shipping_option %}
-                {% with shipping=form.fields.shipping_option.queryset|get_index:forloop.counter0 %}
-                <div class="shipping-option-item p-3 border-bottom position-relative">
-                    <label class="form-check d-flex flex-column flex-md-row align-items-md-center mb-0 cursor-pointer" for="{{ option.id_for_label }}">
-                        <div class="me-3 d-flex align-items-center">{{ option.tag }}</div>
-                        <div class="option-place flex-grow-1 mb-2 mb-md-0 pe-2">
-                            <i class="fas fa-map-marker-alt me-2 text-secondary"></i>{{ shipping.place }}
-                        </div>
-                        <div class="option-price text-success fw-bold" style="width: 120px;">{{ shipping.price }} {% trans "EGP" %}</div>
-                        <div class="option-delivery-time text-primary" style="width: 150px;">
-                            <i class="far fa-clock me-1"></i>{{ shipping.delivery_time }}
-                        </div>
-                    </label>
+<!-- Payment and Shipping Methods Card -->
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body">
+        <div class="row">
+                        <!-- Shipping Method -->
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h5 class="fw-bold mb-3 d-flex align-items-center">
+                    <i class="fas fa-credit-card me-2 text-primary"></i>
+                    <span>{% trans "Shipping Method" %}</span>
+                </h5>
+                
+                <div class="form-floating">
+                    {{ form.shipping_method|add_class:"form-select form-select-lg"|attr:"placeholder: " }}
+                    <label for="{{ form.shipping_method.id_for_label }}">{% trans "Select Shipping Method" %}</label>
+                    {% for error in form.shipping_method.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
                 </div>
-                {% endwith %}
+                
+            </div>
+            <!-- Payment Method -->
+
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h5 class="fw-bold mb-3 d-flex align-items-center">
+                    <i class="fas fa-credit-card me-2 text-primary"></i>
+                    <span>{% trans "Payment Method" %}</span>
+                </h5>
+                
+                <div class="form-floating">
+                    {{ form.payment_method|add_class:"form-select form-select-lg"|attr:"placeholder: " }}
+                    <label for="{{ form.payment_method.id_for_label }}">{% trans "Select Payment Method" %}</label>
+                    {% for error in form.payment_method.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <small class="text-muted mt-2 d-block">
+                    <i class="fas fa-info-circle me-1"></i>
+                    {% trans "Secure payment processing" %}
+                </small>
+                
+            </div>
+
+
+        <!-- Shipping Method - Single Selection -->
+        <div class="col-md-12">
+            <h5 class="fw-bold mb-3 d-flex align-items-center">
+                <i class="fas fa-shipping-fast me-2 text-primary"></i>
+                <span>{% trans "Shipping Placement" %}</span>
+            </h5>
+
+            <div class="row g-1">  <!-- g-3 = gap between cards -->
+                {% for option in form.shipping_option %}
+                    {% with shipping=form.fields.shipping_option.queryset|get_index:forloop.counter0 %}
+                        <div class="col-6">
+                            <input type="radio" name="{{ form.shipping_option.name }}" 
+                                value="{{ option.data.value }}" 
+                                id="shipping_option_{{ forloop.counter }}" 
+                                class="btn-check" 
+                                {% if forloop.first %}checked{% endif %}
+                                required>
+
+                            <label class="btn btn-outline-primary w-100 text-start p-3 h-100 rounded-3 shadow-sm"
+                                for="shipping_option_{{ forloop.counter }}"
+                                style="min-height: 100px; display: flex; flex-direction: column; justify-content: space-between;">
+                                <div>
+                                    <span class="fw-bold d-block mb-1">{{ shipping.place }}</span>
+                                    <small class="text-muted">{{ shipping.delivery_time }}</small>
+                                </div>
+                                <span class="badge bg-primary rounded-pill align-self-end">{{ shipping.price }} EGP</span>
+                            </label>
+                        </div>
+                    {% endwith %}
+                {% endfor %}
+            </div>
+
+            {% for error in form.shipping_option.errors %}
+                <div class="invalid-feedback d-block">{{ error }}</div>
             {% endfor %}
         </div>
 
-        {% for error in form.shipping_option.errors %}
-            <div class="text-danger small mt-2 px-3">{{ error }}</div>
-        {% endfor %}
+        </div>
     </div>
 </div>
 
-    <div class="mb-4">
-        <h5 class="fw-bold mb-3">
-            <i class="fas fa-credit-card me-2 text-primary"></i>{% trans "Payment Method" %}</h5>
-        <div class="form-floating mb-3">
-            {{ form.payment_method|add_class:"form-select modern-input"|attr:"placeholder: " }}
-            <label for="{{ form.payment_method.id_for_label }}">{% trans "Select Payment Method" %}</label>
-            {% for error in form.payment_method.errors %}
-                <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="mb-4">
-        <h5 class="fw-bold mb-3">
-            <i class="fas fa-shipping-fast me-2 text-primary"></i>{% trans "Shipping Method" %}</h5>
-        <div class="form-floating mb-3">
-            {{ form.shipping_method|add_class:"form-select modern-input"|attr:"placeholder: " }}
-            <label for="{{ form.shipping_method.id_for_label }}">{% trans "Select Shipping Method" %}</label>
-            {% for error in form.shipping_method.errors %}
-                <div class="text-danger small mt-1">{{ error }}</div>
-            {% endfor %}
-        </div>
-    </div>
-
+</style>
+    <!-- ملاحظات الطلب -->
     <div class="mb-4">
         <h5 class="fw-bold mb-3">
             <i class="fas fa-sticky-note me-2 text-primary"></i>{% trans "Additional Information" %}</h5>
@@ -149,13 +182,17 @@
         </div>
     </div>
 
+    <!-- زر الإرسال -->
     <div class="d-flex flex-column flex-md-row justify-content-between gap-3 mt-4 pt-3 border-top">
         <button type="submit" class="btn btn-primary btn-lg flex-grow-1 rounded-pill shadow-sm hover-scale">
-            <i class="fas fa-check-circle me-2"></i>{% trans "Complete Order" %}</button>
+            <i class="fas fa-check-circle me-2"></i>{% trans "Complete Order" %}
+        </button>
         <a href="{% url 'cart:cart_list' %}" class="btn btn-outline-secondary btn-lg flex-grow-1 rounded-pill shadow-sm hover-scale">
-            <i class="fas fa-edit me-2"></i>{% trans "Edit Cart" %}</a>
+            <i class="fas fa-edit me-2"></i>{% trans "Edit Cart" %}
+        </a>
     </div>
 </form>
+
                 </div>
             </div>
         </div>

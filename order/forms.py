@@ -21,6 +21,7 @@ class OrderCreateForm(forms.ModelForm):
         fields = [
             'full_name',
             'phone',
+            'alternative_phone',
             'notes',
             'address',
             'payment_method',
@@ -36,6 +37,10 @@ class OrderCreateForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': _('Phone Number')
             }),
+            'alternative_phone': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': _('Alternative Phone Number (Optional)')
+            }),
             'notes': forms.Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': _('You can write notes here like 123-street or any address details'),
@@ -44,7 +49,8 @@ class OrderCreateForm(forms.ModelForm):
         }
         labels = {
             'full_name': _('Full Name'),
-            'phone': _('Phone Number'),
+            'phone': _('Alternative Phone Number'),
+            'alternative_phone': _('Phone Number'),
             'notes': _('Additional Notes'),
         }
 

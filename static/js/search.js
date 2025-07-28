@@ -1,5 +1,5 @@
 /**
- * Search functionality for ShopEase E-commerce Website
+ * Search functionality for Modex E-commerce Website
  * Handles product search, suggestions, and search history
  */
 
@@ -469,8 +469,8 @@ class SearchManager {
      */
     async loadProducts() {
         try {
-            if (typeof window.ShopEase !== 'undefined' && window.ShopEase.utils) {
-                return await window.ShopEase.utils.loadProductData();
+            if (typeof window.Modex !== 'undefined' && window.Modex.utils) {
+                return await window.Modex.utils.loadProductData();
             } else {
                 const response = await fetch('data/products.json');
                 if (!response.ok) {
@@ -489,8 +489,8 @@ class SearchManager {
      * Show error message
      */
     showError(message) {
-        if (typeof window.ShopEase !== 'undefined' && window.ShopEase.utils) {
-            window.ShopEase.utils.showErrorMessage(message);
+        if (typeof window.Modex !== 'undefined' && window.Modex.utils) {
+            window.Modex.utils.showErrorMessage(message);
         } else {
             alert(message);
         }

@@ -1,6 +1,6 @@
 {% load i18n %}
 <!-- C. Subnav -->
-<nav class="navbar navbar-expand-lg navbar-light modex-subnav shadow-sm py-2"  >
+<nav dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}" class="navbar navbar-expand-lg navbar-light modex-subnav shadow-sm py-2"  >
     <div class="container-fluid px-4">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#modexSubnav" aria-controls="modexSubnav" aria-expanded="false" aria-label="{% trans 'Toggle navigation' %}">
             <span class="navbar-toggler-icon modex-subnav-toggler-icon"></span>

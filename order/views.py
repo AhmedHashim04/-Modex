@@ -38,7 +38,7 @@ class OrderDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
-@method_decorator(ratelimit(key='user', rate='10/m', block=True), name='dispatch') #2
+@method_decorator(ratelimit(key='user', rate='100/m', block=True), name='dispatch') #2
 class OrderCreateView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderCreateForm

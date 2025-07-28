@@ -2,15 +2,15 @@
 {% load static %}
 {% load widget_tweaks %}
 {% load i18n %}
-
+{% get_current_language as LANGUAGE_CODE %}
 {% block title %}{% trans "Your Orders Modex - Your Ultimate Shopping Destination" %}{% endblock %}
 
 {% block content %}
 
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-10">
-            <div class="card border-0 rounded-4 overflow-hidden shadow-lg animate__animated animate__fadeIn" style="background-color: hsl(var(--surface-color));">
+    <div  class="row justify-content-center">
+        <div  class="col-lg-10">
+            <div  class="card border-0 rounded-4 overflow-hidden shadow-lg animate__animated animate__fadeIn" style="background-color: hsl(var(--surface-color));">
 
                 <!-- Header -->
                 <div class="card-header text-white text-center py-5 position-relative" style="background: var(--gradient-primary);">
@@ -31,7 +31,7 @@
                     </div>
                 </div>
 
-                <div class="card-body p-4 p-lg-5">
+                <div  class="card-body p-4 p-lg-5">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h5 class="fw-semibold text-secondary">
                             <i class="fas fa-history me-2 text-primary"></i>{% if LANGUAGE_CODE == 'ar' %}طلباتي{% else %}{% trans "My Orders" %}{% endif %}
@@ -40,7 +40,7 @@
 
                     {% if orders %}
                         {% for order in orders %}
-                        <div class="card mb-4 border border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp" style="overflow: hidden; background: hsl(var(--surface-color));">
+                        <div  class="card mb-4 border border-0 shadow-sm rounded-4 animate__animated animate__fadeInUp" style="overflow: hidden; background: hsl(var(--surface-color));">
 
                             {% include "order/partials/status.html" %}
 

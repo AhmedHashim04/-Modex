@@ -98,28 +98,6 @@
     color: hsl(var(--dark-surface));
     font-weight: bold;
 }
-.trendy-lang-select {
-    border-radius: 50px !important;
-    border: 2px solid hsl(var(--secondary-color)) !important;
-    background: var(--gradient-primary) !important;
-    box-shadow: var(--shadow-light);
-    font-weight: 600;
-    color: hsl(var(--text-primary));
-    width: 130px;
-    transition: border-color 0.2s;
-}
-.trendy-lang-select:focus {
-    border-color: hsl(var(--tertiary-color)) !important;
-    box-shadow: 0 0 0 0.2rem hsla(var(--tertiary-color), 0.15);
-}
-
-.lang-hover-effect:hover, .lang-hover-effect:focus {
-    box-shadow: 0 0 0 0.2rem hsla(var(--tertiary-color), 0.4);
-    border-color: hsl(var(--tertiary-color));
-    background: hsl(var(--background-color));
-    color: hsl(var(--surface-color));
-}
-
 
 .modex-manage-nav {
     background: hsla(var(--surface-color), 0.85);
@@ -255,16 +233,6 @@
 .manage-nav-link:hover {
     background: transparent !important;
 }
-/* Location and time indicators */
-.manage-nav-location, 
-.manage-nav-time {
-    transition: transform 0.2s ease;
-}
-
-.manage-nav-location:hover, 
-.manage-nav-time:hover {
-    transform: translateY(-2px);
-}
 
 /* Cart badge animation */
 #manageNavCartCount {
@@ -319,14 +287,7 @@
 .modex-navbar-search-btn:hover {
     transform: scale(1.03);
 }
-/* Language selector */
-.trendy-lang-select {
-    transition: all 0.25s ease;
-}
 
-.trendy-lang-select:hover {
-    transform: translateY(-2px);
-}
 /* Subnav improvements */
 .modex-subnav {
     z-index: 1040;

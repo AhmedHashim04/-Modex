@@ -80,6 +80,7 @@ class Order(models.Model):
     address = models.ForeignKey(Address, on_delete=models.PROTECT, verbose_name=_("Shipping Address"))
     full_name = models.CharField(max_length=100, verbose_name=_("Full Name"))
     phone = models.CharField(max_length=11, validators=[egyptian_phone_validator], verbose_name=_("Phone Number"))
+    alternative_phone = models.CharField(max_length=11, validators=[egyptian_phone_validator], verbose_name=_("Phone Number"), blank=True, null=True)
     notes = models.TextField(blank=True, null=True, verbose_name=_("Additional Notes"))
     status = models.CharField(max_length=20, choices=OrderStatus.choices, default=OrderStatus.PENDING, verbose_name=_("Status"))
     payment_method = models.CharField(max_length=20, choices=PaymentMethod.choices, default=PaymentMethod.COD, verbose_name=_("Payment Method"))
